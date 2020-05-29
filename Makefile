@@ -1,2 +1,1 @@
-help:
-	echo "simulate events"
+help : 
