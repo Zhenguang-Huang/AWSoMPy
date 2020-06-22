@@ -1,8 +1,8 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi
-./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB
+./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3
+./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 CR2107 - solar max run using rMinWaveRefl = 1.2, i.e. reflection is switched off below 1.2 Rs
