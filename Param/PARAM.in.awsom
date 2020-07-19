@@ -289,19 +289,19 @@ los ins tec             StringPlot
 sta:euvi stb:euvi sdo:aia
 
 #SATELLITE
-3                       nSatellite
-MHD                     StringSatellite
--1                   DnOutput
--1.                    DtOutput [sec]
-SC/TRAJECTORY/earth.dat          NameTrajectoryFile
-MHD                     StringSatellite
--1                    DnOutput
--1.                    DtOutput [sec]
-SC/TRAJECTORY/sta.dat             NameTrajectoryFile
-MHD                     StringSatellite
--1                   DnOutput
--1.                    DtOutput [sec]
-SC/TRAJECTORY/stb.dat             NameTrajectoryFile
+3				nSatellite
+MHD				StringSatellite
+-1				DnOutput
+-1.				DtOutput [sec]
+SC/TRAJECTORY/earth.dat		NameTrajectoryFile
+MHD				StringSatellite
+-1				DnOutput
+-1.				DtOutput [sec]
+SC/TRAJECTORY/sta.dat		NameTrajectoryFile
+MHD				StringSatellite
+-1				DnOutput
+-1.				DtOutput [sec]
+SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #LOOKUPTABLE
 AiaXrt                          NameTable
@@ -594,28 +594,28 @@ z=0 VAR idl		StringPlot
 {default}                 NamePars
 
 #SATELLITE
-3                       nSatellite
-MHD trajrange                StringSatellite
-5000                      DnOutput
--1                     DtOutput
-SC/TRAJECTORY/earth.dat          NameTrajectoryFile
--20.0 d                    StringStartTimeTraj
-10.0 d                    StringEndTimeTraj
-30 m                     StringDtTraj
-MHD trajrange                StringSatellite
-5000                      DnOutput
--1                    DtOutput
-SC/TRAJECTORY/sta.dat             NameTrajectoryFile
--20.0 d                    StringStartTimeTraj
-10.0 d                     StringEndTimeTraj
-30 m                     StringDtTraj
-MHD trajrange                StringSatellite
-5000                      DnOutput
--1                    DtOutput
-SC/TRAJECTORY/stb.dat             NameTrajectoryFile
--20.0 d                    StringStartTimeTraj
-10.0 d                     StringEndTimeTraj
-30 m                     StringDtTraj
+3				nSatellite
+MHD trajrange			StringSatellite
+5000				DnOutput
+-1				DtOutput
+SC/TRAJECTORY/earth.dat		NameTrajectoryFile
+-20.0 d				StringStartTimeTraj
+10.0 d				StringEndTimeTraj
+30 m 				StringDtTraj
+MHD trajrange			StringSatellite
+5000				DnOutput
+-1				DtOutput
+SC/TRAJECTORY/sta.dat		NameTrajectoryFile
+-20.0 d				StringStartTimeTraj
+10.0 d				StringEndTimeTraj
+30 m 				StringDtTraj
+MHD trajrange			StringSatellite
+5000				DnOutput
+-1				DtOutput
+SC/TRAJECTORY/stb.dat		NameTrajectoryFile
+-20.0 d				StringStartTimeTraj
+10.0 d				StringEndTimeTraj
+30 m 				StringDtTraj
 
 #END_COMP IH ---------------------------------------------------------
 
