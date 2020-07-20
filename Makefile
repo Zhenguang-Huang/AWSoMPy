@@ -42,6 +42,10 @@ awsom_compile:
 	make -j SWMF PIDL; \
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; \
 	make HARMONICS FDIPS; \
+	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
+	if([ ! -L ${MYDIR}/Scripts/swmfpy ]); then					\
+		ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 	\
+	fi;										\
 	)
 
 awsom_rundir:
@@ -98,8 +102,11 @@ awsomr_compile:
 	make -j SWMF PIDL; \
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; \
 	make HARMONICS FDIPS; \
+	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
+	if([ ! -L ${MYDIR}/Scripts/swmfpy ]); then					\
+		ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 	\
+	fi;										\
 	)
-
 
 awsomr_rundir:
 	@echo "Creating rundirs"
