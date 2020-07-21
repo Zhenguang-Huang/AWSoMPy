@@ -1,7 +1,6 @@
 SHELL=/bin/bash
 
-##include ../Makefile.def
-include ~/AWSOM/SWMF/Makefile.def
+include ../Makefile.def
 
 MYDIR       = ${DIR}/SWMFSOLAR/
 QUEDIR      = $(MYDIR)
