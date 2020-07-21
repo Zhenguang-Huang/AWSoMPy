@@ -47,7 +47,6 @@ awsom_compile:
 	./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3; \
 	./Config.pl -g=SC:6,8,8,IH:8,8,8; \
 	make -j SWMF PIDL; \
-	make NOMPI; 				\
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; \
 	make HARMONICS FDIPS; \
 	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
