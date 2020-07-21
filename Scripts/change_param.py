@@ -18,10 +18,6 @@ if __name__ == '__main__':
                             help='(default: 1.0e6 J/m^2/s/T)',
                             type=float,
                             default=1.e6)
-    ARG_PARSER.add_argument('-i', '--paramin',
-                            help='(default: "PARAM.in")'
-                            + ' nPARAM.in file to read',
-                            default='PARAM.in')
     ARG_PARSER.add_argument('-t', '--time',
                             help='(default: Read PARAM.in time.)'
                             + 'Use if you want'
@@ -30,6 +26,13 @@ if __name__ == '__main__':
                             nargs=5,
                             type=int,
                             default=None)
+    ARG_PARSER.add_argument('-B0', '--potentialfield',
+                            help='(default: Read PARAM.in time.)'
+                            + 'Use if you want'
+                            + ' to overwrite PARAM.in time.'
+                            + ' Format: yyyy mm dd hh min',
+                            type=str,
+                            default='HARMONICS')
     ARGS = ARG_PARSER.parse_args()
 
     # Set the start time
@@ -50,8 +53,8 @@ if __name__ == '__main__':
     CMD_PFLUX = {'#POYNTINGFLUX': [[str(ARGS.poynting_flux),
                                     'PoyntingFluxPerBSi [J/m^2/s/T]']]}
     swmfpy.paramin.replace_command(CMD_PFLUX,
-                                   ARGS.paramin,
-                                   ARGS.paramin)
+                                   'PARAM.in',
+                                   'PARAM.in')
 
     # Download magnetogram and remap
     FILE = swmfpy.web.download_magnetogram_adapt(TIME)[0]  # default 'fixed'
@@ -60,4 +63,33 @@ if __name__ == '__main__':
 
     print(subprocess.call(exe_string, shell=True))
 
-    # Done last because it exits current process
+    if (ARGS.potentialfield == 'HARMONICS'):
+        print("The default is HARMONICS, no need to change")
+    elif (ARGS.potentialfield == 'FDIPS'):
+        input_file  = open('PARAM.in', 'rt')
+        lines = []
+        while True:
+            line = input_file.readline()
+            if not line: break
+
+            if 'LOOKUPTABLE' in line:
+                linenext = input_file.readline()
+                if 'B0' in linenext:
+                    line = '#'+line
+                lines.append(line)
+                lines.append(linenext)
+            elif '#MAGNETOGRAM' in line:
+                line = line[1:]
+                lines.append(line)
+            else:
+                lines.append(line)
+
+        output_file = open('PARAM.in', 'w')
+        for line in lines:
+            output_file.write(line)
+
+        input_file.close()
+        output_file.close()
+    else:
+        raise ValueError(ARGS.potentialfield + ' must be either HARMONICS or FDIPS')
+
