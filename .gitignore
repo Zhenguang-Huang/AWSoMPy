@@ -1,0 +1,7 @@
+run*
+*~
+Scripts/remap_magnetogram.py
+Scripts/swmfpy
+*/*~
+*gz
+*fts
