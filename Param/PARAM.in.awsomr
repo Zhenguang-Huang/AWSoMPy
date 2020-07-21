@@ -99,20 +99,8 @@ harmonics_adapt.dat	NameMagnetogramFile
 T			UseCurlB0
 2.5			rCurrentFreeB0
 
-#USER_FLAGS
-F			UseUserInnerBcs
-F			UseUserSource
-F			UseUserPerturbation
-F			UseUserOuterBcs
-T			UseUserICs
-F			UseUserSpecifyRefinement
-T			UseUserLogFiles
-T			UseUserWritePlot
-F			UseUserAMR
-F			UseUserEchoInput
-F			UseUserB0
-T			UseUserInitSession
-F			UseUserUpdateStates
+#USERSWITCH
+-all +init +ic          StringSwitch
 
 #POYNTINGFLUX
 1.0e6			PoyntingFluxPerBSi [J/m^2/s/T]
@@ -532,20 +520,8 @@ float			TypeBcTop
 #RESCHANGE
 T			UseAccurateResChange
 
-#USER_FLAGS
-F			UseUserInnerBcs
-F			UseUserSource
-F			UseUserPerturbation
-F			UseUserOuterBcs
-F			UseUserICs
-F			UseUserSpecifyRefinement
-F			UseUserLogFiles
-F			UseUserWritePlot
-F			UseUserAMR
-F			UseUserEchoInput
-F			UseUserB0
-T			UseUserInitSession
-F			UseUserUpdateStates
+#USERSWITCH
+-all +init              StringSwitch
 
 #CORONALHEATING
 turbulentcascade        TypeCoronalHeating
