@@ -27,6 +27,7 @@ help :
 	@echo " POTENTIALFIELD=HARMONICS, which could be HARMONICS or FDIPS, defualt is HARMONICS "
 	@echo " TIME=YYYY,MM,DD,HH,MN, which specifies the start time of the simulation "
 	@echo " POYNTINGFLUX=1.0e6, which specifies the poynting flux, defualt is 1.0e6 "
+	@echo " REALIZATIONS=01,02, which species the realzations need to run, MUST BE TWO DIGITS"
 	@echo " More options to be added"
 	@echo ""
 
@@ -63,13 +64,14 @@ awsom_rundir:
 		mv run[01]* ${MYDIR}/run_backup/;               \
 	fi;							\
 	cp Param/PARAM.in.awsom PARAM.in
-	Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX}
+	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX}
 	for iRealization in ${REALIZATIONLIST}; do					\
 		cd $(DIR); 								\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 	\
 		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 			\
 		cp ${MYDIR}/Input/job.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  \
+		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; \
 	done
 	rm PARAM.in
 
@@ -95,6 +97,7 @@ awsom_run:
 			cp ${MYDIR}/Param/FDIPS.in ${MYDIR}/run$${iRealization}/SC/; 	\
 			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;		\
+			${MYDIR}/Scripts/fdips.pl; 						\
 			echo " To be done with a script Realization =" $${iRealization}; 	\
 		fi;										\
 	done
@@ -133,12 +136,13 @@ awsomr_rundir:
 		mv run[01]* ${MYDIR}/run_backup/;               \
 	fi;							\
 	cp Param/PARAM.in.awsomr PARAM.in
-	Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX}
+	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX}
 	for iRealization in ${REALIZATIONLIST}; do					\
 		cd $(DIR); 								\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 	\
 		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 			\
 		cp ${MYDIR}/Input/job.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  \
+		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; \
 	done
 	rm PARAM.in
