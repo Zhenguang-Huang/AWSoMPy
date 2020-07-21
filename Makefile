@@ -82,7 +82,6 @@ awsom_run:
 			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;		\
 			HARMONICS.exe; 								\
-			mv harmonics_adapt.dat ${MYDIR}/run$${iRealization};			\
 			cd ${MYDIR}/run$${iRealization}; 					\
 			if [[ "${MACHINE}" == "frontera" ]];					\
 				then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  \

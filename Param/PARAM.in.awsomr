@@ -82,7 +82,7 @@ GONG magnetograms are obtained from http://gong.nso.edu/data/magmap/crmap.html
 LOOKUPTABLE
 B0                                       NameTable
 load                                     NameCommand
-fdips_bxyz.out                           NameFile
+SC/fdips_bxyz.out                        NameFile
 real8                                    TypeFile
 
 #MAGNETOGRAM
@@ -90,7 +90,7 @@ T			UseMagnetogram
 1.0			rMagnetogram
 2.5			rSourceSurface
 0.0			HeightInnerBc
-harmonics_adapt.dat	NameMagnetogramFile
+SC/harmonics_adapt.dat	NameMagnetogramFile
 12			nHeaderLine
 0.0			PhiShift
 1.0			UnitB
