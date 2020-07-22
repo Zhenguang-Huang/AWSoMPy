@@ -14,9 +14,9 @@
 # Any other commands must follow all #SBATCH directives...
 
 cd SC
-ibrun -n 16 ./FDIPS.exe > FDIPS.log
+ibrun ./FDIPS.exe > FDIPS.log
 
-./redistribute.pl fdips_bxyz_np010404.out fdips_bxyz.out
+./redistribute.pl fdips_field_*_000.out fdips_bxyz.out
 
 cd ../
 
