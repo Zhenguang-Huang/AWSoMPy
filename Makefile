@@ -23,6 +23,8 @@ help :
 	@echo "make awsom_adapt    (run AWSoM with the 12 realzations ADAPT map with B0 from Haarmonics expansion)"
 	@echo "make awsomr_adapt   (run AWSoM-R with the 12 realzations ADAPT map with B0 from Haarmonics expansion)"
 	@echo ""
+	@echo " Users need to install swmfpy in advance otherwise the python would not work. "
+	@echo " swmfpy needs the following packages: numpy, drms, sunpy.  "
 	@echo "Options:"
 	@echo " POTENTIALFIELD=HARMONICS, which could be HARMONICS or FDIPS, defualt is HARMONICS "
 	@echo " TIME=YYYY,MM,DD,HH,MN, which specifies the start time of the simulation "
@@ -57,11 +59,9 @@ awsom_compile:
 
 awsom_rundir:
 	@echo "Creating rundirs"
-	if([ -d ${MYDIR}/run01 ]); then                         \
-		rm -rf ${MYDIR}/run_backup;                     \
-		mkdir -p ${MYDIR}/run_backup;                   \
-		mv run[01]* ${MYDIR}/run_backup/;               \
-	fi;							\
+	rm -rf ${MYDIR}/run_backup;                     \
+	mkdir -p ${MYDIR}/run_backup;                   \
+	mv run[01]* ${MYDIR}/run_backup/;               \
 	cp Param/PARAM.in.awsom PARAM.in
 	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD}
 	for iRealization in ${REALIZATIONLIST}; do					\
@@ -136,19 +136,18 @@ awsomr_compile:
 
 awsomr_rundir:
 	@echo "Creating rundirs"
-	if([ -d ${MYDIR}/run01 ]); then                         \
-		rm -rf ${MYDIR}/run_backup;                     \
-		mkdir -p ${MYDIR}/run_backup;                   \
-		mv run[01]* ${MYDIR}/run_backup/;               \
-	fi;							\
+	rm -rf ${MYDIR}/run_backup;                     \
+	mkdir -p ${MYDIR}/run_backup;                   \
+	mv run[01]* ${MYDIR}/run_backup/;               \
 	cp Param/PARAM.in.awsomr PARAM.in
 	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX}
 	for iRealization in ${REALIZATIONLIST}; do					\
 		cd $(DIR); 								\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 	\
 		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 			\
-		cp ${MYDIR}/Input/job.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
+		cp ${MYDIR}/Input/job.${POTENTIALFIELD}.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  \
 		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; \
 	done
-	rm PARAM.in
+	rm -f PARAM.in
+	rm -f map_*out
