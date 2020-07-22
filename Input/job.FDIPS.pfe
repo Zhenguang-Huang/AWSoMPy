@@ -26,8 +26,8 @@
 cd $PBS_O_WORKDIR/SC
 
 # run FDIPS first
-mpiexec -np 4 ./FDIPS.exe > FDIPS.log
-./redistribute.pl fdips_bxyz_np010202.out fdips_bxyz.out
+mpiexec -n 16 ./FDIPS.exe > FDIPS.log
+./redistribute.pl fdips_bxyz_np010404.out fdips_bxyz.out
 
 # These settings were found useful for large runs 
 #setenv MPI_MSGS_PER_HOST 100000

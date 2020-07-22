@@ -38,8 +38,8 @@ F			UseChebyshevNode
 
 ! nProcTheta*nProcPhi should agree with the number of procs FDIPS.exe uses
 #PARALLEL
-2			nProcTheta
-2			nProcPhi
+4			nProcTheta
+4			nProcPhi
 
 ! Standard solver (these are the defaults)
 #SOLVER                 ! NO HYPRE
