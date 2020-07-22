@@ -63,16 +63,17 @@ awsom_rundir:
 		mv run[01]* ${MYDIR}/run_backup/;               \
 	fi;							\
 	cp Param/PARAM.in.awsom PARAM.in
-	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX}
+	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD}
 	for iRealization in ${REALIZATIONLIST}; do					\
 		cd $(DIR); 								\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 	\
 		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 			\
-		cp ${MYDIR}/Input/job.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
+		cp ${MYDIR}/Input/job.${POTENTIALFIELD}.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  \
 		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; \
 	done
-	rm PARAM.in
+	rm -f PARAM.in
+	rm -f map_*out
 
 awsom_run:
 	@echo "Submitting jobs"
@@ -82,24 +83,31 @@ awsom_run:
 			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;		\
 			HARMONICS.exe; 								\
-			cd ${MYDIR}/run$${iRealization}; 					\
+			cd ${MYDIR}/run$${iRealization};					\
 			if [[ "${MACHINE}" == "frontera" ]];					\
 				then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  \
 				sbatch job.long;						\
 			fi;									\
 			if [[ "${MACHINE}" == "pfe" ]];                         		\
-				then ./qsub.pfe.pl job.long ev$$e.$${iRun};          		\
+				then ./qsub.pfe.pl job.long amap$${iRealization};      		\
 			fi; 									\
-		fi;										\
+		fi; 										\
 		if [[ "${POTENTIALFIELD}"  == "FDIPS" ]]; then					\
 			cp ${MYDIR}/Param/FDIPS.in ${MYDIR}/run$${iRealization}/SC/; 	\
 			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;		\
-			${MYDIR}/Scripts/fdips.pl; 						\
-			echo " To be done with a script Realization =" $${iRealization}; 	\
-		fi;										\
+			cd ${MYDIR}/run$${iRealization}; 					\
+			if [[ "${MACHINE}" == "frontera" ]];					\
+				then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;	\
+				sbatch job.long; 						\
+			fi;									\
+			if [[ "${MACHINE}" == "pfe" ]];                                         \
+				then ./qsub.pfe.pl job.long amap$${iRealization};		\
+			fi;									\
+		fi; 										\
 	done
 
+tmp:
 
 #########################################################################################
 
