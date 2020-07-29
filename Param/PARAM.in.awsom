@@ -45,7 +45,7 @@ CON_axes::init_axes
 #BEGIN_COMP SC --------------------------------------------------------------
 
 #GRIDBLOCKALL
-12000
+60000
 
 INCLUDE
 SC/restartIN/restart.H	
@@ -399,7 +399,7 @@ T			UseComp
 #BEGIN_COMP IH -------------------------------------------------------
 
 #GRIDBLOCKALL
-24000
+60000
 
 INCLUDE
 IH/restartIN/restart.H
