@@ -2,8 +2,9 @@ SHELL=/bin/bash
 
 include ../Makefile.def
 
-MYDIR       = ${DIR}/SWMFSOLAR/
+MYDIR       = ${DIR}/SWMFSOLAR
 QUEDIR      = $(MYDIR)
+RESDIR      = Default
 
 TIME = 2012,03,12,08,00
 
@@ -110,8 +111,6 @@ awsom_run:
 		fi; 										\
 	done
 
-tmp:
-
 #########################################################################################
 
 awsomr_adapt:
@@ -154,3 +153,32 @@ awsomr_rundir:
 	done
 	rm -f PARAM.in
 	rm -f map_*out
+
+
+#########################################################################################
+
+FULLRESDIR  = ${MYDIR}/Results/${RESDIR}
+RunDirList  = $(sort $(dir $(wildcard run[01][1-9]/)))
+
+check_postproc:
+	@if([ ! -d ${MYDIR}/Results/${RESDIR} ]); then                   		\
+		echo "Post processing simulation results to Results/${RESDIR}";		\
+		for RunDir in ${RunDirList};  do                              		\
+			cd ${MYDIR}/$${RunDir};                                    	\
+			if([ -f SWMF.SUCCESS ]); then                              	\
+				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   \
+				mkdir -p ${FULLRESDIR}/$${RunDir};                      \
+				cp -r runlog* RESULTS/SC RESULTS/IH RESULTS/PARAM.in	\
+					${FULLRESDIR}/$${RunDir}/;                      \
+				if [[ -f SC/fdips_bxyz.out ]]; then          		\
+					cp SC/fdips_bxyz.out ${FULLRESDIR}/$${RunDir}/; \
+				fi;							\
+				if [[ -f SC/harmonics_adapt.dat ]]; then		\
+					cp SC/harmonics_adapt.dat ${FULLRESDIR}/$${RunDir}/ ; \
+				fi;							\
+			fi; 								\
+		done;									\
+	else                                                            		\
+		echo "${RESDIR} already exists; skip post processing.";       		\
+	fi
+
