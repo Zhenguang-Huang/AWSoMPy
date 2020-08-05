@@ -2,6 +2,7 @@ run*
 *~
 Scripts/remap_magnetogram.py
 Scripts/swmfpy
+Scripts/pyfits
 */*~
 *gz
 *fts
