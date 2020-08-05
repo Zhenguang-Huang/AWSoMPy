@@ -21,10 +21,15 @@ REALIZATIONLIST  = $(shell echo ${REALIZATIONS} | tr , ' ')
 
 help : 
 	@echo "************************************************************************************************"
-	@echo "Users need to install swmfpy in advance otherwise the python would not work. "
-	@echo "Make sure that all the python modules are installed correctly: "
+	@echo "The script relies on swmfpy and remap_magnetogram. Make sure that all the python modules are "
+	@echo "installed correctly: "
 	@echo "     swmfpy needs the following packages: numpy."
-	@echo "     remap_magnetogram needs the following packages: pyfits.  "
+	@echo "The suggested python versio is >3.6. On Pleiades, add 'module load python3/3.7.0' in .cshrc or "
+	@echo ".bash_profile. Similar setting should be applied on Frontera. No virtual environment is needed "
+	@echo "at this point as there are links in Scripts to swmfpy and pyfits. "
+	@echo ""
+	@echo "Another note: this script will reconfigure SWMF, but would not do make clean to save time. If "
+	@echo "make clean is needed, do it in the SWMF directory first before doing anything here."
 	@echo "************************************************************************************************"
 	@echo ""
 	@echo "Make the AWSoM or AWSoM-R runs with the ADAPT map of 12 realzations"
@@ -67,15 +72,20 @@ awsom_adapt:
 
 awsom_compile:
 	-@(cd ${DIR}; \
-	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; \
-	./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; \
-	./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3; \
-	./Config.pl -g=SC:6,8,8,IH:8,8,8; \
-	make -j SWMF PIDL; \
+	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 			\
+	./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; 	\
+	./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3; 	\
+	./Config.pl -g=SC:6,8,8,IH:8,8,8; 	\
+	make -j SWMF PIDL; 			\
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; \
-	make HARMONICS FDIPS; \
+	make HARMONICS FDIPS; 			\
 	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
-	python3 -m pip install -U --user git+https://gitlab.umich.edu/swmf_software/swmfpy.git@master \
+	if([ ! -L ${MYDIR}/Scripts/swmfpy ]); then					\
+		ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 	\
+	fi;										\
+	if([ ! -L ${MYDIR}/Scripts/pyfits ]); then					\
+		ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 		\
+	fi;										\
 	)
 
 awsom_rundir:
