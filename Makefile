@@ -23,7 +23,7 @@ help :
 	@echo "************************************************************************************************"
 	@echo "Users need to install swmfpy in advance otherwise the python would not work. "
 	@echo "Make sure that all the python modules are installed correctly: "
-	@echo "     swmfpy needs the following packages: numpy, drms, sunpy.  "
+	@echo "     swmfpy needs the following packages: numpy."
 	@echo "     remap_magnetogram needs the following packages: pyfits.  "
 	@echo "************************************************************************************************"
 	@echo ""
@@ -75,9 +75,7 @@ awsom_compile:
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; \
 	make HARMONICS FDIPS; \
 	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
-	if([ ! -L ${MYDIR}/Scripts/swmfpy ]); then					\
-		ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 	\
-	fi;										\
+	python3 -m pip install -U --user git+https://gitlab.umich.edu/swmf_software/swmfpy.git@master \
 	)
 
 awsom_rundir:
