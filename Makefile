@@ -5,6 +5,7 @@ include ../Makefile.def
 MYDIR       = ${DIR}/SWMFSOLAR
 QUEDIR      = $(MYDIR)
 RESDIR      = Default
+IDLDIR      = ${DIR}/share/IDL/Solar
 
 TIME = 2012,03,12,08,00
 
@@ -13,27 +14,45 @@ REALIZATIONS = 01,02,03,04,05,06,07,08,09,10,11,12
 POYNTINGFLUX   = 1.0e6
 POTENTIALFIELD = HARMONICS
 
+MAP = NONE
+
 START_TIME       = $(shell echo ${TIME} | tr , ' ')
 REALIZATIONLIST  = $(shell echo ${REALIZATIONS} | tr , ' ')
 
 help : 
-	@echo ""
-	@echo "Make the AWSoM or AWSoM-R runs with the ADAPT map of 12 realzations"
-	@echo ""
-	@echo "Examples:"
-	@echo "make awsom_adapt    (run AWSoM with the 12 realzations ADAPT map with B0 from Haarmonics expansion)"
-	@echo "make awsomr_adapt   (run AWSoM-R with the 12 realzations ADAPT map with B0 from Haarmonics expansion)"
-	@echo ""
+	@echo "************************************************************************************************"
 	@echo "Users need to install swmfpy in advance otherwise the python would not work. "
 	@echo "Make sure that all the python modules are installed correctly: "
 	@echo "     swmfpy needs the following packages: numpy, drms, sunpy.  "
 	@echo "     remap_magnetogram needs the following packages: pyfits.  "
+	@echo "************************************************************************************************"
+	@echo ""
+	@echo "Make the AWSoM or AWSoM-R runs with the ADAPT map of 12 realzations"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make awsom_adapt    (run AWSoM   with the 12 realzations ADAPT map with B0 from Harmonics expansion)"
+	@echo "  make awsomr_adapt   (run AWSoM-R with the 12 realzations ADAPT map with B0 from Harmonics expansion)"
+	@echo ""
+	@echo "It is recommended to do the post processing after all simulations are finished and then transfer the "
+	@echo "results to a local machine to compare the results with observations. Post processing can be done with"
+	@echo ""
+	@echo "  make check_postproc RESDIR=event1"
+	@echo ""
+	@echo "which saves the results into Results/event1"
+	@echo ""
+	@echo "Comparing the simulations with observations is suggested to do on a local machine and requires SSWIDL. "
+	@echo "Make sure that share/IDL/Solar is properly set up. Comparing with observations can be done with"
+	@echo ""
+	@echo "  make check_compare RESDIR=event1"
+	@echo ""
+	@echo "which compare the results in Results/event1 with observations. The observations are saved in Results/obsdata."
 	@echo ""
 	@echo "Options:"
 	@echo " POTENTIALFIELD=HARMONICS, which could be HARMONICS or FDIPS, defualt is HARMONICS "
 	@echo " TIME=YYYY,MM,DD,HH,MN, which specifies the start time of the simulation "
 	@echo " POYNTINGFLUX=1.0e6, which specifies the poynting flux, defualt is 1.0e6 "
-	@echo " REALIZATIONS=01,02, which species the realzations need to run, MUST BE TWO DIGITS"
+	@echo " REALIZATIONS=01,02, which specifies the realzations need to run, MUST BE TWO DIGITS"
+	@echo " MAP=***.fts, which specifies the ADAPT map if desired"
 	@echo " More options to be added"
 	@echo ""
 
@@ -67,14 +86,14 @@ awsom_rundir:
 	mkdir -p ${MYDIR}/run_backup;                   \
 	mv run[01]* ${MYDIR}/run_backup/;               \
 	cp Param/PARAM.in.awsom PARAM.in
-	${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD}
+	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${START_TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD}
 	for iRealization in ${REALIZATIONLIST}; do					\
 		cd $(DIR); 								\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 	\
 		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 			\
 		cp ${MYDIR}/Input/job.${POTENTIALFIELD}.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
-		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  \
-		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; \
+		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  			\
+		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; 	\
 	done
 	rm -f PARAM.in
 	rm -f map_*out
@@ -182,3 +201,22 @@ check_postproc:
 		echo "${RESDIR} already exists; skip post processing.";       		\
 	fi
 
+#########################################################################################
+
+ResRunDirList = $(sort $(dir $(wildcard ${FULLRESDIR}/run[01][1-9]/)))
+
+check_compare:
+	@cd ${IDLDIR}; \
+	for RunDir in ${ResRunDirList};  do \
+		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir}; \
+		csh compare_remote.sh ${DIR} $${RunDir}/SC $${RunDir} ${MYDIR}/Results/obsdata; \
+	done
+
+#########################################################################################
+
+clean_plot:
+	for RunDir in ${ResRunDirList};  do 	\
+		cd $${RunDir}; 			\
+		rm -f *eps; 			\
+		rm -f log_insitu log_remote; 	\
+	done
