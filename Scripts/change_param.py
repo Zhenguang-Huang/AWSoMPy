@@ -27,12 +27,17 @@ if __name__ == '__main__':
                             type=int,
                             default=None)
     ARG_PARSER.add_argument('-B0', '--potentialfield',
-                            help='(default: Read PARAM.in time.)'
-                            + 'Use if you want'
-                            + ' to overwrite PARAM.in time.'
-                            + ' Format: yyyy mm dd hh min',
+                            help='(default: HARMONICS.)'
+                            + ' Use if you want to specify '
+                            + ' the potential field solver. ',
                             type=str,
                             default='HARMONICS')
+    ARG_PARSER.add_argument('-m', '--map',
+                            help='(default: NONE.)'
+                            + ' Use if you want to specify '
+                            + ' the ADAPT map. ',
+                            type=str,
+                            default='NONE')
     ARGS = ARG_PARSER.parse_args()
 
     # Set the start time
@@ -56,8 +61,11 @@ if __name__ == '__main__':
                                    'PARAM.in',
                                    'PARAM.in')
 
-    # Download magnetogram and remap
-    FILE = swmfpy.web.download_magnetogram_adapt(TIME)[0]  # default 'fixed'
+    # Download magnetogram and remap if no maps are pvoided
+    if (ARGS.potentialfield == 'none'):
+        FILE = swmfpy.web.download_magnetogram_adapt(TIME)[0]  # default 'fixed'
+    else:
+        FILE = ARGS.map
 
     exe_string = str('Scripts/remap_magnetogram.py ' + FILE + ' -istart 1 -iend 12')
 
