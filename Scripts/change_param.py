@@ -62,7 +62,7 @@ if __name__ == '__main__':
                                    'PARAM.in')
 
     # Download magnetogram and remap if no maps are pvoided
-    if (ARGS.potentialfield == 'none'):
+    if (ARGS.map == 'NONE'):
         FILE = swmfpy.web.download_magnetogram_adapt(TIME)[0]  # default 'fixed'
     else:
         FILE = ARGS.map
