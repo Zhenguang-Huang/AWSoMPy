@@ -60,6 +60,11 @@ help :
 	@echo " MAP=***.fts, which specifies the ADAPT map if desired"
 	@echo " More options to be added"
 	@echo ""
+	@echo "Notes:"
+	@echo "Users could provide either TIME or MAP or BOTH. If both are provided, the map time and TIME should"
+	@echo "be consistent up to hours. If only TIME is provided (without MAP), the script would try to download"
+	@echo "the ADAPT map. On some Pleiades and Fronetra, it is known that the ftp download does not work. "
+	@echo "If only MAP is provided, the #STARTTIME would be set based on the map time."
 
 ######################################################################################
 
