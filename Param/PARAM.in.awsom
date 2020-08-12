@@ -5,7 +5,8 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
-CR2107 - solar max run using rMinWaveRefl = 1.2, i.e. reflection is switched off below 1.2 Rs
+PARAM.in for steady state runs using AWSoM
+Default rMinWaveReflection is set to 0.0
 
 Begin session: 1
 
@@ -97,7 +98,7 @@ T			UseCurlB0
 turbulentcascade        TypeCoronalHeating
 T                       UseWaveReflection
 1.5e5                   LperpTimesSqrtBSi
-1.2			rMinWaveReflection
+0.0			rMinWaveReflection
 
 #HEATPARTITIONING
 stochasticheating	TypeHeatPartitioning
