@@ -138,30 +138,24 @@ run:
 			cp ${MYDIR}/Param/HARMONICS.in ${MYDIR}/run$${iRealization}/SC/; 	\
 			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;		\
-			./HARMONICS.exe; 								\
+			./HARMONICS.exe;							\
 			cd ${MYDIR}/run$${iRealization};					\
-			if [[ "${MACHINE}" == "frontera" ]];					\
-				then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  \
-				sbatch job.long;						\
-			fi;									\
-			if [[ "${MACHINE}" == "pfe" ]];                         		\
-				then ./qsub.pfe.pl job.long amap$${iRealization};      		\
-			fi; 									\
 		fi; 										\
 		if [[ "${POTENTIALFIELD}"  == "FDIPS" ]]; then					\
 			cp ${MYDIR}/Param/FDIPS.in ${MYDIR}/run$${iRealization}/SC/; 		\
 			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;		\
 			cd ${MYDIR}/run$${iRealization}; 					\
-			if [[ "${MACHINE}" == "frontera" ]];					\
-				then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;	\
-				sbatch job.long; 						\
-			fi;									\
-			if [[ "${MACHINE}" == "pfe" ]];                                         \
-				then ./qsub.pfe.pl job.long amap$${iRealization};		\
-				./PostProc.pl -r=360 >& PostProc.log ;	 			\
-			fi;									\
 		fi; 										\
+		if [[ "${MACHINE}" == "frontera" ]];						\
+			then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;		\
+			sbatch job.long; 							\
+			./PostProc.pl -r=360 >& PostProc.log &	 				\
+		fi;										\
+		if [[ "${MACHINE}" == "pfe" ]];                                         	\
+			then ./qsub.pfe.pl job.long amap$${iRealization};			\
+			./PostProc.pl -r=360 >& PostProc.log &	 				\
+		fi;										\
 	done
 
 #########################################################################################
