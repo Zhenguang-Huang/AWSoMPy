@@ -2,10 +2,10 @@ SHELL=/bin/bash
 
 include ../Makefile.def
 
-MYDIR       = ${DIR}/SWMFSOLAR
-QUEDIR      = $(MYDIR)
-RESDIR      = Default
-IDLDIR      = ${DIR}/share/IDL/Solar
+MYDIR   = $(shell echo `pwd`)
+QUEDIR  = ${MYDIR}
+RESDIR  = Default
+IDLDIR  = ${DIR}/share/IDL/Solar
 
 TIME = 2012,03,12,08,00
 
