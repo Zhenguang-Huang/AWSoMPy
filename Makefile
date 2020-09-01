@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 include ../Makefile.def
 
-MYDIR   = $(shell echo `pwd`)
+MYDIR   = $(shell echo `pwd -P`)
 QUEDIR  = ${MYDIR}
 RESDIR  = Default
 IDLDIR  = ${DIR}/share/IDL/Solar
