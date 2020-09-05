@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+=-SHELL=/bin/bash
 
 # INCLUDE HERE THE Makefile.def FROM THE SWMF USED
 include SWMF/Makefile.def
@@ -121,13 +121,14 @@ rundir:
 		${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD};	\
 	fi; 													\
 	for iRealization in ${REALIZATIONLIST}; do								\
-		cd $(DIR); 											\
+		cd ${DIR}; 											\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 				\
 		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 						\
 		cp ${MYDIR}/Input/job.${POTENTIALFIELD}.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  			\
 		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; 	\
 	done; 		\
+	cd ${MYDIR}; 	\
 	rm -f PARAM.in; \
 	rm -f map_*out; \
 	)
