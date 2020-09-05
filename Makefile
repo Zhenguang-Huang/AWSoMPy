@@ -1,6 +1,7 @@
 SHELL=/bin/bash
 
-include ../Makefile.def
+# INCLUDE HERE THE Makefile.def FROM THE SWMF USED
+include SWMF/Makefile.def
 
 MYDIR   = $(shell echo `pwd -P`)
 QUEDIR  = ${MYDIR}
