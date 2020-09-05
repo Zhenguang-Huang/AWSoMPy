@@ -1,4 +1,4 @@
-=-SHELL=/bin/bash
+SHELL=/bin/bash
 
 # INCLUDE HERE THE Makefile.def FROM THE SWMF USED
 include SWMF/Makefile.def
