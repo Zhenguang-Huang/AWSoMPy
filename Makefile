@@ -24,6 +24,10 @@ RESTART = F
 
 MODEL   = AWSoM
 
+FULLRESDIR    = ${MYDIR}/Results/${RESDIR}
+RunDirList    = $(sort $(dir $(wildcard ${MYDIR}/run[01][0-9]/)))
+ResRunDirList = $(sort $(dir $(wildcard ${FULLRESDIR}/run[01][0-9]/)))
+
 help : 
 	@echo "************************************************************************************************"
 	@echo "The script relies on swmfpy and remap_magnetogram. Make sure that all the python modules are "
@@ -128,7 +132,7 @@ rundir:
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  			\
 		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; 	\
 	done; 		\
-	cd ${MYDIR}; 	\
+	cd ${MYDIR};	\
 	rm -f PARAM.in; \
 	rm -f map_*out; \
 	)
@@ -136,65 +140,65 @@ rundir:
 run:
 	@echo "Submitting jobs"
 	for iRealization in ${REALIZATIONLIST}; do              	        		\
+		cd ${MYDIR}/run$${iRealization}/SC/; 						\
 		if [[ "${POTENTIALFIELD}"  == "HARMONICS" ]]; then				\
 			cp ${MYDIR}/Param/HARMONICS.in ${MYDIR}/run$${iRealization}/SC/; 	\
-			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;		\
-			./HARMONICS.exe;							\
-			cd ${MYDIR}/run$${iRealization};					\
+			./HARMONICS.exe; 							\
 		fi; 										\
 		if [[ "${POTENTIALFIELD}"  == "FDIPS" ]]; then					\
 			cp ${MYDIR}/Param/FDIPS.in ${MYDIR}/run$${iRealization}/SC/; 		\
-			cd ${MYDIR}/run$${iRealization}/SC/; 					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;		\
-			cd ${MYDIR}/run$${iRealization}; 					\
 		fi; 										\
+		cd ${MYDIR}/run$${iRealization}; 						\
 		if [[ "${MACHINE}" == "frontera" ]];						\
-			then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;		\
-			sbatch job.long; 							\
-			./PostProc.pl -r=360 >& PostProc.log &	 				\
+			then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  	\
+			sbatch job.long;							\
+			./PostProc.pl -r=360 >& PostProc.log & 					\
 		fi;										\
-		if [[ "${MACHINE}" == "pfe" ]];                                         	\
-			then ./qsub.pfe.pl job.long amap$${iRealization};			\
-			./PostProc.pl -r=360 >& PostProc.log &	 				\
-		fi;										\
+		if [[ "${MACHINE}" == "pfe" ]];                         			\
+			then ./qsub.pfe.pl job.long amap$${iRealization};      			\
+			./PostProc.pl -r=360 >& PostProc.log & 					\
+		fi; 										\
+
 	done
 
 #########################################################################################
 
-FULLRESDIR  = ${MYDIR}/Results/${RESDIR}
-RunDirList  = $(sort $(dir $(wildcard run[01][1-9]/)))
-
 check_postproc:
-	@if([ ! -d ${MYDIR}/Results/${RESDIR} ]); then                   		\
-		echo "Post processing simulation results to Results/${RESDIR}";		\
-		for RunDir in ${RunDirList};  do                              		\
-			cd ${MYDIR}/$${RunDir};                                    	\
-			if([ -f SWMF.SUCCESS ]); then                              	\
-				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   \
-				mkdir -p ${FULLRESDIR}/$${RunDir};                      \
-				cp -r runlog* RESULTS/*					\
-					${FULLRESDIR}/$${RunDir}/;                      \
-				if [[ -f SC/fdips_bxyz.out ]]; then          		\
-					cp SC/fdips_bxyz.out ${FULLRESDIR}/$${RunDir}/; \
-				fi;							\
-				if [[ -f SC/harmonics_adapt.dat ]]; then		\
-					cp SC/harmonics_adapt.dat ${FULLRESDIR}/$${RunDir}/ ; \
-				fi;							\
-			fi; 								\
-		done;									\
-	else                                                            		\
-		echo "${RESDIR} already exists; skip post processing.";       		\
+	@if([ ! -d ${MYDIR}/Results/${RESDIR} ]); then                   			\
+		rm -f error_postproc.log; 							\
+		echo "Post processing simulation results to Results/${RESDIR}";			\
+		for RunDir in ${RunDirList};  do                              			\
+			echo "processing rundir = $${RunDir}";					\
+			cd $${RunDir};                                    			\
+			if([ -f SWMF.SUCCESS ]); then                              		\
+				mkdir -p ${FULLRESDIR}/$${RunDir: -6:-1};                      	\
+				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   	\
+				cp -r runlog* SC/map_*out RESULTS/*				\
+					${FULLRESDIR}/$${RunDir: -6:-1}/;			\
+				if [[ -f SC/fdips_bxyz.out ]]; then          			\
+					cp SC/fdips_bxyz.out SC/FDIPS.in 			\
+						${FULLRESDIR}/$${RunDir: -6:-1}/; 		\
+				fi;								\
+				if [[ -f SC/harmonics_adapt.dat ]]; then			\
+					cp SC/harmonics_adapt.dat SC/HARMONICS.in               \
+						${FULLRESDIR}/$${RunDir: -6:-1}/ ;		\
+				fi;								\
+			else									\
+				echo "$${RunDir} crashed" >> ${MYDIR}/error_postproc.log;	\
+			fi; 									\
+		done;										\
+	else                                                            			\
+		echo "${RESDIR} already exists; skip post processing.";				\
 	fi
 
 #########################################################################################
 
-ResRunDirList = $(sort $(dir $(wildcard ${FULLRESDIR}/run[01][1-9]/)))
-
 check_compare:
-	@cd ${IDLDIR}; \
-	for RunDir in ${ResRunDirList};  do \
-		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir}; \
+	@cd ${IDLDIR}; 										\
+	for RunDir in ${ResRunDirList};  do 							\
+		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir}; 				\
 		csh compare_remote.sh ${DIR} $${RunDir}/SC $${RunDir} ${MYDIR}/Results/obsdata; \
 	done
 
