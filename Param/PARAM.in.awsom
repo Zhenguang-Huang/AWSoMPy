@@ -2,7 +2,7 @@ For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
 ./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3
-./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3
+./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 PARAM.in for steady state runs using AWSoM
@@ -452,9 +452,6 @@ currentsheet		TypeCriteria
 #GRIDLEVEL
 7			nLevelArea
 initial			NameArea
-
-#THINCURRENTSHEET
-T			DoThinCurrentSheet
 
 #SAVEINITIAL
 F                       DoSaveInitial

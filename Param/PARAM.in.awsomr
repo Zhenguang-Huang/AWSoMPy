@@ -2,8 +2,8 @@ For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
 ./Config.pl -o=SC:u=ScChromo,e=MhdWavesPeAnisoPi
-./Config.pl -o=IH:u=ScChromo,e=MhdWavesPeAnisoPiSignB
-./Config.pl -g=SC:6,8,8,400,1,IH:8,8,8,400,1
+./Config.pl -o=IH:u=ScChromo,e=MhdWavesPeAnisoPi
+./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 Begin session: 1
 
@@ -489,9 +489,6 @@ currentsheet		TypeCriteria
 #GRIDLEVEL
 7			nLevelArea
 initial			NameArea
-
-#THINCURRENTSHEET
-T			DoThinCurrentSheet
 
 #SAVEINITIAL
 F	                DoSaveInitial

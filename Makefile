@@ -91,10 +91,10 @@ compile:
 	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 					\
 	if [[ "${MODEL}" == "AWSoM" ]]; then 						\
 		./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; 		\
-		./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB,nG=3; 		\
+		./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; 		\
 	else										\
 		./Config.pl -o=SC:u=ScChromo,e=MhdWavesPe,nG=3; 			\
-		./Config.pl -o=IH:u=ScChromo,e=MhdWavesPeSignB,nG=3; 			\
+		./Config.pl -o=IH:u=ScChromo,e=MhdWavesPe,nG=3; 			\
 	fi; 										\
 	./Config.pl -g=SC:6,8,8,IH:8,8,8; 						\
 	make -j SWMF PIDL; 								\
