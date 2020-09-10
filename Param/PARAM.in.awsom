@@ -8,6 +8,15 @@ For a three-temperature solar wind simulation, configure SWMF with
 PARAM.in for steady state runs using AWSoM
 Default rMinWaveReflection is set to 0.0
 
+
+
+IMPORTANT:
+Use the user CHROMOBC command to increase the inner boundary number
+density so that the run does not fail for solar maximum
+
+
+
+
 Begin session: 1
 
 #ECHO
@@ -89,7 +98,7 @@ T			UseCurlB0
 2.5			rCurrentFreeB0
 
 #USERSWITCH
--all +init +ic          StringSwitch
++init +ic		StringSwitch
 
 #POYNTINGFLUX
 1.0e6			PoyntingFluxPerBSi [J/m^2/s/T]
@@ -182,21 +191,21 @@ shell0			TypeRegion
 1.0			Radius1
 1.7			Radius2
 
-#AMRCRITERIALEVEL
+#AMRCRITERIARESOLUTION
 3			nCriteria
-Level			TypeCriteria
-3			RefineTo
-3			CoarsenTo
-Level Innershell	TypeCriteria
-4     			RefineTo
-4			CoarsenTo
+dphi			TypeCriteria
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		TypeCriteria
+1.5  			RefineTo
+0.75			CoarsenFrom
 currentsheet		TypeCriteria
 0.5			CoarsenLimit
 0.5			RefineLimit
-4			MaxLevel
+1.5			MaxResolution
 
-#GRIDLEVEL
-4			nLevelArea
+#GRIDRESOLUTION
+1.5			nLevelArea
 initial			NameArea
 
 #DOAMR
@@ -482,13 +491,12 @@ float			TypeBcTop
 T			UseAccurateResChange
 
 #USERSWITCH
--all +init              StringSwitch
++init			StringSwitch
 
 #CORONALHEATING
 turbulentcascade        TypeCoronalHeating
 T                       UseWaveReflection
 1.5e5                   LperpTimesSqrtBSi
-1.2			rMinWaveReflection
 
 #HEATPARTITIONING
 stochasticheating	TypeHeatPartitioning
