@@ -41,11 +41,15 @@ help :
 	@echo "make clean is needed, do it in the SWMF directory first before doing anything here."
 	@echo "************************************************************************************************"
 	@echo ""
-	@echo "Make the AWSoM or AWSoM-R runs with the ADAPT map of 12 realzations"
+	@echo "Make the AWSoM or AWSoM-R runs with a magnetogram (could be either ADAPT or GONG or MDI or HMI)"
 	@echo ""
 	@echo "Examples:"
 	@echo "  make adapt_run MODEL=AWSoM  (run AWSoM   with the 12 realzations ADAPT map with B0 from Harmonics expansion)"
 	@echo "  make adapt_run MODEL=AWSoMR (run AWSoM-R with the 12 realzations ADAPT map with B0 from Harmonics expansion)"
+	@echo "  make adapt_run MODEL=AWSoM REALIZATIONS=01 MAP=filename (run AWSoM with a provided map with one realzation)"
+	@echo ""
+	@echo "If the user would like to run a GONG/MDI/HMI map, the user must provide MAP=filename and set"
+	@echo "REALIZATIONS=01 (which could be considered as GONG/HMI/GONG has one realization, though it is not true.)"
 	@echo ""
 	@echo "It is recommended to do the post processing after all simulations are finished and then transfer the "
 	@echo "results to a local machine to compare the results with observations. Post processing can be done with"
@@ -66,14 +70,16 @@ help :
 	@echo " POTENTIALFIELD=HARMONICS, which could be HARMONICS or FDIPS, case sensitive, defualt is HARMONICS."
 	@echo " TIME=YYYY,MM,DD,HH,MN, which specifies the start time of the simulation. "
 	@echo " POYNTINGFLUX=1.0e6, which specifies the poynting flux, defualt is 1.0e6."
-	@echo " REALIZATIONS=01,02, which specifies the realzations need to run, MUST BE TWO DIGITS."
-	@echo " MAP=***.fts, which specifies the ADAPT map if desired"
+	@echo " REALIZATIONS=01,02, which specifies the realzations need to run, MUST BE TWO DIGITS. Default is "
+	@echo "   REALIZATIONS=01,02,03,04,05,06,07,08,09,10,11,12"
+	@echo " MAP=filename, which specifies the input map if desired"
 	@echo " More options to be added"
 	@echo ""
 	@echo "Notes:"
-	@echo "Users could provide either TIME or MAP, not BOTH. "
-	@echo "If only TIME is provided (without MAP), the script would try to download the corresponding ADAPT map."
-	@echo "On Pleiades and Fronetra, it is known that the ftp download does not work. "
+	@echo "Users could provide either TIME or MAP, NOT BOTH. "
+	@echo "If only TIME is provided, the script would try to download the corresponding ADAPT map. It could ONLY"
+	@echo "be used for ADAPT maps AND when ftp download is available. On Pleiades and Fronetra, it is known that"
+	@echo "the ftp download does not work. "
 	@echo "If only MAP is provided, the #STARTTIME would be set based on the map time."
 	@echo ""
 
@@ -101,12 +107,14 @@ compile:
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; 					\
 	make HARMONICS FDIPS; 								\
 	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
-	if([ ! -L ${MYDIR}/Scripts/swmfpy ]); then					\
-		ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 	\
+	if([ -L ${MYDIR}/Scripts/swmfpy ]); then					\
+		rm -f ${MYDIR}/Scripts/swmfpy; 						\
 	fi;										\
-	if([ ! -L ${MYDIR}/Scripts/pyfits ]); then					\
-		ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 		\
+	if([ -L ${MYDIR}/Scripts/pyfits ]); then					\
+		rm -f ${MYDIR}/Scripts/pyfits; 						\
 	fi;										\
+	ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 		\
+	ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 			\
 	)
 
 rundir:
