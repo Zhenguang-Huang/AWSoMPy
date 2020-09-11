@@ -114,7 +114,6 @@ if __name__ == '__main__':
 
 
     # prepare each realization map.
-    str_exe = str('Scripts/remap_magnetogram.py ' + filename_map
-                  + ' -istart 1 -iend 12')
+    str_exe = str('Scripts/remap_magnetogram.py ' + filename_map)
 
     subprocess.call(str_exe, shell=True)
