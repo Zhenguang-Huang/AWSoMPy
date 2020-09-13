@@ -37,10 +37,13 @@ T			DoSaveRestart
 #BEGIN_COMP SC --------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000
+120000
 
 INCLUDE
 SC/restartIN/restart.H	
+
+#RESTARTOUTFILE
+one			TypeRestartOutFile
 
 #COORDSYSTEM
 HGR			TypeCoordSystem
@@ -437,10 +440,13 @@ T			UseComp
 #BEGIN_COMP IH -------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000
+120000
 
 INCLUDE
 IH/restartIN/restart.H
+
+#RESTARTOUTFILE
+one			TypeRestartOutFile
 
 #COORDSYSTEM
 HGC			TypeCoordSystem
