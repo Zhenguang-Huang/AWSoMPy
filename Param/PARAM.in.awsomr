@@ -398,11 +398,18 @@ mc3			TypeLimiter
 #REGION
 loworder                NameRegion
 shell0                  TypeRegion
-1.5                     Radius1
+1.7                     Radius1
 24.0                    Radius2
 
+Radii will change based on the choice of the inner boundary
+#REGION
+thinlayer		NameRegion
+shell0			TypeRegion
+1.15			Radius1
+1.17			Radius2
+
 #LOWORDERREGION
-+loworder
++loworder +thinlayer
 
 #SCHEME
 5                       nOrder (1 or 2)
