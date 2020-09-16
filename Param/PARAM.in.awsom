@@ -41,7 +41,7 @@ F			IsTimeAccurate
 00			iSecond
 0.0			FracSecond
 
-#SAVERESTART
+SAVERESTART
 T			DoSaveRestart
 10000			DnSaveRestart
 -1.0			DtSaveRestart
@@ -258,33 +258,29 @@ float			TypeBc5
 float			TypeBc6
 
 #SAVEPLOT
-5			nPlotFile
-x=0 VAR idl		StringPlot
-5000			DnSavePlot
--1.0			DtSavePlot
--1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
-{default}		NamePars
-y=0 VAR idl		StringPlot
-5000			DnSavePlot
--1.			DtSavePlot
--1.0			DxSavePlot
-{MHD} dt b1x b1y b1z 		NameVars
-{default}		NamePars
-z=0 VAR idl		StringPlot
-5000			DnSavePlot
--1.			DtSavePlot
--1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
-{default}		NamePars
-los ins idl_ascii		StringPlot
-50000			DnSavePlot
--1.0			DtSavePlot
-sta:euvi stb:euvi sdo:aia		StringsInstrument
-los ins tec		StringPlot
-50000			DnSavePlot
--1.0			DtSavePlot
-sta:euvi stb:euvi sdo:aia		StringsInstrument
+4			nPlotFiles
+x=0 VAR idl             StringPlot
+5000                    DnSavePlot
+-1.0                    DtSavePlot
+-1.0                    DxSavePlot
+{MHD} dt b1x b1y b1z       NameVars
+{default}                 NamePars
+y=0 VAR idl             StringPlot
+5000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} dt b1x b1y b1z 	NameVars
+{default}                 NamePars
+z=0 VAR idl             StringPlot
+5000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} dt b1x b1y b1z	NameVars
+{default}                 NamePars
+los ins idl_ascii	  StringPlot
+50000			        DnSavePlot
+-1.0				DtSavePlot
+sta:euvi stb:euvi sdo:aia	StringsInstrument
 
 #SATELLITE
 3			nSatellite
