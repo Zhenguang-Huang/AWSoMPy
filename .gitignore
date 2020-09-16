@@ -1,8 +1,11 @@
 run*
 *~
-Scripts/remap_magnetogram.py
-Scripts/swmfpy
-Scripts/pyfits
 */*~
 *gz
 *fts
+Results
+*fits
+Scripts/remap_magnetogram.py
+Scripts/swmfpy
+Scripts/pyfits
+Scripts/__pycache__/
