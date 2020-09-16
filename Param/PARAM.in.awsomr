@@ -31,7 +31,7 @@ F                       DoTimeAccurate
 00			iSecond
 0.0			FracSecond
 
-#SAVERESTART
+SAVERESTART
 T			DoSaveRestart
 10000			DnSaveRestart
 -1.0			DtSaveRestart
@@ -279,7 +279,7 @@ T                               DoTriangulation
 T                               DoTRCorrectio
 
 #SAVEPLOT
-5			nPlotFiles
+4			nPlotFiles
 x=0 VAR idl             StringPlot
 5000                    DnSavePlot
 -1.0                    DtSavePlot
@@ -358,7 +358,7 @@ SC/Param/los_EuviB.dat          NameFIle
 ascii                           TypeFile
 
 #SAVEINITIAL
-T			DoSaveInitial
+F			DoSaveInitial
 
 #END_COMP SC ----------------------------------------------------------------
 
@@ -598,7 +598,7 @@ RAW			StringLogfile
 -1.			DtSaveLogfile
 
 #SAVEPLOT
-4                       nPlotFiles
+3                       nPlotFiles
 x=0 VAR idl             StringPlot
 1000                    DnSavePlot
 -1.                     DtSavePlot
