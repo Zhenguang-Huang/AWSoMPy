@@ -5,6 +5,8 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -o=IH:u=ScChromo,e=MhdWavesPeAnisoPi
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
+Inner boundary moved to 1.05 Rs
+
 Begin session: 1
 
 #DESCRIPTION
@@ -186,14 +188,14 @@ spherical_lnr
  100.0			zMax
 
 #LIMITRADIUS
-1.15			rMin
+1.05			rMin
 24.0			rMax
 
 ----------------------------------------------------
 #AMRREGION
 InnerShell		NameRegion
 shell0			TypeRegion
-1.15			Radius1
+1.05			Radius1
 1.7			Radius2
 
 #AMRCRITERIALEVEL
@@ -405,8 +407,8 @@ Radii will change based on the choice of the inner boundary
 #REGION
 thinlayer		NameRegion
 shell0			TypeRegion
-1.15			Radius1
-1.17			Radius2
+1.05			Radius1
+1.07			Radius2
 
 #LOWORDERREGION
 +loworder +thinlayer
