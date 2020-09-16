@@ -182,14 +182,14 @@ check_postproc:
 			if([ -f SWMF.SUCCESS ]); then                              		\
 				mkdir -p ${FULLRESDIR}/$${RunDir: -6:-1};                      	\
 				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   	\
-				cp -r runlog* SC/map_*out RESULTS/*				\
+				mv runlog* SC/map_*out RESULTS/*				\
 					${FULLRESDIR}/$${RunDir: -6:-1}/;			\
 				if [[ -f SC/fdips_bxyz.out ]]; then          			\
-					cp SC/fdips_bxyz.out SC/FDIPS.in 			\
+					mv SC/fdips_bxyz.out SC/FDIPS.in 			\
 						${FULLRESDIR}/$${RunDir: -6:-1}/; 		\
 				fi;								\
 				if [[ -f SC/harmonics_adapt.dat ]]; then			\
-					cp SC/harmonics_adapt.dat SC/HARMONICS.in               \
+					mv SC/harmonics_adapt.dat SC/HARMONICS.in               \
 						${FULLRESDIR}/$${RunDir: -6:-1}/ ;		\
 				fi;								\
 			else									\
