@@ -83,7 +83,7 @@ T			UseMagnetogram
 0.0			HeightInnerBc
 SC/harmonics_adapt.dat	NameMagnetogramFile
 12			nHeaderLine
-0.0			PhiShift
+-1.0			PhiShift
 1.0			UnitB
 
 #USECURLB0
