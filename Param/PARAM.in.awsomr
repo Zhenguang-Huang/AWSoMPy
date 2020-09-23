@@ -16,11 +16,11 @@ INCLUDE
 RESTART.in
 
 #COMPONENTMAP
-SC    0  9999    1
-IH    0  9999    1
+SC 0 -1 1		CompMap
+IH 0 -1 1
 
 #TIMEACCURATE
-F                       DoTimeAccurate
+F                       IsTimeAccurate
 
 #STARTTIME
 2011			iYear
@@ -39,20 +39,20 @@ T			DoSaveRestart
 #BEGIN_COMP SC --------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000
+120000			MaxBlock
 
 INCLUDE
-SC/restartIN/restart.H	
+SC/restartIN/restart.H
 
 #RESTARTOUTFILE
-one			TypeRestartOutFile
+one			StringRestartOutFile
 
 #COORDSYSTEM
 HGR			TypeCoordSystem
 
 #PLASMA
-1.0			IonMass [amu]
-1.0			AverageIonCharge [e]
+1.0			FluidMass [amu]
+1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
 THREADEDBC
@@ -85,19 +85,19 @@ util/DATAREAD/srcMagnetogram directory of SWMF.
 GONG magnetograms are obtained from http://gong.nso.edu/data/magmap/crmap.html
 
 LOOKUPTABLE
-B0                                       NameTable
-load                                     NameCommand
-SC/fdips_bxyz.out                        NameFile
-real8                                    TypeFile
+B0			NameTable
+load                    NameCommand
+SC/fdips_bxyz.out       NameFile
+real8                   TypeFile
 
 #MAGNETOGRAM
 T			UseMagnetogram
 1.0			rMagnetogram
 2.5			rSourceSurface
 0.0			HeightInnerBc
-SC/harmonics_adapt.dat	NameMagnetogramFile
+SC/harmonics_adapt.dat	NameHarmonicsFile
 12			nHeaderLine
-0.0			PhiShift
+-1.0			PhiShift
 1.0			UnitB
 
 #USECURLB0
@@ -105,7 +105,7 @@ T			UseCurlB0
 2.5			rCurrentFreeB0
 
 #USERSWITCH
--all +init +ic          StringSwitch
++init +ic          StringSwitch
 
 #POYNTINGFLUX
 1.0e6			PoyntingFluxPerBSi [J/m^2/s/T]
@@ -123,7 +123,7 @@ stochasticheating	TypeHeatPartitioning
 
 ANISOTROPICPRESSURE
 F			UseConstantTau
--1.0
+-1.0			TauGlobalSi
 1e5			TauGlobalSi
 
 #HEATCONDUCTION
@@ -157,12 +157,12 @@ T			UseRadCooling
 #LOOKUPTABLE
 radcool			NameTable
 load			NameCommand
-SC/Param/RadCoolCorona_8.0.dat
+SC/Param/RadCoolCorona_8.0.dat	NameFile
 ascii			TypeFile
 
 #LOOKUPTABLE
 TR                      NameTable
-load                    NameCommand
+load                  	NameCommand
 SC/Param/TR.dat
 ascii        
 
@@ -173,13 +173,13 @@ T			UseCoarseAxis
 turn these off when restarting
 ---------------------------------------------------
 #GRIDGEOMETRY
-spherical_lnr
+spherical_lnr		TypeGeometry
 
 ! Use a true sphere, so box is made much larger
 #GRID
-2			nRootBlockX
-2			nRootBlockY
-1			nRootBlockZ
+2			nRootBlock1
+2			nRootBlock2
+1			nRootBlock3
 -100.0			xMin
  100.0			xMax
 -100.0			yMin
@@ -194,9 +194,9 @@ spherical_lnr
 ----------------------------------------------------
 #AMRREGION
 InnerShell		NameRegion
-shell0			TypeRegion
-1.05			Radius1
-1.7			Radius2
+shell0			StringShape
+1.05			RadiusInner
+1.7			Radius
 
 #AMRCRITERIALEVEL
 3			nCriteria
@@ -257,7 +257,7 @@ T			UseAccurateResChange
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLogfile
+RAW			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
 
@@ -322,53 +322,53 @@ HGR                     TypeCoordPlot
 3				nSatellite
 MHD				StringSatellite
 -1				DnOutput
--1.0				DtOutput
+-1.0				DtOutput [sec]
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 MHD				StringSatellite
 -1				DnOutput
--1.0				DtOutput
+-1.0				DtOutput [sec]
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
 MHD				StringSatellite
 -1				DnOutput
--1.0				DtOutput
+-1.0				DtOutput [sec]
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #LOOKUPTABLE
 AiaXrt				NameTable
-load				TypeAction
+load				NameCommand
 SC/Param/los_tbl.dat		NameFile
-ascii				TypeFIle
+ascii				TypeFile
 
 #LOOKUPTABLE
 euv                             NameTable
-load                            TypeAction
+load                            NameCommand
 SC/Param/los_Eit_cor.dat        NameFile
-ascii                           TypeFIle
+ascii                           TypeFile
 
 #LOOKUPTABLE
 EuviA                           NameTable
-load                            TypeAction
+load                            NameCommand
 SC/Param/los_EuviA.dat          NameFile
 ascii                           TypeFile
 
 #LOOKUPTABLE
 EuviB                           NameTable
-load                            TypeAction
-SC/Param/los_EuviB.dat          NameFIle
+load                            NameCommand
+SC/Param/los_EuviB.dat          NameFile
 ascii                           TypeFile
 
 #SAVEINITIAL
 F			DoSaveInitial
 
-#END_COMP SC ----------------------------------------------------------------
+#END_COMP SC ---------------------------------------------------------------
 
 #COMPONENT
 IH			NameComp
 F			UseComp
 
 #STOP
-1000			MaxIteration
--1.0			tSimulationMax
+1000			MaxIter
+-1.0			TimeMax
 
 #RUN ########################################################################
 
@@ -380,15 +380,15 @@ Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 mc3			TypeLimiter
 1.2			LimiterBeta
 
-#END_COMP SC -----------------------------------------------------------------
+#END_COMP SC ---------------------------------------------------------------
 
 #STOP
-60000			MaxIteration
--1.0			tSimulationMax
+60000			MaxIter
+-1.0			TimeMax
 
 #RUN ########################################################################
 
-#BEGIN_COMP SC ----------------------------------------------------------------
+#BEGIN_COMP SC --------------------------------------------------------------
 
 #AMR
 -1			DnRefine
@@ -399,9 +399,9 @@ mc3			TypeLimiter
 
 #REGION
 loworder                NameRegion
-shell0                  TypeRegion
-1.7                     Radius1
-24.0                    Radius2
+shell0                  StringShape
+1.7                     RadiusInner
+24.0                    Radius
 
 Radii will change based on the choice of the inner boundary
 #REGION
@@ -411,7 +411,7 @@ shell0			TypeRegion
 1.07			Radius2
 
 #LOWORDERREGION
-+loworder +thinlayer
++loworder +thinlayer	StringLowOderRegion
 
 #SCHEME
 5                       nOrder (1 or 2)
@@ -421,7 +421,7 @@ mc3                     TypeLimiter
 
 #SCHEME5
 T                       UseFDFaceFlux
-MP5                     TyperLimiter5
+MP5                     TypeLimiter
 F                       UseHighResChange
 F                       UseHighOrderAMR
 T                       DoCorrectFace
@@ -431,15 +431,14 @@ F                       UseLogRhoLimiter
 F                       UseLogPLimiter
 F                       UseRhoRatioLimiter
 
-#END_COMP SC   ----------------------------------------------------------------
+#END_COMP SC ---------------------------------------------------------------
 
 #STOP
-100000			MaxIteration
--1.0			tSimulationMax
+100000			MaxIter
+-1.0			TimeMax
 
 End session: 1
 #RUN ##########################################################################
-
 Begin session: 2
 
 #COMPONENT
@@ -449,13 +448,13 @@ T			UseComp
 #BEGIN_COMP IH -------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000
+120000			MaxBlock
 
 INCLUDE
 IH/restartIN/restart.H
 
 #RESTARTOUTFILE
-one			TypeRestartOutFile
+one			StringRestartOutFile
 
 #COORDSYSTEM
 HGC			TypeCoordSystem
@@ -467,14 +466,14 @@ T			UseBody
 3.5E+6			BodyTDim
 
 #PLASMA
-1.0			IonMass [amu]
-1.0			AverageIonCharge [e]
+1.0			FluidMass [amu]
+1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
 #GRID
-1			nRootBlockX
-1			nRootBlockY
-1			nRootBlockZ
+1			nRootBlock1
+1			nRootBlock2
+1			nRootBlock3
 -250.0			xMin
  250.0			xMax
 -250.0			yMin
@@ -484,32 +483,32 @@ T			UseBody
 
 #AMRREGION
 OuterShell		NameRegion
-shell0			TypeRegion
-18.0			Radius1
-21.0			Radius2
+shell0			StringShape
+18.0			RadiusInner
+21.0			Radius
 
 #AMRCRITERIALEVEL
-3			nCriteria
-Level			TypeCriteria
+3			nRefineCrit
+Level			Stringrefine
 3			RefineTo
-3			CoarsenTo
-Level +OuterShell	TypeCriteria
+3			CoarsenFrom
+Level +OuterShell	StringRefine
 7     			RefineTo
-7			CoarsenTo
-currentsheet		TypeCriteria
+7			CoarsenFrom
+currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
 7			MaxLevel
 
 #GRIDLEVEL
-7			nLevelArea
-initial			NameArea
+7			nLevel
+initial			StringShape
 
 #SAVEINITIAL
-F	                DoSaveInitial
+F			DoSaveInitial
 
 #INNERBOUNDARY
-buffergrid		TypeBcInner
+buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
@@ -523,18 +522,18 @@ buffergrid		TypeBcInner
 90.0			LatBuffMax
 
 #OUTERBOUNDARY
-float			TypeBcEast
-float			TypeBcWest
-float			TypeBcSouth
-float			TypeBcNorth
-float			TypeBcBottom
-float			TypeBcTop 
+float			TypeBc1
+float			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
 
 #RESCHANGE
-T			UseAccurateResChange
+T			UseAccurateReschange
 
 #USERSWITCH
--all +init              StringSwitch
++init	                StringSwitch
 
 #CORONALHEATING
 turbulentcascade        TypeCoronalHeating
@@ -548,7 +547,7 @@ stochasticheating	TypeHeatPartitioning
 
 ANISOTROPICPRESSURE
 F			UseConstantTau
--1.0
+-1.0			TauGlobalSi
 1e5			TauGlobalSi
 
 #RESISTIVITY
@@ -593,12 +592,12 @@ F			UseConstrainB
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLogfile
+RAW			StringLog
 1			DnSaveLogfile
 -1.			DtSaveLogfile
 
 #SAVEPLOT
-3                       nPlotFiles
+3                       nPlotFile
 x=0 VAR idl             StringPlot
 1000                    DnSavePlot
 -1.                     DtSavePlot
@@ -627,27 +626,27 @@ z=0 VAR idl             StringPlot
 3				nSatellite
 MHD trajrange			StringSatellite
 5000				DnOutput
--1.0				DtOutput
+-1				DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 -20 d				StringStartTimeTraj
 10 d				StringEndTimeTraj
 30 m				StringDtTraj
 MHD trajrange			StringSatellite
 5000				DnOutput
--1.0				DtOutput
+-1				DtOutput
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
 -20 d				StringStartTimeTraj
 10 d				StringEndTimeTraj
 30 m				StringDtTraj
 MHD trajrange			StringSatellite
 5000				DnOutput
--1.0				DtOutput
+-1				DtOutput
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 -20 d				StringStartTimeTraj
 10 d				StringEndTimeTraj
 30 m				StringDtTraj
 
-#END_COMP IH ---------------------------------------------------------------
+#END_COMP IH --------------------------------------------------------------
 
 #COUPLE1
 SC			NameSource
@@ -660,7 +659,7 @@ IH			NameTarget
 -1.0			TimeMax
 
 End session: 2
-#RUN ##########################################################################
+#RUN ######################################################################
 Begin session: 3
 
 #COUPLE1
@@ -673,7 +672,7 @@ IH			NameTarget
 SC			NameComp
 F			UseComp
 
-#BEGIN_COMP IH ----------------------------------------------------------------
+#BEGIN_COMP IH ------------------------------------------------------------
 
 #DOAMR
 T			DoAmr
@@ -681,7 +680,7 @@ T			DoAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
-#END_COMP IH   ----------------------------------------------------------------
+#END_COMP IH ----------------------------------------------------------------
 
 #STOP
 103000			MaxIter
