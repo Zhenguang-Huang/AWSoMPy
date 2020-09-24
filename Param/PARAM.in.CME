@@ -6,30 +6,30 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 PARAM.in for CME run using AWSoM,
-RESTART from steady state (with ROTATE HGR/HGI) and add a CME 
+RESTART from steady state (with ROTATE HGR/HGI) and add a CME
 Using Timesteplimit in SC = 0.5 s
 SC-IH Coupling Freq = 60 s
 
 Begin session: 1
 
 #DESCRIPTION
-Input file for creating a steady state solar corona
+Input file for creating a steady state solar corona		StringDescription
 
 #INCLUDE
 RESTART.in
 
 #COMPONENTMAP
-SC 0 -1 1
-IH 0 -1 1
+SC 0 -1 1		CompMap
+IH 0 -1 1		CompMap
 
 #TIMEACCURATE
-T                       IsTimeAccurate
+T			IsTimeAccurate
 
 #STARTTIME
-2014
-9
-10
-14
+2014			iYear
+9			iMonth
+10			iDay
+14			iHour
 00			iMinute
 00			iSecond
 0.0			FracSecond
@@ -40,25 +40,25 @@ T			DoSaveRestart
 500.0			DtSaveRestart
 
 #TEST
-CON_axes::init_axes
+CON_axes::init_axes		StringTest
 
 #ROTATEHGR
--1.0
+-1.0			dLongitudeHgr
 
 #ROTATEHGI
--1.0
+-1.0			dLongitudeHgi
 
-#BEGIN_COMP SC --------------------------------------------------------------
+#BEGIN_COMP SC ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000
+60000			MaxBlock
 
 #INCLUDE
 SC/restartIN/restart.H	
 
 #PLASMA
-1.0			IonMass [amu]
-1.0			AverageIonCharge [e]
+1.0			FluidMass [amu]
+1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
 #BODY
@@ -71,17 +71,17 @@ T			UseBody
 F			UseBody
 
 LOOKUPTABLE
-B0                                       NameTable
-load                                     NameCommand
-SC/fdips_bxyz.out			 NameFile
-real8                                    TypeFile
+B0			NameTable
+load			NameCommand
+SC/fdips_bxyz.out		NameFile
+real8			TypeFile
 
 #MAGNETOGRAM
 T			UseMagnetogram
 1.0			rMagnetogram
 2.5			rSourceSurface
 0.0			HeightInnerBc
-SC/harmonics_adapt.dat	NameMagnetogramFile
+SC/harmonics_adapt.dat		NameHarmonicsFile
 12			nHeaderLine
 -1.0			PhiShift
 1.0			UnitB
@@ -91,41 +91,41 @@ T			UseCurlB0
 2.5			rCurrentFreeB0
 
 #UPDATECHECK
-F
+F			UseUpdateCheck
 
 #USERSWITCH
-+init +ic +perturb +get_b0        StringSwitch
++init +ic +perturb +get_b0		StringSwitch
 
 #CME
-T                   UseCme
-T                   DoAddFluxRope
-87.50               LongitudeCme
-14.50               LatitudeCme
-251.57              OrientationCme
-GL                  TypeCme
--17.50              BStrength
-0.75		    Radius
-0.60                aStretch
-0.95                ApexHeight
+T			UseCme
+T			DoAddFluxRope
+87.50			LongitudeCme
+14.50			LatitudeCme
+251.57			OrientationCme
+GL			TypeCme
+-17.50			BStrength
+0.75			Radius
+0.60			Stretch
+0.95			ApexHeight
 
 #POYNTINGFLUX
 1e6 			PoyntingFluxPerBSi [J/m^2/s/T]
 
 #CORONALHEATING
-turbulentcascade        TypeCoronalHeating
-T                       UseWaveReflection
-1.5e5                   LperpTimesSqrtBSi
+turbulentcascade		TypeCoronalHeating
+T			UseWaveReflection
+1.5e5			LperpTimesSqrtBSi
 0.0			rMinWaveReflection
 F			UseSurfaceReflection
 
 #HEATPARTITIONING
-stochasticheating	TypeHeatPartitioning
+stochasticheating		TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
 #ANISOTROPICPRESSURE
 F			UseConstantTau
--1.0
+-1.0			TauGLobalSi
 1e5			TauGlobalSi
 
 #HEATCONDUCTION
@@ -156,12 +156,12 @@ T			UseRadCooling
 #LOOKUPTABLE
 radcool			NameTable
 load			NameCommand
-SC/Param/RadCoolCorona_8.0.dat
+SC/Param/RadCoolCorona_8.0.dat		NameFile
 ascii			TypeFile
 
 #TRANSITIONREGION
-T			DoExtendTransitionRegion
-2.2e5			TeModSi
+T			DoExpandTransitionRegion
+2.2e5			TeTransitionRegionSi
 1.0e1			DeltaTeModSi
 
 #COARSEAXIS
@@ -193,19 +193,19 @@ LIMITRADIUS
 ----------------------------------------------------
 #AMRREGION
 InnerShell		NameRegion
-shell0			TypeRegion
-1.0			Radius1
-1.7			Radius2
+shell0			StringShape
+1.0			RadiusInner
+1.7			Radius
 
 #AMRCRITERIALEVEL
-3			nCriteria
-Level			TypeCriteria
+3			nRefineCrit
+Level			StringRefine
 3			RefineTo
-3			CoarsenTo
-Level Innershell	TypeCriteria
-4     			RefineTo
-4			CoarsenTo
-currentsheet		TypeCriteria
+3			CoarsenFrom
+Level Innershell		StringRefine
+4			RefineTo
+4			CoarsenFrom
+currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
 4			MaxLevel
@@ -232,7 +232,7 @@ T			UseLogPLimiter
 F			UseRhoRatioLimiter
 
 #MINIMUMTEMPERATURE
-5e4			TMinDim  [K] for fluid 1
+5e4			TminDim  [K] for fluid 1
 5e4			TeMinDim [K]
 
 #MINIMUMPRESSURE
@@ -247,11 +247,11 @@ T			UseDtLimit
 0.5			DtLimitDim
 
 #RESCHANGE
-T			UseAccurateResChange
+T			UseAccurateReschange
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLogfile
+RAW			StringLog
 100			DnSaveLogfile
 120.			DtSaveLogfile
 
@@ -264,99 +264,99 @@ float			TypeBc5
 float			TypeBc6
 
 #SAVEPLOT
-5			nPlotFiles
-x=0 VAR idl             StringPlot
--1                    DnSavePlot
-600.0                    DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt dtblk b1x b1y b1z       NameVars
-{default}                 NamePars
-y=0 VAR idl             StringPlot
--1                    DnSavePlot
-600.                     DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt dtblk b1x b1y b1z 	NameVars
-{default}                 NamePars
-z=0 VAR idl             StringPlot
--1                    DnSavePlot
-600.                     DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt dtblk b1x b1y b1z	NameVars
-{default}                 NamePars
-los ins idl_ascii	  StringPlot
--1			        DnSavePlot
-1200.0				DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2
-3d VAR tcp		 StringPlot
+5			nPlotFile
+x=0 VAR idl		StringPlot
+-1			DnSavePlot
+600.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt dtblk b1x b1y b1z		NameVars
+{default}		NamePars
+y=0 VAR idl		StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt dtblk b1x b1y b1z 		NameVars
+{default}		NamePars
+z=0 VAR idl		StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt dtblk b1x b1y b1z		NameVars
+{default}		NamePars
+los ins idl_ascii		StringPlot
+-1			DnSavePlot
+1200.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
+3d VAR tcp		StringPlot
 -1			DnSavePlot
 1200.			DtSavePlot
-{MHD} dt dtblk b1x b1y b1z	NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z		NameVars
+{default}		NamePars
 
 #SATELLITE
-3				nSatellite
-MHD				StringSatellite
--1				DnOutput
--1.				DtOutput [sec]
+3			nSatellite
+MHD			StringSatellite
+-1			DnOutput
+-1.			DtOutput [sec]
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
-MHD				StringSatellite
--1				DnOutput
--1.				DtOutput [sec]
+MHD			StringSatellite
+-1			DnOutput
+-1.			DtOutput [sec]
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
-MHD				StringSatellite
--1				DnOutput
--1.				DtOutput [sec]
+MHD			StringSatellite
+-1			DnOutput
+-1.			DtOutput [sec]
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #LOOKUPTABLE
-AiaXrt                          NameTable
-load                            TypeAction
-SC/Param/los_tbl.dat            NameFile
-ascii                           TypeFIle
+AiaXrt			NameTable
+load			NameCommand
+SC/Param/los_tbl.dat		NameFile
+ascii			TypeFile
 
 #LOOKUPTABLE
-euv                             NameTable
-load                            TypeAction
-SC/Param/los_Eit_cor.dat        NameFile
-ascii                           TypeFIle
+euv			NameTable
+load			NameCommand
+SC/Param/los_Eit_cor.dat		NameFile
+ascii			TypeFile
 
 #LOOKUPTABLE
-EuviA                           NameTable
-load                            TypeAction
-SC/Param/los_EuviA.dat          NameFile
-ascii                           TypeFile
+EuviA			NameTable
+load			NameCommand
+SC/Param/los_EuviA.dat		NameFile
+ascii			TypeFile
 
 #LOOKUPTABLE
-EuviB                           NameTable
-load                            TypeAction
-SC/Param/los_EuviB.dat          NameFIle
-ascii                           TypeFile
+EuviB			NameTable
+load			NameCommand
+SC/Param/los_EuviB.dat		NameFile
+ascii			TypeFile
 
 #SAVEINITIAL
-T				DoSaveInitial
+T			DoSaveInitial
 
-#END_COMP SC ---------------------------------------------------------
+#END_COMP SC -----------------------------------------------------------------
 
 #COMPONENT
 IH			NameComp
 F			UseComp
 
 #STOP
--1			MaxIteration
-10800.			tSimulationMax
+-1			MaxIter
+10800.			TimeMax
 
 End session: 1
-#RUN ##################################################################
+#RUN ##########################################################################
 Begin session: 2
 
 #COMPONENT
 IH			NameComp
 T			UseComp
 
-#BEGIN_COMP IH -------------------------------------------------------
+#BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000
+60000			MaxBlock
 
 #INCLUDE
 IH/restartIN/restart.H
@@ -365,8 +365,8 @@ IH/restartIN/restart.H
 HGI			TypeCoordSystem
 
 #PLASMA
-1.0			IonMass [amu]
-1.0			AverageIonCharge [e]
+1.0			FluidMass [amu]
+1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
 GRID
@@ -381,32 +381,32 @@ GRID
  250.0			zMax
 
 #UPDATECHECK
-F
+F			UseUpdateCheck
 
 #AMRREGION
 OuterShell		NameRegion
-shell0			TypeRegion
-18.0			Radius1
-21.0			Radius2
+shell0			StringShape
+18.0			RadiusInner
+21.0			Radius
 
 #AMRCRITERIALEVEL
-3			nCriteria
-Level			TypeCriteria
+3			nRefineCrit
+Level			StringRefine
 3			RefineTo
-3			CoarsenTo
-Level +OuterShell	TypeCriteria
-7     			RefineTo
-7			CoarsenTo
-currentsheet		TypeCriteria
+3			CoarsenFrom
+Level +OuterShell		StringRefine
+7			RefineTo
+7			CoarsenFrom
+currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
 7			MaxLevel
 
 #SAVEINITIAL
-T                       DoSaveInitial
+T			DoSaveInitial
 
 #INNERBOUNDARY
-buffergrid		TypeBcInner
+buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
@@ -420,44 +420,44 @@ buffergrid		TypeBcInner
 90.0			LatBuffMax
 
 #OUTERBOUNDARY
-float			TypeBcEast
-float			TypeBcWest
-float			TypeBcSouth
-float			TypeBcNorth
-float			TypeBcBottom
-float			TypeBcTop 
+float			TypeBc1
+float			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
 
 #RESCHANGE
-T			UseAccurateResChange
+T			UseAccurateReschange
 
 #USERSWITCH
 +init			StringSwitch
 
 #CORONALHEATING
-turbulentcascade        TypeCoronalHeating
-T                       UseWaveReflection
-1.5e5                   LperpTimesSqrtBSi
+turbulentcascade		TypeCoronalHeating
+T			UseWaveReflection
+1.5e5			LperpTimesSqrtBSi
 1.2			rMinWaveReflection
 
 #HEATPARTITIONING
-stochasticheating	TypeHeatPartitioning
+stochasticheating		TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
 #ANISOTROPICPRESSURE
 F			UseConstantTau
--1.0
+-1.0			TauGLobalSi
 1e5			TauGlobalSi
 
 #RESISTIVITY
-T                       UseResistivity
-user                    TypeResistivity
-0.0                     Eta0Si     ! not used
+T			UseResistivity
+user			TypeResistivity
+0.0			Eta0Si     ! not used
 
 #RESISTIVITYOPTIONS
-F                       UseResistiveFlux
-F                       UseJouleHeating
-T                       UseHeatExchange
+F			UseResistiveFlux
+F			UseJouleHeating
+T			UseHeatExchange
 
 #HEATFLUXCOLLISIONLESS
 T			UseHeatFluxCollisionless
@@ -491,56 +491,56 @@ F			UseConstrainB
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLogfile
+RAW			StringLog
 1			DnSaveLogfile
 100.			DtSaveLogfile
 
 #SAVEPLOT
-3			nPlotFiles
+3			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
-600.		        DtSavePlot
+600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	 NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 
 SATELLITE
-3				nSatellite
-MHD trajrange			StringSatellite
-5000				DnOutput
--1				DtOutput
+3			nSatellite
+MHD trajrange		StringSatellite
+5000			DnOutput
+-1			DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
--20 d				StringStartTimeTraj
-10 d				StringEndTimeTraj
-30 m 				StringDtTraj
-MHD trajrange			StringSatellite
-5000				DnOutput
--1				DtOutput
+-20 d			StringStartTimeTraj
+10 d			StringEndTimeTraj
+30 m 			StringDtTraj
+MHD trajrange		StringSatellite
+5000			DnOutput
+-1			DtOutput
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
--20 d				StringStartTimeTraj
-10 d				StringEndTimeTraj
-30 m 				StringDtTraj
-MHD trajrange			StringSatellite
-5000				DnOutput
--1				DtOutput
+-20 d			StringStartTimeTraj
+10 d			StringEndTimeTraj
+30 m 			StringDtTraj
+MHD trajrange		StringSatellite
+5000			DnOutput
+-1			DtOutput
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
--20 d				StringStartTimeTraj
-10 d				StringEndTimeTraj
-30 m 				StringDtTraj
+-20 d			StringStartTimeTraj
+10 d			StringEndTimeTraj
+30 m 			StringDtTraj
 
-#END_COMP IH ---------------------------------------------------------
+#END_COMP IH -----------------------------------------------------------------
 
 #COUPLE1
 SC			NameSource
