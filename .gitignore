@@ -3,6 +3,7 @@ run*
 */*~
 *gz
 *fts
+Makefile.def
 Results
 *fits
 Scripts/remap_magnetogram.py
