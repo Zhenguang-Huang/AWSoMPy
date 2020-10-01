@@ -5,6 +5,7 @@ import datetime as dt
 import swmfpy
 import sys
 import subprocess
+import warnings
 from remap_magnetogram import FITS_RECOGNIZE
 
 if __name__ == '__main__':
@@ -14,8 +15,8 @@ if __name__ == '__main__':
                         + ' and change PARAM.in if needed')
     ARG_PARSER = argparse.ArgumentParser(description=PROG_DESCRIPTION)
     ARG_PARSER.add_argument('-p', '--poynting_flux',
-                            help='(default: 1.0e6 J/m^2/s/T)',
-                            type=float, default=1.e6)
+                            help='(default: -1.0 J/m^2/s/T)',
+                            type=float, default=-1)
     ARG_PARSER.add_argument('-t', '--time',
                             help='(default: None.)'
                             + 'Use if you want to overwrite PARAM.in time.'
@@ -78,10 +79,14 @@ if __name__ == '__main__':
     swmfpy.paramin.replace_command({'#STARTTIME': time_param},
                                    'PARAM.in', 'PARAM.in')
 
-    # set #POYNTINGFLUX
-    str_flux = {'#POYNTINGFLUX': [['{:<10.3e}'.format(ARGS.poynting_flux), 
-                                    'PoyntingFluxPerBSi [J/m^2/s/T]']]}
-    swmfpy.paramin.replace_command(str_flux, 'PARAM.in', 'PARAM.in')
+    if ARGS.poynting_flux > 0:
+        # set #POYNTINGFLUX
+        str_flux = {'#POYNTINGFLUX': [['{:<10.3e}'.format(ARGS.poynting_flux), 
+                                       'PoyntingFluxPerBSi [J/m^2/s/T]']]}
+        swmfpy.paramin.replace_command(str_flux, 'PARAM.in', 'PARAM.in')
+    else:
+        warnings.warn('PoyntingFluxPerBSi is less than 0, use the PoyntingFluxPerBSi in' +
+                      ' the original PARAM.in.')
 
     # set the PFSS solver, FDIPS or Harmonics
     if (ARGS.potentialfield == 'FDIPS'):

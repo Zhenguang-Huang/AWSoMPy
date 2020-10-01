@@ -12,7 +12,7 @@ TIME = 2012,03,12,08,00
 
 REALIZATIONS = 01,02,03,04,05,06,07,08,09,10,11,12
 
-POYNTINGFLUX   = 1.0e6
+POYNTINGFLUX   = -1.0
 POTENTIALFIELD = HARMONICS
 
 MAP = None
@@ -74,7 +74,7 @@ help :
 	@echo " MODEL=AWSoM, which could be AWSoM or AWSoMR, case sensitive, default is AWSoM."
 	@echo " POTENTIALFIELD=HARMONICS - options are HARMONICS or FDIPS, defualt is HARMONICS."
 	@echo " TIME=YYYY,MM,DD,HH,MN    -  set the start time of the simulation. "
-	@echo " POYNTINGFLUX=1.0e6       -  set the Poynting flux, defualt is 1.0e6."
+	@echo " POYNTINGFLUX=1.0e6       -  set the Poynting flux, defualt is -1, which would not adjust the Poynting flux."
 	@echo " MAP=filename             -  set the input map if desired. Default is to download ADAPT maps."
 	@echo " REALIZATIONS=01,02       -  list the realzations to run, MUST BE TWO DIGITS. Default is "
 	@echo "   REALIZATIONS=01,02,03,04,05,06,07,08,09,10,11,12"
