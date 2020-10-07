@@ -533,7 +533,7 @@ stochasticheating	TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
-ANISOTROPICPRESSURE
+#ANISOTROPICPRESSURE
 F			UseConstantTau
 -1.0
 1e5			TauGlobalSi
