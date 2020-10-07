@@ -1,0 +1,4 @@
+The contents of this folder are based on SWMF version in June 2020.
+The PARAM.in files are therefore outdated. For eg:
+we NO LONGER use THINCURRENTSHEET, LAYOUT files etc.
+Please compare with the updated example PARAM.in in SWMFSOLAR/Param/ and make necessary changes.
