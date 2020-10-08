@@ -30,7 +30,16 @@ cd $PBS_O_WORKDIR
 #setenv MPI_MSGS_PER_PROC 100000
 #setenv MPI_MSGS_MAX      100000
 
-# Run it.
-mpiexec ./SWMF.exe > runlog.`date +%y%m%d`
+# MPI_DSM_DISTRIBUTE may be helpful if two programs are running concurrently
+#setenv MPI_DSM_DISTRIBUTE 0
+
+# First 10 nodes running ./PostProc.pl
+mpiexec -n 10 ./PostProc.pl -r=300 -n=10 >& PostProc.log &
+
+# Run SWMF
+mpiexec ./SWMF.exe > runlog_`date +%y%m%d%H%M`
+
+# afrer SWMF is done, run the PostProc.pl again to make sure all the files are processed.
+mpiexec -n 10 ./PostProc.pl
 
 exit

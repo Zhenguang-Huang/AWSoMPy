@@ -4,9 +4,9 @@
 #SBATCH -o amap01.o%j         # Name of stdout output file
 #SBATCH -e amap01.e%j         # Name of stderr error file
 #SBATCH -p normal             # Queue (partition) name: normal or development
-#SBATCH -N 10                 # Total # of nodes 
+#SBATCH -N 20                 # Total # of nodes
 #SBATCH --tasks-per-node 56   # Number of MPI tasks per node. 
-#SBATCH -t 10:00:00           # Run time (hh:mm:ss)
+#SBATCH -t 5:00:00            # Run time (hh:mm:ss)
 #SBATCH --mail-type=all       # Send email at begin and end of job
 ###SBATCH --mail-user=your_email@umich.edu
 ###SBATCH -A myproject        # Project/Allocation name (req'd if you have more than 1)
@@ -15,4 +15,12 @@
 
 # Launch MPI code... 
 # Use ibrun instead of mpirun or mpiexec
-ibrun ./SWMF.exe  > runlog.`date +%y%m%d`
+
+# First 10 nodes running ./PostProc.pl
+ibrun -n 10 task_affinity ./PostProc.pl -r=300 -n=10 >& PostProc.log &
+
+# the remianing nodes running SWMF, remember to change the number of processors if -N is changed
+ibrun -n 1110 -o 10 task_affinity ./SWMF.exe > runlog_`date +%y%m%d%H%M`
+
+# afrer SWMF is done, run the PostProc.pl again to make sure all the files are processed.
+ibrun -n 10 task_affinity PostProc.pl
