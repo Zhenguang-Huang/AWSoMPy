@@ -166,11 +166,9 @@ run:
 		if [[ "${MACHINE}" == "frontera" ]];						\
 			then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  	\
 			sbatch job.long;							\
-			./PostProc.pl -r=360 >& PostProc.log & 					\
 		fi;										\
 		if [[ "${MACHINE}" == "pfe" ]];                         			\
 			then ./qsub.pfe.pl job.long amap$${iRealization};      			\
-			./PostProc.pl -r=360 >& PostProc.log & 					\
 		fi; 										\
 	done
 
