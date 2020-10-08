@@ -207,7 +207,7 @@ check_postproc:
 check_compare:
 	@cd ${IDLDIR}; 										\
 	for RunDir in ${ResRunDirList};  do 							\
-		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir}; 				\
+		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir} ${MODEL}; 		\
 		csh compare_remote.sh ${DIR} $${RunDir}/SC $${RunDir} ${MYDIR}/Results/obsdata; \
 	done
 
