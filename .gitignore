@@ -1,8 +1,7 @@
 run*
 *~
-*/*~
-*.fits
-*.fts
+/*.fits
+/*.fts
 Makefile.def
 Results
 Scripts/remap_magnetogram.py
