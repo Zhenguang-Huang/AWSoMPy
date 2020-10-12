@@ -22,5 +22,7 @@ ibrun -n 10 task_affinity ./PostProc.pl -r=300 -n=10 >& PostProc.log &
 # the remianing nodes running SWMF, remember to change the number of processors if -N is changed
 ibrun -n 1110 -o 10 task_affinity ./SWMF.exe > runlog_`date +%y%m%d%H%M`
 
-# afrer SWMF is done, run the PostProc.pl again to make sure all the files are processed.
-ibrun -n 10 task_affinity PostProc.pl
+sleep 60
+touch PostProc.STOP
+wait
+
