@@ -8,21 +8,20 @@ QUEDIR  = ${MYDIR}
 RESDIR  = Default
 IDLDIR  = ${DIR}/share/IDL/Solar
 
-TIME = 2012,03,12,08,00
+TIME = NoTime
 
 REALIZATIONS = 01,02,03,04,05,06,07,08,09,10,11,12
 
 POYNTINGFLUX   = -1.0
 POTENTIALFIELD = HARMONICS
 
-MAP = None
+MAP = NoMap
 
-START_TIME       = $(shell echo ${TIME} | tr , ' ')
 REALIZATIONLIST  = $(shell echo ${REALIZATIONS} | tr , ' ')
 
-RESTART = F
+RESTART  = F
 
-MODEL   = AWSoM
+MODEL = AWSoM
 
 FULLRESDIR    = ${MYDIR}/Results/${RESDIR}
 RunDirList    = $(sort $(dir $(wildcard ${MYDIR}/run[01][0-9]/)))
@@ -82,10 +81,10 @@ help :
 	@echo " More options to be added"
 	@echo ""
 	@echo "Notes:"
-	@echo "One can set either TIME or MAP, NOT BOTH. "
-	@echo "If only TIME is provided, the script tries to download the corresponding ADAPT map. "
-	@echo "This works for ADAPT maps only AND requires ftp to work. On Pleiades and Frontera ftp does not work."
-	@echo "If only MAP is provided, the #STARTTIME is set based on the map time."
+	@echo "User can set either TIME or MAP, or BOTH. And the following will occur:"
+	@echo " 1. Both TIME and MAP are provided. The script will use the map and set the start time based on TIME."
+	@echo " 1. Only TIME is provided. The script will download the ADAPT map and set the start time based on the info from the map."
+	@echo " 1. Only MAP is provided. The script will use the map and set the start time based on the info from the map."
 	@echo ""
 
 ######################################################################################
@@ -132,11 +131,7 @@ rundir:
 	else													\
 		cp Param/PARAM.in.awsomr PARAM.in;								\
 	fi; 													\
-	if [[ "${MAP}" != "None" ]]; then									\
-		${MYDIR}/Scripts/change_param.py --amap ${MAP} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD};	\
-	else													\
-		${MYDIR}/Scripts/change_param.py -t ${START_TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD};	\
-	fi; 													\
+	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD};	\
 	for iRealization in ${REALIZATIONLIST}; do								\
 		cd ${DIR}; 											\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 				\
