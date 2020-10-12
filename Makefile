@@ -3,31 +3,29 @@ SHELL=/bin/bash
 # Include the link to the Makefile.def from the SWMF used
 include Makefile.def
 
-MYDIR   = $(shell echo `pwd -P`)
-QUEDIR  = ${MYDIR}
-RESDIR  = Default
-IDLDIR  = ${DIR}/share/IDL/Solar
+MYDIR  = $(shell echo `pwd -P`)
+SIMDIR = Default
+RESDIR = Default
+IDLDIR = ${DIR}/share/IDL/Solar
 
-TIME = NoTime
+MODEL = AWSoM
+PFSS  = HARMONICS
 
-REALIZATIONS = 01,02,03,04,05,06,07,08,09,10,11,12
+TIME  = NoTime
+MAP   = NoMap
 
 POYNTINGFLUX   = -1.0
-POTENTIALFIELD = HARMONICS
 
-MAP = NoMap
-
-REALIZATIONLIST  = $(shell echo ${REALIZATIONS} | tr , ' ')
+REALIZATIONS    = 01,02,03,04,05,06,07,08,09,10,11,12
+REALIZATIONLIST = $(shell echo ${REALIZATIONS} | tr , ' ')
 
 RESTART  = F
 
-MODEL = AWSoM
-
 FULLRESDIR    = ${MYDIR}/Results/${RESDIR}
-RunDirList    = $(sort $(dir $(wildcard ${MYDIR}/run[01][0-9]/)))
+RunDirList    = $(sort $(dir $(wildcard ${MYDIR}/${SIMDIR}/run[01][0-9]/)))
 ResRunDirList = $(sort $(dir $(wildcard ${FULLRESDIR}/run[01][0-9]/)))
 
-help : 
+help: 
 	@echo "*******************************************************************************"
 	@echo "The script relies on swmfpy and remap_magnetogram.py that uses pyfits that is "
 	@echo "part of SWMF. "
@@ -43,27 +41,36 @@ help :
 	@echo "that could solve this issue is to make a bin folder in the home folder (~/bin),"
 	@echo "and add it in the PATH (e.g., setenv PATH ~/bin/:${PATH}. The order matters!)."
 	@echo "Then add a link as:"
-	@echo "  ln -s /opt/apps/intel19/python3/3.7.0/bin/python3.7 ~/bin/"
+	@echo "  ln -s /opt/apps/intel19/python3/3.7.0/bin/python3.7 ~/bin/python"
 	@echo "The exact location of python 3.7 could be obtained by which python3.7. "
-	@echo ""
-	@echo "Note: this script will reconfigure SWMF, but does not execute make clean to "
-	@echo "save time. If make clean is needed, do it in the SWMF directory first before "
-	@echo "doing anything here."
 	@echo "*******************************************************************************"
 	@echo ""
 	@echo "Make the AWSoM or AWSoM-R runs with a magnetogram:"
 	@echo ""
 	@echo "Examples:"
+	@echo "  make adapt_run_w_compile MODEL=AWSoM  "
+	@echo "       (configure SWMF and run AWSoM with 12 ADAPT realizations with B0 "
+	@echo "        from Harmonics)"
 	@echo "  make adapt_run MODEL=AWSoM  "
 	@echo "       (run AWSoM   with 12 ADAPT realizations with B0 from Harmonics)"
 	@echo "  make adapt_run MODEL=AWSoMR "
 	@echo "       (run AWSoM-R with the 12 ADAPT realizations with B0 from Harmonics)"
-	@echo "  make adapt_run MODEL=AWSoM REALIZATIONS=01 MAP=hmi.dat POTENTIALFIELD=FDIPS"
+	@echo "  make adapt_run MODEL=AWSoM REALIZATIONS=01 MAP=hmi.dat PFSS=FDIPS"
 	@echo "       (run AWSoM with a single map named hmi.dat and use FDIPS)"
 	@echo ""
 	@echo "To run a single GONG/MDI/HMI map, use MAP=filename REALIZATIONS=01"
 	@echo "(assuming here that GONG/HMI/GONG have only one realization, though this is "
 	@echo "not true.)"
+	@echo ""
+	@echo "*******************************************************************************"
+	@echo "Note: adapt_run will NOT re-configure/compile SWMF, assuming SWMF is correctly"
+	@echo "configured and compiled. If the user would like to re-configure/compile SWMF "
+	@echo "(e.g., making the first run(s) in SWMFSOLAR or after updating SWMF), "
+	@echo "use adapt_run_w_compile instead of adapt_run, which will uninstall SWMF, then "
+	@echo "install SWMF and compile it. This whole process would take substantial time. "
+	@echo "After making the first run or without updating SWMF, adapt_run is sufficient "
+	@echo "and could save lots of time for installation and compilation."
+	@echo "*******************************************************************************"
 	@echo ""
 	@echo "It is recommended to do the post processing after all simulations are finished "
 	@echo "and then transfer the results to a local machine to compare with observations. "
@@ -86,7 +93,11 @@ help :
 	@echo "Options:"
 	@echo " MODEL=AWSoM               - set the model, either AWSoM or AWSoMR, case "
 	@echo "                             sensitive, default is AWSoM."
-	@echo " POTENTIALFIELD=HARMONICS, - set the potential field solover, either HARMONICS "
+	@echo " SIMDIR=run01_test         - set the name for the simulation directory, default "
+	@echo "                             is Default. "
+	@echo " RESDIR=run01_test         - set the name for the result directory, default is "
+	@echo "                             Default."
+	@echo " PFSS=HARMONICS,           - set the potential field solover, either HARMONICS "
 	@echo "                             or FDIPS, defualt is HARMONICS."
 	@echo " TIME=2012-1-1T1:1:1       - set the start time of the simulation, format is "
 	@echo "                             YYYY-MM-DDTHH:MM:SC, default is NoTime (meaning "
@@ -110,15 +121,23 @@ help :
 
 ######################################################################################
 
-adapt_run:
-	@echo "Submitting AWSoM runs with a ADAPT map."
+adapt_run_w_compile:
+	@echo "Submitting AWSoM runs with a ADAPT map with re-compiling the code."
 	make compile
+	make rundir
+	make run
+	@echo "Finished submitting AWSoM runs with a ADAPT map."
+
+adapt_run:
+	@echo "Submitting AWSoM runs with a ADAPT map without re-compiling the code."
 	make rundir
 	make run
 	@echo "Finished submitting AWSoM runs with a ADAPT map."
 
 compile:
 	-@(cd ${DIR}; \
+	./Config.pl -uninstall; 							\
+	./Config.pl -install; 								\
 	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 					\
 	if [[ "${MODEL}" == "AWSoM" ]]; then 						\
 		./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; 		\
@@ -144,42 +163,43 @@ compile:
 
 rundir:
 	@echo "Creating rundirs"
-	-@(rm -rf ${MYDIR}/run_backup;										\
-	mkdir -p ${MYDIR}/run_backup;                   							\
-	mv run[01]* ${MYDIR}/run_backup/;               							\
-	if [[ "${MODEL}" == "AWSoM" ]]; then 									\
-		cp Param/PARAM.in.awsom PARAM.in; 								\
-	else													\
-		cp Param/PARAM.in.awsomr PARAM.in;								\
-	fi; 													\
-	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${TIME} -p ${POYNTINGFLUX} -B0 ${POTENTIALFIELD};	\
-	for iRealization in ${REALIZATIONLIST}; do								\
-		cd ${DIR}; 											\
-		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/run$${iRealization}; 				\
-		cp ${MYDIR}/PARAM.in ${MYDIR}/run$${iRealization}; 						\
-		cp ${MYDIR}/JobScripts/job.${POTENTIALFIELD}.${MACHINE} ${MYDIR}/run$${iRealization}/job.long;	\
-		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/run$${iRealization}/SC/;  			\
-		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/run$${iRealization}/SC/; 	\
-	done; 		\
-	cd ${MYDIR};	\
-	rm -f PARAM.in; \
-	rm -f map_*out; \
+	-@(rm -rf ${MYDIR}/${SIMDIR}/run_backup;									\
+	mkdir -p ${MYDIR}/${SIMDIR}/run_backup;                   							\
+	mv ${MYDIR}/${SIMDIR}/run[01]* ${MYDIR}/${SIMDIR}/run_backup/;               					\
+	if [[ "${MODEL}" == "AWSoM" ]]; then 										\
+		cp Param/PARAM.in.awsom PARAM.in; 									\
+	else														\
+		cp Param/PARAM.in.awsomr PARAM.in;									\
+	fi; 														\
+	cp Param/HARMONICS.in Param/FDIPS.in .; 									\
+	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${TIME} -p ${POYNTINGFLUX} -B0 ${PFSS};			\
+	for iRealization in ${REALIZATIONLIST}; do									\
+		cd ${DIR}; 												\
+		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/${SIMDIR}/run$${iRealization}; 				\
+		cp ${MYDIR}/PARAM.in     ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
+		cp ${MYDIR}/HARMONICS.in ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
+		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
+		cp ${MYDIR}/JobScripts/job.${PFSS}.${MACHINE} ${MYDIR}/${SIMDIR}/run$${iRealization}/job.long;		\
+		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/;  			\
+		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 	\
+	done; 					\
+	cd ${MYDIR};				\
+	rm -f PARAM.in HARMONICS.in FDIPS.in;	\
+	rm -f map_*.out; 			\
 	)
 
 run:
 	@echo "Submitting jobs"
-	for iRealization in ${REALIZATIONLIST}; do              	        		\
-		cd ${MYDIR}/run$${iRealization}/SC/; 						\
-		if [[ "${POTENTIALFIELD}"  == "HARMONICS" ]]; then				\
-			cp ${MYDIR}/Param/HARMONICS.in ${MYDIR}/run$${iRealization}/SC/; 	\
+	-@for iRealization in ${REALIZATIONLIST}; do              	        		\
+		cd ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
+		if [[ "${PFSS}"  == "HARMONICS" ]]; then					\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;		\
 			./HARMONICS.exe; 							\
 		fi; 										\
-		if [[ "${POTENTIALFIELD}"  == "FDIPS" ]]; then					\
-			cp ${MYDIR}/Param/FDIPS.in ${MYDIR}/run$${iRealization}/SC/; 		\
+		if [[ "${PFSS}"  == "FDIPS" ]]; then						\
 			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;		\
 		fi; 										\
-		cd ${MYDIR}/run$${iRealization}; 						\
+		cd ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
 		if [[ "${MACHINE}" == "frontera" ]];						\
 			then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  	\
 			sbatch job.long;							\
@@ -199,17 +219,17 @@ check_postproc:
 			echo "processing rundir = $${RunDir}";					\
 			cd $${RunDir};                                    			\
 			if([ -f SWMF.SUCCESS ]); then                              		\
-				mkdir -p ${FULLRESDIR}/$${RunDir: -6:-1};                      	\
+				mkdir -p ${FULLRESDIR}/$${RunDir: -6:5};                      	\
 				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   	\
-				mv runlog* SC/map_*out RESULTS/*				\
-					${FULLRESDIR}/$${RunDir: -6:-1}/;			\
+				mv SC/map_*out RESULTS/*					\
+				   ${FULLRESDIR}/$${RunDir: -6:5}/;				\
 				if [[ -f SC/fdips_bxyz.out ]]; then          			\
 					mv SC/fdips_bxyz.out SC/FDIPS.in 			\
-						${FULLRESDIR}/$${RunDir: -6:-1}/; 		\
+						${FULLRESDIR}/$${RunDir: -6:5}/; 		\
 				fi;								\
 				if [[ -f SC/harmonics_adapt.dat ]]; then			\
 					mv SC/harmonics_adapt.dat SC/HARMONICS.in               \
-						${FULLRESDIR}/$${RunDir: -6:-1}/ ;		\
+						${FULLRESDIR}/$${RunDir: -6:5}/ ;		\
 				fi;								\
 			else									\
 				echo "$${RunDir} crashed" >> ${MYDIR}/error_postproc.log;	\
@@ -222,11 +242,20 @@ check_postproc:
 #########################################################################################
 
 check_compare:
-	@cd ${IDLDIR}; 										\
+	make check_compare_insitu
+	make check_compare_remote
+
+check_compare_insitu:
+	-@(cd ${IDLDIR}; 									\
 	for RunDir in ${ResRunDirList};  do 							\
 		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir} ${MODEL}; 		\
+	done)
+
+check_compare_remote:
+	-@(cd ${IDLDIR}; 									\
+	for RunDir in ${ResRunDirList};  do 							\
 		csh compare_remote.sh ${DIR} $${RunDir}/SC $${RunDir} ${MYDIR}/Results/obsdata; \
-	done
+	done)
 
 #########################################################################################
 
