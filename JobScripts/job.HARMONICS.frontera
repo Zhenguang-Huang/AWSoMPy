@@ -16,11 +16,11 @@
 # Launch MPI code... 
 # Use ibrun instead of mpirun or mpiexec
 
-# First 10 nodes running ./PostProc.pl
-ibrun -n 10 task_affinity ./PostProc.pl -r=300 -n=10 >& PostProc.log &
+# The first node running ./PostProc.pl
+ibrun -n 1 ./PostProc.pl -r=300 -n=10 >& PostProc.log &
 
 # the remianing nodes running SWMF, remember to change the number of processors if -N is changed
-ibrun -n 1110 -o 10 task_affinity ./SWMF.exe > runlog_`date +%y%m%d%H%M`
+ibrun -n 1064 -o 56 ./SWMF.exe > runlog_`date +%y%m%d%H%M`
 
 sleep 60
 touch PostProc.STOP
