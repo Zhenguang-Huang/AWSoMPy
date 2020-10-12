@@ -21,6 +21,8 @@ REALIZATIONLIST = $(shell echo ${REALIZATIONS} | tr , ' ')
 
 RESTART  = F
 
+JOBNAME  = amap
+
 FULLRESDIR    = ${MYDIR}/Results/${RESDIR}
 RunDirList    = $(sort $(dir $(wildcard ${MYDIR}/${SIMDIR}/run[01][0-9]/)))
 ResRunDirList = $(sort $(dir $(wildcard ${FULLRESDIR}/run[01][0-9]/)))
@@ -107,6 +109,11 @@ help:
 	@echo " MAP=filename              - set the input map if desired. Default is NoMap."
 	@echo " REALIZATIONS=01,02        - list the realzations to run, MUST BE TWO DIGITS. "
 	@echo "                             Default is 01,02,03,04,05,06,07,08,09,10,11,12"
+	@echo " JOBNAME=amap              - set the job name, default is amap. The submitted"
+	@echo "                             job name would have the realzation number at the"
+	@echo "                             end, e.gn. amap01, amap12. Some systems have a "
+	@echo "                             limitation of the total length (e.g., 6 chars in"
+	@echo "                             total)."
 	@echo " More options to be added"
 	@echo ""
 	@echo "Notes:"
@@ -201,11 +208,11 @@ run:
 		fi; 										\
 		cd ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
 		if [[ "${MACHINE}" == "frontera" ]];						\
-			then perl -i -p -e "s/amap01/amap$${iRealization}/g" job.long;  	\
+			then perl -i -p -e "s/amap01/${JOBNAME}$${iRealization}/g" job.long;  	\
 			sbatch job.long;							\
 		fi;										\
 		if [[ "${MACHINE}" == "pfe" ]];                         			\
-			then ./qsub.pfe.pl job.long amap$${iRealization};      			\
+			then ./qsub.pfe.pl job.long ${JOBNAME}$${iRealization};      		\
 		fi; 										\
 	done
 
