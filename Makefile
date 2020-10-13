@@ -16,8 +16,8 @@ MAP   = NoMap
 
 POYNTINGFLUX   = -1.0
 
-REALIZATIONS    = 01,02,03,04,05,06,07,08,09,10,11,12
-REALIZATIONLIST = $(shell echo ${REALIZATIONS} | tr , ' ')
+REALIZATIONS    = 1,2,3,4,5,6,7,8,9,10,11,12
+REALIZATIONLIST = $(foreach v, $(shell echo ${REALIZATIONS} | tr , ' '), $(shell printf '%02d' $(v)))
 
 RESTART  = F
 
@@ -107,8 +107,8 @@ help:
 	@echo " POYNTINGFLUX=1.0e6,       - set the Poynting flux, defualt is -1, which would"
 	@echo "                             not adjust the Poynting flux."
 	@echo " MAP=filename              - set the input map if desired. Default is NoMap."
-	@echo " REALIZATIONS=01,02        - list the realzations to run, MUST BE TWO DIGITS. "
-	@echo "                             Default is 01,02,03,04,05,06,07,08,09,10,11,12"
+	@echo " REALIZATIONS=1,2          - list the realzations to run. Default is 1,2,3,4,5,"
+	@echo "                             6,7,8,9,10,11,12. "
 	@echo " JOBNAME=amap              - set the job name, default is amap. The submitted"
 	@echo "                             job name would have the realzation number at the"
 	@echo "                             end, e.gn. amap01, amap12. Some systems have a "
