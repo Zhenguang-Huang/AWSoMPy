@@ -21,7 +21,7 @@ def add_command(NameCommand, filenameInput='PARAM.in',
         line = file_input.readline()
         if not line: break
 
-        if NameCommand in line and line[0] != '#':
+        if NameCommand in line[0:len(NameCommand)]:
             if NameNextLine != None:
                 linenext = file_input.readline()
                 if NameNextLine in linenext:
@@ -54,7 +54,7 @@ def remove_command(NameCommand, filenameInput='PARAM.in',
         line = file_input.readline()
         if not line: break
 
-        if NameCommand in line and line[0] == '#':
+        if NameCommand in line[1:len(NameCommand)+1] and line[0] == '#':
             if NameNextLine != None:
                 linenext = file_input.readline()
                 if NameNextLine in linenext:
