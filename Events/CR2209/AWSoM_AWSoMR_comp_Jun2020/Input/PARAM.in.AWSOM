@@ -1,8 +1,8 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi
-./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPiSignB
+./Config.pl -o=SC:u=Awsom,e=MhdWavesPeAnisoPi
+./Config.pl -o=IH:u=Awsom,e=MhdWavesPeAnisoPiSignB
 ./Config.pl -g=SC:6,8,8,400,1,IH:8,8,8,400,1
 
 Full Steady-State run for solar-min CR2209.

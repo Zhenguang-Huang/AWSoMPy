@@ -147,8 +147,8 @@ compile:
 	./Config.pl -install; 								\
 	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 					\
 	if [[ "${MODEL}" == "AWSoM" ]]; then 						\
-		./Config.pl -o=SC:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; 		\
-		./Config.pl -o=IH:u=AwsomFluids,e=MhdWavesPeAnisoPi,nG=3; 		\
+		./Config.pl -o=SC:u=Awsom,e=MhdWavesPeAnisoPi,nG=3; 		\
+		./Config.pl -o=IH:u=Awsom,e=MhdWavesPeAnisoPi,nG=3; 		\
 	else										\
 		./Config.pl -o=SC:u=ScChromo,e=MhdWavesPe,nG=3; 			\
 		./Config.pl -o=IH:u=ScChromo,e=MhdWavesPe,nG=3; 			\
