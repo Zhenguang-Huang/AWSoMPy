@@ -11,7 +11,7 @@ IDLDIR = ${DIR}/share/IDL/Solar
 MODEL = AWSoM
 PFSS  = HARMONICS
 
-TIME  = NoTime
+TIME  = MapTime
 MAP   = NoMap
 
 POYNTINGFLUX   = -1.0
@@ -102,7 +102,7 @@ help:
 	@echo " PFSS=HARMONICS,           - set the potential field solover, either HARMONICS "
 	@echo "                             or FDIPS, defualt is HARMONICS."
 	@echo " TIME=2012-1-1T1:1:1       - set the start time of the simulation, format is "
-	@echo "                             YYYY-MM-DDTHH:MM:SC, default is NoTime (meaning "
+	@echo "                             YYYY-MM-DDTHH:MM:SC, default is MapTime (meaning "
 	@echo "                             the start time is obtained from the map)."
 	@echo " POYNTINGFLUX=1.0e6,       - set the Poynting flux, defualt is -1, which would"
 	@echo "                             not adjust the Poynting flux."
@@ -168,19 +168,30 @@ compile:
 	ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 			\
 	)
 
-rundir:
-	@echo "Creating rundirs"
-	-@(rm -rf ${MYDIR}/${SIMDIR}/run_backup;									\
-	mkdir -p ${MYDIR}/${SIMDIR}/run_backup;                   							\
-	mv ${MYDIR}/${SIMDIR}/run[01]* ${MYDIR}/${SIMDIR}/run_backup/;               					\
-	if [[ "${MODEL}" == "AWSoM" ]]; then 										\
-		cp Param/PARAM.in.awsom PARAM.in; 									\
-	else														\
-		cp Param/PARAM.in.awsomr PARAM.in;									\
-	fi; 														\
-	cp Param/HARMONICS.in Param/FDIPS.in .; 									\
-	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${TIME} -p ${POYNTINGFLUX} -B0 ${PFSS};			\
-	for iRealization in ${REALIZATIONLIST}; do									\
+backup_run:
+	-@if([ -d ${MYDIR}/${SIMDIR}/run01 ]); then					\
+		rm -rf ${MYDIR}/${SIMDIR}/run_backup;					\
+		mkdir -p ${MYDIR}/${SIMDIR}/run_backup;                   		\
+		mv ${MYDIR}/${SIMDIR}/run[01]* ${MYDIR}/${SIMDIR}/run_backup/;          \
+	fi
+
+copy_param:
+	-@(if [[ "${MODEL}" == "AWSoM" ]]; then 	\
+		cp Param/PARAM.in.awsom PARAM.in; 	\
+	else						\
+		cp Param/PARAM.in.awsomr PARAM.in;	\
+	fi;						\
+	cp Param/HARMONICS.in Param/FDIPS.in .; 	\
+	)
+
+clean_rundir_tmp:
+	-@(cd ${MYDIR};				\
+	rm -f PARAM.in HARMONICS.in FDIPS.in;	\
+	rm -f map_*.out; 			\
+	)
+
+rundir_realizations:
+	-@for iRealization in ${REALIZATIONLIST}; do									\
 		cd ${DIR}; 												\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/${SIMDIR}/run$${iRealization}; 				\
 		cp ${MYDIR}/PARAM.in     ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
@@ -188,12 +199,16 @@ rundir:
 		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
 		cp ${MYDIR}/JobScripts/job.${PFSS}.${MACHINE} ${MYDIR}/${SIMDIR}/run$${iRealization}/job.long;		\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/;  			\
-		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 	\
-	done; 					\
-	cd ${MYDIR};				\
-	rm -f PARAM.in HARMONICS.in FDIPS.in;	\
-	rm -f map_*.out; 			\
-	)
+		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/;	\
+	done
+
+rundir:
+	@echo "Creating rundirs"
+	make backup_run
+	make copy_param
+	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${TIME} -B0 ${PFSS} -p ${POYNTINGFLUX}
+	make rundir_realizations
+	make clean_rundir_tmp
 
 run:
 	@echo "Submitting jobs"
