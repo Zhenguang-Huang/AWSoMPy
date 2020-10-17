@@ -23,9 +23,13 @@ RESTART  = F
 
 JOBNAME  = amap
 
-FULLRESDIR    = ${MYDIR}/Results/${RESDIR}
-RunDirList    = $(sort $(dir $(wildcard ${MYDIR}/${SIMDIR}/run[01][0-9]/)))
-ResRunDirList = $(sort $(dir $(wildcard ${FULLRESDIR}/run[01][0-9]/)))
+SimDirList = $(sort $(dir $(wildcard run[01][0-9]_*/)))
+ResDirList = $(subst ${MYDIR}/Results/,,${FullResDirList})
+FullResDirList = $(sort $(dir $(wildcard ${MYDIR}/Results/run[01][0-9]_*/)))
+
+FullResDir        = ${MYDIR}/Results/${RESDIR}
+FullRunDirList    = $(sort $(dir $(wildcard ${MYDIR}/${SIMDIR}/run[01][0-9]/)))
+FullResRunDirList = $(sort $(dir $(wildcard ${FullResDir}/run[01][0-9]/)))
 
 help: 
 	@echo "*******************************************************************************"
@@ -237,21 +241,21 @@ check_postproc:
 	@if([ ! -d ${MYDIR}/Results/${RESDIR} ]); then                   			\
 		rm -f error_postproc.log; 							\
 		echo "Post processing simulation results to Results/${RESDIR}";			\
-		for RunDir in ${RunDirList};  do                              			\
+		for RunDir in ${FullRunDirList};  do                              			\
 			echo "processing rundir = $${RunDir}";					\
 			cd $${RunDir};                                    			\
 			if([ -f SWMF.SUCCESS ]); then                              		\
-				mkdir -p ${FULLRESDIR}/$${RunDir: -6:5};                      	\
+				mkdir -p ${FullResDir}/$${RunDir: -6:5};                      	\
 				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   	\
 				mv SC/map_*out RESULTS/*					\
-				   ${FULLRESDIR}/$${RunDir: -6:5}/;				\
+				   ${FullResDir}/$${RunDir: -6:5}/;				\
 				if [[ -f SC/fdips_bxyz.out ]]; then          			\
 					mv SC/fdips_bxyz.out SC/FDIPS.in 			\
-						${FULLRESDIR}/$${RunDir: -6:5}/; 		\
+						${FullResDir}/$${RunDir: -6:5}/; 		\
 				fi;								\
 				if [[ -f SC/harmonics_adapt.dat ]]; then			\
 					mv SC/harmonics_adapt.dat SC/HARMONICS.in               \
-						${FULLRESDIR}/$${RunDir: -6:5}/ ;		\
+						${FullResDir}/$${RunDir: -6:5}/ ;		\
 				fi;								\
 			else									\
 				echo "$${RunDir} crashed" >> ${MYDIR}/error_postproc.log;	\
@@ -269,20 +273,37 @@ check_compare:
 
 check_compare_insitu:
 	-@(cd ${IDLDIR}; 									\
-	for RunDir in ${ResRunDirList};  do 							\
-		csh compare_insitu.sh ${DIR} $${RunDir}/IH $${RunDir} ${MODEL}; 		\
+	for iRunDir in ${FullResRunDirList};  do 						\
+		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}; 		\
 	done)
 
 check_compare_remote:
 	-@(cd ${IDLDIR}; 									\
-	for RunDir in ${ResRunDirList};  do 							\
-		csh compare_remote.sh ${DIR} $${RunDir}/SC $${RunDir} ${MYDIR}/Results/obsdata; \
+	for iRunDir in ${FullResRunDirList};  do 						\
+		csh compare_remote.sh ${DIR} $${iRunDir}/SC $${iRunDir} ${MYDIR}/Results/obsdata; \
 	done)
 
 #########################################################################################
 
+check_postproc_all:
+	@for iSimDir in ${SimDirList}; do					\
+		make check_postproc RESDIR=$${iSimDir} SIMDIR=$${iSimDir};	\
+	done
+
+check_compare_insitu_all:
+	@for iResDir in ${ResDirList};  do 				\
+		make check_compare_insitu RESDIR=$${iResDir}; 		\
+	done
+
+check_compare_remote_all:
+	@for iResDir in ${ResDirList};  do 				\
+		make check_compare_remote RESDIR=$${iResDir};		\
+	done
+
+#########################################################################################
+
 clean_plot:
-	for RunDir in ${ResRunDirList};  do 	\
+	for RunDir in ${FullResRunDirList};  do 	\
 		cd $${RunDir}; 			\
 		rm -f *eps; 			\
 		rm -f log_insitu log_remote; 	\
