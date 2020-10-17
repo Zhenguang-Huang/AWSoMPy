@@ -283,6 +283,14 @@ check_compare_remote:
 		csh compare_remote.sh ${DIR} $${iRunDir}/SC $${iRunDir} ${MYDIR}/Results/obsdata; \
 	done)
 
+clean_plot:
+	@for RunDir in ${FullResRunDirList};  do 	\
+		echo "cleaning $${RunDir}";		\
+		cd $${RunDir}; 				\
+		rm -f *eps; 				\
+		rm -f log_insitu log_remote; 		\
+	done
+
 #########################################################################################
 
 check_postproc_all:
@@ -300,11 +308,9 @@ check_compare_remote_all:
 		make check_compare_remote RESDIR=$${iResDir};		\
 	done
 
-#########################################################################################
-
-clean_plot:
-	for RunDir in ${FullResRunDirList};  do 	\
-		cd $${RunDir}; 			\
-		rm -f *eps; 			\
-		rm -f log_insitu log_remote; 	\
+clean_plot_all:
+	@for iResDir in ${ResDirList};  do 				\
+		make clean_plot RESDIR=$${iResDir};			\
 	done
+
+#########################################################################################
