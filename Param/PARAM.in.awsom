@@ -259,19 +259,19 @@ float			TypeBc6
 
 #SAVEPLOT
 4			nPlotFile
-x=0 VAR idl		StringPlot
+x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} dt b1x b1y b1z		NameVars
 {default}		NamePars
-y=0 VAR idl		StringPlot
+y=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} dt b1x b1y b1z 		NameVars
 {default}		NamePars
-z=0 VAR idl		StringPlot
+z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
@@ -556,19 +556,19 @@ RAW			StringLog
 
 #SAVEPLOT
 3			nPlotFile
-x=0 VAR idl		StringPlot
+x=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
-y=0 VAR idl		StringPlot
+y=0 VAR idl_ascii		StringPlot
 1000 			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
-z=0 VAR idl		StringPlot
+z=0 VAR idl_ascii		StringPlot
 1000 			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
