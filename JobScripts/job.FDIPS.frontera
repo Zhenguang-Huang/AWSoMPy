@@ -30,7 +30,6 @@ ibrun -n 1 ./PostProc.pl -r=300 -n=10 >& PostProc.log &
 # the remianing nodes running SWMF, remember to change the number of processors if -N is changed
 ibrun -n 1064 -o 56 ./SWMF.exe > runlog_`date +%y%m%d%H%M`
 
-sleep 60
+sleep 180
 touch PostProc.STOP
 wait
-

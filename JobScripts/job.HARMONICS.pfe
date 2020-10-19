@@ -39,7 +39,7 @@ cd $PBS_O_WORKDIR
 # Run SWMF
 mpiexec ./SWMF.exe > runlog_`date +%y%m%d%H%M`
 
-sleep 60
+sleep 180
 touch PostProc.STOP
 wait
 
