@@ -300,7 +300,7 @@ z=0 VAR idl_ascii		StringPlot
 {MHD} b1x b1y b1z qrad qheat qebyq te ti		NameVars
 {default}		NamePars
 los ins tec		StringPlot
-100000			DnSavePlot
+60000			DnSavePlot
 -1			DtSavePlot
 sta:euvi stb:euvi sdo:aia sta:cor1 sta:cor2 stb:cor1 stb:cor2 soho:c2 soho:c3		StringsInstrument
 shl VAR idl_ascii		StringPlot
@@ -394,52 +394,52 @@ mc3			TypeLimiter
 #AMR
 -1			DnRefine
 
-#TIMESTEPPING
+TIMESTEPPING
 3			nStage
 0.8			CflExpl
 
-#REGION
+REGION
 loworder		NameRegion
 shell0			StringShape
 1.7			RadiusInner
 24.0			Radius
 
 Radii will change based on the choice of the inner boundary
-#REGION
+REGION
 thinlayer		NameRegion
 shell0			StringShape
 1.05			RadiusInner
 1.07			Radius
 
-#LOWORDERREGION
+LOWORDERREGION
 +loworder +thinlayer		StringLowOrderRegion
 
-#SCHEME
+SCHEME
 5			nOrder (1 or 2)
 Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 mc3			TypeLimiter
 1.2			LimiterBeta
 
-#SCHEME5
+SCHEME5
 T			UseFDFaceFlux
 MP5			TypeLimiter
 F			UseHighResChange
 F			UseHighOrderAMR
 T			DoCorrectFace
 
-#LIMITER
+LIMITER
 F			UseLogRhoLimiter
 F			UseLogPLimiter
 F			UseRhoRatioLimiter
 
 #END_COMP SC -----------------------------------------------------------------
 
-#STOP
+STOP
 100000			MaxIter
 -1.0			TimeMax
 
 End session: 1
-#RUN ##########################################################################
+RUN ##########################################################################
 Begin session: 2
 
 #COMPONENT
@@ -657,7 +657,7 @@ IH			NameTarget
 -1.0			DtCouple
 
 #STOP
-100001			MaxIter
+60001			MaxIter
 -1.0			TimeMax
 
 End session: 2
@@ -685,7 +685,7 @@ T			IsStrictAmr
 #END_COMP IH -----------------------------------------------------------------
 
 #STOP
-103000			MaxIter
+63000			MaxIter
 -1.0			TimeMax
 
 End session: 3
@@ -700,7 +700,7 @@ Begin session: 4
 #END_COMP IH -----------------------------------------------------------------
 
 #STOP
-105000			MaxIter
+65000			MaxIter
 -1.0			TimeMax
 
 End session: 4
