@@ -299,9 +299,11 @@ check_postproc_all:
 	done
 
 check_compare_insitu_all:
-	@for iResDir in ${ResDirList};  do 				\
-		make check_compare_insitu RESDIR=$${iResDir}; 		\
-	done
+	-@(cd ${IDLDIR}; 								\
+	for iResDir in ${FullResDirList}; do						\
+		csh compare_insitu.sh ${DIR} $${iResDir} $${iResDir} ${MODEL} 		\
+			${MYDIR}/Results/obsdata; 					\
+	done)
 
 check_compare_remote_all:
 	@for iResDir in ${ResDirList};  do 				\
@@ -309,8 +311,14 @@ check_compare_remote_all:
 	done
 
 clean_plot_all:
-	@for iResDir in ${ResDirList};  do 				\
+	@(for iResDir in ${ResDirList};  do 				\
 		make clean_plot RESDIR=$${iResDir};			\
-	done
+	done;								\
+	for iResDir in ${FullResDirList}; do				\
+		echo "cleaning $${iResDir}"; 				\
+		cd $${iResDir}; 					\
+		rm -f *eps log_insitu log_remote; 			\
+	done)
+
 
 #########################################################################################
