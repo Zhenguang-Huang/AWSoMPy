@@ -165,7 +165,6 @@ rundir_realizations:
 		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
 		cp ${MYDIR}/JobScripts/job.${PFSS}.${MACHINE} ${MYDIR}/${SIMDIR}/run$${iRealization}/job.long;		\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/;  			\
-		cp ${DIR}/util/DATAREAD/srcMagnetogram/redistribute.pl ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/;	\
 	done
 
 rundir:

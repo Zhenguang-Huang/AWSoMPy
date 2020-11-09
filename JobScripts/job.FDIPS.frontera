@@ -15,10 +15,6 @@
 
 cd SC
 ibrun ./FDIPS.exe > FDIPS.log
-
-./redistribute.pl fdips_bxyz_np*_000.out fdips_bxyz.out
-rm -f fdips_bxyz_np*.out
-
 cd ../
 
 # Launch MPI code... 
