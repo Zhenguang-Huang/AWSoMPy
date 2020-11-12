@@ -577,27 +577,30 @@ z=0 VAR idl_ascii		StringPlot
 
 #SATELLITE
 3			nSatellite
-MHD trajrange		StringSatellite
+VAR trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 -20.0 d			StartTimeTraj
 10.0 d			EndTimeTraj
-30 m 			DtTraj
-MHD trajrange		StringSatellite
+1 h 			DtTraj
+rho ux uy uz bx by bz p pe		NameSatelliteVars
+VAR trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
 -20.0 d			StartTimeTraj
 10.0 d			EndTimeTraj
-30 m 			DtTraj
-MHD trajrange		StringSatellite
+1 h 			DtTraj
+rho ux uy uz bx by bz p pe		NameSatelliteVars
+VAR trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 -20.0 d			StartTimeTraj
 10.0 d			EndTimeTraj
-30 m 			DtTraj
+1 h 			DtTraj
+rho ux uy uz bx by bz p pe		NameSatelliteVars
 
 #END_COMP IH -----------------------------------------------------------------
 
