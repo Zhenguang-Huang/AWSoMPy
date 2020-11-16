@@ -26,11 +26,11 @@ CHANGEWEAKFIELD
 T			UseLogRadius (default is F)
 F			UseWedge
 
-! For Uniform Theta Transform
-! Default is False
+! For Uniform Theta Transform from a sin-lat grid.
+! Default is true so the lookup table is more uniform and accurate.
 
 #CHEBYSHEV
-F			UseChebyshevNode
+T			UseChebyshevNode
 
 ! Grid for production run
 #GRID
