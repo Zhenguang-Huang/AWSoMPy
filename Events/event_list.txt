@@ -1,14 +1,20 @@
-# FIXED FORMAT: 
-# Set the selected run ID at the 7th line. The list starts from the 10th line. 
-# Accepted key word in params: map, pfss, time, model, and any one command from the PARAM.in file 
-# (case sensitive) , e.g., UnitB, StochasticExponent. No space between the command and the value.
-
+# IMPORTANT: the lines 'selected run IDs = *' and '#START' are required.
+# Accepted key word in params:
+#  map, which specifies the filename of the magnetogram
+#  pfss, which specifies the PFSS solver, either HARMONICS or FDIPS
+#  time, which specifies the start time of the simulation
+#  model, which specifies the module used, either AWSoM or AWSoMR. AWSoM and AWSoMR could not be selected at the same time.
+#  realization, which specifies the realization for ADAPT maps. The format is similar as run IDs.
+#  any one command from the PARAM.in file (case sensitive), e.g., UnitB, StochasticExponent.
+#      No space between the command and the value.
+#
 # Choose the run IDs, can be multiple IDs, e.g., 1,3,4,5-10,16
-selected run IDs = 2
+selected run IDs = 1,3
 
+#START
 ID	params
-1	map=adapt_201103070800.fts PFSS=HARMONICS PoyntingFluxPerBSi=0.6e6
+1	map=adapt_201103070800.fts PFSS=HARMONICS PoyntingFluxPerBSi=0.6e6 realization=[1,2-5,7]
 2	map=GONG_CR2119.fits UnitB=2.6 PoyntingFluxPerBSi=0.5e6 PFSS=FDIPS model=AWSoMR
-3	map=GONG_CR2119.fits UnitB=2.5 PoyntingFluxPerBSi=0.7e6 PFSS=FDIPS 
+3	map=GONG_CR2119.fits UnitB=2.5 PoyntingFluxPerBSi=0.7e6 PFSS=FDIPS
 
 
