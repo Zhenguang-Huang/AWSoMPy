@@ -20,13 +20,6 @@ if __name__ == '__main__':
                             type=int, default=1)
     ARGS = ARG_PARSER.parse_args()
 
-    # the line number containing the selected run IDs, the index in
-    # Python starts from 0...
-    iSelectedID = 7-1
-
-    # the line number where the ID and params start.
-    iParamStart = 10-1
-
     # whether the code was compiled before
     IsAWSoMCompiled  = 0
     IsAWSoMRCompiled = 0
@@ -34,6 +27,13 @@ if __name__ == '__main__':
     with open(ARGS.filename, 'rt') as events:
         lines = list(events)
 
+    for iLine, line in enumerate(lines):
+        if 'selected run IDs' in line[0:16]:
+            iSelectedID=iLine
+        if '#START' in line[0:6]:
+            iParamStart=iLine+2
+            break
+        
     # find the location of =
     iChar  = lines[iSelectedID].find('=')
 
@@ -107,6 +107,27 @@ if __name__ == '__main__':
                     TIME = paramTmp[1]
                 elif paramTmp[0].lower() == 'model':
                     MODEL= paramTmp[1]
+                elif paramTmp[0].lower() == 'realization':
+                    strTmp  = paramTmp[1][1:-1]
+                    ListRealizationTmp = strTmp.split(',')
+                    REALIZATIONS = []
+                    for StrRealiaztion in ListRealizationTmp:
+                        try:
+                            # try to convert it to an integer
+                            Realization = int(StrRealiaztion)
+                            REALIZATIONS.append(Realization)
+                        except:
+                            # cannot convert to an integer as there is '-'
+                            ListTmp = StrRealiaztion.split('-')
+                            try:
+                                REALIZATIONS.extend([x for x in range(int(ListTmp[0]),
+                                                                     int(ListTmp[1])+1)])
+                            except Exception as error:
+                                raise TypeError(error," wrong format: could only contain "
+                                                + "integer, ',' and '-'.")
+                    ListStrRealizatinos = [str(iRealztion)
+                                           for iRealztion in REALIZATIONS]
+                    StrRealizatinos = ",".join(ListStrRealizatinos)
                 else:
                     NewParam[paramTmp[0]] = paramTmp[1]
 
@@ -114,9 +135,7 @@ if __name__ == '__main__':
             for key in NewParam:
                 strNewParam = strNewParam + '_' + key + '_' + NewParam[key]
 
-            SIMDIR = ('run' + str(RunID).zfill(2) + '_' + MODEL + '_' + PFSS 
-                      + '_' + MAP.replace('.fts','').replace('.fits','') 
-                      + '_' + TIME + strNewParam)
+            SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
 
             strMAP  ='MAP='+MAP
             strPFSS ='PFSS='+PFSS
@@ -164,6 +183,14 @@ if __name__ == '__main__':
             strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' ' 
                           + strRealizations)
             subprocess.call(strRun_dir, shell=True)
+
+            file_output = open(SIMDIR+'/key_params.txt', 'w')
+            file_output.write('model='+MODEL+'\n')
+            for param in params[1:]:
+                if not 'realization' in param and not 'model' in param:
+                    file_output.write(str(param)+'\n')
+            file_output.write('realizations='+StrRealizatinos+'\n')
+            file_output.close()
 
             # clean the PARAM.in, HARMONICS.in, FDIPS.in and map_*.out files 
             # in the SWMFSOLAR folder
