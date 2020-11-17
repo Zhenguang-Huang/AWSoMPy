@@ -148,9 +148,11 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
     if (pfss == 'FDIPS'):
         add_command('LOOKUPTABLE', NameNextLine='B0')
         remove_command('MAGNETOGRAM')
+        change_param_value(new_params, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
     elif (pfss == 'HARMONICS'):
         remove_command('LOOKUPTABLE', NameNextLine='B0')
         add_command('MAGNETOGRAM')
+        change_param_value(new_params, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
     else:
         raise ValueError(pfss + ' must be either HARMONICS or FDIPS')
 
