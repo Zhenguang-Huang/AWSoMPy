@@ -6,7 +6,8 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 PARAM.in for steady state runs using AWSoM
-Default rMinWaveReflection is set to 0.0
+Default rMinWaveReflection
+F			UseSurfaceWaveRefl is set to 0.0
 
 
 
@@ -108,6 +109,7 @@ turbulentcascade		TypeCoronalHeating
 T			UseWaveReflection
 1.5e5			LperpTimesSqrtBSi
 0.0			rMinWaveReflection
+F			UseSurfaceWaveRefl
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
@@ -497,6 +499,7 @@ turbulentcascade		TypeCoronalHeating
 T			UseWaveReflection
 1.5e5			LperpTimesSqrtBSi
 0.0			rMinWaveReflection
+F			UseSurfaceWaveRefl
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
