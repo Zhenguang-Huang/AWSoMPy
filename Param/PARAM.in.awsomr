@@ -199,21 +199,21 @@ shell0			StringShape
 1.05			RadiusInner
 1.7			Radius
 
-#AMRCRITERIALEVEL
+#AMRCRITERIARESOLUTION
 3			nRefineCrit
-Level			StringRefine
-3			RefineTo
-3			CoarsenFrom
-Level Innershell		StringRefine
-4			RefineTo
-4			CoarsenFrom
+dphi			StringRefine
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
-4			MaxLevel
+1.5			MaxResolution
 
-#GRIDLEVEL
-4			nLevel
+#GRIDRESOLUTION
+1.5			Resolution
 initial			StringShape
 
 #DOAMR
