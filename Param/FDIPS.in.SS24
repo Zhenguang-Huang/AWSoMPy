@@ -52,4 +52,4 @@ ILU			NamePreconditioner (ILU or NONE)
 #OUTPUT
 bxyz			TypeOutput    (field, bxyz, potential, or tecplot)
 fdips_bxyz.out		NameFileField
-real8			TypeFileField (ascii, real4 or real8)
+real4			TypeFileField (ascii, real4 or real8)
