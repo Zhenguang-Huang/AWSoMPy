@@ -4,8 +4,8 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -o=IH:u=Awsom,e=MhdWavesPeAnisoPi,nG=2
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
-Example PARAM.in for CME run without Rotation, without AMR.
-RESTART from steady state (with NO ROTATE HGR/HGI) and add a CME
+Example PARAM.in for CME run with ROTATION, with AMR.
+RESTART from steady state (with ROTATE HGR/HGI) and add a CME
 Using Timesteplimit in SC = 0.5 s
 Nonconservative is F (So, Conservative scheme in both SC and IH)
 phishift is -1, poynting flux = 0.35, Rotate is ON
@@ -45,11 +45,11 @@ T			DoSaveRestart
 #TEST
 CON_axes::init_axes		StringTest
 
-ROTATEHGR
--1.0
+#ROTATEHGR
+-1.0			dLongitudeHgr
 
-ROTATEHGI
--1.0
+#ROTATEHGI
+-1.0			dLongitudeHgi
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -337,6 +337,86 @@ First 2 hours in SC
 #USERSWITCH
 +init +ic		StringSwitch
 
+This assumes that CME is Earth directed and Earth is in -X dir
+#AMRREGION
+cmecone1		NameRegion
+conex0			StringShape
+-24.			Height
+0.2			Radius
+
+#AMRCRITERIARESOLUTION
+4			nRefineCrit
+dphi			StringRefine
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		StringRefine
+1.5			RefineTo
+0.75			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.5			MaxResolution
+dphi cmecone1		StringRefine
+0.2			RefineTo
+0.2			CoarsenFrom
+
+#GRIDRESOLUTION
+0.2			Resolution
+initial			StringShape
+
+#DOAMR
+T			DoAmr
+-1			DnAmr
+1 m			DtAmr
+T			IsStrictAmr
+
+#SAVEPLOT
+6			nPlotFile
+x=0 VAR idl		StringPlot
+-1			DnSavePlot
+1800.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+y=0 VAR idl		StringPlot
+-1			DnSavePlot
+1800.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+z=0 VAR idl		StringPlot
+-1			DnSavePlot
+1800.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+3d VAR tcp		StringPlot
+-1			DnSavePlot
+1800.			DtSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+los ins idl_ascii		StringPlot
+-1			DnSavePlot
+1800.0			DtSavePlot
+soho:c2			StringsInstrument
+los ins tec		StringPlot
+-1			DnSavePlot
+1800.0			DtSavePlot
+soho:c2			StringsInstrument
+
+#END_COMP SC -----------------------------------------------------------------
+
+#STOP
+-1			MaxIter
+3 h			TimeMax
+
+#RUN ##########################################################################
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#DOAMR
+F			DoAmr
+
 Saving every hour
 #SAVEPLOT
 4			nPlotFile
@@ -397,18 +477,46 @@ GRID
 -250.0			zMin
  250.0			zMax
 
-#GRIDLEVEL
-7			nLevel
-initial			StringShape
+#AMRREGION
+cmecone1		NameRegion
+conex0			StringShape
+-215.			Height
+0.2			Radius
 
-#UPDATECHECK
-F			UseUpdateCheck
+#AMRREGION
+OuterShell		NameRegion
+shell0			StringShape
+18.0			RadiusInner
+21.0			Radius
+
+#AMRCRITERIALEVEL
+4			nRefineCrit
+Level			StringRefine
+3			RefineTo
+3			CoarsenFrom
+Level +OuterShell		StringRefine
+7			RefineTo
+7			CoarsenFrom
+Level +cmecone1		StringRefine
+9			RefineTo
+9			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+7			MaxLevel
+
+#GRIDLEVEL
+9			nLevel
+initial			StringShape
 
 #DOAMR
 F			DoAmr
 1001			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
+
+#UPDATECHECK
+F			UseUpdateCheck
 
 #SAVEINITIAL
 T			DoSaveInitial
@@ -546,7 +654,7 @@ IH			NameTarget
 -1			DnCouple
 30 s			DtCouple
 
-Next 8 hrs in SC and IH. CME must pass SC completely.
+Next 7 hrs in SC and IH. CME must pass SC completely.
 #STOP
 -1			MaxIter
 10 h			TimeMax
@@ -573,24 +681,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1 			DnSavePlot
 7200.			DtSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 shl VAR idl_ascii		StringPlot
 -1			DnSavePlot
@@ -612,7 +720,36 @@ HGI			TypeCoordPlot
 
 #STOP
 -1			MaxIter
-4 d			TimeMax
+14 h			TimeMax
 
 End Sesion: 2
-#END #####################################################################
+#RUN ##########################################################################
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#DOAMR
+T			DoAmr
+-1			DnAmr
+1 m			DtAmr
+T			IsStrictAmr
+
+#END_COMP IH -----------------------------------------------------------------
+
+#STOP
+-1			MaxIter
+15 h			TimeMax
+
+#RUN ##########################################################################
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#DOAMR
+F			DoAmr
+
+#END_COMP IH -----------------------------------------------------------------
+
+#STOP
+-1			MaxIter
+4 d			TimeMax
+
+#END ##########################################################################
