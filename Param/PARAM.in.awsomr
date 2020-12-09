@@ -1,8 +1,8 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=ScChromo,e=MhdWavesPeAnisoPi,ng=3
-./Config.pl -o=IH:u=ScChromo,e=MhdWavesPeAnisoPi,ng=3
+./Config.pl -o=SC:u=ScChromo,e=MhdAwsom,ng=3
+./Config.pl -o=IH:u=ScChromo,e=MhdAwsom,ng=3
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 Inner boundary moved to 1.05 Rs
@@ -239,9 +239,6 @@ T			DoSaveLogfile
 RAW			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
-
-#INNERBOUNDARY
-user			TypeBcBody
 
 #OUTERBOUNDARY
 fieldlinethreads		TypeBc1   rMin
