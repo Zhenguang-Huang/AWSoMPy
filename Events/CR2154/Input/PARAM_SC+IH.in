@@ -5,26 +5,26 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -g=SC:6,8,8,IH:8,8,8
 
 Example PARAM.in for CME run without Rotation, without AMR.
-RESTART from steady state (with NO ROTATE HGR/HGI) and add a CME 
+RESTART from steady state (with NO ROTATE HGR/HGI) and add a CME
 Using Timesteplimit in SC = 0.5 s
-Nonconservative is F (So, Conservative scheme in both SC and IH) 
+Nonconservative is F (So, Conservative scheme in both SC and IH)
 phishift is -1, poynting flux = 0.35, Rotate is ON
 fdips SS 24
 
 Begin session: 1
 
 #DESCRIPTION
-Input file for creating a steady state solar corona
+Input file for creating a steady state solar corona		StringDescription
 
 #INCLUDE
 RESTART.in
 
 #COMPONENTMAP
-SC 0 -1 1
-IH 0 -1 1
+SC 0 -1 1		CompMap
+IH 0 -1 1		CompMap
 
 #TIMEACCURATE
-T                       IsTimeAccurate
+T			IsTimeAccurate
 
 Make sure the starttime in steadystate is the time of the event.
 Specially if rotation is done.
@@ -43,7 +43,7 @@ T			DoSaveRestart
 3600.0			DtSaveRestart
 
 #TEST
-CON_axes::init_axes
+CON_axes::init_axes		StringTest
 
 ROTATEHGR
 -1.0
@@ -51,17 +51,17 @@ ROTATEHGR
 ROTATEHGI
 -1.0
 
-#BEGIN_COMP SC --------------------------------------------------------------
+#BEGIN_COMP SC ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000
+120000			MaxBlock
 
 #INCLUDE
 SC/restartIN/restart.H	
 
 #PLASMA
-1.0			IonMass [amu]
-1.0			AverageIonCharge [e]
+1.0			FluidMass [amu]
+1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
 #BODY
@@ -74,32 +74,32 @@ T			UseBody
 F			UseBody
 
 #LOOKUPTABLE
-B0                                       NameTable
-load                                     NameCommand
-fdips_bxyz_2154_SS24.out		 
-real8                                    TypeFile
+B0			NameTable
+load			NameCommand
+fdips_bxyz_2154_SS24.out		NameFile
+real8			TypeFile
 
 #UPDATECHECK
-F
+F			UseUpdateCheck
 
 #POYNTINGFLUX
 0.35e6 			PoyntingFluxPerBSi [J/m^2/s/T]
 
 #CORONALHEATING
-turbulentcascade        TypeCoronalHeating
-T                       UseWaveReflection
-1.5e5                   LperpTimesSqrtBSi
+turbulentcascade		TypeCoronalHeating
+T			UseWaveReflection
+1.5e5			LperpTimesSqrtBSi
 0.0			rMinWaveReflection
-F			UseSurfaceReflection
+F			UseSurfaceWaveRefl
 
 #HEATPARTITIONING
-stochasticheating	TypeHeatPartitioning
+stochasticheating		TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
 #ANISOTROPICPRESSURE
 F			UseConstantTau
--1.0
+-1.0			TauInstabilitySi
 1e5			TauGlobalSi
 
 #HEATCONDUCTION
@@ -130,12 +130,12 @@ T			UseRadCooling
 #LOOKUPTABLE
 radcool			NameTable
 load			NameCommand
-SC/Param/RadCoolCorona_8.0.dat
+SC/Param/RadCoolCorona_8.0.dat		NameFile
 ascii			TypeFile
 
 #TRANSITIONREGION
-T			DoExtendTransitionRegion
-2.2e5			TeModSi
+T			DoExpandTransitionRegion
+2.2e5			TeTransitionRegionSi
 1.0e1			DeltaTeModSi
 
 #COARSEAXIS
@@ -167,9 +167,9 @@ LIMITRADIUS
 ----------------------------------------------------
 #AMRREGION
 InnerShell		NameRegion
-shell0			TypeRegion
-1.0			Radius1
-1.7			Radius2
+shell0			StringShape
+1.0			RadiusInner
+1.7			Radius
 
 #DOAMR
 F			DoAmr
@@ -193,7 +193,7 @@ T			UseLogPLimiter
 F			UseRhoRatioLimiter
 
 #MINIMUMTEMPERATURE
-5e4			TMinDim  [K] for fluid 1
+5e4			TminDim  [K] for fluid 1
 5e4			TeMinDim [K]
 
 #MINIMUMPRESSURE
@@ -209,11 +209,11 @@ T			UseDtLimit
 0.5			DtLimitDim
 
 #RESCHANGE
-T			UseAccurateResChange
+T			UseAccurateReschange
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLogfile
+RAW			StringLog
 -1			DnSaveLogfile
 120.			DtSaveLogfile
 
@@ -227,99 +227,99 @@ float			TypeBc6
 
 add the perturb and getb0 switches for CME
 #USERSWITCH
-+init +ic +perturb +get_b0        StringSwitch
++init +ic +perturb +get_b0		StringSwitch
 
 flux-rope parameters
 #CME
-T                   UseCme
-T                   DoAddFluxRope
-87.50               LongitudeCme
-14.50               LatitudeCme
-250.68              OrientationCme
-GL                  TypeCme
--18.81              BStrength
-0.75		    Radius
-0.60                aStretch
-0.95                ApexHeight
+T			UseCme
+T			DoAddFluxRope
+87.50			LongitudeCme
+14.50			LatitudeCme
+250.68			OrientationCme
+GL			TypeCme
+-18.81			BStrength
+0.75			Radius
+0.60			Stretch
+0.95			ApexHeight
 
 save frequently for first few hours
 #SAVEPLOT
-6			nPlotFiles
-x=0 VAR idl             StringPlot
--1                    DnSavePlot
-600.0                    DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z       NameVars
-{default}                 NamePars
-y=0 VAR idl             StringPlot
--1                    DnSavePlot
-600.                     DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z 	NameVars
-{default}                 NamePars
-z=0 VAR idl             StringPlot
--1                    DnSavePlot
-600.                     DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z	NameVars
-{default}                 NamePars
-3d VAR tcp		 StringPlot
+6			nPlotFile
+x=0 VAR idl		StringPlot
+-1			DnSavePlot
+600.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+y=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
-{MHD} dt b1x b1y b1z	NameVars
-{default}                 NamePars
-los ins idl_ascii		    StringPlot
--1			        DnSavePlot
-600.0				DtSavePlot
-soho:c2
-los ins tec		     StringPlot
--1			        DnSavePlot
-600.0				DtSavePlot
-soho:c2
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z 		NameVars
+{default}		NamePars
+z=0 VAR idl		StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+3d VAR tcp		StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+los ins idl_ascii		StringPlot
+-1			DnSavePlot
+600.0			DtSavePlot
+soho:c2			StringsInstrument
+los ins tec		StringPlot
+-1			DnSavePlot
+600.0			DtSavePlot
+soho:c2			StringsInstrument
 
 #SATELLITE
-3				nSatellite
-MHD				StringSatellite
--1				DnOutput
--1.				DtOutput [sec]
+3			nSatellite
+MHD			StringSatellite
+-1			DnOutput
+-1.			DtOutput [sec]
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
-MHD				StringSatellite
--1				DnOutput
--1.				DtOutput [sec]
+MHD			StringSatellite
+-1			DnOutput
+-1.			DtOutput [sec]
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
-MHD				StringSatellite
--1				DnOutput
--1.				DtOutput [sec]
+MHD			StringSatellite
+-1			DnOutput
+-1.			DtOutput [sec]
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #LOOKUPTABLE
-AiaXrt                          NameTable
-load                            TypeAction
-SC/Param/los_tbl.dat            NameFile
-ascii                           TypeFIle
+AiaXrt			NameTable
+load			NameCommand
+SC/Param/los_tbl.dat		NameFile
+ascii			TypeFile
 
 #LOOKUPTABLE
-euv                             NameTable
-load                            TypeAction
-SC/Param/los_Eit_cor.dat        NameFile
-ascii                           TypeFIle
+euv			NameTable
+load			NameCommand
+SC/Param/los_Eit_cor.dat		NameFile
+ascii			TypeFile
 
 #LOOKUPTABLE
-EuviA                           NameTable
-load                            TypeAction
-SC/Param/los_EuviA.dat          NameFile
-ascii                           TypeFile
+EuviA			NameTable
+load			NameCommand
+SC/Param/los_EuviA.dat		NameFile
+ascii			TypeFile
 
 #LOOKUPTABLE
-EuviB                           NameTable
-load                            TypeAction
-SC/Param/los_EuviB.dat          NameFIle
-ascii                           TypeFile
+EuviB			NameTable
+load			NameCommand
+SC/Param/los_EuviB.dat		NameFile
+ascii			TypeFile
 
 #SAVEINITIAL
-T				DoSaveInitial
+T			DoSaveInitial
 
-#END_COMP SC ---------------------------------------------------------
+#END_COMP SC -----------------------------------------------------------------
 
 #COMPONENT
 IH			NameComp
@@ -327,53 +327,53 @@ F			UseComp
 
 First 2 hours in SC
 #STOP
--1			MaxIteration
-2 h			tSimulationMax
+-1			MaxIter
+2 h			TimeMax
 
-#RUN ##############################################################
+#RUN ##########################################################################
 
-#BEGIN_COMP SC
+#BEGIN_COMP SC ---------------------------------------------------------------
 
 #USERSWITCH
 +init +ic		StringSwitch
 
-Saving every hour 
+Saving every hour
 #SAVEPLOT
-4			nPlotFiles
-x=0 VAR idl             StringPlot
--1                    DnSavePlot
-3600.0                    DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z       NameVars
-{default}                 NamePars
-y=0 VAR idl             StringPlot
--1                    DnSavePlot
-3600.                     DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z 	NameVars
-{default}                 NamePars
-z=0 VAR idl             StringPlot
--1                    DnSavePlot
-3600.                     DtSavePlot
--1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z	NameVars
-{default}                 NamePars
-3d VAR tcp		 StringPlot
+4			nPlotFile
+x=0 VAR idl		StringPlot
+-1			DnSavePlot
+3600.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+y=0 VAR idl		StringPlot
+-1			DnSavePlot
+3600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z 		NameVars
+{default}		NamePars
+z=0 VAR idl		StringPlot
+-1			DnSavePlot
+3600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+3d VAR tcp		StringPlot
 -1			DnSavePlot
 7200.			DtSavePlot
-{MHD} dt b1x b1y b1z	NameVars
-{default}                 NamePars
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
 
-#END_COMP SC -------------------------------------------------------
+#END_COMP SC -----------------------------------------------------------------
 
 #COMPONENT
 IH			NameComp
 T			UseComp
 
-#BEGIN_COMP IH -------------------------------------------------------
+#BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000
+60000			MaxBlock
 
 #INCLUDE
 IH/restartIN/restart.H
@@ -382,8 +382,8 @@ IH/restartIN/restart.H
 HGI			TypeCoordSystem
 
 #PLASMA
-1.0			IonMass [amu]
-1.0			AverageIonCharge [e]
+1.0			FluidMass [amu]
+1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
 GRID
@@ -398,11 +398,11 @@ GRID
  250.0			zMax
 
 #GRIDLEVEL
-7
-initial
+7			nLevel
+initial			StringShape
 
 #UPDATECHECK
-F
+F			UseUpdateCheck
 
 #DOAMR
 F			DoAmr
@@ -411,10 +411,10 @@ F			DoAmr
 T			IsStrictAmr
 
 #SAVEINITIAL
-T                       DoSaveInitial
+T			DoSaveInitial
 
 #INNERBOUNDARY
-buffergrid		TypeBcInner
+buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
@@ -428,44 +428,44 @@ buffergrid		TypeBcInner
 90.0			LatBuffMax
 
 #OUTERBOUNDARY
-float			TypeBcEast
-float			TypeBcWest
-float			TypeBcSouth
-float			TypeBcNorth
-float			TypeBcBottom
-float			TypeBcTop 
+float			TypeBc1
+float			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
 
 #RESCHANGE
-T			UseAccurateResChange
+T			UseAccurateReschange
 
 #USERSWITCH
 +init			StringSwitch
 
 #CORONALHEATING
-turbulentcascade        TypeCoronalHeating
-T                       UseWaveReflection
-1.5e5                   LperpTimesSqrtBSi
+turbulentcascade		TypeCoronalHeating
+T			UseWaveReflection
+1.5e5			LperpTimesSqrtBSi
 1.2			rMinWaveReflection
-
+			UseSurfaceWaveRefl
 #HEATPARTITIONING
-stochasticheating	TypeHeatPartitioning
+stochasticheating		TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
 #ANISOTROPICPRESSURE
 F			UseConstantTau
--1.0
+-1.0			TauInstabilitySi
 1e5			TauGlobalSi
 
 #RESISTIVITY
-T                       UseResistivity
-user                    TypeResistivity
-0.0                     Eta0Si     ! not used
+T			UseResistivity
+user			TypeResistivity
+0.0			Eta0Si     ! not used
 
 #RESISTIVITYOPTIONS
-F                       UseResistiveFlux
-F                       UseJouleHeating
-T                       UseHeatExchange
+F			UseResistiveFlux
+F			UseJouleHeating
+T			UseHeatExchange
 
 #HEATFLUXCOLLISIONLESS
 T			UseHeatFluxCollisionless
@@ -500,44 +500,44 @@ F			UseConstrainB
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLogfile
+RAW			StringLog
 -1			DnSaveLogfile
 100.			DtSaveLogfile
 
 #SAVEPLOT
-4			nPlotFiles
+4			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	NameVars
-{default}                 NamePars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	NameVars
-{default}                 NamePars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
-3600.		        DtSavePlot
+3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	 NameVars
-{default}                 NamePars
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 3d VAR tcp		StringPlot
 -1 			DnSavePlot
-3600.		        DtSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	 NameVars
-{default}                 NamePars
+3600.			DtSavePlot
+{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 
 #SATELLITE
-1				nSatellite
-MHD 				StringSatellite
--1				DnOutput
-3600.				DtOutput
+1			nSatellite
+MHD 			StringSatellite
+-1			DnOutput
+3600.			DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 
-#END_COMP IH ---------------------------------------------------------
+#END_COMP IH -----------------------------------------------------------------
 
 couple for few hours every 30 s
 #COUPLE1
@@ -552,67 +552,67 @@ Next 8 hrs in SC and IH. CME must pass SC completely.
 10 h			TimeMax
 
 End session: 1
-#RUN #########################################################################
+#RUN ##########################################################################
 Begin session: 2
 
 #COUPLE1
-SC                      NameSource
-IH                      NameTarget
--1                      DnCouple
--1.0                    DtCouple
+SC			NameSource
+IH			NameTarget
+-1			DnCouple
+-1.0			DtCouple
 
 #COMPONENT
-SC                      NameComp
-F                       UseComp
+SC			NameComp
+F			UseComp
 
-#BEGIN_COMP IH
+#BEGIN_COMP IH ---------------------------------------------------------------
 
 #SAVEPLOT
-5			nPlotFiles
+5			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
-3600.		        DtSavePlot
+3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	 NameVars
-{default}                 NamePars
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 3d VAR tcp		StringPlot
 -1 			DnSavePlot
-7200.		        DtSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq	 NameVars
-{default}                 NamePars
-shl VAR idl_ascii                     StringPlot
--1                           DnSavePlot
-10800.0                             DtSavePlot
-HGI                             TypeCoordPlot
-212.0                           rMin
-217.0                           rMax
-1.                             dRad    ! only read if rMin /= rMax
-0.                              LonMin
-360.                            LonMax
-2.                              dLon    ! only read if LonMin /= LonMax
--90.                            LatMin
-90.                             LatMax
-2.                              dLat    ! only read if LatMin /= LatMax
-{MHD} b1x b1y b1z qheat qebyq qparbyq qperpbyq               NameVars
-{default}                 NamePars
+7200.			DtSavePlot
+{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
+shl VAR idl_ascii		StringPlot
+-1			DnSavePlot
+10800.0			DtSavePlot
+HGI			TypeCoordPlot
+212.0			rMin
+217.0			rMax
+1.			dR    ! only read if rMin /= rMax
+0.			LonMin
+360.			LonMax
+2.			dLon    ! only read if LonMin /= LonMax
+-90.			LatMin
+90.			LatMax
+2.			dLat    ! only read if LatMin /= LatMax
+{MHD} b1x b1y b1z qheat qebyq qparbyq qperpbyq		NameVars
+{default}		NamePars
 
-#END_COMP IH ----------------------------------------------------------
+#END_COMP IH -----------------------------------------------------------------
 
 #STOP
--1
-4 d
+-1			MaxIter
+4 d			TimeMax
 
 End Sesion: 2
 #END #####################################################################
