@@ -86,14 +86,14 @@ F			UseUpdateCheck
 0.35e6 			PoyntingFluxPerBSi [J/m^2/s/T]
 
 #CORONALHEATING
-turbulentcascade		TypeCoronalHeating
+turbulentcascade	TypeCoronalHeating
 T			UseWaveReflection
 1.5e5			LperpTimesSqrtBSi
 0.0			rMinWaveReflection
 F			UseSurfaceWaveRefl
 
 #HEATPARTITIONING
-stochasticheating		TypeHeatPartitioning
+stochasticheating	TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
@@ -420,13 +420,14 @@ T			UseAccurateReschange
 +init			StringSwitch
 
 #CORONALHEATING
-turbulentcascade		TypeCoronalHeating
+turbulentcascade	TypeCoronalHeating
 T			UseWaveReflection
 1.5e5			LperpTimesSqrtBSi
-1.2			rMinWaveReflection
-			UseSurfaceWaveRefl
+0.0			rMinWaveReflection
+F			UseSurfaceWaveRefl
+
 #HEATPARTITIONING
-stochasticheating		TypeHeatPartitioning
+stochasticheating	TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
