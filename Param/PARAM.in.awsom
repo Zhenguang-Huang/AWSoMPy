@@ -94,6 +94,21 @@ SC/harmonics_adapt.dat		NameHarmonicsFile
 -1.0			PhiShift
 1.0			UnitB
 
+HARMONICSFILE
+SC/harmonics_adapt.dat	NameHarmonicsFile
+
+HARMONICSGRID
+1.0			rMagnetogram
+2.5			rSourceSurface
+F			IsLogRadius
+180			MaxOrder
+180			nR
+180			nLon
+90			nLat
+
+FACTORB0
+1.0			FactorB0
+
 #USECURLB0
 T			UseCurlB0
 2.5			rCurrentFreeB0
