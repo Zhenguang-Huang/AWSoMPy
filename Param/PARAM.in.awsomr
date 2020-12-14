@@ -1,16 +1,15 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=ScChromo,e=MhdAwsom,ng=3
-./Config.pl -o=IH:u=ScChromo,e=MhdAwsom,ng=3
-./Config.pl -g=SC:6,8,8,IH:8,8,8
+./Config.pl -o=SC:u=AwsomR,e=Awsom,g=6,8,8,ng=3
+./Config.pl -o=IH:u=AwsomR,e=Awsom,g=8,8,8,ng=3
 
 Inner boundary moved to 1.05 Rs
 
 Begin session: 1
 
 #DESCRIPTION
-Input file for creating a steady state solar corona		StringDescription
+SWMFSOLAR/Param/PARAM.in.awsomr: create steady state solar corona		StringDescription
 
 INCLUDE
 RESTART.in
@@ -35,6 +34,9 @@ SAVERESTART
 T			DoSaveRestart
 10000			DnSaveRestart
 -1.0			DtSaveRestart
+
+#TEST
+CON_axes::init_axes		StringTest
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -75,10 +77,9 @@ T			UseBody
 F			UseBody
 
 Below are two ways to provide a potential field source surface (PFSS) solution
-as initial and boundary conditon for the magnetic field. The READPOTENTIALFIELD
+as initial and boundary conditon for the magnetic field. The LOOKUPTABLE
 command is for reading the PFSS solution of the finite difference code FDIPS
-(the output file in FIPDS for which TypeOutput is field, not potential),
-while the MAGNETOGRAM command is for reading the PFSS solution based on
+while the HARMONICSFILE command is for reading the PFSS solution based on
 spherical harmonics. These two PFSS solvers can be found in the
 util/DATAREAD/srcMagnetogram directory of SWMF.
 
@@ -90,20 +91,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#MAGNETOGRAM
-T			UseMagnetogram
-1.0			rMagnetogram
-2.5			rSourceSurface
-0.0			HeightInnerBc
-SC/harmonics_adapt.dat		NameHarmonicsFile
-12			nHeaderLine
--1.0			PhiShift
-1.0			UnitB
-
-HARMONICSFILE
+#HARMONICSFILE
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-HARMONICSGRID
+#HARMONICSGRID
 1.0			rMagnetogram
 2.5			rSourceSurface
 F			IsLogRadius
@@ -225,11 +216,6 @@ Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 minmod			TypeLimiter
 1.2			LimiterBeta
 
-HYPERBOLICDIVB
-T			UseHyperbolicDivb
-400.0			SpeedHypDim
-0.1			HypDecay
-
 #LIMITER
 T			UseLogRhoLimiter
 T			UseLogPLimiter
@@ -243,7 +229,7 @@ F			UseRhoRatioLimiter
 1E-9			pMinDim for fluid 1
 1E-9			PeMinDim
 
-MINIMUMRADIALSPEED
+#MINIMUMRADIALSPEED
 T			UseSpeedMin
 10			rSpeedMin
 250			SpeedMinDim
@@ -282,39 +268,24 @@ x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z qrad qheat qebyq te ti		NameVars
+{MHD} dt b1x b1y b1z		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z qrad qheat qebyq te ti		NameVars
+{MHD} dt b1x b1y b1z		NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z qrad qheat qebyq te ti		NameVars
+{MHD} dt b1x b1y b1z		NameVars
 {default}		NamePars
-los ins tec		StringPlot
+los ins idl_ascii		StringPlot
 60000			DnSavePlot
--1			DtSavePlot
-sta:euvi stb:euvi sdo:aia sta:cor1 sta:cor2 stb:cor1 stb:cor2 soho:c2 soho:c3		StringsInstrument
-shl VAR idl_ascii		StringPlot
-20000			DnSavePlot
--1			DtSavePlot
-HGR			TypeCoordPlot
-1.00			rMin
-1.30			rMax
-0.01			Dr
-0.5			LonMin
-359.5			LonMax
-1.0			dLon
--89.5			LatMin
-89.5			LatMax
-1.0			dLat
-{MHD} te ti		NameVars
-{default}		NamePars
+-1.0			DtSavePlot
+sta:euvi stb:euvi sdo:aia		StringsInstrument
 
 #SATELLITE
 3			nSatellite
@@ -356,7 +327,7 @@ SC/Param/los_EuviB.dat		NameFile
 ascii			TypeFile
 
 #SAVEINITIAL
-F			DoSaveInitial
+T			DoSaveInitial
 
 #END_COMP SC -----------------------------------------------------------------
 
@@ -368,7 +339,9 @@ F			UseComp
 1000			MaxIter
 -1.0			TimeMax
 
+End session: 1
 #RUN ##########################################################################
+Begin session: 2
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -381,12 +354,17 @@ mc3			TypeLimiter
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
-60000			MaxIter
+50000			MaxIter
 -1.0			TimeMax
 
+End session: 2
 #RUN ##########################################################################
+Begin session: 3
 
 #BEGIN_COMP SC ---------------------------------------------------------------
+
+#MINIMUMRADIALSPEED
+F			UseSpeedMin
 
 #AMR
 -1			DnRefine
@@ -431,13 +409,13 @@ F			UseRhoRatioLimiter
 
 #END_COMP SC -----------------------------------------------------------------
 
-STOP
-100000			MaxIter
+#STOP
+60000			MaxIter
 -1.0			TimeMax
 
-End session: 1
-RUN ##########################################################################
-Begin session: 2
+End session: 3
+#RUN ##########################################################################
+Begin session: 4
 
 #COMPONENT
 IH			NameComp
@@ -597,7 +575,7 @@ z=0 VAR idl_ascii		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z qrad qheat qebyq te ti		NameVars
 {default}		NamePars
-3d VAR tec		StringPlot
+3d VAR tcp		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 {MHD} b1x b1y b1z qrad qheat qebyq te ti		NameVars
@@ -642,9 +620,9 @@ IH			NameTarget
 60001			MaxIter
 -1.0			TimeMax
 
-End session: 2
+End session: 4
 #RUN ##########################################################################
-Begin session: 3
+Begin session: 5
 
 #COUPLE1
 SC			NameSource
@@ -670,9 +648,9 @@ T			IsStrictAmr
 63000			MaxIter
 -1.0			TimeMax
 
-End session: 3
+End session: 5
 #RUN ##########################################################################
-Begin session: 4
+Begin session: 6
 
 #BEGIN_COMP IH ---------------------------------------------------------------
 
@@ -685,5 +663,5 @@ Begin session: 4
 65000			MaxIter
 -1.0			TimeMax
 
-End session: 4
+End session: 6
 #END ##########################################################################

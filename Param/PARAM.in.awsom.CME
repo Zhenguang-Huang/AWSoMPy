@@ -1,20 +1,19 @@
 For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=Awsom,e=MhdAwsomAnisoPi,nG=2
-./Config.pl -o=IH:u=Awsom,e=MhdAwsomAnisoPi,nG=2
-./Config.pl -g=SC:6,8,8,IH:8,8,8
+./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,g=6,8,8,nG=2
+./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,g=8,8,8,nG=2
 
 Example PARAM.in for CME run without Rotation, without AMR.
 RESTART from steady state (with NO ROTATE HGR/HGI) and add a CME
 Using Timesteplimit in SC = 0.5 s
-Nonconservative is F (So, Conservative scheme in both SC and IH)
-phishift is -1, poynting flux = 0.35, Rotate is ON
-fdips SS 24
+Nonconservative is F (conservative scheme in both SC and IH)
+Poynting flux = 0.35, Rotate is ON
+FDIPS source surface 24
 
 Begin session: 1
 
 #DESCRIPTION
-Input file for creating a steady state solar corona		StringDescription
+SWMFSOLAR/Param/PARAM.in.awsom.CME: start CME		StringDescription
 
 #INCLUDE
 RESTART.in
@@ -314,7 +313,9 @@ First 2 hours in SC
 -1			MaxIter
 2 h			TimeMax
 
+End session: 1
 #RUN ##########################################################################
+Begin session: 2
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -517,9 +518,9 @@ Next 8 hrs in SC and IH. CME must pass SC completely.
 -1			MaxIter
 10 h			TimeMax
 
-End session: 1
+End session: 2
 #RUN ##########################################################################
-Begin session: 2
+Begin session: 3
 
 #COUPLE1
 SC			NameSource
@@ -580,5 +581,5 @@ HGI			TypeCoordPlot
 -1			MaxIter
 4 d			TimeMax
 
-End Sesion: 2
+End Sesion: 3
 #END #####################################################################

@@ -1,27 +1,21 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=Awsom,e=MhdAwsomAnisoPi,nG=3
-./Config.pl -o=IH:u=Awsom,e=MhdAwsomAnisoPi,nG=3
-./Config.pl -g=SC:6,8,8,IH:8,8,8
+./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,g=6,8,8,nG=3
+./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,g=8,8,8,nG=3
 
 PARAM.in for steady state runs using AWSoM
 Default rMinWaveReflection
 F			UseSurfaceWaveRefl is set to 0.0
 
-
-
 IMPORTANT:
 Use the user CHROMOBC command to increase the inner boundary number
 density so that the run does not fail for solar maximum
 
-
-
-
 Begin session: 1
 
 #DESCRIPTION
-Input file for creating a steady state solar corona		StringDescription
+SWMFSOLAR/Param/PARAM.in.awsom: create steady state solar corona		StringDescription
 
 INCLUDE
 RESTART.in
@@ -84,20 +78,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#MAGNETOGRAM
-T			UseMagnetogram
-1.0			rMagnetogram
-2.5			rSourceSurface
-0.0			HeightInnerBc
-SC/harmonics_adapt.dat		NameHarmonicsFile
-12			nHeaderLine
--1.0			PhiShift
-1.0			UnitB
-
-HARMONICSFILE
+#HARMONICSFILE
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-HARMONICSGRID
+#HARMONICSGRID
 1.0			rMagnetogram
 2.5			rSourceSurface
 F			IsLogRadius
@@ -232,7 +216,7 @@ F			UseRhoRatioLimiter
 1E-9			pMinDim for fluid 1
 1E-9			PeMinDim
 
-MINIMUMRADIALSPEED
+#MINIMUMRADIALSPEED
 T			UseSpeedMin
 10			rSpeedMin
 250			SpeedMinDim
@@ -252,11 +236,11 @@ RAW			StringLog
 
 #OUTERBOUNDARY
 user			TypeBc1   user for spherical and user_outerbcs
-float			TypeBc2
-float			TypeBc3
-float			TypeBc4
-float			TypeBc5
-float			TypeBc6
+float			TypeBc2   rMax
+periodic		TypeBc3   LonMin
+periodic		TypeBc4   LonMax
+periodic		TypeBc5   LatMin
+periodic		TypeBc6   LatMax
 
 #SAVEPLOT
 4			nPlotFile
@@ -287,15 +271,15 @@ sta:euvi stb:euvi sdo:aia		StringsInstrument
 3			nSatellite
 MHD			StringSatellite
 -1			DnOutput
--1.			DtOutput [sec]
+-1.0			DtOutput [sec]
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 MHD			StringSatellite
 -1			DnOutput
--1.			DtOutput [sec]
+-1.0			DtOutput [sec]
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
 MHD			StringSatellite
 -1			DnOutput
--1.			DtOutput [sec]
+-1.0			DtOutput [sec]
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #LOOKUPTABLE
@@ -335,7 +319,9 @@ F			UseComp
 1000			MaxIter
 -1.0			TimeMax
 
+End session: 1
 #RUN ##########################################################################
+Begin session: 2
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -351,9 +337,14 @@ mc3			TypeLimiter
 80000			MaxIter
 -1.0			TimeMax
 
+End session: 2
 #RUN ##########################################################################
+Begin session: 3
 
 #BEGIN_COMP SC ---------------------------------------------------------------
+
+#MINIMUMRADIALSPEED
+F			UseSpeedMin
 
 #AMR
 -1			DnRefine
@@ -395,9 +386,9 @@ F			UseRhoRatioLimiter
 100000			MaxIter
 -1.0			TimeMax
 
-End session: 1
+End session: 3
 #RUN ##########################################################################
-Begin session: 2
+Begin session: 4
 
 #COMPONENT
 IH			NameComp
@@ -564,24 +555,24 @@ VAR trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
--20.0 d			StartTimeTraj
-10.0 d			EndTimeTraj
+-20 d			StartTimeTraj
+10 d			EndTimeTraj
 1 h 			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 VAR trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
--20.0 d			StartTimeTraj
-10.0 d			EndTimeTraj
+-20 d			StartTimeTraj
+10 d			EndTimeTraj
 1 h 			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 VAR trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
--20.0 d			StartTimeTraj
-10.0 d			EndTimeTraj
+-20 d			StartTimeTraj
+10 d			EndTimeTraj
 1 h 			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 
@@ -597,9 +588,9 @@ IH			NameTarget
 100001			MaxIter
 -1.0			TimeMax
 
-End session: 2
+End session: 4
 #RUN ##########################################################################
-Begin session: 3
+Begin session: 5
 
 #COUPLE1
 SC			NameSource
@@ -625,9 +616,9 @@ T			IsStrictAmr
 103000			MaxIter
 -1.0			TimeMax
 
-End session: 3
+End session: 5
 #RUN ##########################################################################
-Begin session: 4
+Begin session: 6
 
 #BEGIN_COMP IH ---------------------------------------------------------------
 
@@ -640,5 +631,5 @@ Begin session: 4
 105000			MaxIter
 -1.0			TimeMax
 
-End session: 4
+End session: 6
 #END ##########################################################################
