@@ -178,6 +178,12 @@ F			UseRhoRatioLimiter
 1E-9			pMinDim for fluid 1
 1E-9			PeMinDim
 
+MINIMUMRADIALSPEED
+T			UseSpeedMin
+10			rSpeedMin
+250			SpeedMinDim
+10 h			TauSpeedMinDim
+
 Conservative scheme
 #NONCONSERVATIVE
 F			UseNonConservative
