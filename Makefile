@@ -23,7 +23,7 @@ RESTART  = F
 
 JOBNAME  = amap
 
-SimDirList = $(sort $(dir $(wildcard run[0-9][0-9]_*/)))
+SimDirList = $(sort $(dir $(wildcard run[0-9][0-9][0-9]_*/)))
 ResDirList = $(subst ${MYDIR}/Results/,,${FullResDirList})
 FullResDirList = $(sort $(dir $(wildcard ${MYDIR}/Results/run[0-9][0-9]_*/)))
 
