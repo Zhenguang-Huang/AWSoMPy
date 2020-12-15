@@ -156,6 +156,8 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
     if (pfss == 'FDIPS'):
         add_command('LOOKUPTABLE', NameNextLine='B0')
         remove_command('MAGNETOGRAM')
+        remove_command('HARMONICSFILE')
+        remove_command('HARMONICSGRID')
         change_param_value(new_params, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
     elif (pfss == 'HARMONICS'):
         remove_command('LOOKUPTABLE', NameNextLine='B0')
