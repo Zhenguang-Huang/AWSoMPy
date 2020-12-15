@@ -225,6 +225,9 @@ GL			TypeCme
 0.60			Stretch
 0.95			ApexHeight
 
+#SAVETECPLOT
+T			DoSaveOneTecFile
+
 save frequently for first few hours
 #SAVEPLOT
 6			nPlotFile
@@ -470,6 +473,9 @@ T			DoSaveLogfile
 RAW			StringLog
 -1			DnSaveLogfile
 100.			DtSaveLogfile
+
+#SAVETECPLOT
+T			DoSaveOneTecFile
 
 #SAVEPLOT
 4			nPlotFile
