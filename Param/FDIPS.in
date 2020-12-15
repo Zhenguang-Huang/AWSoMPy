@@ -22,7 +22,7 @@ CHANGEWEAKFIELD
 ! For a non-default domain size and/or logarithmic radial grid
 #DOMAIN
 1.0			rMin         (default is 1)
-2.5			rMax         (default is 2.5)
+2.5			rMax         (default is 2.5) rSourceSurface
 T			UseLogRadius (default is F)
 F			UseWedge
 
@@ -34,9 +34,9 @@ T			UseChebyshevNode
 
 ! Grid for production run
 #GRID
-400			nR
-180			nTheta
-360			nPhi
+400			nR      nR_pfss
+180			nTheta  nTheta_pfss
+360			nPhi    nPhi_pfss
 
 ! nProcTheta*nProcPhi should agree with the number of procs FDIPS.exe uses
 #PARALLEL
