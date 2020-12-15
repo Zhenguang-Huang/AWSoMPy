@@ -5,6 +5,10 @@
 #  time, which specifies the start time of the simulation
 #  model, which specifies the module used, either AWSoM or AWSoMR. AWSoM and AWSoMR could not be selected at the same time.
 #  realization, which specifies the realization for ADAPT maps. The format is similar as run IDs.
+#  add, which specifies any command to be turned on. This requires that the command is already in the PARAM.in/FDIPS.in/HARMONICS.in.
+#  	And it can turn on multiple commands (separated by comma, NO SPACE IN BWTWEEN), e.g., add=HARMONICSFILE,HARMONICSGRID
+#  rm, which specifies any command to be turned off. This requires that the command is already in the PARAM.in/FDIPS.in/HARMONICS.in.
+#  	And it can turn off multiple commands (separated by comma, NO SPACE IN BWTWEEN), e.g., rm=HARMONICSFILE,HARMONICSGRID
 #  any one command from the PARAM.in file (case sensitive), e.g., UnitB, StochasticExponent.
 #      No space between the command and the value.
 #
