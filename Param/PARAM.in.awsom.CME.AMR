@@ -96,11 +96,6 @@ stochasticheating	TypeHeatPartitioning
 0.21			StochasticExponent
 0.18			StochasticAmplitude
 
-#SEMIKRYLOV
-GMRES			TypeKrylov
-1.0e-5			ErrorMaxKrylov
-10			MaxMatvecKrylov
-
 #RADIATIVECOOLING
 T			UseRadCooling
 
