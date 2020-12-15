@@ -202,14 +202,14 @@ check_postproc:
 	@if([ ! -d ${MYDIR}/Results/${RESDIR} ]); then                   			\
 		rm -f error_postproc.log; 							\
 		echo "Post processing simulation results to Results/${RESDIR}";			\
-		for RunDir in ${FullRunDirList};  do                              			\
+		for RunDir in ${FullRunDirList};  do                              		\
 			echo "processing rundir = $${RunDir}";					\
 			cd $${RunDir};                                    			\
 			if([ -f SWMF.SUCCESS ]); then                              		\
 				mkdir -p ${FullResDir}/$${RunDir: -6:5};                      	\
 				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   	\
-				cp SC/map_*out RESULTS/*					\
-				   ${FullResDir}/$${RunDir: -6:5}/;				\
+				cp SC/map_*out ${FullResDir}/$${RunDir: -6:5}/;			\
+				mv RESULTS/* ${FullResDir}/$${RunDir: -6:5}/;			\
 				if [[ -f SC/fdips_bxyz.out ]]; then          			\
 					cp SC/fdips_bxyz.out SC/FDIPS.in 			\
 						${FullResDir}/$${RunDir: -6:5}/; 		\
