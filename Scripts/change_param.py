@@ -8,7 +8,7 @@ import subprocess
 import warnings
 from remap_magnetogram import FITS_RECOGNIZE
 
-# -------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 def add_command(NameCommand, filenameInput='PARAM.in',
                 filenameOut='PARAM.in', NameNextLine=None):
     """
@@ -32,7 +32,7 @@ def add_command(NameCommand, filenameInput='PARAM.in',
         file_output.write(line)
     file_output.close()
 
-# -------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 def remove_command(NameCommand, filenameInput='PARAM.in',
                    filenameOut='PARAM.in', NameNextLine=None):
     """
@@ -57,7 +57,7 @@ def remove_command(NameCommand, filenameInput='PARAM.in',
     file_output.close()
 
 
-# -------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 def change_param_value(DictParam, filenameInput='PARAM.in',
                        filenameOut='PARAM.in'):
     """
@@ -68,7 +68,15 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
         lines = list(params)
         for iLine, line in enumerate(lines):
             for key in DictParam.keys():
-                if key in line:
+                if key == 'add':
+                    commands_add=DictParam[key].split(',')
+                    for command_add in commands_add:
+                        add_command(command_add)
+                elif key == 'rm':
+                    commands_rm=DictParam[key].split(',')
+                    for command_rm in commands_rm:
+                        remove_command(command_rm)
+                elif key in line:
                     value = DictParam[key]
                     if isinstance(value, str):
                         lines[iLine] = value+'\t\t\t'+key+'\n'
@@ -83,7 +91,7 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
         file_output.write(line)
     file_output.close()
 
-# -------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
 
@@ -161,7 +169,7 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
 
     subprocess.call(str_exe, shell=True)
 
-# ===============================================================================
+# =============================================================================
 if __name__ == '__main__':
 
     # Program initiation
