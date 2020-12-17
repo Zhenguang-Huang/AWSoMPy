@@ -1,7 +1,8 @@
 SHELL=/bin/bash
 
 # Include the link to the Makefile.def from the SWMF used
--include Makefile.def
+-include SWMF/Makefile.def
+-include ../Makefile.def
 
 MYDIR  = $(shell echo `pwd -P`)
 SIMDIR = Runs
@@ -107,6 +108,18 @@ adapt_run:
 	make run
 	@echo "Finished submitting AWSoM runs with a ADAPT map."
 
+install:
+	-@(cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
+	if([ -L ${MYDIR}/Scripts/swmfpy ]); then					\
+		rm -f ${MYDIR}/Scripts/swmfpy; 						\
+	fi;										\
+	if([ -L ${MYDIR}/Scripts/pyfits ]); then					\
+		rm -f ${MYDIR}/Scripts/pyfits; 						\
+	fi;										\
+	ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 		\
+	ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 			\
+	)
+
 compile:
 	-@(cd ${DIR}; \
 	./Config.pl -uninstall; 							\
@@ -123,15 +136,7 @@ compile:
 	make -j SWMF PIDL; 								\
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; 					\
 	make HARMONICS FDIPS; 								\
-	cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
-	if([ -L ${MYDIR}/Scripts/swmfpy ]); then					\
-		rm -f ${MYDIR}/Scripts/swmfpy; 						\
-	fi;										\
-	if([ -L ${MYDIR}/Scripts/pyfits ]); then					\
-		rm -f ${MYDIR}/Scripts/pyfits; 						\
-	fi;										\
-	ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 		\
-	ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 			\
+	make install; 									\
 	)
 
 backup_run:
