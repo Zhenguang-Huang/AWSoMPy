@@ -207,6 +207,7 @@ check_postproc:
 	@if([ ! -d ${MYDIR}/Results/${RESDIR} ]); then                   			\
 		rm -f error_postproc.log; 							\
 		echo "Post processing simulation results to Results/${RESDIR}";			\
+		mkdir -p ${MYDIR}/Results/${RESDIR}; 						\
 		cp ${MYDIR}/${SIMDIR}/key_params.txt ${MYDIR}/Results/${RESDIR}/; 		\
 		for RunDir in ${FullRunDirList};  do                              		\
 			echo "processing rundir = $${RunDir}";					\
