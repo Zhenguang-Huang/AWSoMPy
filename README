@@ -1,0 +1,27 @@
+This repository contains scripts, param files and input files for running
+AWSoM and AWSoM-R models. The param files in this repository mean PARAM.in, 
+HARMONICS.in and FDIPS.in files. The input files mean the magneotgram files.
+
+The SWMFSOLAR directory must be linked to an installed SWMF source code
+directory and have access to the SWMF's Makefile.def file.
+
+The Events directory contains some previous simulations, and associated param 
+and input files.
+
+The Param directory contains the latest param files.
+
+The Scripts directory contains some Python scripts to change the param files.
+
+USAGE:
+To use SWMFSOLAR, first install the SWMF in the usual manner. Then enter the
+SWMFSOLAR directory and type
+
+make install
+
+to install SWMFSOLAR (basically links all Python scripts in various places).
+
+make help
+
+to see the available options.
+
+To be continued.
