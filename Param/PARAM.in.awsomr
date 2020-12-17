@@ -99,6 +99,16 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
+MAGNETOGRAM
+T                       UseMagnetogram
+1.0                     rMagnetogram
+2.5                     rSourceSurface
+0.0                     HeightInnerBc
+SC/harmonics_adapt.dat          NameHarmonicsFile
+12                      nHeaderLine
+-1.0                    PhiShift
+1.0                     UnitB
+
 #HARMONICSFILE
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
