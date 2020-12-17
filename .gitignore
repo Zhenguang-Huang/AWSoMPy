@@ -4,6 +4,7 @@ run*
 /*.fts
 Makefile.def
 Results
+SWMF
 Scripts/remap_magnetogram.py
 Scripts/swmfpy
 Scripts/pyfits
