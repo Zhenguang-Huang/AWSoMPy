@@ -121,7 +121,8 @@ install:
 	)
 
 compile:
-	-@(cd ${DIR}; \
+	-@(make install;								\
+	cd ${DIR}; 									\
 	./Config.pl -uninstall; 							\
 	./Config.pl -install; 								\
 	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 					\
@@ -136,7 +137,6 @@ compile:
 	make -j SWMF PIDL; 								\
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; 					\
 	make HARMONICS FDIPS; 								\
-	make install; 									\
 	)
 
 backup_run:
