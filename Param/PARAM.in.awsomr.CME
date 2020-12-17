@@ -5,10 +5,12 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -o=IH:u=AwsomR,e=Awsom,g=8,8,8,ng=3
 
 Example PARAM.in for CME run without Rotation, without AMR.
-RESTART from steady state (with NO ROTATE HGR/HGI).
-Nonconservative is F (So, Conservative scheme in both SC and IH)
-Poynting flux = 0.35, Rotate is ON
-PFSS source surface at 24.
+It restarts from a steady state (with NO ROTATE HGR/HGI) and add a CME
+
+Default Nonconservative is F (conservative scheme in both SC and IH)
+Default Poynting flux is 0.35
+Defauot Rotate is ON
+Default PFSS source surface at 24
 
 Begin session: 1
 
@@ -334,14 +336,30 @@ T			DoSaveInitial
 IH			NameComp
 F			UseComp
 
-First 2 hours in SC
+First 1 hour in SC
+#STOP
+-1			MaxIter
+1 h			TimeMax
+
+End session: 1
+#RUN ##########################################################################
+Begin session: 2
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#CME
+F			UseCme
+
+#END_COMP SC -----------------------------------------------------------------
+
+Turn off CME after 1 hour.
 #STOP
 -1			MaxIter
 2 h			TimeMax
 
-End session: 1 
+End session: 2
 #RUN ##########################################################################
-Begin session: 2
+Begin session: 3
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -547,9 +565,9 @@ Next 8 hrs in SC and IH. CME must pass SC completely.
 -1			MaxIter
 10 h			TimeMax
 
-End session: 2
+End session: 3
 #RUN ##########################################################################
-Begin session: 3
+Begin session: 4
 
 #COUPLE1
 SC			NameSource
@@ -610,5 +628,5 @@ HGI			TypeCoordPlot
 -1			MaxIter
 4 d			TimeMax
 
-End Sesion: 3
+End sesion: 4
 #END #####################################################################
