@@ -7,7 +7,7 @@ For a three-temperature solar wind simulation, configure SWMF with
 Default rMinWaveReflection is 0.0
 Default UseSurfaceWaveRefl is F
 
-For chaning the distance of the source surface, rMax in FDIPS.in
+For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file
 needs to change if using harmonics. rCurrentFreeB0 needs to be
 consistent with the distance of the source surface. If the source
@@ -248,19 +248,19 @@ x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} dt b1x b1y b1z te ti	NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z 		NameVars
+{MHD} dt b1x b1y b1z te ti	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} dt b1x b1y b1z te ti	NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 50000			DnSavePlot
@@ -436,22 +436,22 @@ shell0			StringShape
 18.0			RadiusInner
 21.0			Radius
 
-#AMRCRITERIALEVEL
-3			nRefineCrit
-Level			StringRefine
-3			RefineTo
-3			CoarsenFrom
-Level +OuterShell		StringRefine
-7			RefineTo
-7			CoarsenFrom
-currentsheet		StringRefine
-0.5			CoarsenLimit
-0.5			RefineLimit
-7			MaxLevel
+#AMRCRITERIARESOLUTION
+3                       nRefineCrit
+dphi                    StringRefine
+8.                     RefineTo
+0.5                     CoarsenFrom
+dphi +Outershell                StringRefine
+0.5                     RefineTo
+0.5                     CoarsenFrom
+currentsheet            StringRefine
+0.5                     CoarsenLimit
+0.5                     RefineLimit
+0.5                     MaxResolution
 
-#GRIDLEVEL
-7			nLevel
-initial			StringShape
+#GRIDRESOLUTION
+0.5                     Resolution
+initial                 StringShape
 
 #SAVEINITIAL
 F			DoSaveInitial
@@ -534,19 +534,19 @@ x=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq te ti	NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 1000 			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq te ti	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 1000 			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq		NameVars
+{MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq te ti	NameVars
 {default}		NamePars
 
 #SATELLITE

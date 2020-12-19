@@ -5,12 +5,12 @@ For a three-temperature solar wind simulation, configure SWMF with
 ./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,g=8,8,8,nG=2
 
 Example PARAM.in for CME run without Rotation, without AMR.
-It restarts from a steady state (with NO ROTATE HGR/HGI) and add a CME
+It restarts from a steady state (with NO ROTATE HGR/HGI) and adds a CME
 
 Default Timesteplimit in SC is 0.5 s
 Default Nonconservative is F (conservative scheme in both SC and IH)
 Default Poynting flux is 0.35
-Defauot Rotate is ON
+Default Rotate is OFF
 Default PFSS source surface at 24
 
 Begin session: 1
