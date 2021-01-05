@@ -457,23 +457,23 @@ conex0                  StringShape
 
 #AMRCRITERIARESOLUTION
 4                       nRefineCrit
-dphi                    StringRefine
-8.0                     RefineTo
-0.5                     CoarsenFrom
-dphi +Outershell         StringRefine
-0.5                     RefineTo
-0.5                     CoarsenFrom
-currentsheet            StringRefine
-0.5                     CoarsenLimit
-0.5                     RefineLimit
-0.5                     MaxResolution
-dphi cmecone1           StringRefine
-0.15                     RefineTo
-0.15                     CoarsenFrom
+dx			StringRefine
+8.			RefineTo
+4.			CoarsenFrom
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+0.5			MaxResolution
+dx cmecone1		StringRefine
+0.25			RefineTo
+0.125			CoarsenFrom
 
 #GRIDRESOLUTION
-0.15                     Resolution
-initial                 StringShape
+0.125			Resolution
+initial			StringShape
 
 #UPDATECHECK
 F			UseUpdateCheck

@@ -478,16 +478,16 @@ shell0			StringShape
 
 #AMRCRITERIARESOLUTION
 3                       nRefineCrit
-dphi                    StringRefine
-8.                     RefineTo
-0.5                     CoarsenFrom
-dphi +Outershell                StringRefine
-0.5                     RefineTo
-0.5                     CoarsenFrom
-currentsheet            StringRefine
-0.5                     CoarsenLimit
-0.5                     RefineLimit
-0.5                     MaxResolution
+dx			StringRefine
+8.			RefineTo
+4.			CoarsenFrom
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+0.5			MaxResolution
 
 #GRIDRESOLUTION
 0.5                     Resolution
