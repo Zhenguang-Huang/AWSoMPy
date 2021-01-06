@@ -24,4 +24,13 @@ make help
 
 to see the available options.
 
+To submit multiple runs with the event_list:
+Copy Events/event_list.txt to the SWMFSOLAR main directory, 
+and modify it based on your need.
+More information on editing and parameter options is listed within 
+"Events/event_list.txt" .
+Copy all the magnetogram files (corresponding to the selected events 
+in events_list.txt) to the SWMFSOLAR main directory.
+Execute "Scripts/sub_runs.py" to run the selected runs.
+
 To be continued.
