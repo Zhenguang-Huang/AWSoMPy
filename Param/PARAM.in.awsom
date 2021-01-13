@@ -263,7 +263,7 @@ z=0 VAR idl_ascii		StringPlot
 {MHD} dt b1x b1y b1z te ti	NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
-50000			DnSavePlot
+80000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
 
@@ -334,7 +334,7 @@ mc3			TypeLimiter
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
-80000			MaxIter
+70000			MaxIter
 -1.0			TimeMax
 
 End session: 2
@@ -346,44 +346,10 @@ Begin session: 3
 #MINIMUMRADIALSPEED
 F			UseSpeedMin
 
-#AMR
--1			DnRefine
-
-#TIMESTEPPING
-3			nStage
-0.8			CflExpl
-
-#REGION
-loworder		NameRegion
-shell0			StringShape
-1.7			RadiusInner
-24.0			Radius
-
-#LOWORDERREGION
-+loworder		StringLowOrderRegion
-
-#SCHEME
-5			nOrder (1 or 2)
-Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
-mc3			TypeLimiter
-1.2			LimiterBeta
-
-#SCHEME5
-T			UseFDFaceFlux
-MP5			TypeLimiter
-F			UseHighResChange
-F			UseHighOrderAMR
-T			DoCorrectFace
-
-#LIMITER
-F			UseLogRhoLimiter
-F			UseLogPLimiter
-F			UseRhoRatioLimiter
-
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
-100000			MaxIter
+80000			MaxIter
 -1.0			TimeMax
 
 End session: 3
@@ -537,13 +503,13 @@ x=0 VAR idl_ascii		StringPlot
 {MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq te ti	NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
-1000 			DnSavePlot
+1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq te ti	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
-1000 			DnSavePlot
+1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq te ti	NameVars
@@ -557,7 +523,7 @@ VAR trajrange		StringSatellite
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 -20 d			StartTimeTraj
 10 d			EndTimeTraj
-1 h 			DtTraj
+1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 VAR trajrange		StringSatellite
 5000			DnOutput
@@ -565,7 +531,7 @@ VAR trajrange		StringSatellite
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
 -20 d			StartTimeTraj
 10 d			EndTimeTraj
-1 h 			DtTraj
+1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 VAR trajrange		StringSatellite
 5000			DnOutput
@@ -573,7 +539,7 @@ VAR trajrange		StringSatellite
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 -20 d			StartTimeTraj
 10 d			EndTimeTraj
-1 h 			DtTraj
+1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 
 #END_COMP IH -----------------------------------------------------------------
@@ -585,7 +551,7 @@ IH			NameTarget
 -1.0			DtCouple
 
 #STOP
-100001			MaxIter
+80001			MaxIter
 -1.0			TimeMax
 
 End session: 4
@@ -613,7 +579,7 @@ T			IsStrictAmr
 #END_COMP IH -----------------------------------------------------------------
 
 #STOP
-103000			MaxIter
+83000			MaxIter
 -1.0			TimeMax
 
 End session: 5
@@ -628,8 +594,151 @@ Begin session: 6
 #END_COMP IH -----------------------------------------------------------------
 
 #STOP
-105000			MaxIter
+85000			MaxIter
 -1.0			TimeMax
 
 End session: 6
+#RUN ##########################################################################
+Begin session: 7
+
+#COMPONENT
+SC			NameComp
+T			UseComp
+
+#COMPONENT
+IH			NameComp
+F			UseComp
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#MINIMUMRADIALSPEED
+F			UseSpeedMin
+
+#AMR
+-1			DnRefine
+
+#TIMESTEPPING
+3			nStage
+0.8			CflExpl
+
+#REGION
+loworder		NameRegion
+shell0			StringShape
+1.7			RadiusInner
+24.0			Radius
+
+#LOWORDERREGION
++loworder		StringLowOrderRegion
+
+#SCHEME
+5			nOrder (1 or 2)
+Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
+mc3			TypeLimiter
+1.2			LimiterBeta
+
+#SCHEME5
+T			UseFDFaceFlux
+MP5			TypeLimiter
+F			UseHighResChange
+F			UseHighOrderAMR
+T			DoCorrectFace
+
+#LIMITER
+F			UseLogRhoLimiter
+F			UseLogPLimiter
+F			UseRhoRatioLimiter
+
+#SAVEPLOT
+4			nPlotFile
+x=0 VAR idl_ascii		StringPlot
+5000			DnSavePlot
+-1.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z te ti	NameVars
+{default}		NamePars
+y=0 VAR idl_ascii		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z te ti	NameVars
+{default}		NamePars
+z=0 VAR idl_ascii		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z te ti	NameVars
+{default}		NamePars
+los ins idl_ascii		StringPlot
+105000			DnSavePlot
+-1.0			DtSavePlot
+sta:euvi stb:euvi sdo:aia		StringsInstrument
+
+#END_COMP SC -----------------------------------------------------------------
+
+#STOP
+105000			MaxIter
+-1.0			TimeMax
+
+End session: 7
+#RUN ##########################################################################
+Begin session: 8
+
+#COMPONENT
+IH			NameComp
+T			UseComp
+
+#COUPLE1
+SC			NameSource
+IH			NameTarget
+1			DnCouple
+-1.0			DtCouple
+
+#STOP
+105001			MaxIter
+-1.0			TimeMax
+
+End session: 8
+#RUN ##########################################################################
+Begin session: 9
+
+#COUPLE1
+SC			NameSource
+IH			NameTarget
+-1			DnCouple
+-1.0			DtCouple
+
+#COMPONENT
+SC			NameComp
+F			UseComp
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#DOAMR
+T			DoAmr
+1001			DnAmr
+-1.0			DtAmr
+T			IsStrictAmr
+
+#END_COMP IH -----------------------------------------------------------------
+
+#STOP
+108000			MaxIter
+-1.0			TimeMax
+
+End session: 9
+#RUN ##########################################################################
+Begin session: 10
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#AMR
+-1			DnRefine
+
+#END_COMP IH -----------------------------------------------------------------
+
+#STOP
+110000			MaxIter
+-1.0			TimeMax
+
+End session: 10
 #END ##########################################################################

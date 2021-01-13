@@ -84,30 +84,11 @@ T			UseBody
 #BODY
 F			UseBody
 
-Below are two ways to provide a potential field source surface (PFSS) solution
-as initial and boundary conditon for the magnetic field. The LOOKUPTABLE
-command is for reading the PFSS solution of the finite difference code FDIPS
-while the HARMONICSFILE command is for reading the PFSS solution based on
-spherical harmonics. These two PFSS solvers can be found in the
-util/DATAREAD/srcMagnetogram directory of SWMF.
-
-GONG magnetograms are obtained from http://gong.nso.edu/data/magmap/crmap.html
-
 LOOKUPTABLE
 B0			NameTable
 load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
-
-MAGNETOGRAM
-T                       UseMagnetogram
-1.0                     rMagnetogram
-2.5                     rSourceSurface
-0.0                     HeightInnerBc
-SC/harmonics_adapt.dat          NameHarmonicsFile
-12                      nHeaderLine
--1.0                    PhiShift
-1.0                     UnitB
 
 #HARMONICSFILE
 SC/harmonics_adapt.dat	NameHarmonicsFile
@@ -296,7 +277,7 @@ z=0 VAR idl_ascii		StringPlot
 {MHD} dt b1x b1y b1z		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
-60000			DnSavePlot
+80000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
 
@@ -367,7 +348,7 @@ mc3			TypeLimiter
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
-50000			MaxIter
+70000			MaxIter
 -1.0			TimeMax
 
 End session: 2
@@ -379,51 +360,10 @@ Begin session: 3
 #MINIMUMRADIALSPEED
 F			UseSpeedMin
 
-#AMR
--1			DnRefine
-
-TIMESTEPPING
-3			nStage
-0.8			CflExpl
-
-REGION
-loworder		NameRegion
-shell0			StringShape
-1.7			RadiusInner
-24.0			Radius
-
-Radii will change based on the choice of the inner boundary
-REGION
-thinlayer		NameRegion
-shell0			StringShape
-1.05			RadiusInner
-1.07			Radius
-
-LOWORDERREGION
-+loworder +thinlayer		StringLowOrderRegion
-
-SCHEME
-5			nOrder (1 or 2)
-Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
-mc3			TypeLimiter
-1.2			LimiterBeta
-
-SCHEME5
-T			UseFDFaceFlux
-MP5			TypeLimiter
-F			UseHighResChange
-F			UseHighOrderAMR
-T			DoCorrectFace
-
-LIMITER
-F			UseLogRhoLimiter
-F			UseLogPLimiter
-F			UseRhoRatioLimiter
-
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
-60000			MaxIter
+80000			MaxIter
 -1.0			TimeMax
 
 End session: 3
@@ -630,7 +570,7 @@ IH			NameTarget
 -1.0			DtCouple
 
 #STOP
-60001			MaxIter
+80001			MaxIter
 -1.0			TimeMax
 
 End session: 4
@@ -658,7 +598,7 @@ T			IsStrictAmr
 #END_COMP IH -----------------------------------------------------------------
 
 #STOP
-63000			MaxIter
+83000			MaxIter
 -1.0			TimeMax
 
 End session: 5
@@ -673,8 +613,158 @@ Begin session: 6
 #END_COMP IH -----------------------------------------------------------------
 
 #STOP
-65000			MaxIter
+85000			MaxIter
 -1.0			TimeMax
 
 End session: 6
+#RUN ##########################################################################
+Begin session: 7
+
+#COMPONENT
+SC			NameComp
+T			UseComp
+
+#COMPONENT
+IH			NameComp
+F			UseComp
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#MINIMUMRADIALSPEED
+F			UseSpeedMin
+
+#AMR
+-1			DnRefine
+
+#TIMESTEPPING
+3			nStage
+0.8			CflExpl
+
+#REGION
+loworder		NameRegion
+shell0			StringShape
+1.7			RadiusInner
+24.0			Radius
+
+Radii will change based on the choice of the inner boundary
+#REGION
+thinlayer		NameRegion
+shell0			StringShape
+1.05			RadiusInner
+1.07			Radius
+
+#LOWORDERREGION
++loworder +thinlayer		StringLowOrderRegion
+
+#SCHEME
+5			nOrder (1 or 2)
+Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
+mc3			TypeLimiter
+1.2			LimiterBeta
+
+#SCHEME5
+T			UseFDFaceFlux
+MP5			TypeLimiter
+F			UseHighResChange
+F			UseHighOrderAMR
+T			DoCorrectFace
+
+#LIMITER
+F			UseLogRhoLimiter
+F			UseLogPLimiter
+F			UseRhoRatioLimiter
+
+#SAVEPLOT
+4			nPlotFile
+x=0 VAR idl_ascii		StringPlot
+5000			DnSavePlot
+-1.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+y=0 VAR idl_ascii		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+z=0 VAR idl_ascii		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} dt b1x b1y b1z		NameVars
+{default}		NamePars
+los ins idl_ascii		StringPlot
+105000			DnSavePlot
+-1.0			DtSavePlot
+sta:euvi stb:euvi sdo:aia		StringsInstrument
+
+#END_COMP SC -----------------------------------------------------------------
+
+#STOP
+105000			MaxIter
+-1.0			TimeMax
+
+End session: 7
+#RUN ##########################################################################
+Begin session: 8
+
+#COMPONENT
+IH			NameComp
+T			UseComp
+
+#COUPLE1
+SC			NameSource
+IH			NameTarget
+1			DnCouple
+-1.0			DtCouple
+
+#STOP
+105001			MaxIter
+-1.0			TimeMax
+
+End session: 8
+#RUN ##########################################################################
+Begin session: 9
+
+#COUPLE1
+SC			NameSource
+IH			NameTarget
+-1			DnCouple
+-1.0			DtCouple
+
+#COMPONENT
+SC			NameComp
+F			UseComp
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#DOAMR
+T			DoAmr
+1001			DnAmr
+-1.0			DtAmr
+T			IsStrictAmr
+
+#END_COMP IH -----------------------------------------------------------------
+
+#STOP
+108000			MaxIter
+-1.0			TimeMax
+
+End session: 9
+#RUN ##########################################################################
+Begin session: 10
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#AMR
+-1			DnRefine
+
+#END_COMP IH -----------------------------------------------------------------
+
+#STOP
+110000			MaxIter
+-1.0			TimeMax
+
+End session: 10
 #END ##########################################################################
