@@ -127,13 +127,12 @@ compile:
 	./Config.pl -install; 								\
 	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 					\
 	if [[ "${MODEL}" == "AWSoM" ]]; then 						\
-		./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3; 				\
-		./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3; 				\
+		./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 			\
+		./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 			\
 	else										\
-		./Config.pl -o=SC:u=AwsomR,e=Awsom,nG=3; 				\
-		./Config.pl -o=IH:u=AwsomR,e=Awsom,nG=3; 				\
+		./Config.pl -o=SC:u=AwsomR,e=Awsom,nG=3,g=6,8,8; 			\
+		./Config.pl -o=IH:u=AwsomR,e=Awsom,nG=3,g=8,8,8; 			\
 	fi; 										\
-	./Config.pl -g=SC:6,8,8,IH:8,8,8; 						\
 	make -j SWMF PIDL; 								\
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; 					\
 	make HARMONICS FDIPS; 								\
