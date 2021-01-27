@@ -427,7 +427,7 @@ dx +Outershell		StringRefine
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
-0.5			MaxResolution
+1.0			MaxResolution
 
 #GRIDRESOLUTION
 0.5                     Resolution
@@ -591,7 +591,7 @@ F			UseComp
 
 #DOAMR
 T			DoAmr
-1001			DnAmr
+501			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
