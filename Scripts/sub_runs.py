@@ -212,4 +212,4 @@ if __name__ == '__main__':
             # submit runs
             strRun = ('make run ' + strPFSS + ' ' + strSIMDIR + ' ' 
                       + strRealizations + ' JOBNAME=r'+str(RunID).zfill(2)+'_')
-            # subprocess.call(strRun, shell=True)
+            subprocess.call(strRun, shell=True)
