@@ -137,7 +137,7 @@ for count = 1:size(dfLHS, 1)
         elseif value >=1000
             appendVal = @sprintf("%s=%e ", key, value)
         else
-            appendVal = @sprintf("%s=%.2f ", key, value)
+            appendVal = @sprintf("%s=%.4f ", key, value)
         end
         # appendVal = string(key, "=", value, " ")
         stringToWrite = stringToWrite * appendVal
@@ -219,13 +219,13 @@ for groupIdx = 1:length(product(mg, cr, md))
         runCounter += 1
         # insert conditions for appropriate string formatting
         if occursin("map=GONG", linesEventList[lineIdx]) && occursin("model=AWSoMR", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.2f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.4f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
         elseif occursin("map=GONG", linesEventList[lineIdx]) && occursin("model=AWSoM", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
         elseif occursin("map=ADAPT", linesEventList[lineIdx]) && occursin("model=AWSoMR", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.2f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.4f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
         elseif occursin("map=ADAPT", linesEventList[lineIdx]) && occursin("model=AWSoM", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
         else
             newLine = linesEventList[lineIdx] * "\n"
         end
