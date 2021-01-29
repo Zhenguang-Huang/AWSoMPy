@@ -167,14 +167,14 @@ spherical_lnr		TypeGeometry
  100.0			zMax
 
 #LIMITRADIUS
-1.05			rMin^
+1.05			rMin rMin_AWSoMR^
 24.0			rMax
 
 ----------------------------------------------------
 #AMRREGION
 InnerShell		NameRegion
 shell0			StringShape
-1.05			RadiusInner rMin^
+1.05			RadiusInner rMin_AWSoMR^
 1.7			Radius
 
 #AMRCRITERIARESOLUTION
@@ -650,8 +650,8 @@ Radii will change based on the choice of the inner boundary
 #REGION
 thinlayer		NameRegion
 shell0			StringShape
-1.05			RadiusInner rMin^
-1.07			Radius      rMaxLayer^
+1.05			RadiusInner  rMin_AWSoMR^
+1.07			Radius       rMaxLayer_AWSoMR^
 
 #LOWORDERREGION
 +loworder +thinlayer		StringLowOrderRegion
