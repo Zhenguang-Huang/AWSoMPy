@@ -88,15 +88,15 @@ SC/harmonics_adapt.dat	NameHarmonicsFile
 
 #HARMONICSGRID
 1.0			rMagnetogram
-2.5			rSourceSurface
-F			IsLogRadius
+2.5			rSourceSurface^
+F			IsLogRadius^
 180			MaxOrder
 180			nR
 180			nLon
 90			nLat
 
 FACTORB0
-1.0			FactorB0
+1.0			FactorB0 BrFactor^
 
 #USECURLB0
 T			UseCurlB0
@@ -106,19 +106,19 @@ T			UseCurlB0
 +init +ic		StringSwitch
 
 #POYNTINGFLUX
-1.0e6			PoyntingFluxPerBSi [J/m^2/s/T]
+1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
 T			UseWaveReflection
-1.5e5			LperpTimesSqrtBSi
-0.0			rMinWaveReflection
-F			UseSurfaceWaveRefl
+1.5e5			LperpTimesSqrtBSi^
+0.0			rMinWaveReflection^
+F			UseSurfaceWaveRefl^
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
-0.21			StochasticExponent
-0.18			StochasticAmplitude
+0.21			StochasticExponent^
+0.18			StochasticAmplitude^
 
 TEST
 krylov
@@ -223,7 +223,7 @@ T			UseSpeedMin
 10 h			TauSpeedMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+T			UseNonConservative^
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -453,14 +453,14 @@ T			UseAccurateReschange
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
 T			UseWaveReflection
-1.5e5			LperpTimesSqrtBSi
-0.0			rMinWaveReflection
-F			UseSurfaceWaveRefl
+1.5e5			LperpTimesSqrtBSi^
+0.0			rMinWaveReflection^
+F			UseSurfaceWaveRefl^
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
-0.21			StochasticExponent
-0.18			StochasticAmplitude
+0.21			StochasticExponent^
+0.18			StochasticAmplitude^
 
 #SCHEME
 2			nOrder
@@ -476,7 +476,7 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 1E-14			PeMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+T			UseNonConservative^
 
 #TIMESTEPPING
 2			nStage
