@@ -69,15 +69,7 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
         lines = list(params)
         for iLine, line in enumerate(lines):
             for key in DictParam.keys():
-                if key == 'add':
-                    commands_add=DictParam[key].split(',')
-                    for command_add in commands_add:
-                        add_command(command_add)
-                elif key == 'rm':
-                    commands_rm=DictParam[key].split(',')
-                    for command_rm in commands_rm:
-                        remove_command(command_rm)
-                elif (re.search(rf'\b{key}\b', line) and not DoUseMarker) or (re.search(rf'\b{key}\^(?=\W)', line) and DoUseMarker):
+                if key != 'add' and key != 'rm' and (re.search(rf'\b{key}\b', line) and not DoUseMarker) or (re.search(rf'\b{key}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker):
                     value = DictParam[key]
                     if isinstance(value, str):
                         lines[iLine] = value+'\t\t\t'+key+'\n'
@@ -152,6 +144,21 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}, DoUseM
                       ' the original PARAM.in.')
 
     change_param_value(new_params, DoUseMarker=DoUseMarker)
+
+    if 'add' in new_params.keys():
+        commands_add=new_params['add'].split(',')
+        for command_add in commands_add:
+            print("command_add=", command_add)
+            add_command(command_add)
+            add_command(command_add, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
+            add_command(command_add, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
+
+    if 'rm' in new_params.keys():
+        commands_rm=new_params['rm'].split(',')
+        for command_rm in commands_rm:
+            remove_command(command_rm)
+            add_command(command_add, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
+            add_command(command_add, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
 
     # set the PFSS solver, FDIPS or Harmonics
     if (pfss == 'FDIPS'):
