@@ -148,7 +148,6 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}, DoUseM
     if 'add' in new_params.keys():
         commands_add=new_params['add'].split(',')
         for command_add in commands_add:
-            print("command_add=", command_add)
             add_command(command_add)
             add_command(command_add, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
             add_command(command_add, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
