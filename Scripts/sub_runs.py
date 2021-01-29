@@ -136,9 +136,16 @@ if __name__ == '__main__':
                 else:
                     NewParam[paramTmp[0]] = paramTmp[1]
 
-            strNewParam = ''
-            for key in NewParam:
-                strNewParam = strNewParam + '_' + key + '_' + NewParam[key]
+            # need to turn on these two commands if BrFactor and BrMin are used
+            if 'BrFactor' in NewParam.keys() or 'BrMin' in NewParam.keys():
+                if 'add' in NewParam.keys():
+                    NewParam['add']=NewParam['add']+',FACTORB0,CHANGEWEAKFIELD'
+                else:
+                    NewParam['add']='FACTORB0,CHANGEWEAKFIELD'
+
+            # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
+            if 'rMin' in NewParam.keys():
+                NewParam['rMaxLayer'] = float(NewParam['rMin']) + 0.02
 
             SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
 
@@ -205,4 +212,4 @@ if __name__ == '__main__':
             # submit runs
             strRun = ('make run ' + strPFSS + ' ' + strSIMDIR + ' ' 
                       + strRealizations + ' JOBNAME=r'+str(RunID).zfill(2)+'_')
-            subprocess.call(strRun, shell=True)
+            # subprocess.call(strRun, shell=True)
