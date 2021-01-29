@@ -18,6 +18,11 @@ if __name__ == '__main__':
                             + 'Use if you want to re-install and compile '
                             + 'the code.', 
                             type=int, default=1)
+    ARG_PARSER.add_argument('-m', '--DoUseMarker',
+                            help='(default: 1)'
+                            + 'Use if you want to use the marker ^ for'
+                            + 'changing the PARAM.in file.',
+                            type=int, default=1)
     ARGS = ARG_PARSER.parse_args()
 
     # whether the code was compiled before
@@ -177,7 +182,8 @@ if __name__ == '__main__':
 
             # change the PARAM.in file
             change_param.change_param_func(time=TIME, map=MAP, pfss=PFSS, 
-                                           new_params=NewParam)
+                                           new_params=NewParam,
+                                           DoUseMarker=ARGS.DoUseMarker)
             
             # make run directories
             strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' ' 
