@@ -13,6 +13,12 @@ using IterTools
 using Printf
 using Dates
 
+
+# Let's also fix the seed for generating the list and save that as an additional comment (for reproducibility purposes) 
+using Random
+runGeneratingSeed = 8191
+Random.seed!(runGeneratingSeed)
+
 REALIZATIONS_ADAPTvals = collect(1:12)
 PFSSVals = ["HARMONICS";
             "FDIPS"]
@@ -81,7 +87,6 @@ end
 close(io)
 
 
-
 X, _, _ = LHSDesign.lhsdesign(nRVTotal, pRV, 100)
 X_regular = (upperBounds - lowerBounds)'.* X .+ lowerBounds'
 
@@ -106,8 +111,8 @@ colNamesLHS = [
 "BrFactor_ADAPT",
 "rMin_AWSoMR",
 "nChromoSi_AWSoM",
-"PoyntingFluxPerBSI",
-"LperpTimesSqrtBSI",
+"PoyntingFluxPerBSi",
+"LperpTimesSqrtBSi",
 "StochasticExponent",
 "rCollisional",
 "rMinWaveReflection", 
@@ -161,13 +166,17 @@ mv(tmppath2, fileName, force=true)
 rm(fileNameLHS)
 
 # write arbitrary realization number for ADAPT runs
-realization_idx = 1 # some number between 1 and 12 for baseline runs (fixed here, to be varied in later event lists)
+# realization_idx = 1 # some number between 1 and 12 for baseline runs (fixed here, to be varied in later event lists)
+
+# Change realization_idx between 1 and 12 randomly (call REALIZATIONS_ADAPT)
 (tmppath, tmpio) = mktemp()
 open(fileName) do f
+runCounter = 0
     for line in eachline(f, keep=true)
         if occursin("map=ADAPT", line)
+            runCounter += 1
             line = line[1:end-1]
-            line = line * "realization=[$(realization_idx)] \n"
+            line = line * "realization=[$(REALIZATIONS_ADAPT[runCounter])] \n"
         end
     write(tmpio, line)
     end
@@ -187,8 +196,15 @@ close(io_event_list)
 
 # Based on combinations of GONG, ADAPT, AWSoM, AWSoMR, fill in BrFactor, rMin_AWSoMR and nChromoSi_AWSoM
 (tmppath3, tmpio3) = mktemp()
+
+# Add in the following lines that include the random seed in comments
+write(tmpio3, "# runGeneratingSeed = $(runGeneratingSeed)\n")
+write(tmpio3, "# Runs generated using Random.seed!() in Julia\n")
+write(tmpio3, "#                                         \n")
+
 write(tmpio3, "selected run IDs = 1-$(size(dfDesign, 1))\n")
 write(tmpio3, "#START\n")
+write(tmpio3, "ID   params\n")
 for groupIdx = 1:length(product(mg, cr, md))
     runCounter = 0
     for lineIdx = (groupIdx - 1)*nRV + 1 + 2:groupIdx*nRV + 2
