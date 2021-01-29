@@ -4,6 +4,7 @@ import argparse
 import datetime as dt
 import swmfpy
 import sys
+import re
 import subprocess
 import warnings
 from remap_magnetogram import FITS_RECOGNIZE
@@ -59,7 +60,7 @@ def remove_command(NameCommand, filenameInput='PARAM.in',
 
 # -----------------------------------------------------------------------------
 def change_param_value(DictParam, filenameInput='PARAM.in',
-                       filenameOut='PARAM.in'):
+                       filenameOut='PARAM.in', DoUseMarker=0):
     """
     """
 
@@ -76,7 +77,7 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
                     commands_rm=DictParam[key].split(',')
                     for command_rm in commands_rm:
                         remove_command(command_rm)
-                elif key in line:
+                elif (re.search(rf'\b{key}\b', line) and not DoUseMarker) or (re.search(rf'\b{key}\^(?=\W)', line) and DoUseMarker):
                     value = DictParam[key]
                     if isinstance(value, str):
                         lines[iLine] = value+'\t\t\t'+key+'\n'
@@ -93,7 +94,7 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
 
 # -----------------------------------------------------------------------------
 
-def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
+def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}, DoUseMarker=0):
 
     if time != 'MapTime':
         # TIME is given with the correct format
@@ -150,7 +151,7 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
         warnings.warn('PoyntingFluxPerBSi is less than 0, use the PoyntingFluxPerBSi in' +
                       ' the original PARAM.in.')
 
-    change_param_value(new_params)
+    change_param_value(new_params, DoUseMarker=DoUseMarker)
 
     # set the PFSS solver, FDIPS or Harmonics
     if (pfss == 'FDIPS'):
@@ -158,12 +159,12 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}):
         remove_command('MAGNETOGRAM')
         remove_command('HARMONICSFILE')
         remove_command('HARMONICSGRID')
-        change_param_value(new_params, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
+        change_param_value(new_params, filenameInput='FDIPS.in', filenameOut='FDIPS.in', DoUseMarker=DoUseMarker)
     elif (pfss == 'HARMONICS'):
         remove_command('LOOKUPTABLE', NameNextLine='B0')
         add_command('HARMONICSFILE')
         add_command('HARMONICSGRID')
-        change_param_value(new_params, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
+        change_param_value(new_params, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in', DoUseMarker=DoUseMarker)
     else:
         raise ValueError(pfss + ' must be either HARMONICS or FDIPS')
 
@@ -202,4 +203,4 @@ if __name__ == '__main__':
                             type=list)
     ARGS = ARG_PARSER.parse_args()
 
-    change_param_func(time=ARGS.time, map=ARGS.map, pfss=ARGS.pfss, poynting_flux=ARGS.poynting_flux)
+    change_param_func(time=ARGS.time, map=ARGS.map, pfss=ARGS.pfss, poynting_flux=ARGS.poynting_flux, DoUseMarker=0)
