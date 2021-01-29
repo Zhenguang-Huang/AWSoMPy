@@ -86,7 +86,7 @@ for count = 1:size(dfDesign, 1)
 end
 close(io)
 
-
+# Call LHSDesign function with appropriate arguments
 X, _, _ = LHSDesign.lhsdesign(nRVTotal, pRV, 100)
 X_regular = (upperBounds - lowerBounds)'.* X .+ lowerBounds'
 
@@ -131,7 +131,15 @@ for count = 1:size(dfLHS, 1)
     dictCount = Dict(names(dfCount) .=> values(dfCount))
     stringToWrite = ""
     for (key, value) in dictCount
-        appendVal = string(key, "=", value, " ")
+        # insert conditions for appropriate string formatting
+        if value isa String
+            appendVal = @sprintf("%s=%s ", key, value)
+        elseif value >=1000
+            appendVal = @sprintf("%s=%e ", key, value)
+        else
+            appendVal = @sprintf("%s=%.2f ", key, value)
+        end
+        # appendVal = string(key, "=", value, " ")
         stringToWrite = stringToWrite * appendVal
     end
     write(ioLHS, " " * stringToWrite * "\n")
@@ -209,15 +217,15 @@ for groupIdx = 1:length(product(mg, cr, md))
     runCounter = 0
     for lineIdx = (groupIdx - 1)*nRV + 1 + 2:groupIdx*nRV + 2
         runCounter += 1
-
+        # insert conditions for appropriate string formatting
         if occursin("map=GONG", linesEventList[lineIdx]) && occursin("model=AWSoMR", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * "BrFactor=$(BrFactor_GONG[lineIdx-2]) " * "rMin=$(rMin_AWSoMR[lineIdx-2]) " * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.2f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
         elseif occursin("map=GONG", linesEventList[lineIdx]) && occursin("model=AWSoM", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * "BrFactor=$(BrFactor_GONG[lineIdx-2]) " * "nChromoSi_AWSoM=$(nChromoSi_AWSoM[lineIdx-2]) " * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
         elseif occursin("map=ADAPT", linesEventList[lineIdx]) && occursin("model=AWSoMR", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * "BrFactor=$(BrFactor_ADAPT[lineIdx-2]) " * "rMin=$(rMin_AWSoMR[lineIdx-2]) " * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.2f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
         elseif occursin("map=ADAPT", linesEventList[lineIdx]) && occursin("model=AWSoM", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * "BrFactor=$(BrFactor_ADAPT[lineIdx-2]) " * "nChromoSi_AWSoM=$(nChromoSi_AWSoM[lineIdx-2]) " * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.2f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
         else
             newLine = linesEventList[lineIdx] * "\n"
         end
