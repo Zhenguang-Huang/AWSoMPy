@@ -12,7 +12,7 @@ using DataFrames
 using IterTools
 using Printf
 using Dates
-
+using Distributions
 
 # Let's also fix the seed for generating the list and save that as an additional comment (for reproducibility purposes) 
 using Random
@@ -44,10 +44,12 @@ md = ["AWSoM", "AWSoMR"]
 
 
 # We will use the following order for the real valued variables while creating columns of upper bounds and lower bounds. 
-# Order: BrFactor_GONG, BrFactor_ADAPT, rMin_AWSoMR, nChromoSi_AWSoM, PoyntingFluxPerBSI, LperpTimesSqrtBSI, StochasticExponent, rCollisional, rMinWaveReflection.
+# Order: BrFactor_GONG, BrFactor_ADAPT, rMin_AWSoMR, nChromoSi_AWSoM, PoyntingFluxPerBSI, LperpTimesSqrtBSI, StochasticExponent, rCollisional. 
 
-lowerBounds = [1.0, 0.54, 1.05, 2e17, 0.3e6, 0.3e5, 0.1, 3, 1]
-upperBounds = [4.0, 2.7, 1.15, 5e18, 1.1e6, 3e5, 0.34, 7, 1.2]
+# We will augment rMinWaveReflection separately, since we are imposing an additional constraint that it should be greater than rMin_AWSoMR. 
+
+lowerBounds = [1.0, 0.54, 1.05, 2e17, 0.3e6, 0.3e5, 0.1, 3]
+upperBounds = [4.0, 2.7, 1.15, 5e18, 1.1e6, 3e5, 0.34, 7]
 
 pRV = length(lowerBounds)
 nRV = 6
@@ -93,13 +95,35 @@ X_regular = (upperBounds - lowerBounds)'.* X .+ lowerBounds'
 # Augment with columns from categorical variables and mixed RV. 
 PFSS               = rand(PFSSVals, nRVTotal, 1)
 REALIZATIONS_ADAPT = rand(REALIZATIONS_ADAPTvals, nRVTotal, 1)
-
 # need to create separate variables for BrMin_GONG and BrMin_ADAPT (different default values, same range)
 BrMin              = rand(BrMin_Vals, nRVTotal, 1)
+
+# Extract columns for dependent factors from X_regular (these depend on model or map used)
+BrFactor_GONG   = X_regular[:, 1]
+BrFactor_ADAPT  = X_regular[:, 2]
+rMin_AWSoMR     = X_regular[:, 3]
+nChromoSi_AWSoM = X_regular[:, 4]
+
+# Make function to impose constraint on rMinWaveReflection
+function getrMinWaveSample(rMin_AWSoMR_Sample)
+    rMinWaveSample = rand(Uniform(1, 1.2))
+    if rMinWaveSample > rMin_AWSoMR_Sample
+        return rMinWaveSample
+    else
+        getrMinWaveSample(rMin_AWSoMR_Sample)
+    end
+end
+
+# create rMinWaveReflection column. 
+rMinWaveReflection = []
+for eachSample in rMin_AWSoMR
+    push!(rMinWaveReflection, getrMinWaveSample(eachSample))
+end
 
 designMatrixLHS = hcat(
                        REALIZATIONS_ADAPT,
                        X_regular, 
+                       rMinWaveReflection, 
                        PFSS,  
                        BrMin
                        )
@@ -119,8 +143,8 @@ colNamesLHS = [
 "pfss",
 "BrMin"
 ]
-
 rename!(dfLHS, colNamesLHS);
+
 
 # this file will be merged with base event list file and removed at the end of the program. 
 fileNameLHS = currDTString * "_lhsDesignMatrix.txt"
@@ -193,11 +217,6 @@ close(tmpio);
 mv(tmppath, fileName, force=true)
 
 # insert realizations at ADAPT maps, BrFactor for GONG and ADAPT, rMin for AWSoMR and nChromoSi for AWSoM
-BrFactor_GONG = designMatrixLHS[:, 2]
-BrFactor_ADAPT = designMatrixLHS[:, 3]
-rMin_AWSoMR = designMatrixLHS[:, 4]
-nChromoSi_AWSoM = designMatrixLHS[:, 5]
-
 io_event_list = open(fileName)
 linesEventList = readlines(io_event_list)
 close(io_event_list)
