@@ -1,5 +1,5 @@
 # Instead of writing the same runs across all 16 groups, we randomize the runs across all groups
-
+# Runs are now implemented with TAB spacing (where TAB didn't work as expected, 4 spaces.)
 
 # Import modules into workspace
 # These "modules" contain some necessary functions needed to sample from some RVs as well as creation of LHS designs 
@@ -81,7 +81,7 @@ for count = 1:size(dfDesign, 1)
     dictCount = Dict(names(dfCount) .=> values(dfCount))
     stringToWrite = ""
     for (key, value) in dictCount
-        appendVal = string(key, "=", value, " ")
+        appendVal = string(key, "=", value, "   ")
         stringToWrite = stringToWrite * appendVal
     end
     write(io, string(count) * " " * stringToWrite * "\n")
@@ -157,16 +157,16 @@ for count = 1:size(dfLHS, 1)
     for (key, value) in dictCount
         # insert conditions for appropriate string formatting
         if value isa String
-            appendVal = @sprintf("%s=%s ", key, value)
+            appendVal = @sprintf("%s=%s    ", key, value)
         elseif value >=1000
-            appendVal = @sprintf("%s=%e ", key, value)
+            appendVal = @sprintf("%s=%e    ", key, value)
         else
-            appendVal = @sprintf("%s=%.4f ", key, value)
+            appendVal = @sprintf("%s=%.4f    ", key, value)
         end
         # appendVal = string(key, "=", value, " ")
         stringToWrite = stringToWrite * appendVal
     end
-    write(ioLHS, " " * stringToWrite * "\n")
+    write(ioLHS, "    " * stringToWrite * "\n")
 end
 close(ioLHS)
 
@@ -208,7 +208,7 @@ runCounter = 0
         if occursin("map=ADAPT", line)
             runCounter += 1
             line = line[1:end-1]
-            line = line * "realization=[$(REALIZATIONS_ADAPT[runCounter])] \n"
+            line = line * "realization=[$(REALIZATIONS_ADAPT[runCounter])]    \n"
         end
     write(tmpio, line)
     end
@@ -238,13 +238,13 @@ for groupIdx = 1:length(product(mg, cr, md))
         runCounter += 1
         # insert conditions for appropriate string formatting
         if occursin("map=GONG", linesEventList[lineIdx]) && occursin("model=AWSoMR", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.4f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f    ", BrFactor_GONG[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.4f    ", rMin_AWSoMR[lineIdx - 2]) * "\n"
         elseif occursin("map=GONG", linesEventList[lineIdx]) && occursin("model=AWSoM", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_GONG[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f   ", BrFactor_GONG[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e    ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
         elseif occursin("map=ADAPT", linesEventList[lineIdx]) && occursin("model=AWSoMR", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.4f ", rMin_AWSoMR[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f   ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("rMin_AWSoMR=%.4f    ", rMin_AWSoMR[lineIdx - 2]) * "\n"
         elseif occursin("map=ADAPT", linesEventList[lineIdx]) && occursin("model=AWSoM", linesEventList[lineIdx])
-            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
+            newLine = linesEventList[lineIdx] * @sprintf("BrFactor=%.4f   ", BrFactor_ADAPT[lineIdx - 2]) * @sprintf("nChromoSi_AWSoM=%e    ", nChromoSi_AWSoM[lineIdx - 2]) * "\n"
         else
             newLine = linesEventList[lineIdx] * "\n"
         end
