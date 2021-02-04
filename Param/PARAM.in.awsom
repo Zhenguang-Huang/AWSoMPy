@@ -132,6 +132,10 @@ load			NameCommand
 SC/Param/RadCoolCorona_8.0.dat		NameFile
 ascii			TypeFile
 
+#CHROMOBC
+2e17			NchromoSi	nChromoSi_AWSoM^
+5e4			TchromoSi
+
 #TRANSITIONREGION
 T			DoExpandTransitionRegion
 2.2e5			TeTransitionRegionSi
@@ -598,8 +602,10 @@ Begin session: 6
 -1.0			TimeMax
 
 End session: 6
-#RUN ##########################################################################
 
+#END			END_2nd_scheme^
+
+#RUN ##########################################################################
 Begin session: 7
 
 #COMPONENT
