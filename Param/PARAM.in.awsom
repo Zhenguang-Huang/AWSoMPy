@@ -77,7 +77,7 @@ T			UseBody
 #BODY
 F			UseBody
 
-LOOKUPTABLE
+LOOKUPTABLE		FDIPS^
 B0			NameTable
 load			NameCommand
 SC/fdips_bxyz.out		NameFile
