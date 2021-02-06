@@ -11,7 +11,7 @@ from remap_magnetogram import FITS_RECOGNIZE
 
 # -----------------------------------------------------------------------------
 def add_command(NameCommand, filenameInput='PARAM.in',
-                filenameOut='PARAM.in', NameNextLine=None):
+                filenameOut='PARAM.in', ExtraStr=None, DoUseMarker=0):
     """
     """
 
@@ -21,9 +21,9 @@ def add_command(NameCommand, filenameInput='PARAM.in',
         for iLine, line in enumerate(lines):
 
             if NameCommand in line[0:len(NameCommand)]:
-                if NameNextLine != None:
-                    lineNext = lines[iLine+1]
-                    if NameNextLine in lineNext:
+                if ExtraStr != None:
+                    if ((re.search(rf'\b{ExtraStr}\b', line) and not DoUseMarker) or
+                        (re.search(rf'\b{ExtraStr}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
                         lines[iLine] = '#'+line
                 else:
                     lines[iLine] = '#'+line
@@ -35,7 +35,7 @@ def add_command(NameCommand, filenameInput='PARAM.in',
 
 # -----------------------------------------------------------------------------
 def remove_command(NameCommand, filenameInput='PARAM.in',
-                   filenameOut='PARAM.in', NameNextLine=None):
+                   filenameOut='PARAM.in', ExtraStr=None, DoUseMarker=0):
     """
     """
 
@@ -45,9 +45,9 @@ def remove_command(NameCommand, filenameInput='PARAM.in',
         for iLine, line in enumerate(lines):
 
             if NameCommand in line[1:len(NameCommand)+1] and line[0] == '#':
-                if NameNextLine != None:
-                    lineNext = lines[iLine+1]
-                    if NameNextLine in lineNext:
+                if ExtraStr != None:
+                    if ((re.search(rf'\b{ExtraStr}\b', line) and not DoUseMarker) or
+                        (re.search(rf'\b{ExtraStr}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
                         lines[iLine] = line[1:]
                 else:
                     lines[iLine] = line[1:]
@@ -69,7 +69,11 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
         lines = list(params)
         for iLine, line in enumerate(lines):
             for key in DictParam.keys():
-                if key != 'add' and key != 'rm' and (re.search(rf'\b{key}\b', line) and not DoUseMarker) or (re.search(rf'\b{key}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker):
+                # Do not consider 'add' or 'rm'
+                if key == 'add' or key == 'rm':
+                    continue
+                if ((re.search(rf'\b{key}\b', line) and not DoUseMarker) or 
+                    (re.search(rf'\b{key}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
                     value = DictParam[key]
                     if isinstance(value, str):
                         lines[iLine] = value+'\t\t\t'+key+'\n'
@@ -86,7 +90,7 @@ def change_param_value(DictParam, filenameInput='PARAM.in',
 
 # -----------------------------------------------------------------------------
 
-def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}, DoUseMarker=0):
+def change_param_func(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params={}, DoUseMarker=0):
 
     if time != 'MapTime':
         # TIME is given with the correct format
@@ -161,18 +165,21 @@ def change_param_func(time, map, pfss, poynting_flux=-1.0, new_params={}, DoUseM
 
     # set the PFSS solver, FDIPS or Harmonics
     if (pfss == 'FDIPS'):
-        add_command('LOOKUPTABLE', NameNextLine='B0')
+        add_command('LOOKUPTABLE', ExtraStr='FDIPS',DoUseMarker=DoUseMarker)
         remove_command('MAGNETOGRAM')
         remove_command('HARMONICSFILE')
         remove_command('HARMONICSGRID')
         change_param_value(new_params, filenameInput='FDIPS.in', filenameOut='FDIPS.in', DoUseMarker=DoUseMarker)
     elif (pfss == 'HARMONICS'):
-        remove_command('LOOKUPTABLE', NameNextLine='B0')
+        remove_command('LOOKUPTABLE', ExtraStr='FDIPS',DoUseMarker=DoUseMarker)
         add_command('HARMONICSFILE')
         add_command('HARMONICSGRID')
         change_param_value(new_params, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in', DoUseMarker=DoUseMarker)
     else:
         raise ValueError(pfss + ' must be either HARMONICS or FDIPS')
+
+    if scheme == 5:
+        remove_command('END',ExtraStr='END_2nd_scheme',DoUseMarker=DoUseMarker)
 
     # prepare each realization map.
     str_exe = str('Scripts/remap_magnetogram.py ' + filename_map)
