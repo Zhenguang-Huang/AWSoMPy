@@ -1,5 +1,7 @@
 # Instead of writing the same runs across all 16 groups, we randomize the runs across all groups
 # Runs are now implemented with TAB spacing (where TAB didn't work as expected, 4 spaces.)
+# Removing rCollisional. Augmenting LHS instead with UseSurfaceWaveRefl that takes true or false as input. 
+# Using default values of SCHEME, UseNonConservative, GridResolution - hence not written to the event list file. 
 
 # Import modules into workspace
 # These "modules" contain some necessary functions needed to sample from some RVs as well as creation of LHS designs 
@@ -24,6 +26,10 @@ PFSSVals = ["HARMONICS";
             "FDIPS"]
 BrMin_Vals = SelectInputs.MixedRandomVariable(5.0, 0.0, 10.0)
 
+# Add in vals for UseSurfaceWaveRefl
+UseSurfaceWaveRefl_Vals = ["T";
+                           "F"]
+
 # Assumptions: Separate groups based on `model`, `magnetogram`, and `CRVals`. Fixed values for `nOrderVals`, `NonConservativeVals` and `GridResolutionVals`.
 
 
@@ -44,12 +50,12 @@ md = ["AWSoM", "AWSoMR"]
 
 
 # We will use the following order for the real valued variables while creating columns of upper bounds and lower bounds. 
-# Order: BrFactor_GONG, BrFactor_ADAPT, rMin_AWSoMR, nChromoSi_AWSoM, PoyntingFluxPerBSI, LperpTimesSqrtBSI, StochasticExponent, rCollisional. 
+# Order: BrFactor_GONG, BrFactor_ADAPT, rMin_AWSoMR, nChromoSi_AWSoM, PoyntingFluxPerBSI, LperpTimesSqrtBSI, StochasticExponent. 
 
 # We will augment rMinWaveReflection separately, since we are imposing an additional constraint that it should be greater than rMin_AWSoMR. 
 
-lowerBounds = [1.0, 0.54, 1.05, 2e17, 0.3e6, 0.3e5, 0.1, 3]
-upperBounds = [4.0, 2.7, 1.15, 5e18, 1.1e6, 3e5, 0.34, 7]
+lowerBounds = [1.0, 0.54, 1.05, 2e17, 0.3e6, 0.3e5, 0.1]
+upperBounds = [4.0, 2.7, 1.15, 5e18, 1.1e6, 3e5, 0.34]
 
 pRV = length(lowerBounds)
 nRV = 6
@@ -98,6 +104,9 @@ REALIZATIONS_ADAPT = rand(REALIZATIONS_ADAPTvals, nRVTotal, 1)
 # need to create separate variables for BrMin_GONG and BrMin_ADAPT (different default values, same range)
 BrMin              = rand(BrMin_Vals, nRVTotal, 1)
 
+# Add column for UseSurfaceWaveRefl
+UseSurfaceWaveRefl = rand(UseSurfaceWaveRefl_Vals, nRVTotal, 1)
+
 # Extract columns for dependent factors from X_regular (these depend on model or map used)
 BrFactor_GONG   = X_regular[:, 1]
 BrFactor_ADAPT  = X_regular[:, 2]
@@ -123,6 +132,7 @@ end
 designMatrixLHS = hcat(
                        REALIZATIONS_ADAPT,
                        X_regular, 
+                       UseSurfaceWaveRefl,
                        rMinWaveReflection, 
                        PFSS,  
                        BrMin
@@ -138,7 +148,7 @@ colNamesLHS = [
 "PoyntingFluxPerBSi",
 "LperpTimesSqrtBSi",
 "StochasticExponent",
-"rCollisional",
+"UseSurfaceWaveRefl",
 "rMinWaveReflection", 
 "pfss",
 "BrMin"
