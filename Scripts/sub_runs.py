@@ -87,6 +87,7 @@ if __name__ == '__main__':
             PFSS  = 'HARMONICS'
             TIME  = 'MapTime'
             MODEL = 'AWSoM'
+            SCHEME= 2
 
             NewParam = {}
 
@@ -112,6 +113,8 @@ if __name__ == '__main__':
                     TIME = paramTmp[1]
                 elif paramTmp[0].lower() == 'model':
                     MODEL= paramTmp[1]
+                elif paramTmp[0].lower() == 'scheme':
+                    SCHEME = int(paramTmp[1])
                 elif paramTmp[0].lower() == 'realization':
                     strTmp  = paramTmp[1][1:-1]
                     ListRealizationTmp = strTmp.split(',')
@@ -189,7 +192,7 @@ if __name__ == '__main__':
 
             # change the PARAM.in file
             change_param.change_param_func(time=TIME, map=MAP, pfss=PFSS, 
-                                           new_params=NewParam,
+                                           new_params=NewParam,scheme=SCHEME,
                                            DoUseMarker=ARGS.DoUseMarker)
             
             # make run directories
