@@ -132,9 +132,13 @@ load			NameCommand
 SC/Param/RadCoolCorona_8.0.dat		NameFile
 ascii			TypeFile
 
+#USERINPUTBEGIN
+
 #CHROMOBC
 2e17			NchromoSi	nChromoSi_AWSoM^
 5e4			TchromoSi
+
+#USERINPUTEND
 
 #TRANSITIONREGION
 T			DoExpandTransitionRegion
