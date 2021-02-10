@@ -1,5 +1,6 @@
 selected run IDs = 1-16
 #START
+ID   params
 1 map=GONG_CR2208.fits model=AWSoM 
 2 map=ADAPT_CR2208.fits model=AWSoM realization=[1]
 3 map=GONG_CR2209.fits model=AWSoM 
