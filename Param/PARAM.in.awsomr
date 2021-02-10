@@ -1,8 +1,8 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=AwsomR,e=Awsom,g=6,8,8,ng=3
-./Config.pl -o=IH:u=AwsomR,e=Awsom,g=8,8,8,ng=3
+./Config.pl -o=SC:u=Awsom,e=Awsom,g=6,8,8,ng=3
+./Config.pl -o=IH:u=Awsom,e=Awsom,g=8,8,8,ng=3
 
 Default inner boundary is 1.05 Rs
 Default rMinWaveReflection is 0.0

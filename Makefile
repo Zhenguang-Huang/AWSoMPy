@@ -130,8 +130,8 @@ compile:
 		./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 			\
 		./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 			\
 	else										\
-		./Config.pl -o=SC:u=AwsomR,e=Awsom,nG=3,g=6,8,8; 			\
-		./Config.pl -o=IH:u=AwsomR,e=Awsom,nG=3,g=8,8,8; 			\
+		./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8; 			\
+		./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8; 			\
 	fi; 										\
 	make -j SWMF PIDL; 								\
 	cd ${DIR}/util/DATAREAD/srcMagnetogram; 					\
