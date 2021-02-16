@@ -146,10 +146,10 @@ backup_run:
 	fi
 
 copy_param:
-	-@(if [[ "${MODEL}" == "AWSoM" ]]; then 	\
-		cp Param/PARAM.in.awsom PARAM.in; 	\
+	-@(if [[ "${MODEL}" == "AWSoMR" ]]; then 	\
+		cp Param/PARAM.in.awsomr PARAM.in; 	\
 	else						\
-		cp Param/PARAM.in.awsomr PARAM.in;	\
+		cp Param/PARAM.in.awsom PARAM.in;	\
 	fi;						\
 	cp Param/HARMONICS.in Param/FDIPS.in .; 	\
 	)
