@@ -26,8 +26,9 @@ if __name__ == '__main__':
     ARGS = ARG_PARSER.parse_args()
 
     # whether the code was compiled before
-    IsAWSoMCompiled  = 0
-    IsAWSoMRCompiled = 0
+    IsAWSoMCompiled  = False
+    IsAWSoMRCompiled = False
+    IsAWSoM2TCompiled= False
 
     with open(ARGS.filename, 'rt') as events:
         lines = list(events)
@@ -163,23 +164,29 @@ if __name__ == '__main__':
 
             # Compile the code if needed. AWSoM and AWSoM-R could not be 
             # selected at the same time
-            if MODEL != 'AWSoM' and MODEL != 'AWSoMR':
+            if not MODEL in ['AWSoM','AWSoMR','AWSoM2T']:
                 raise ValueError(MODEL, ': un-supported model.')
 
             if MODEL == 'AWSoM':
                 if ARGS.DoCompile :
                     subprocess.call('make compile MODEL=AWSoM', shell=True)
                     ARGS.DoCompile = 0
-                IsAWSoMCompiled = 1
+                IsAWSoMCompiled = True
 
             if MODEL == 'AWSoMR':
                 if ARGS.DoCompile :
                     subprocess.call('make compile MODEL=AWSoMR', shell=True)
                     ARGS.DoCompile = 0
-                IsAWSoMRCompiled = 1
+                IsAWSoMRCompiled = True
 
-            if IsAWSoMCompiled == 1 and IsAWSoMRCompiled == 1:
-                raise ValueError(MODEL, ': AWSoM and AWSoMR cannot ' +
+            if MODEL == 'AWSoM2T':
+                if ARGS.DoCompile :
+                    subprocess.call('make compile MODEL=AWSoM2T', shell=True)
+                    ARGS.DoCompile = 0
+                IsAWSoM2TCompiled = True
+
+            if IsAWSoMCompiled and (IsAWSoMRCompiled or IsAWSoM2TCompiled):
+                raise ValueError(MODEL, ': AWSoM and AWSoMR/AWSoM2T cannot ' +
                                  'be selected at the same time.')
 
             # backup previous results if needed
