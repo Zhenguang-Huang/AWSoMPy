@@ -10,7 +10,12 @@ It restarts from a steady state (with NO ROTATE HGR/HGI) and add a CME
 Default Nonconservative is F (conservative scheme in both SC and IH)
 Default Poynting flux is 0.35
 Defauot Rotate is ON
-Default PFSS source surface at 24
+
+For changing the distance of the source surface, rMax in FDIPS.in
+needs to change if using FDIPS and rSourceSurface in this file
+needs to change if using harmonics. rCurrentFreeB0 needs to be
+consistent with the distance of the source surface. If the source
+surface is > 24, turn off USECURLB0.
 
 Begin session: 1
 
@@ -104,6 +109,10 @@ F			IsLogRadius
 
 FACTORB0
 1.0			FactorB0
+
+#USECURLB0
+T			UseCurlB0
+2.5			rCurrentFreeB0
 
 #UPDATECHECK
 F			UseUpdateCheck
@@ -226,9 +235,9 @@ periodic		TypeBc4	  LonMax
 periodic		TypeBc5	  LatMin
 periodic		TypeBc6	  LatMax
 
-add the perturb and getb0 switches for CME
+add the perturb switche for CME
 #USERSWITCH
-+init +ic +perturb +get_b0		StringSwitch
++init +ic +perturb	StringSwitch
 
 flux-rope parameters
 #CME
