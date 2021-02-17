@@ -122,20 +122,25 @@ install:
 
 compile:
 	-@(make install;								\
-	cd ${DIR}; 									\
-	./Config.pl -uninstall; 							\
-	./Config.pl -install; 								\
-	./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 					\
-	if [[ "${MODEL}" == "AWSoM" ]]; then 						\
-		./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 			\
-		./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 			\
+	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR)" ]]; then		\
+		cd ${DIR}; 								\
+		./Config.pl -uninstall; 						\
+		./Config.pl -install; 							\
+		./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 				\
+		if [[ "${MODEL}" == "AWSoM" ]]; then 					\
+			./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 		\
+			./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 		\
+		else									\
+			./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8; 		\
+			./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8; 		\
+		fi; 									\
+		make -j SWMF PIDL; 							\
+		cd ${DIR}/util/DATAREAD/srcMagnetogram; 				\
+		make HARMONICS FDIPS; 							\
 	else										\
-		./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8; 			\
-		./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8; 			\
-	fi; 										\
-	make -j SWMF PIDL; 								\
-	cd ${DIR}/util/DATAREAD/srcMagnetogram; 					\
-	make HARMONICS FDIPS; 								\
+		echo "MODEl = ${MODEL}";						\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, or AWSoMR.";		\
+	fi;										\
 	)
 
 backup_run:
@@ -146,12 +151,17 @@ backup_run:
 	fi
 
 copy_param:
-	-@(if [[ "${MODEL}" == "AWSoMR" ]]; then 	\
-		cp Param/PARAM.in.awsomr PARAM.in; 	\
-	else						\
-		cp Param/PARAM.in.awsom PARAM.in;	\
-	fi;						\
-	cp Param/HARMONICS.in Param/FDIPS.in .; 	\
+	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR)" ]]; then	\
+		if [[ "${MODEL}" == "AWSoMR" ]]; then					\
+			cp Param/PARAM.in.awsomr PARAM.in; 				\
+		else									\
+			cp Param/PARAM.in.awsom PARAM.in;				\
+		fi;									\
+		cp Param/HARMONICS.in Param/FDIPS.in .; 				\
+	else										\
+		echo "MODEl = ${MODEL}";						\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, or AWSoMR.";		\
+	fi;										\
 	)
 
 clean_rundir_tmp:
