@@ -38,7 +38,7 @@ currDTString = Dates.format(currDateTime, "yyyy_mm_dd_HH_MM_SS")
 
 # specify full file name
 # fileName = currDTString * "event_list.txt"
-fileName = "event_list.txt"
+fileName = "baseline_event_list_3Models.txt"
 
 # make dataframe from all combinations of params and write rows of dataframe to lines of text file
 
@@ -46,7 +46,7 @@ fileName = "event_list.txt"
 # we can add more entries in mg and cr if required, code handles all combinations
 mg = ["GONG", "ADAPT"]
 cr = [2208, 2209, 2152, 2154]
-md = ["AWSoM", "AWSoMR"]
+md = ["AWSoM", "AWSoMR", "AWSoM2T"]
 
 designMatrix  = []
 using IterTools
@@ -65,6 +65,7 @@ deletecols!(dfDesign, [1, 3])
 io = open(fileName, "w")
 write(io, "selected run IDs = 1-$(size(dfDesign, 1))\n")
 write(io, "#START\n")
+write(io, "ID   params\n")
 
 for count = 1:size(dfDesign, 1)
     dfCount = dfDesign[count, :]
