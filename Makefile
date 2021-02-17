@@ -138,7 +138,7 @@ compile:
 		cd ${DIR}/util/DATAREAD/srcMagnetogram; 				\
 		make HARMONICS FDIPS; 							\
 	else										\
-		echo "MODEl = ${MODEL}";						\
+		echo "MODEL = ${MODEL}";						\
 		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, or AWSoMR.";		\
 	fi;										\
 	)
@@ -159,7 +159,7 @@ copy_param:
 		fi;									\
 		cp Param/HARMONICS.in Param/FDIPS.in .; 				\
 	else										\
-		echo "MODEl = ${MODEL}";						\
+		echo "MODEL = ${MODEL}";						\
 		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, or AWSoMR.";		\
 	fi;										\
 	)
