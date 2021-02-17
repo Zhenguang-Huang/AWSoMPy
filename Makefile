@@ -8,6 +8,7 @@ MYDIR  = $(shell echo `pwd -P`)
 SIMDIR = Runs
 RESDIR = Runs
 IDLDIR = ${DIR}/share/IDL/Solar
+PYDIR = ${DIR}/share/Python/Solar
 
 MODEL = AWSoM
 PFSS  = HARMONICS
@@ -253,6 +254,12 @@ check_compare_insitu:
 	for iRunDir in ${FullResRunDirList};  do 						\
 		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}; 		\
 	done)
+check_compare_insitu_py:
+	-@(cd ${PYDIR};												\
+	for iRunDir in ${FullResRunDirList};  do								\
+		bash compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL} ${MYDIR}/Results/obsdata;	\
+	done)
+
 
 check_compare_remote:
 	-@(cd ${IDLDIR}; 									\
