@@ -255,9 +255,10 @@ check_compare_insitu:
 		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}; 		\
 	done)
 check_compare_insitu_py:
-	-@(cd ${PYDIR};												\
-	for iRunDir in ${FullResRunDirList};  do								\
-		bash compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL} ${MYDIR}/Results/obsdata;	\
+	-@(cd ${PYDIR};										\
+	for iRunDir in ${FullResRunDirList};  do						\
+		python compare_insitu.py ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}		\
+					 ${MYDIR}/Results/obsdata;				\
 	done)
 
 
