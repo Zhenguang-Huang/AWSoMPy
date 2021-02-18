@@ -17,7 +17,7 @@ dir_sim = sys.argv[2]
 dir_plot = sys.argv[3]
 model = sys.argv[4]
 dir_cache = sys.argv[5]
-print(dir_swmf)
+
 #determine the existence of the folders
 for dir in [dir_swmf,dir_sim,dir_plot,dir_cache]:
     if (not os.path.isdir(dir)):
@@ -25,7 +25,7 @@ for dir in [dir_swmf,dir_sim,dir_plot,dir_cache]:
 #initialize preprocess
 preprocess = procedures_insitu.preprocess()
 spacecrafts=['earth','sta','stb']
-print(dir_swmf+'/SWMFSOLAR/Events/ICME_list_ACE.xlsx')
+
 #
 for spacecraft in spacecrafts:
     if(spacecraft == 'earth'):
@@ -34,7 +34,7 @@ for spacecraft in spacecrafts:
         icme_file=dir_swmf+'/SWMFSOLAR/Events/ICME_list_STEREO.txt'
     else:
         print('No ICME list found for '+spacecraft+' !')
-    print('haha',spacecraft,icme_file)
+
     files=glob.glob(dir_sim+'/trj*'+spacecraft+'*')
     for filename in files:
         #read in simulation data

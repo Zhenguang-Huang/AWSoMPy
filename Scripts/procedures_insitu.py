@@ -60,7 +60,6 @@ class preprocess:
         return data
     def get_icme_list(self,filename,start_time,end_time,spacecraft):
         #read in ICME list
-        print(filename,spacecraft)
         if(spacecraft == 'earth'):
             data_icme=pd.read_excel(filename,usecols=[1,2],parse_dates=[0,1])
             data_icme.columns=['start_time','end_time']
