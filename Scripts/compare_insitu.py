@@ -12,10 +12,10 @@ if(len(sys.argv) < 5):
 
 #decide simulation and plot directory
 #decide model and cache folder for observation
-dir_swmf = sys.argv[1]
-dir_sim = sys.argv[2]
-dir_plot = sys.argv[3]
-model = sys.argv[4]
+dir_swmf  = sys.argv[1]
+dir_sim   = sys.argv[2]
+dir_plot  = sys.argv[3]
+model     = sys.argv[4]
 dir_cache = sys.argv[5]
 
 #determine the existence of the folders
@@ -23,22 +23,22 @@ for dir in [dir_swmf,dir_sim,dir_plot,dir_cache]:
     if (not os.path.isdir(dir)):
         print('The '+dir+' folder does not exist!')
 #initialize preprocess
-preprocess = procedures_insitu.preprocess()
-spacecrafts=['earth','sta','stb']
+preprocess  = procedures_insitu.preprocess()
+spacecrafts = ['earth','sta','stb']
 
 #
 for spacecraft in spacecrafts:
-    if(spacecraft == 'earth'):
-        icme_file=dir_swmf+'/SWMFSOLAR/Events/ICME_list_ACE.xlsx'
-    elif('st' in spacecraft ):
-        icme_file=dir_swmf+'/SWMFSOLAR/Events/ICME_list_STEREO.txt'
-    else:
+    if(spacecraft == 'earth'): 
+        icme_file = dir_swmf+'/SWMFSOLAR/Events/ICME_list_ACE.csv'
+    elif('st' in spacecraft ): 
+        icme_file = dir_swmf+'/SWMFSOLAR/Events/ICME_list_STEREO.csv'
+    else: 
         print('No ICME list found for '+spacecraft+' !')
 
     files=glob.glob(dir_sim+'/trj*'+spacecraft+'*')
     for filename in files:
         #read in simulation data
-        data=preprocess.read_simu_data(filename)
+        data = preprocess.read_simu_data(filename)
         #get observation data
         obs_data=preprocess.get_insitu_data(spacecraft,
                 data['date'].iloc[0],data['date'].iloc[-1],dir_cache)
