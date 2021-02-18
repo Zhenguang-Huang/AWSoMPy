@@ -8,7 +8,7 @@ MYDIR  = $(shell echo `pwd -P`)
 SIMDIR = Runs
 RESDIR = Runs
 IDLDIR = ${DIR}/share/IDL/Solar
-PYDIR = ${DIR}/share/Python/Solar
+PYDIR = ${MYDIR}/Scripts
 
 MODEL = AWSoM
 PFSS  = HARMONICS
