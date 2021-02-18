@@ -51,8 +51,10 @@ class preprocess:
         #parse date time
         data['date'] = pd.to_datetime(data['date'],format='%Y %m %d %H %M %S %f')
         #calculate ur, number density, ion/electron temperature,b magnitude
-        data['ur'] = (data['ux']*data['X']+data['uy']*data['Y']+data['uz']*data['Z']) \
-                    /(data['X']**2.+data['Y']**2.+data['Z']**2.)**0.5
+        #change to lower case
+        data.columns= data.columns.str.lower()
+        data['ur'] = (data['ux']*data['x']+data['uy']*data['y']+data['uz']*data['z']) \
+                    /(data['x']**2.+data['y']**2.+data['z']**2.)**0.5
         data['ndens'] = data['rho']/self.ProtonMass
         data['ti']    = data['p']*self.ProtonMass/data['rho']/self.k*1E-7
         data['te']    = data['pe']*self.ProtonMass/data['rho']/self.k*1E-7
@@ -78,7 +80,8 @@ class preprocess:
 
         simu_label = model
         obs_label  = spacecraft
-        ylabels    = ['$\mathdefault{U_r}$ [km/s]','$\mathdefault{N_p}$ [cm$^{-3}$]','Temperature [k]','B [nT]']
+        ylabels    = ['$\mathdefault{U_r}$ [km/s]','$\mathdefault{N_p}$ [cm$^{-3}$]',
+                        'Temperature [k]','B [nT]']
 
         fig = plt.figure(figsize=(6,6))
         ux  = fig.add_subplot(4,1,1)
@@ -86,8 +89,7 @@ class preprocess:
         tx  = fig.add_subplot(4,1,3,sharex=ux)
         bx  = fig.add_subplot(4,1,4,sharex=ux)
 
-        #plot OMNI observations
-
+        #plot observations
         ux.plot(omni_data['Epoch'],omni_data['V'],color='k',label=obs_label)
         dx.plot(omni_data['Epoch'],omni_data['N'],color='k')
         tx.plot(omni_data['Epoch'],omni_data['T'],color='k')

@@ -34,7 +34,7 @@ for spacecraft in spacecrafts:
         icme_file = dir_swmf+'/SWMFSOLAR/Events/ICME_list_STEREO.csv'
     else: 
         print('No ICME list found for '+spacecraft+' !')
-
+    #find all trj files
     files=glob.glob(dir_sim+'/trj*'+spacecraft+'*')
     for filename in files:
         #read in simulation data
