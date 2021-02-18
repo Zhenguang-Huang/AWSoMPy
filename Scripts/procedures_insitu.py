@@ -18,28 +18,37 @@ class preprocess:
         if(spacecraft == 'earth'): 
             instr    = 'OMNI_COHO1HR_MERGED_MAG_PLASMA'
             var_list = ['ABS_B' , 'V', 'N','T']
-        elif(spacecraft == 'sta'): 
-            instr    = 'STA_COHO1HR_MERGED_MAG_PLASMA'
+            #download data from cdaw
+            data=cdas.get_data('istp_public',instr,start_time,end_time,
+                           var_list)
+            #unify the keys to ['B','V','N','T']
+            data['Epoch'] = data.pop('EPOCH_TIME')
+            data['B'] = data.pop('FIELD_MAGNITUDE_AVG.')
+            data['V'] = data.pop('BULK_FLOW_SPEED')
+            data['N'] = data.pop('ION_DENSITY')
+            data['T'] = data.pop('TEMPERATURE')
+
+        elif('st' in spacecraft):
+            if(spacecraft == 'sta'): 
+                instr    = 'STA_COHO1HR_MERGED_MAG_PLASMA'
+            elif(spacecraft == 'stb'):
+                instr    = 'STB_COHO1HR_MERGED_MAG_PLASMA'
             var_list = ['B','plasmaSpeed','plasmaDensity','plasmaTemp']
-        elif(spacecraft == 'stb'): 
-            instr    = 'STB_COHO1HR_MERGED_MAG_PLASMA'
-            var_list = ['B','plasmaSpeed','plasmaDensity','plasmaTemp']
+            #download data from cdaw
+            data=cdas.get_data('istp_public',instr,start_time,end_time,
+                           var_list)
+            #unify the keys to ['B','V','N','T']
+            data['Epoch'] = data.pop('EPOCH')
+            data['V'] = data.pop('PLASMA_SPEED')
+            data['N'] = data.pop('SW_PLASMA_DENS')
+            data['T'] = data.pop('SW_PLASMA_TEMP')
         else: 
             print('Invalid spacecraft!!')
             return -1
-        #download data from cdaw
-        data=cdas.get_data('istp_public',instr,start_time,end_time,
-                           var_list,cdf=True)
         #clean data
-        for key in var_list:
+        for key in ['B','V','N','T']:
             data[key][data[key]<0.0]=np.nan
-        #unify the keys to ['B','V','N','T']
-        if(spacecraft == 'earth'): 
-            data['B'] = data.pop('ABS_B')
-        elif(spacecraft == 'sta' or spacecraft == 'stb'): 
-            data['V'] = data.pop('plasmaSpeed')
-            data['N'] = data.pop('plasmaDensity')
-            data['T'] = data.pop('plasmaTemp')
+
         return data
     def read_simu_data(self,filename):
         self.ProtonMass = 1.67e-24
