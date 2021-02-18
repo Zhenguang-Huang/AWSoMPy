@@ -8,13 +8,13 @@ MYDIR  = $(shell echo `pwd -P`)
 SIMDIR = Runs
 RESDIR = Runs
 IDLDIR = ${DIR}/share/IDL/Solar
-PYDIR = ${MYDIR}/Scripts
+PYDIR  = ${MYDIR}/Scripts
 
 MODEL = AWSoM
 PFSS  = HARMONICS
 
-TIME  = MapTime
-MAP   = NoMap
+TIME = MapTime
+MAP  = NoMap
 
 POYNTINGFLUX   = -1.0
 
@@ -254,11 +254,12 @@ check_compare_insitu:
 	for iRunDir in ${FullResRunDirList};  do 						\
 		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}; 		\
 	done)
+
 check_compare_insitu_py:
 	-@(cd ${PYDIR};										\
 	for iRunDir in ${FullResRunDirList};  do						\
 		python compare_insitu.py ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}		\
-					 ${MYDIR}/Results/obsdata;				\
+					 ${MYDIR}/Results/obsdata > $${iRunDir}/log_insitu;				\
 	done)
 
 
