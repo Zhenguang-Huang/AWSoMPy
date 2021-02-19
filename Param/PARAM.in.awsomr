@@ -44,7 +44,7 @@ T			DoSaveRestart
 -1.0			DtSaveRestart
 
 #TEST
-CON_axes::init_axes		StringTest
+init_axes		StringTest
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 

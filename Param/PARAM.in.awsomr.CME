@@ -49,7 +49,7 @@ T			DoSaveRestart
 3600.0			DtSaveRestart
 
 #TEST
-CON_axes::init_axes		StringTest
+init_axes		StringTest
 
 ROTATEHGR
 -1.0
