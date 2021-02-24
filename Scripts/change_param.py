@@ -160,8 +160,8 @@ def change_param_func(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params=
         commands_rm=new_params['rm'].split(',')
         for command_rm in commands_rm:
             remove_command(command_rm)
-            add_command(command_add, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
-            add_command(command_add, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
+            remove_command(command_rm, filenameInput='FDIPS.in', filenameOut='FDIPS.in')
+            remove_command(command_rm, filenameInput='HARMONICS.in', filenameOut='HARMONICS.in')
 
     # set the PFSS solver, FDIPS or Harmonics
     if (pfss == 'FDIPS'):
