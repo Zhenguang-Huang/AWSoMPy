@@ -22,7 +22,7 @@ CHANGEWEAKFIELD
 ! For a non-default domain size and/or logarithmic radial grid
 #DOMAIN
 1.0			rMin         (default is 1)
-2.5			rMax         (default is 2.5) rSourceSurface^
+25			rMax         (default is 2.5) rSourceSurface^
 T			UseLogRadius (default is F)
 F			UseWedge
 

@@ -88,8 +88,8 @@ SC/harmonics_adapt.dat	NameHarmonicsFile
 
 #HARMONICSGRID
 1.0			rMagnetogram
-2.5			rSourceSurface^
-F			IsLogRadius^
+25			rSourceSurface^
+T			IsLogRadius^
 180			MaxOrder
 180			nR
 180			nLon
@@ -98,7 +98,7 @@ F			IsLogRadius^
 FACTORB0
 1.0			FactorB0 BrFactor^
 
-#USECURLB0
+USECURLB0
 T			UseCurlB0
 2.5			rCurrentFreeB0
 
@@ -231,7 +231,7 @@ T			UseSpeedMin
 10 h			TauSpeedMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative^
+F			UseNonConservative^
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -484,7 +484,7 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 1E-14			PeMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative^
+F			UseNonConservative^
 
 #TIMESTEPPING
 2			nStage
