@@ -98,7 +98,7 @@ SC/harmonics_adapt.dat	NameHarmonicsFile
 25			rSourceSurface^
 T			IsLogRadius^
 180			MaxOrder
-180			nR
+400			nR
 180			nLon
 90			nLat
 
