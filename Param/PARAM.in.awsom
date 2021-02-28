@@ -102,9 +102,6 @@ USECURLB0
 T			UseCurlB0
 2.5			rCurrentFreeB0
 
-#USERSWITCH
-+init +ic		StringSwitch
-
 #POYNTINGFLUX
 1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
@@ -119,9 +116,6 @@ F			UseSurfaceWaveRefl^
 stochasticheating		TypeHeatPartitioning
 0.21			StochasticExponent^
 0.18			StochasticAmplitude^
-
-TEST
-krylov
 
 #RADIATIVECOOLING
 T			UseRadCooling
@@ -249,6 +243,9 @@ periodic		TypeBc3   LonMin
 periodic		TypeBc4   LonMax
 periodic		TypeBc5   LatMin
 periodic		TypeBc6   LatMax
+
+#USERSWITCH
++init +ic		StringSwitch
 
 #SAVEPLOT
 4			nPlotFile
