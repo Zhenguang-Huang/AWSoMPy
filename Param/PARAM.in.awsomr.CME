@@ -65,6 +65,9 @@ ROTATEHGI
 #INCLUDE
 SC/restartIN/restart.H	
 
+#RESTARTOUTFILE
+one			StringRestartOutFile
+
 #PLASMA
 1.0			FluidMass [amu]
 1.0			IonCharge [e]
@@ -89,7 +92,7 @@ T			UseBody
 #BODY
 F			UseBody
 
-LOOKUPTABLE
+LOOKUPTABLE		FDIPS^
 B0			NameTable
 load			NameCommand
 SC/fdips_bxyz.out		NameFile
@@ -100,17 +103,18 @@ SC/harmonics_adapt.dat	NameHarmonicsFile
 
 #HARMONICSGRID
 1.0			rMagnetogram
-25			rSourceSurface
-T			IsLogRadius
+25			rSourceSurface^
+T			IsLogRadius^
 180			MaxOrder
 400			nR
 180			nLon
 90			nLat
 
 FACTORB0
-1.0			FactorB0
+1.0			FactorB0 BrFactor^
 
-#USECURLB0
+Turn this on if rSourceSurface < 24 and change rCurrentFreeB0 accordingly
+USECURLB0
 T			UseCurlB0
 2.5			rCurrentFreeB0
 
@@ -118,19 +122,19 @@ T			UseCurlB0
 F			UseUpdateCheck
 
 #POYNTINGFLUX
-0.35e6 			PoyntingFluxPerBSi [J/m^2/s/T]
+0.35e6 			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
 #CORONALHEATING
-turbulentcascade	TypeCoronalHeating
+turbulentcascade		TypeCoronalHeating
 T			UseWaveReflection
-1.5e5			LperpTimesSqrtBSi
-0.0			rMinWaveReflection
-F			UseSurfaceWaveRefl
+1.5e5			LperpTimesSqrtBSi^
+0.0			rMinWaveReflection^
+F			UseSurfaceWaveRefl^
 
 #HEATPARTITIONING
-stochasticheating	TypeHeatPartitioning
-0.21			StochasticExponent
-0.18			StochasticAmplitude
+stochasticheating		TypeHeatPartitioning
+0.21			StochasticExponent^
+0.18			StochasticAmplitude^
 
 #RADIATIVECOOLING
 T			UseRadCooling
@@ -151,28 +155,6 @@ ascii			TypeFile
 T			UseCoarseAxis
 2			nCoarseLayer
 
-turn these off when restarting
----------------------------------------------------
-GRIDGEOMETRY
-spherical_lnr		TypeGeometry
-
-! Use a true sphere, so box is made much larger
-GRID
-2			nRootBlockX
-2			nRootBlockY
-1			nRootBlockZ
--100.0			xMin
- 100.0			xMax
--100.0			yMin
- 100.0			yMax
--100.0			zMin
- 100.0			zMax
-
-LIMITRADIUS
-1.05			rMin
-24.0			rMax
-
-----------------------------------------------------
 #AMRREGION
 InnerShell		NameRegion
 shell0			StringShape
@@ -216,7 +198,7 @@ T			UseSpeedMin
 
 Conservative scheme
 #NONCONSERVATIVE
-F			UseNonConservative
+F			UseNonConservative^
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -229,13 +211,13 @@ RAW			StringLog
 
 #OUTERBOUNDARY
 fieldlinethreads		TypeBc1   rMin
-float			TypeBc2	  rMax
-periodic		TypeBc3	  LonMin
-periodic		TypeBc4	  LonMax
-periodic		TypeBc5	  LatMin
-periodic		TypeBc6	  LatMax
+float			TypeBc2   rMax
+periodic		TypeBc3   LonMin
+periodic		TypeBc4   LonMax
+periodic		TypeBc5   LatMin
+periodic		TypeBc6   LatMax
 
-add the perturb switche for CME
+add the perturb switch for CME
 #USERSWITCH
 +init +ic +perturb	StringSwitch
 
@@ -416,6 +398,9 @@ T			UseComp
 #INCLUDE
 IH/restartIN/restart.H
 
+#RESTARTOUTFILE
+one			StringRestartOutFile
+
 #COORDSYSTEM
 HGI			TypeCoordSystem
 
@@ -423,21 +408,6 @@ HGI			TypeCoordSystem
 1.0			FluidMass [amu]
 1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
-
-GRID
-1			nRootBlockX
-1			nRootBlockY
-1			nRootBlockZ
--250.0			xMin
- 250.0			xMax
--250.0			yMin
- 250.0			yMax
--250.0			zMin
- 250.0			zMax
-
-#GRIDLEVEL
-7			nLevel
-initial			StringShape
 
 #UPDATECHECK
 F			UseUpdateCheck
@@ -480,16 +450,16 @@ T			UseAccurateReschange
 +init			StringSwitch
 
 #CORONALHEATING
-turbulentcascade	TypeCoronalHeating
+turbulentcascade		TypeCoronalHeating
 T			UseWaveReflection
-1.5e5			LperpTimesSqrtBSi
-0.0			rMinWaveReflection
-F			UseSurfaceWaveRefl
+1.5e5			LperpTimesSqrtBSi^
+0.0			rMinWaveReflection^
+F			UseSurfaceWaveRefl^
 
 #HEATPARTITIONING
-stochasticheating	TypeHeatPartitioning
-0.21			StochasticExponent
-0.18			StochasticAmplitude
+stochasticheating		TypeHeatPartitioning
+0.21			StochasticExponent^
+0.18			StochasticAmplitude^
 
 #SCHEME
 2			nOrder
@@ -506,7 +476,7 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 
 Conservative scheme
 #NONCONSERVATIVE
-F			UseNonConservative
+F			UseNonConservative^
 
 #TIMESTEPPING
 2			nStage

@@ -188,7 +188,7 @@ T			UseSpeedMin
 
 Conservative scheme
 #NONCONSERVATIVE
-F			UseNonConservative
+F			UseNonConservative^
 
 #TIMESTEPLIMIT
 T			UseDtLimit
