@@ -175,6 +175,8 @@ rundir_realizations:
 	-@for iRealization in ${REALIZATIONLIST}; do									\
 		cd ${DIR}; 												\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/${SIMDIR}/run$${iRealization}; 				\
+		rm ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 				\
+		cp ${DIR}/bin/SWMF.exe ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 		\
 		cp ${MYDIR}/PARAM.in     ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
 		cp ${MYDIR}/HARMONICS.in ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
 		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
