@@ -71,9 +71,6 @@ SC/restartIN/restart.H
 #RESTARTOUTFILE
 one			StringRestartOutFile
 
-#THREADRESTART
-T			DoThreadRestart
-
 #PLASMA
 1.0			FluidMass [amu]
 1.0			IonCharge [e]
