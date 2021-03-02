@@ -26,9 +26,7 @@ if __name__ == '__main__':
     ARGS = ARG_PARSER.parse_args()
 
     # whether the code was compiled before
-    IsAWSoMCompiled  = False
-    IsAWSoMRCompiled = False
-    IsAWSoM2TCompiled= False
+    ModelCompiled = None
 
     with open(ARGS.filename, 'rt') as events:
         lines = list(events)
@@ -167,27 +165,29 @@ if __name__ == '__main__':
             if not MODEL in ['AWSoM','AWSoMR','AWSoM2T']:
                 raise ValueError(MODEL, ': un-supported model.')
 
-            if MODEL == 'AWSoM':
-                if ARGS.DoCompile :
-                    subprocess.call('make compile MODEL=AWSoM', shell=True)
+            # If ModelCompiled is set and not equal to the current model,
+            # compile the code. AWSoM2T and AWSoMR both use isotropic
+            # while AWSoM uses anisotropic.
+            if ModelCompiled != None and ModelCompiled != MODEL:
+                if MODEL in ['AWSoMR','AWSoM2T'] and ModelCompiled in ['AWSoMR','AWSoM2T']:
                     ARGS.DoCompile = 0
-                IsAWSoMCompiled = True
+                else:
+                    ARGS.DoCompile = 1
 
-            if MODEL == 'AWSoMR':
-                if ARGS.DoCompile :
-                    subprocess.call('make compile MODEL=AWSoMR', shell=True)
-                    ARGS.DoCompile = 0
-                IsAWSoMRCompiled = True
+            if ARGS.DoCompile:
+                print('--------------------')
+                print('working on '+MODEL)
+                print('--------------------')
+                subprocess.call('make compile MODEL='+MODEL, shell=True)
+            else:
+                print('--------------------')
+                print('ModelCompiled, MODEL = ',ModelCompiled,MODEL)
+                print('No need to re-compile')
+                print('--------------------')
 
-            if MODEL == 'AWSoM2T':
-                if ARGS.DoCompile :
-                    subprocess.call('make compile MODEL=AWSoM2T', shell=True)
-                    ARGS.DoCompile = 0
-                IsAWSoM2TCompiled = True
-
-            if IsAWSoMCompiled and (IsAWSoMRCompiled or IsAWSoM2TCompiled):
-                raise ValueError(MODEL, ': AWSoM and AWSoMR/AWSoM2T cannot ' +
-                                 'be selected at the same time.')
+            # The code is compiled already, may not need to re-compile next time.
+            ARGS.DoCompile = 0
+            ModelCompiled = MODEL
 
             # backup previous results if needed
             strbackup_run = 'make backup_run ' + strSIMDIR
