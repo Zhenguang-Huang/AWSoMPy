@@ -118,9 +118,6 @@ USECURLB0
 T			UseCurlB0
 2.5			rCurrentFreeB0
 
-#UPDATECHECK
-F			UseUpdateCheck
-
 #POYNTINGFLUX
 0.35e6 			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
@@ -408,9 +405,6 @@ HGI			TypeCoordSystem
 1.0			FluidMass [amu]
 1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
-
-#UPDATECHECK
-F			UseUpdateCheck
 
 #DOAMR
 F			DoAmr

@@ -105,9 +105,6 @@ FACTORB0
 T			UseCurlB0
 2.5			rCurrentFreeB0
 
-#UPDATECHECK
-F			UseUpdateCheck
-
 #POYNTINGFLUX
 0.35e6 			PoyntingFluxPerBSi [J/m^2/s/T]
 
@@ -483,9 +480,6 @@ dx cmecone1		StringRefine
 #GRIDRESOLUTION
 0.125			Resolution
 initial			StringShape
-
-#UPDATECHECK
-F			UseUpdateCheck
 
 #DOAMR
 F			DoAmr
