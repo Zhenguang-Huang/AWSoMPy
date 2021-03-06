@@ -21,6 +21,8 @@ POYNTINGFLUX   = -1.0
 REALIZATIONS    = 1,2,3,4,5,6,7,8,9,10,11,12
 REALIZATIONLIST = $(foreach v, $(shell echo ${REALIZATIONS} | tr , ' '), $(shell printf '%02d' $(v)))
 
+USELINK  = T
+
 RESTART  = F
 
 JOBNAME  = amap
@@ -175,8 +177,10 @@ rundir_realizations:
 	-@for iRealization in ${REALIZATIONLIST}; do									\
 		cd ${DIR}; 												\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/${SIMDIR}/run$${iRealization}; 				\
-		rm ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 				\
-		cp ${DIR}/bin/SWMF.exe ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 		\
+		if [[ "${USELINK}" == "F" ]]; then									\
+			rm ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 			\
+			cp ${DIR}/bin/SWMF.exe ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 	\
+		fi;													\
 		cp ${MYDIR}/PARAM.in     ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
 		cp ${MYDIR}/HARMONICS.in ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
 		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\

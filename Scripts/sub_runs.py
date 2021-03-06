@@ -204,7 +204,7 @@ if __name__ == '__main__':
             
             # make run directories
             strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' ' 
-                          + strRealizations + ' ' + strPFSS)
+                          + strRealizations + ' ' + strPFSS + ' USELINK=F')
             subprocess.call(strRun_dir, shell=True)
 
             file_output = open(SIMDIR+'/key_params.txt', 'w')
