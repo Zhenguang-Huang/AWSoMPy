@@ -23,6 +23,11 @@ if __name__ == '__main__':
                             + 'Use if you want to use the marker ^ for'
                             + 'changing the PARAM.in file.',
                             type=int, default=1)
+    ARG_PARSER.add_argument('-l', '--DoUseLink',
+                            help='(default: 1)'
+                            + 'Change if you want to use link for '
+                            + 'SWMF.exe',
+                            type=str, default='F')
     ARGS = ARG_PARSER.parse_args()
 
     # whether the code was compiled before
@@ -203,8 +208,9 @@ if __name__ == '__main__':
                                            DoUseMarker=ARGS.DoUseMarker)
             
             # make run directories
-            strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' ' 
-                          + strRealizations + ' ' + strPFSS + ' USELINK=F')
+            strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' '
+                          + strRealizations + ' ' + strPFSS
+                          + ' USELINK='+ARGS.filename)
             subprocess.call(strRun_dir, shell=True)
 
             file_output = open(SIMDIR+'/key_params.txt', 'w')
