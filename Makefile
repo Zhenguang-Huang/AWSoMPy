@@ -230,11 +230,11 @@ check_postproc:
 				cp SC/map_*out ${FullResDir}/$${RunDir: -6:5}/;			\
 				mv RESULTS/* ${FullResDir}/$${RunDir: -6:5}/;			\
 				if [[ -f SC/fdips_bxyz.out ]]; then          			\
-					cp SC/fdips_bxyz.out SC/FDIPS.in 			\
+					mv SC/fdips_bxyz.out SC/FDIPS.in 			\
 						${FullResDir}/$${RunDir: -6:5}/; 		\
 				fi;								\
 				if [[ -f SC/harmonics_adapt.dat ]]; then			\
-					cp SC/harmonics_adapt.dat SC/HARMONICS.in               \
+					mv SC/harmonics_adapt.dat SC/HARMONICS.in fdips_bxyz.out 	\
 						${FullResDir}/$${RunDir: -6:5}/ ;		\
 				fi;								\
 			else									\
