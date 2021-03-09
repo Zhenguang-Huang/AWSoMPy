@@ -52,12 +52,6 @@ T			DoSaveRestart
 #TEST
 init_axes		StringTest
 
-#ROTATEHGR
--1.0
-
-#ROTATEHGI
--1.0
-
 #BEGIN_COMP SC ---------------------------------------------------------------
 
 #GRIDBLOCKALL
