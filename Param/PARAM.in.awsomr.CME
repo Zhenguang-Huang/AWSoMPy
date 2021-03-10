@@ -248,24 +248,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z 		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 -1			DnSavePlot
@@ -361,24 +361,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z 		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 7200.			DtSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 
 #END_COMP SC -----------------------------------------------------------------
@@ -497,24 +497,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 
 #SATELLITE
@@ -560,24 +560,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1 			DnSavePlot
 7200.			DtSavePlot
-{MHD} dt dtblk b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 shl VAR idl_ascii		StringPlot
 -1			DnSavePlot
@@ -592,7 +592,7 @@ HGI			TypeCoordPlot
 -90.			LatMin
 90.			LatMax
 2.			dLat    ! only read if LatMin /= LatMax
-{MHD} b1x b1y b1z qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 
 #END_COMP IH -----------------------------------------------------------------

@@ -237,19 +237,19 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 0.5 h			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 0.5 h			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z 		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 0.5 h			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 -1			DnSavePlot
@@ -351,24 +351,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 10 m			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 10 m			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z 		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 10 m			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 1 h			DtSavePlot
-{MHD} dt b1x b1y b1z		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 -1			DnSavePlot
@@ -503,24 +503,24 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 0.5 h			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1 			DnSavePlot
 0.5 h			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1 			DnSavePlot
 0.5 h			DtSavePlot
 -1.0			DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1 			DnSavePlot
 1 h			DtSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq te ti		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 
 #SATELLITE
