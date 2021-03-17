@@ -9,9 +9,7 @@ It restarts from a steady state (with ROTATE HGR/HGI) and adds a CME
 
 For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file
-needs to change if using harmonics. rCurrentFreeB0 needs to be
-consistent with the distance of the source surface. If the source
-surface is > 24, turn off USECURLB0.
+needs to change if using harmonics.
 
 Default Timesteplimit in SC is 0.5 s
 Default Nonconservative is F (conservative scheme in both SC and IH)
@@ -94,10 +92,6 @@ T			IsLogRadius
 
 FACTORB0
 1.0			FactorB0
-
-#USECURLB0
-T			UseCurlB0
-2.5			rCurrentFreeB0
 
 #POYNTINGFLUX
 0.35e6 			PoyntingFluxPerBSi [J/m^2/s/T]

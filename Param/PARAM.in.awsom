@@ -9,9 +9,7 @@ Default UseSurfaceWaveRefl is F
 
 For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file
-needs to change if using harmonics. rCurrentFreeB0 needs to be
-consistent with the distance of the source surface. If the source
-surface is > 24, turn off USECURLB0.
+needs to change if using harmonics.
 
 IMPORTANT:
 Use the user CHROMOBC command to increase the inner boundary number
@@ -97,10 +95,6 @@ T			IsLogRadius^
 
 FACTORB0
 1.0			FactorB0 BrFactor^
-
-USECURLB0
-T			UseCurlB0
-2.5			rCurrentFreeB0
 
 #POYNTINGFLUX
 1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
