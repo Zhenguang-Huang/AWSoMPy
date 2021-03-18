@@ -5,6 +5,7 @@ import array
 import change_param
 import subprocess
 import argparse
+import os
 
 if __name__ == '__main__':
 
@@ -23,15 +24,10 @@ if __name__ == '__main__':
                             + 'Use if you want to use the marker ^ for'
                             + 'changing the PARAM.in file.',
                             type=int, default=1)
-    ARG_PARSER.add_argument('-l', '--DoUseLink',
-                            help='(default: 1)'
-                            + 'Change if you want to use link for '
-                            + 'SWMF.exe',
-                            type=str, default='F')
     ARGS = ARG_PARSER.parse_args()
 
-    # whether the code was compiled before
-    ModelCompiled = None
+    # whether to reinstall the code
+    DoInstall = True
 
     with open(ARGS.filename, 'rt') as events:
         lines = list(events)
@@ -170,29 +166,29 @@ if __name__ == '__main__':
             if not MODEL in ['AWSoM','AWSoMR','AWSoM2T']:
                 raise ValueError(MODEL, ': un-supported model.')
 
-            # If ModelCompiled is set and not equal to the current model,
-            # compile the code. AWSoM2T and AWSoMR both use isotropic
-            # while AWSoM uses anisotropic.
-            if ModelCompiled != None and ModelCompiled != MODEL:
-                if MODEL in ['AWSoMR','AWSoM2T'] and ModelCompiled in ['AWSoMR','AWSoM2T']:
-                    ARGS.DoCompile = 0
-                else:
-                    ARGS.DoCompile = 1
+            # If the corresponding MODEL.exe does not exist, need to re-compile the code.
+            # If it exists, do not change ARGS.DoCompile, which default is 1 (to re-compile
+            # the code for the first time when running the event list). However, the user
+            # may still set it to 0, in which case the code will not be re-compiled.
+            if not os.path.isfile('SWMF/bin/'+MODEL+'.exe'):
+                ARGS.DoCompile = 1
 
             if ARGS.DoCompile:
                 print('--------------------')
                 print('working on '+MODEL)
                 print('--------------------')
-                subprocess.call('make compile MODEL='+MODEL, shell=True)
+                if DoInstall:
+                    subprocess.call('make compile DOINSTALL=T MODEL='+MODEL, shell=True)
+                else:
+                    subprocess.call('make compile DOINSTALL=F MODEL='+MODEL, shell=True)
+                DoInstall = False
             else:
                 print('--------------------')
-                print('ModelCompiled, MODEL = ',ModelCompiled,MODEL)
-                print('No need to re-compile')
+                print('no need to re-compile model = '+MODEL)
                 print('--------------------')
 
             # The code is compiled already, may not need to re-compile next time.
             ARGS.DoCompile = 0
-            ModelCompiled = MODEL
 
             # backup previous results if needed
             strbackup_run = 'make backup_run ' + strSIMDIR
@@ -209,8 +205,7 @@ if __name__ == '__main__':
             
             # make run directories
             strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' '
-                          + strRealizations + ' ' + strPFSS
-                          + ' USELINK='+ARGS.filename)
+                          + strRealizations + ' ' + strPFSS + ' MODEL=' + MODEL)
             subprocess.call(strRun_dir, shell=True)
 
             file_output = open(SIMDIR+'/key_params.txt', 'w')
