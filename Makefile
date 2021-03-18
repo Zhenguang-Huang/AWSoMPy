@@ -2,7 +2,6 @@ SHELL=/bin/bash
 
 # Include the link to the Makefile.def from the SWMF used
 -include SWMF/Makefile.def
--include ../Makefile.def
 
 MYDIR  = $(shell echo `pwd -P`)
 SIMDIR = Runs
