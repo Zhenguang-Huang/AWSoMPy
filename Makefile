@@ -21,9 +21,8 @@ POYNTINGFLUX   = -1.0
 REALIZATIONS    = 1,2,3,4,5,6,7,8,9,10,11,12
 REALIZATIONLIST = $(foreach v, $(shell echo ${REALIZATIONS} | tr , ' '), $(shell printf '%02d' $(v)))
 
-USELINK  = T
-
-RESTART  = F
+RESTART   = F
+DOINSTALL = T
 
 JOBNAME  = amap
 
@@ -127,9 +126,12 @@ compile:
 	-@(make install;								\
 	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR)" ]]; then		\
 		cd ${DIR}; 								\
-		./Config.pl -uninstall; 						\
-		./Config.pl -install; 							\
-		./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 				\
+		if [[ "${DOINSTALL}" == "T" ]]; then					\
+			rm -f ${DIR}/bin/*.exe;						\
+			./Config.pl -uninstall; 					\
+			./Config.pl -install; 						\
+			./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 			\
+		fi;									\
 		if [[ "${MODEL}" == "AWSoM" ]]; then 					\
 			./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 		\
 			./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 		\
@@ -138,6 +140,7 @@ compile:
 			./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8; 		\
 		fi; 									\
 		make -j SWMF PIDL; 							\
+		cp ${DIR}/bin/SWMF.exe ${DIR}/bin/${MODEL}.exe;				\
 		cd ${DIR}/util/DATAREAD/srcMagnetogram; 				\
 		make HARMONICS FDIPS; 							\
 	else										\
@@ -177,10 +180,8 @@ rundir_realizations:
 	-@for iRealization in ${REALIZATIONLIST}; do									\
 		cd ${DIR}; 												\
 		make rundir MACHINE=${MACHINE} RUNDIR=${MYDIR}/${SIMDIR}/run$${iRealization}; 				\
-		if [[ "${USELINK}" == "F" ]]; then									\
-			rm ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 			\
-			cp ${DIR}/bin/SWMF.exe ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 	\
-		fi;													\
+		rm ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 				\
+		ln -s ${DIR}/bin/${MODEL}.exe ${MYDIR}/${SIMDIR}/run$${iRealization}/SWMF.exe;			 	\
 		cp ${MYDIR}/PARAM.in     ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
 		cp ${MYDIR}/HARMONICS.in ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
 		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
