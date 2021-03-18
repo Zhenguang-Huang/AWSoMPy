@@ -24,7 +24,14 @@ make help
 
 to see the available options.
 
+---------------------------------------------------------------------
+
 To submit multiple runs with the event_list:
+
+*********************
+It is required to have the symobolic link of SWMF to the installed SWMF.
+*********************
+
 Copy Events/event_list.txt to the SWMFSOLAR main directory, 
 and modify it based on your need.
 More information on editing and parameter options is listed within 
