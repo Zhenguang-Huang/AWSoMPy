@@ -104,7 +104,7 @@ FACTORB0
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
-1e6			PoyntingFluxPerBSi
+1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
@@ -218,7 +218,7 @@ T			UseSpeedMin
 10 h			TauSpeedMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+F			UseNonConservative^
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -513,7 +513,7 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 1E-14			PeMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+F			UseNonConservative^
 
 #TIMESTEPPING
 2			nStage
