@@ -411,12 +411,12 @@ shell0			StringShape
 Shell1              NameRegion
 shell0                  StringShape
 21.0                    RadiusInner
-200.0                    Radius
+250.0                    Radius
 
 #AMRREGION
 Shell2              NameRegion
 shell0                  StringShape
-200.0                    RadiusInner
+250.0                    RadiusInner
 400.0                    Radius
 
 #AMRREGION
@@ -426,25 +426,31 @@ shell0                  StringShape
 600.0                    Radius
 
 #AMRCRITERIARESOLUTION
-3                       nRefineCrit
-dx			StringRefine
-8.			RefineTo
-4.			CoarsenFrom
+7                       nRefineCrit
 dx +Outershell		StringRefine
 0.5			RefineTo
 0.25			CoarsenFrom
+dx +Shell1              StringRefine
+2.                      RefineTo
+1.                      CoarsenFrom
+dx +Shell2              StringRefine
+4.                      RefineTo
+2.                      CoarsenFrom
+dx +Shell3              StringRefine
+8.                      RefineTo
+4.                      CoarsenFrom
 currentsheet +Shell1	StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
 1.0			MaxResolution
 currentsheet +Shell2    StringRefine
-1.0                     CoarsenLimit
-1.0                     RefineLimit
+0.5                     CoarsenLimit
+0.5                     RefineLimit
 2.0                     MaxResolution
 currentsheet +Shell3    StringRefine
-1.5                     CoarsenLimit
-1.5                     RefineLimit
-3.0                     MaxResolution
+0.5                     CoarsenLimit
+0.5                     RefineLimit
+4.0                     MaxResolution
 
 #GRIDRESOLUTION
 0.5                     Resolution
@@ -528,22 +534,22 @@ RAW			StringLog
 #SAVEPLOT
 3			nPlotFile
 x=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+1			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+1			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti	dx	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+1			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti	dx	NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 5000			DnSavePlot
@@ -611,6 +617,32 @@ T			DoAmr
 501			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
+
+#SAVEPLOT
+3                       nPlotFile
+x=0 VAR idl_ascii       StringPlot
+1000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
+y=0 VAR idl_ascii       StringPlot
+1000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
+z=0 VAR idl_ascii       StringPlot
+1000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
+3d VAR tcp              StringPlot
+5000                    DnSavePlot
+-1.                     DtSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
 
 #END_COMP IH -----------------------------------------------------------------
 
