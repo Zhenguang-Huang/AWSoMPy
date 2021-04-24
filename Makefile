@@ -238,7 +238,7 @@ check_postproc:
 						${FullResDir}/$${RunDir: -6:5}/; 		\
 				fi;								\
 				if [[ -f SC/harmonics_adapt.dat ]]; then			\
-					mv SC/harmonics_adapt.dat SC/HARMONICS.in fdips_bxyz.out 	\
+					mv SC/harmonics_adapt.dat SC/HARMONICS.in harmonics_bxyz.out 	\
 						${FullResDir}/$${RunDir: -6:5}/ ;		\
 				fi;								\
 			else									\
