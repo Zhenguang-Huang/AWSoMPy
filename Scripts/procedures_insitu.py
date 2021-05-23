@@ -14,7 +14,6 @@ plt.rcParams['font.serif'] = ['Times New Roman'] + plt.rcParams['font.serif']
 class preprocess:
     def get_insitu_data(self,spacecraft,start_time,end_time,cache_dir):
         cdas.set_cache(True, cache_dir)
-        print(spacecraft)
         if(spacecraft == 'earth'): 
             instr    = 'OMNI_COHO1HR_MERGED_MAG_PLASMA'
             var_list = ['ABS_B' , 'V', 'N','T']
