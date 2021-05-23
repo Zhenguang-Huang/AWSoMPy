@@ -14,20 +14,29 @@ plt.rcParams['font.serif'] = ['Times New Roman'] + plt.rcParams['font.serif']
 class preprocess:
     def get_insitu_data(self,spacecraft,start_time,end_time,cache_dir):
         cdas.set_cache(True, cache_dir)
-
+        print(spacecraft)
         if(spacecraft == 'earth'): 
             instr    = 'OMNI_COHO1HR_MERGED_MAG_PLASMA'
             var_list = ['ABS_B' , 'V', 'N','T']
             #download data from cdaw
-            data=cdas.get_data('istp_public',instr,start_time,end_time,
-                           var_list)
-            #unify the keys to ['B','V','N','T']
-            data['Epoch'] = data.pop('EPOCH_TIME')
-            data['B'] = data.pop('FIELD_MAGNITUDE_AVG.')
-            data['V'] = data.pop('BULK_FLOW_SPEED')
-            data['N'] = data.pop('ION_DENSITY')
-            data['T'] = data.pop('TEMPERATURE')
-
+            try:
+                data=cdas.get_data('istp_public',instr,start_time,end_time,
+                            var_list)
+                #unify the keys to ['B','V','N','T']
+                data['Epoch'] = data.pop('EPOCH_TIME')
+                data['B'] = data.pop('FIELD_MAGNITUDE_AVG.')
+                data['V'] = data.pop('BULK_FLOW_SPEED')
+                data['N'] = data.pop('ION_DENSITY')
+                data['T'] = data.pop('TEMPERATURE')
+            except cdas.NoDataError:
+                print('No Observation Data for '+spacecraft+'!!')
+                data={}
+                data['Epoch'] = np.array([np.nan])
+                data['B'] = np.array([np.nan])
+                data['V'] = np.array([np.nan])
+                data['N'] = np.array([np.nan])
+                data['T'] = np.array([np.nan])
+                return data
         elif('st' in spacecraft):
             if(spacecraft == 'sta'): 
                 instr    = 'STA_COHO1HR_MERGED_MAG_PLASMA'
@@ -35,13 +44,23 @@ class preprocess:
                 instr    = 'STB_COHO1HR_MERGED_MAG_PLASMA'
             var_list = ['B','plasmaSpeed','plasmaDensity','plasmaTemp']
             #download data from cdaw
-            data=cdas.get_data('istp_public',instr,start_time,end_time,
-                           var_list)
-            #unify the keys to ['B','V','N','T']
-            data['Epoch'] = data.pop('EPOCH')
-            data['V'] = data.pop('PLASMA_SPEED')
-            data['N'] = data.pop('SW_PLASMA_DENS')
-            data['T'] = data.pop('SW_PLASMA_TEMP')
+            try:
+                data=cdas.get_data('istp_public',instr,start_time,end_time,
+                            var_list)
+                #unify the keys to ['B','V','N','T']
+                data['Epoch'] = data.pop('EPOCH')
+                data['V'] = data.pop('PLASMA_SPEED')
+                data['N'] = data.pop('SW_PLASMA_DENS')
+                data['T'] = data.pop('SW_PLASMA_TEMP')
+            except cdas.NoDataError:
+                print('No Observation Data for '+spacecraft+'!!')
+                data={}
+                data['Epoch'] = np.array([np.nan])
+                data['B'] = np.array([np.nan])
+                data['V'] = np.array([np.nan])
+                data['N'] = np.array([np.nan])
+                data['T'] = np.array([np.nan])
+                return data
         else: 
             print('Invalid spacecraft!!')
             return -1
