@@ -383,7 +383,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000			MaxBlock
+160000			MaxBlock
 
 #INCLUDE
 IH/restartIN/restart.H

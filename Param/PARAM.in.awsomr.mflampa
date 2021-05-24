@@ -389,7 +389,7 @@ T			UseCorrection
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+160000			MaxBlock
 
 #INCLUDE
 IH/restartIN/restart.H
