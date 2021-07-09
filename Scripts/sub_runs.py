@@ -3,6 +3,7 @@
 import sys
 import array
 import change_param
+import change_awsom_param
 import subprocess
 import argparse
 import os
@@ -137,10 +138,25 @@ if __name__ == '__main__':
                                            for iRealztion in REALIZATIONS]
                     StrRealizatinos = ",".join(ListStrRealizatinos)
                 else:
-                    NewParam[paramTmp[0]] = paramTmp[1]
+                    if paramTmp[0] == 'add' or paramTmp[0] == 'rm':
+                        if not paramTmp[0] in NewParam.keys():
+                            NewParam[paramTmp[0]] = paramTmp[1]
+                        else:
+                            NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
+                    else:
+                        if paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
+                            if not 'replace' in NewParam.keys():
+                                NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
+                            else:
+                                NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
+                        else:
+                            if not 'change' in NewParam.keys():
+                                NewParam['change']  = {paramTmp[0]:paramTmp[1]}
+                            else:
+                                NewParam['change'][paramTmp[0]] = paramTmp[1]
 
             # need to turn on these two commands if BrFactor and BrMin are used
-            if 'BrFactor' in NewParam.keys() or 'BrMin' in NewParam.keys():
+            if 'BrFactor' in NewParam['change'].keys() or 'BrMin' in NewParam['change'].keys():
                 if 'add' in NewParam.keys():
                     NewParam['add']=NewParam['add']+',FACTORB0,CHANGEWEAKFIELD'
                 else:
@@ -199,9 +215,9 @@ if __name__ == '__main__':
             subprocess.call(strCopy_param, shell=True)
 
             # change the PARAM.in file
-            change_param.change_param_func(time=TIME, map=MAP, pfss=PFSS, 
-                                           new_params=NewParam,scheme=SCHEME,
-                                           DoUseMarker=ARGS.DoUseMarker)
+            change_awsom_param.change_param_local(time=TIME, map=MAP, pfss=PFSS, 
+                                                  new_params=NewParam,scheme=SCHEME,
+                                                  DoUseMarker=ARGS.DoUseMarker)
             
             # make run directories
             strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' '
