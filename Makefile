@@ -35,8 +35,8 @@ FullResRunDirList = $(sort $(dir $(wildcard ${FullResDir}/run[01][0-9]/)))
 
 help: 
 	@echo "*******************************************************************************"
-	@echo "This makefile uses swmfpy (needs numpy) and pyfits that is part of the SWMF. "
-	@echo "There are links in SWMFSOLAR/Scripts to swmfpy and pyfits. "
+	@echo "This makefile uses pyfits (in SWMF/share/Python/. "
+	@echo "There is a link in SWMFSOLAR/Scripts to pyfits. "
 	@echo "Check the python version with python --version. Should be 3.7 or above."
 	@echo ""
 	@echo "On Pleiades, add 'module load python3/3.7.0' in the .cashrc or .bashrc file."
@@ -111,13 +111,10 @@ adapt_run:
 
 install:
 	-@(cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
-	if([ -L ${MYDIR}/Scripts/swmfpy ]); then					\
-		rm -f ${MYDIR}/Scripts/swmfpy; 						\
-	fi;										\
+	cp ${DIR}/util/DATAREAD/srcMagnetogram/download_ADAPT.py ${MYDIR}/Scripts/;	\
 	if([ -L ${MYDIR}/Scripts/pyfits ]); then					\
 		rm -f ${MYDIR}/Scripts/pyfits; 						\
 	fi;										\
-	ln -s ${DIR}/share/Python/swmfpy/swmfpy ${MYDIR}/Scripts/swmfpy; 		\
 	ln -s ${DIR}/share/Python/pyfits ${MYDIR}/Scripts/pyfits; 			\
 	)
 
@@ -192,7 +189,7 @@ rundir:
 	@echo "Creating rundirs"
 	make backup_run
 	make copy_param
-	${MYDIR}/Scripts/change_param.py --map ${MAP} -t ${TIME} -B0 ${PFSS} -p ${POYNTINGFLUX}
+	${MYDIR}/Scripts/change_awsom_param.py --map ${MAP} -t ${TIME} -B0 ${PFSS} -p ${POYNTINGFLUX}
 	make rundir_realizations
 	make clean_rundir_tmp
 
