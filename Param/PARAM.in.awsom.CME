@@ -33,7 +33,7 @@ T			IsTimeAccurate
 
 Make sure the starttime in steadystate is the time of the event.
 Specially if rotation is done.
-STARTTIME
+STARTTIME    	      	 ^
 2014
 9
 10

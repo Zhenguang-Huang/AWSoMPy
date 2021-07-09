@@ -30,7 +30,7 @@ IH 0 -1 1		CompMap
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME
+#STARTTIME		^
 2011			iYear
 03			iMonth
 07			iDay
