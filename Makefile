@@ -111,7 +111,6 @@ adapt_run:
 
 install:
 	-@(cp ${DIR}/util/DATAREAD/srcMagnetogram/remap_magnetogram.py ${MYDIR}/Scripts/;	\
-	cp ${DIR}/util/DATAREAD/srcMagnetogram/download_ADAPT.py ${MYDIR}/Scripts/;	\
 	if([ -L ${MYDIR}/Scripts/pyfits ]); then					\
 		rm -f ${MYDIR}/Scripts/pyfits; 						\
 	fi;										\
