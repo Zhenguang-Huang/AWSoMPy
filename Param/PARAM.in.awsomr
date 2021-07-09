@@ -88,10 +88,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#HARMONICSFILE
+#HARMONICSFILE		^
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-#HARMONICSGRID
+#HARMONICSGRID		^
 1.0			rMagnetogram
 25			rSourceSurface^
 T			IsLogRadius^
@@ -100,7 +100,7 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
-FACTORB0
+FACTORB0		^
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX

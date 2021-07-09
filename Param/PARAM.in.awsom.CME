@@ -99,7 +99,7 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
-FACTORB0
+FACTORB0		^
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
