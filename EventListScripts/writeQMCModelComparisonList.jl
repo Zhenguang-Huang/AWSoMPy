@@ -6,22 +6,74 @@ using Dates
 using Distributions
 using DelimitedFiles
 
-
 # Specify map model and CR
 mg = "ADAPT"
 cr = 2208
 md = "AWSoM"
 
+seedPythonQMC = 20210703
+# Lines in Python
+# seed = 20210703
+# sobol_lattice = qp.Sobol(dimension = 6, 
+#                          seed = seed,
+#                         )
+# np.random.seed(seed)
 
-# Read in csv file for MaxPro design (file generated from RStudio script) and convert to DataFrame
-# XMaxPro = CSV.File("./SampleOutputs/2021_04_09_X_design_MaxPro_ADAPT_AWSoM.csv") |> DataFrame
+if md == "AWSoMR"
+    colNames = ["map",
+            "model",
+            "BrMin", 
+            "BrFactor", 
+            "PoyntingFluxPerBSi", 
+            "LperpTimesSqrtBSi", 
+            "StochasticExponent",
+            "rMin_AWSoMR",
+            "rMinWaveReflection",
+            "pfss",
+            "UseSurfaceWaveRefl",
+            "realization"
+            ]   # give column names for data frame
+else
+    colNames = ["map",
+            "model",
+            "BrMin", 
+            "BrFactor", 
+            "PoyntingFluxPerBSi", 
+            "LperpTimesSqrtBSi", 
+            "StochasticExponent",
+            "nChromoSi_AWSoM",
+            "rMinWaveReflection",
+            "pfss",
+            "UseSurfaceWaveRefl",
+            "realization"
+            ]   # give column names for data frame
+end
 
-data, columns = readdlm("./SampleOutputs/X_design_QMC_ADAPT_AWSoM_solarMin.txt", header=true)
-data = data[:, 2:end]
-columns = columns[1:end-1]
+nRuns = 100
 
-XDesign = DataFrame(data)
-rename!(XDesign, vec(columns))
+# Specify full file name for event_list
+currDateTime = Dates.now()
+currDTString = Dates.format(currDateTime, "yyyy_mm_dd_HH_MM_SS")
+
+
+if cr == 2152
+    data, columns = readdlm(joinpath("./SampleOutputs/QMC_Data_for_event_lists/revised_thresholds/", "X_design_QMC_masterList_solar" * "Max_" * "$(md)" * "_reducedThreshold.txt"), 
+                            header=true)
+    data = data[1:nRuns, 2:end]
+    columns = columns[1:end-1]
+    XDesign = DataFrame(data)
+    rename!(XDesign, vec(columns))
+    fileName = currDTString * "_event_list_SolarMax_" * mg * "_" * md * "_" * "CR$(cr)" * ".txt"
+elseif cr == 2208
+    data, columns = readdlm(joinpath("./SampleOutputs/QMC_Data_for_event_lists/revised_thresholds/", "X_design_QMC_masterList_solar" * "Min_" * "$(md)" * "_reducedThreshold.txt"), 
+                            header=true)
+    data = data[1:nRuns, 2:end]
+    columns = columns[1:end-1]
+    XDesign = DataFrame(data)
+    rename!(XDesign, vec(columns))
+    fileName = currDTString * "_event_list_SolarMin_" * mg * "_" * md * "_" * "CR$(cr)" * ".txt"
+end
+
 
 REALIZATIONS_ADAPT = floor.(XDesign[:, :realization] * 11 .+ 1) .|> Int
 REALIZATIONS_ADAPT = [REALIZATIONS_ADAPT[i, :] for i in 1:size(XDesign, 1)]
@@ -32,19 +84,6 @@ insertcols!(XDesign, 10, :realization=>REALIZATIONS_ADAPT)
 insertcols!(XDesign, 1, :map=>string(mg, "_CR", "$(cr)",  ".fits"))
 insertcols!(XDesign, 2, :model=>md)
 
-colNames = ["map",
-            "model",
-            "BrMin", 
-            "BrFactor",
-            "nChromoSi_AWSoM", 
-            "PoyntingFluxPerBSi", 
-            "LperpTimesSqrtBSi", 
-            "StochasticExponent", 
-            "rMinWaveReflection",
-            "pfss",
-            "UseSurfaceWaveRefl",
-            "realization"
-            ]   # give column names for data frame
 rename!(XDesign, colNames)
 
 # change columns for pfss and UseSurfaceWaveRefl
@@ -61,14 +100,9 @@ select!(XDesign, Not(:UseSurfaceWaveRefl))
 insertcols!(XDesign, :pfss=>pfss, :UseSurfaceWaveRefl=>UseSurfaceWaveRefl)
 
 
-# Specify full file name for event_list
-currDateTime = Dates.now()
-currDTString = Dates.format(currDateTime, "yyyy_mm_dd_HH_MM_SS")
-fileName = currDTString * "_event_list_SolarMin_" * mg * "_" * md * "_" * "CR$(cr)" * ".txt"
-
-
 # Extract keys and values from DataFrame and write as strings to event_list_file
 (tmppath, tmpio) = mktemp()
+write(tmpio, "# seed used in Python QMCPY = $(seedPythonQMC)\n")
 write(tmpio, "selected run IDs = 1-$(size(XDesign, 1))\n")
 write(tmpio, "#START\n")
 write(tmpio, "ID   params\n")
@@ -107,4 +141,4 @@ end
 close(tmpio); 
 mv(tmppath, joinpath("./SampleOutputs/", fileName), force=true)
 
- 
+
