@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
             # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
             if 'rMin_AWSoMR' in NewParam.keys():
-                NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['rMin_AWSoMR']) + 0.02
+                NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['change']['rMin_AWSoMR']) + 0.02
 
             SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
 
