@@ -7,6 +7,7 @@ import change_awsom_param
 import subprocess
 import argparse
 import os
+import warnings
 
 if __name__ == '__main__':
 
@@ -25,6 +26,11 @@ if __name__ == '__main__':
                             + 'Use if you want to use the marker ^ for'
                             + 'changing the PARAM.in file.',
                             type=int, default=1)
+    ARG_PARSER.add_argument('-t', '--ThresholdBrPoynting',
+                            help='(default: -1.0)'
+                            + 'Use if you want to set the Threshold for'
+                            + 'BrFactor*PoyntingFlux',
+                            type=float, default=-1.0)
     ARGS = ARG_PARSER.parse_args()
 
     # whether to reinstall the code
@@ -161,6 +167,17 @@ if __name__ == '__main__':
                     NewParam['add']=NewParam['add']+',FACTORB0,CHANGEWEAKFIELD'
                 else:
                     NewParam['add']='FACTORB0,CHANGEWEAKFIELD'
+
+            if ARGS.ThresholdBrPoynting > 0:
+                BrFactor_local     = float(NewParam['change']['BrFactor'])
+                PoyntingFlux_local = float(NewParam['change']['PoyntingFluxPerBSi'])
+                if BrFactor_local*PoyntingFlux_local > ARGS.ThresholdBrPoynting:
+                    warnings.warn('For run ID: '+str(RunID).zfill(3) + '\n'
+                                  +'BrFactor           ='+str(BrFactor_local)           + '\n'
+                                  +'PoyntingFluxPerBSi ='+str(PoyntingFlux_local) + '\n'
+                                  +'BrFactor*PoyntingFluxPerBSi ='+str(BrFactor_local*PoyntingFlux_local) + '\n'
+                                  +'BrFactor*PoyntingFluxPerBSi >'+str(ARGS.ThresholdBrPoynting))
+                    continue
 
             # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
             if 'rMin_AWSoMR' in NewParam.keys():
