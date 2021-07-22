@@ -182,7 +182,7 @@ F			UseNonConservative^
 
 #TIMESTEPLIMIT
 T			UseDtLimit
-0.5			DtLimitDim
+0.1			DtLimitDim
 
 #RESCHANGE
 T			UseAccurateReschange
