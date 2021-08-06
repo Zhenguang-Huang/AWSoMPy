@@ -4,22 +4,19 @@ import re
 
 # -----------------------------------------------------------------------------
 def add_commands(StrCommands, filenameIn='PARAM.in',
-                 filenameOut='PARAM.in', ExtraStr=None, DoUseMarker=0):
+                 filenameOut='PARAM.in', DoUseMarker=0):
 
     """
     Add commands in PARAM.in/FDIPS.in/HARMONICS.in files.
 
     Arguments:
       StrCommands: a string containing all the commands (separated by ',')
-                   to be added.
+                   to be added. An ExtraStr could be added with '()', e.g.,
+                   BODY(test).
       filenameIn:  an optional string for the input filename.
                    Defualt is PARAM.in.
       filenameOut: an optional string for the output filename.
                    Defualt is PARAM.in.
-      ExtraStr:    an optional extra string for selecting the commands to
-                   be added, in case the command(s) show up in multiple places
-                   in the input file. ExtraStr is for ALL the commands and the
-                   user should NOT provide each ExtraStr for each command.
       DoUseMarker: an optional integer indicating whether to use ^ as a 
                    marker. It does not need to be used with ExtraStr. But if
                    ExtraStr is also provided, the marker should be NEXT to 
@@ -53,10 +50,10 @@ def add_commands(StrCommands, filenameIn='PARAM.in',
          add_commands('BODY,TIMEACCURATE')
 
          # Add the 2nd to 4th BODY/TIMEACCURATE commands
-         add_commands('BODY,TIMEACCURATE',ExtraStr='test')
+         add_commands('BODY(test),TIMEACCURATE')
 
          # Only add the 3rd BODY/TIMEACCURATE commands
-         add_commands('BODY,TIMEACCURATE',ExtraStr='test',DoUseMarker=1)
+         add_commands('BODY,TIMEACCURATE(test)',DoUseMarker=1)
 
          # Add the 3rd to 5th BODY/TIMEACCURATE commands
          add_commands('BODY,TIMEACCURATE',DoUseMarker=1)
@@ -77,8 +74,22 @@ def add_commands(StrCommands, filenameIn='PARAM.in',
     for iLine, line in enumerate(lines):
         # loop through all the commands
         for command in command_I:
-            # check whether the the line starts with the command
-            if command in line[0:len(command)]:
+            # well the line may contain the command name + ExtraStr
+            commands_line = line.split()
+
+            # check whether extra string is provided with ()
+            if '(' and ')' in command:
+                commandLocal = command.split('(')[0]
+                ExtraStr     = command.split('(')[1].split(')')[0]
+            else:
+                commandLocal = command
+                ExtraStr     = None
+
+            if len(commands_line) == 0:
+                continue
+
+            if commandLocal == commands_line[0]:
+                # extra string is provided...
                 if ExtraStr != None:
                     # if ExtraStr is provided, add the command if the 
                     # line contains:
@@ -101,21 +112,18 @@ def add_commands(StrCommands, filenameIn='PARAM.in',
 
 # -----------------------------------------------------------------------------
 def remove_commands(StrCommands, filenameIn='PARAM.in',
-                    filenameOut='PARAM.in', ExtraStr=None, DoUseMarker=0):
+                    filenameOut='PARAM.in', DoUseMarker=0):
     """
     Add commands in PARAM.in/FDIPS.in/HARMONICS.in files.
 
     Arguments:
       StrCommands: a string containing all the commands (separated by ',') to
-                   be removed.
+                   be removed. An ExtraStr could be added with '()', e.g.,
+                   BODY(test).
       filenameIn:  an optional string for the input filename.
                    Defualt is PARAM.in.
       filenameOut: an optional string for the output filename.
                    Defualt is PARAM.in.
-      ExtraStr:    an optional extra string for selecting the commands to be
-                   removed, in case the command(s) show up in multiple places
-                   in the input file. ExtraStr is for ALL the commands and the
-                   user should NOT provide each ExtraStr for each command.
       DoUseMarker: an optional integer indicating whether to use ^ as a 
                    marker. It does not need to be used with ExtraStr. But if
                    ExtraStr is also provided, the marker should be NEXT to
@@ -139,9 +147,21 @@ def remove_commands(StrCommands, filenameIn='PARAM.in',
     for iLine, line in enumerate(lines):
         # loop through all the commands
         for command in command_I:
-            # check whether the the line starts '#' and followed by the
-            # command                
-            if command in line[1:len(command)+1] and line[0] == '#':
+            # well the line may contain the command name + ExtraStr
+            commands_line = line.split()
+
+            # check whether extra string is provided with ()
+            if '(' and ')' in command:
+                commandLocal = command.split('(')[0]
+                ExtraStr     = command.split('(')[1].split(')')[0]
+            else:
+                commandLocal = command
+                ExtraStr     = None
+
+            if len(commands_line) == 0:
+                continue
+
+            if commandLocal == commands_line[0][1:] and commands_line[0][0] == '#':
                 if ExtraStr != None:
                     # if ExtraStr is provided, remove the command if the
                     # line contains:
@@ -164,13 +184,14 @@ def remove_commands(StrCommands, filenameIn='PARAM.in',
 
 # -----------------------------------------------------------------------------
 def replace_commands(DictParam, filenameIn='PARAM.in',
-                     filenameOut='PARAM.in', ExtraStr=None, DoUseMarker=0):
+                     filenameOut='PARAM.in', DoUseMarker=0):
     """
     Replace commands with their parameters in PARAM.in/FDIPS.in/HARMONICS.in
     files.
 
     Arguments:
-      DictParam:   a dict containing all the commands (string) with the values
+      DictParam:   a dict containing all the commands (string with optional ExtraStr
+                   inside '()', e.g., POYNTINGFLUX(test)) with the values
                    of their parameters (string separated by ',') to be
                    replaced. The parameters do not need to be complete. The 
                    script will replace the parameters up to last parameter
@@ -179,10 +200,6 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
                    Defualt is PARAM.in.
       filenameOut: an optional string for the output filename.
                    Defualt is PARAM.in.
-      ExtraStr:    an optional extra string for selecting the commands to be
-                   replaced, in case the command(s) show up in multiple places
-                   in the input file. ExtraStr is for ALL the commands and the
-                   user should NOT provide each ExtraStr for each command.
       DoUseMarker: an optional integer indicating whether to use ^ as a 
                    marker. It does not need to be used with ExtraStr. But if
                    ExtraStr is also provided, the marker should be NEXT to
@@ -227,7 +244,7 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
          5e4                     TchromoSi
          ---------------------------------------------------------
 
-         DictReplace={'POYNTINGFLUX':'3e5', 'CHROMOBC':'1e16,7e4'}
+         DictReplace={'POYNTINGFLUX(test)':'3e5', 'CHROMOBC':'1e16,7e4'}
 
          # or only need to change NchromoSi in CHROMOBC:
          DictReplace={'POYNTINGFLUX':'3e5', 'CHROMOBC':'1e16'}
@@ -236,10 +253,10 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
          replace_commands(DictReplace)
 
          # Add the 2nd to 4th POYNTINGFLUX/CHROMOBC commands
-         replace_commands(DictReplace,ExtraStr='test')
+         replace_commands(DictReplace)
 
          # Only add the 3rd POYNTINGFLUX/CHROMOBC commands
-         replace_commands(DictReplace,ExtraStr='test',DoUseMarker=1)
+         replace_commands(DictReplace,DoUseMarker=1)
 
          # Add the 3rd to 5th POYNTINGFLUX/CHROMOBC commands
          replace_commands(DictReplace,DoUseMarker=1)
@@ -257,11 +274,24 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
     for iLine, line in enumerate(lines):
         # loop through all the keys
         for NameCommand in DictParam.keys():
+            # well the line may contain the command name + ExtraStr
+            commands_line = line.split()
+
+            if len(commands_line) == 0:
+                continue
+
+            # check whether extra string is provided with ()
+            if '(' and ')' in NameCommand:
+                commandLocal = NameCommand.split('(')[0]
+                ExtraStr     = NameCommand.split('(')[1].split(')')[0]
+            else:
+                commandLocal = NameCommand
+                ExtraStr     = None
+
             # obtain the parameter list
             strParam_I = DictParam[NameCommand].split(',')
-            # check whether the the line starts '#' and followed by the
-            # command
-            if NameCommand in line[1:len(NameCommand)+1] and line[0] == '#':
+
+            if commandLocal == commands_line[0][1:] and commands_line[0][0] == '#':
                 if ExtraStr != None:
                     # if ExtraStr is provided, replace the command if the
                     # line contains:
