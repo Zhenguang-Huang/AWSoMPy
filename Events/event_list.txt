@@ -6,15 +6,18 @@
 #  model, which specifies the module used, either AWSoM or AWSoMR. AWSoM and AWSoMR could not be selected at the same time.
 #  realization, which specifies the realization for ADAPT maps. The format is similar as run IDs.
 #  add, which specifies any command to be turned on. This requires that the command is already in the PARAM.in/FDIPS.in/HARMONICS.in.
-#      And it can turn on multiple commands (separated by comma, NO SPACE IN BWTWEEN), e.g., add=HARMONICSFILE,HARMONICSGRID
+#      And it can turn on multiple commands (separated by comma, NO SPACE IN BWTWEEN), e.g., add=HARMONICSFILE,HARMONICSGRID.
+#      ExtraStr could be provided inside () to make the command unique, e.g., add=HARMONICSGRID(PFSS).
 #  rm, which specifies any command to be turned off. This requires that the command is already in the PARAM.in/FDIPS.in/HARMONICS.in.
 #      And it can turn off multiple commands (separated by comma, NO SPACE IN BWTWEEN), e.g., rm=HARMONICSFILE,HARMONICSGRID
+#      ExtraStr could be provided inside () to make the command unique, e.g., rm=HARMONICSGRID(PFSS).
 #  any one parameter from the PARAM.in file (case sensitive), e.g., UnitB, StochasticExponent. Set it as UnitB=1.4, no space 
 #      between the parameter and the value.
 #  any one command with its parameters inside [] (could be a subset starting from the beginning) from the PARAM.in file (case
 #      sensitive), HARMONICSGRID, POYNTINGFLUX. Set it as POYNTINGFLUX=[5e5]. An example of a subset setting would be 
 #      HARMONICSGRID=[1.0,20,F] which would only change the first 3 parameters. This feature would be helpful typically when
 #      setting more than 2 parameters within a command.
+#      ExtraStr could be provided inside () to make the command unique, e.g., HARMONICSGRID(PFSS)=[1.0,20,F].
 #
 #
 # Choose the run IDs, can be multiple IDs, e.g., 1,3,4,5-10,16
