@@ -8,6 +8,7 @@ import subprocess
 import argparse
 import os
 import warnings
+import re
 
 if __name__ == '__main__':
 
@@ -78,7 +79,8 @@ if __name__ == '__main__':
 
     for iLine, line in enumerate(lines[iParamStart:]):
         if line.strip():
-            param_now    = line.split()
+            # preserve the white space inside []
+            param_now    = re.split(r'\s+(?![^[\]]*])', line.strip())
 
             # the first element is always an inter representing the run ID.
             param_now[0] = int(param_now[0])
