@@ -46,6 +46,9 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
                           str(time_map.day)    + ',' + str(time_map.hour)  + ',' +
                           str(time_map.minute) + ',' + str(time_map.second))
 
+    # Need to add the msc
+    time_param = time_param+',0.0'
+
     # set #STARTTIME
     if 'replace' in new_params.keys():
         new_params['replace']['STARTTIME']=time_param
@@ -88,16 +91,16 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
 
     # set the PFSS solver, FDIPS or Harmonics
     if (pfss == 'FDIPS'):
-        change_param.add_commands('LOOKUPTABLE', ExtraStr='FDIPS',DoUseMarker=DoUseMarker)
+        change_param.add_commands('LOOKUPTABLE(FDIPS)', DoUseMarker=DoUseMarker)
         change_param.remove_commands('MAGNETOGRAM,HARMONICSFILE,HARMONICSGRID', DoUseMarker=DoUseMarker)
     elif (pfss == 'HARMONICS'):
-        change_param.remove_commands('LOOKUPTABLE', ExtraStr='FDIPS',DoUseMarker=DoUseMarker)
+        change_param.remove_commands('LOOKUPTABLE(FDIPS)', DoUseMarker=DoUseMarker)
         change_param.add_commands('HARMONICSFILE,HARMONICSGRID',     DoUseMarker=DoUseMarker)
     else:
         raise ValueError(pfss + ' must be either HARMONICS or FDIPS')
 
     if scheme == 5:
-        change_param.remove_commands('END',ExtraStr='END_2nd_scheme',DoUseMarker=DoUseMarker)
+        change_param.remove_commands('END(END_2nd_scheme)',DoUseMarker=DoUseMarker)
 
     # prepare each realization map.
     str_exe = str('Scripts/remap_magnetogram.py ' + filename_map)
