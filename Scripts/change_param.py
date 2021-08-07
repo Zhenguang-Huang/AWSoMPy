@@ -193,9 +193,9 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
       DictParam:   a dict containing all the commands (string with optional ExtraStr
                    inside '()', e.g., POYNTINGFLUX(test)) with the values
                    of their parameters (string separated by ',') to be
-                   replaced. The parameters do not need to be complete. The 
-                   script will replace the parameters up to last parameter
-                   that the user specifies.
+                   replaced. The parameters need to be COMPLETE. The 
+                   script will replace the parameters with proper expansion or
+                   contraction.
       filenameIn:  an optional string for the input filename.
                    Defualt is PARAM.in.
       filenameOut: an optional string for the output filename.
@@ -246,9 +246,6 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
 
          DictReplace={'POYNTINGFLUX(test)':'3e5', 'CHROMOBC':'1e16,7e4'}
 
-         # or only need to change NchromoSi in CHROMOBC:
-         DictReplace={'POYNTINGFLUX':'3e5', 'CHROMOBC':'1e16'}
-
          # Replace all POYNTINGFLUX/CHROMOBC commands:
          replace_commands(DictReplace)
 
@@ -261,6 +258,30 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
          # Add the 3rd to 5th POYNTINGFLUX/CHROMOBC commands
          replace_commands(DictReplace,DoUseMarker=1)
 
+         ---------------------------------------------------------
+
+         A fancy way trying to replace the AMRCRITERIARESOLUTION as follows:
+
+	 #AMRCRITERIARESOLUTION              SC^
+	 3                       nRefineCrit
+	 dphi                    StringRefine
+	 3.0                     RefineTo
+	 1.5                     CoarsenFrom
+	 dphi Innershell         StringRefine
+	 1.5                     RefineTo
+	 0.75                    CoarsenFrom
+	 currentsheet            StringRefine
+	 0.5                     CoarsenLimit
+	 0.5                     RefineLimit
+	 1.5                     MaxResolution
+
+         The Dict could be defined as
+         DictReplace={'AMRCRITERIARESOLUTION(SC)':'2,dphi,3.0,1.5,dphi Innershell,1.5,0.75'}
+         which will remove the last criteria
+
+         Or
+         DictReplace={'AMRCRITERIARESOLUTION(SC)':'4,dphi,3.0,1.5,dphi Innershell,1.5,0.75,currentsheet,0.5,0.5,1.5,InnerShell,0.25,0.25'}
+         which will add one criteria.
     """
 
     # report error if DictParam is not a dict
@@ -270,17 +291,18 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
     with open(filenameIn, 'rt') as params:
         lines = list(params)
 
-    # loop through all lines
-    for iLine, line in enumerate(lines):
-        # loop through all the keys
-        for NameCommand in DictParam.keys():
+    # loop through all the keys
+    for NameCommand in DictParam.keys():
+        # loop through all lines
+        for iLine, line in enumerate(lines):
             # well the line may contain the command name + ExtraStr
             commands_line = line.split()
 
+            # skip empty line
             if len(commands_line) == 0:
                 continue
 
-            # check whether extra string is provided with ()
+            # check whether extra string is provided with () for the command to be replaced
             if '(' and ')' in NameCommand:
                 commandLocal = NameCommand.split('(')[0]
                 ExtraStr     = NameCommand.split('(')[1].split(')')[0]
@@ -288,10 +310,32 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
                 commandLocal = NameCommand
                 ExtraStr     = None
 
-            # obtain the parameter list
+            # obtain the parameter list for the command to be replaced
             strParam_I = DictParam[NameCommand].split(',')
 
             if commandLocal == commands_line[0][1:] and commands_line[0][0] == '#':
+                # determine the length of the block of the command
+                len_comm_orig = 0
+                # the parameter starts at iLine+1
+                while lines[iLine+1+len_comm_orig].strip() != '':
+                    len_comm_orig = len_comm_orig+1
+                    if iLine+1+len_comm_orig == len(lines):
+                        break
+
+                # create the new list of the command needs to be replaced
+                lines_command = []
+                for iParam,param_local in enumerate(strParam_I):
+                    if len(strParam_I) == len_comm_orig:
+                        # use the same comment if the size of the command does not change
+                        # split the original line parame, the parameter starts at iLine+1
+                        line_split = lines[iLine+1+iParam].split()
+                        line_new   = strParam_I[iParam] +'\t\t\t' \
+                            + ' '.join(line_split[1:])+'\n'
+                    else:
+                        # if the size changes, then no comment for the parameters...
+                        line_new   = strParam_I[iParam] + '\n'
+                    lines_command.append(line_new)
+
                 if ExtraStr != None:
                     # if ExtraStr is provided, replace the command if the
                     # line contains:
@@ -299,29 +343,14 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
                     # 2. '^' follows by ExtraStr if DoUseMarker=1
                     if ((re.search(rf'\b{ExtraStr}\b', line) and not DoUseMarker) or
                         (re.search(rf'\b{ExtraStr}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
-                        for iParam, param_local in enumerate(strParam_I):
-                            # split the original line
-                            line_split = lines[iLine+iParam+1].split()
-                            # create the new line
-                            new_line   = strParam_I[iParam] +'\t\t\t' \
-                                + ' '.join(line_split[1:])+'\n'
-                            # replace the line containing the parameter
-                            lines[iLine+iParam+1] = new_line
+                        lines[iLine+1:iLine+1+len_comm_orig] = lines_command
                 elif not DoUseMarker:
                     # DoUseMarker = 0 and ExtraStr = None
-                    for iParam, param_local in enumerate(strParam_I):
-                        line_split = lines[iLine+iParam+1].split()
-                        new_line   = strParam_I[iParam] +'\t\t\t' \
-                            + ' '.join(line_split[1:])+'\n'
-                        lines[iLine+iParam+1] = new_line
+                    lines[iLine+1:iLine+1+len_comm_orig] = lines_command
                 else:
                     # DoUseMarker = 1 and ExtraStr = None
                     if '^' in line:
-                        for iParam, param_local in enumerate(strParam_I):
-                            line_split = lines[iLine+iParam+1].split()
-                            new_line   = strParam_I[iParam] +'\t\t\t' \
-                                + ' '.join(line_split[1:])+'\n'
-                            lines[iLine+iParam+1] = new_line
+                        lines[iLine+1:iLine+1+len_comm_orig] = lines_command
 
     with open(filenameOut, 'w') as file_output:
         for line in lines:
