@@ -113,6 +113,11 @@ T                       UseB0MomentumFlux
 #DIVFULLBSOURCE
 T                       UseDivFullBSource
 
+#ALIGNBANDU
+T                       UseClGL
+2.5                     RSourceChGL
+5                       RMinChGL
+
 FACTORB0		^
 1.0			FactorB0 BrFactor^
 
@@ -326,16 +331,6 @@ ascii			TypeFile
 
 #SAVEINITIAL
 T			DoSaveInitial
-
-#ALIGNBANDU
-T                       UseClGL
-2.5                       RSourceChGL
-5                       RMinChGL
-
-#TESTXYZ
-2.02926305748422		xTest
--1.75045435149534		yTest
--0.601797324529828		zTest
 
 #END_COMP SC -----------------------------------------------------------------
 
