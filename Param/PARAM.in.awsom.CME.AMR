@@ -196,7 +196,7 @@ F			UseNonConservative
 
 #TIMESTEPLIMIT
 T			UseDtLimit
-0.5			DtLimitDim
+0.1			DtLimitDim
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -351,11 +351,11 @@ currentsheet            StringRefine
 0.5                     RefineLimit
 1.5                     MaxResolution
 dphi cmecone1           StringRefine
-0.2                     RefineTo
-0.2                     CoarsenFrom
+0.5                     RefineTo
+0.25                     CoarsenFrom
 
 #GRIDRESOLUTION
-0.2                     Resolution
+0.5			Resolution
 initial                 StringShape
 
 #DOAMR
@@ -419,7 +419,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+160000			MaxBlock
 
 #INCLUDE
 IH/restartIN/restart.H
@@ -466,7 +466,7 @@ dx cmecone1		StringRefine
 0.125			CoarsenFrom
 
 #GRIDRESOLUTION
-0.125			Resolution
+0.25			Resolution
 initial			StringShape
 
 #DOAMR

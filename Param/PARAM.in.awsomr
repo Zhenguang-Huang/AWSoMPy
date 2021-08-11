@@ -27,7 +27,7 @@ IH 0 -1 1		CompMap
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME
+#STARTTIME		^
 2011			iYear
 03			iMonth
 07			iDay
@@ -88,10 +88,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#HARMONICSFILE
+#HARMONICSFILE		^
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-#HARMONICSGRID
+#HARMONICSGRID		^
 1.0			rMagnetogram
 25			rSourceSurface^
 T			IsLogRadius^
@@ -100,7 +100,7 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
-FACTORB0
+FACTORB0		^
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
@@ -368,7 +368,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+160000			MaxBlock
 
 INCLUDE
 IH/restartIN/restart.H

@@ -3,9 +3,12 @@
 import sys
 import array
 import change_param
+import change_awsom_param
 import subprocess
 import argparse
 import os
+import warnings
+import re
 
 if __name__ == '__main__':
 
@@ -24,6 +27,11 @@ if __name__ == '__main__':
                             + 'Use if you want to use the marker ^ for'
                             + 'changing the PARAM.in file.',
                             type=int, default=1)
+    ARG_PARSER.add_argument('-t', '--ThresholdBrPoynting',
+                            help='(default: -1.0)'
+                            + 'Use if you want to set the Threshold for'
+                            + 'BrFactor*PoyntingFlux',
+                            type=float, default=-1.0)
     ARGS = ARG_PARSER.parse_args()
 
     # whether to reinstall the code
@@ -71,7 +79,8 @@ if __name__ == '__main__':
 
     for iLine, line in enumerate(lines[iParamStart:]):
         if line.strip():
-            param_now    = line.split()
+            # preserve the white space inside []
+            param_now    = re.split(r'\s+(?![^[\]]*])', line.strip())
 
             # the first element is always an inter representing the run ID.
             param_now[0] = int(param_now[0])
@@ -137,18 +146,44 @@ if __name__ == '__main__':
                                            for iRealztion in REALIZATIONS]
                     StrRealizatinos = ",".join(ListStrRealizatinos)
                 else:
-                    NewParam[paramTmp[0]] = paramTmp[1]
+                    if paramTmp[0] == 'add' or paramTmp[0] == 'rm':
+                        if not paramTmp[0] in NewParam.keys():
+                            NewParam[paramTmp[0]] = paramTmp[1]
+                        else:
+                            NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
+                    else:
+                        if paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
+                            if not 'replace' in NewParam.keys():
+                                NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
+                            else:
+                                NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
+                        else:
+                            if not 'change' in NewParam.keys():
+                                NewParam['change']  = {paramTmp[0]:paramTmp[1]}
+                            else:
+                                NewParam['change'][paramTmp[0]] = paramTmp[1]
 
             # need to turn on these two commands if BrFactor and BrMin are used
-            if 'BrFactor' in NewParam.keys() or 'BrMin' in NewParam.keys():
+            if 'BrFactor' in NewParam['change'].keys() or 'BrMin' in NewParam['change'].keys():
                 if 'add' in NewParam.keys():
                     NewParam['add']=NewParam['add']+',FACTORB0,CHANGEWEAKFIELD'
                 else:
                     NewParam['add']='FACTORB0,CHANGEWEAKFIELD'
 
+            if ARGS.ThresholdBrPoynting > 0:
+                BrFactor_local     = float(NewParam['change']['BrFactor'])
+                PoyntingFlux_local = float(NewParam['change']['PoyntingFluxPerBSi'])
+                if BrFactor_local*PoyntingFlux_local > ARGS.ThresholdBrPoynting:
+                    warnings.warn('For run ID: '+str(RunID).zfill(3) + '\n'
+                                  +'BrFactor           ='+str(BrFactor_local)           + '\n'
+                                  +'PoyntingFluxPerBSi ='+str(PoyntingFlux_local) + '\n'
+                                  +'BrFactor*PoyntingFluxPerBSi ='+str(BrFactor_local*PoyntingFlux_local) + '\n'
+                                  +'BrFactor*PoyntingFluxPerBSi >'+str(ARGS.ThresholdBrPoynting))
+                    continue
+
             # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
-            if 'rMin_AWSoMR' in NewParam.keys():
-                NewParam['rMaxLayer_AWSoMR'] = float(NewParam['rMin_AWSoMR']) + 0.02
+            if 'rMin_AWSoMR' in NewParam['change'].keys():
+                NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['change']['rMin_AWSoMR']) + 0.02
 
             SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
 
@@ -199,9 +234,9 @@ if __name__ == '__main__':
             subprocess.call(strCopy_param, shell=True)
 
             # change the PARAM.in file
-            change_param.change_param_func(time=TIME, map=MAP, pfss=PFSS, 
-                                           new_params=NewParam,scheme=SCHEME,
-                                           DoUseMarker=ARGS.DoUseMarker)
+            change_awsom_param.change_param_local(time=TIME, map=MAP, pfss=PFSS, 
+                                                  new_params=NewParam,scheme=SCHEME,
+                                                  DoUseMarker=ARGS.DoUseMarker)
             
             # make run directories
             strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' '

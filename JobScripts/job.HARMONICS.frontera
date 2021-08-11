@@ -20,7 +20,13 @@
 ibrun -n 1 ./PostProc.pl -r=180 -n=10 >& PostProc.log &
 
 # the remianing nodes running SWMF, remember to change the number of processors if -N is changed
-ibrun -n 1064 -o 56 ./SWMF.exe > runlog_`date +%y%m%d%H%M`
+if [[ $SHELL == '/bin/bash' ]]; \
+    then ibrun -o 56 -n $(( (SLURM_NODES - 1 ) *56 )) ./SWMF.exe  > runlog_`date +%y%m%d%H%M` ; \
+fi
+
+if [[ $SHELL == '/bin/tcsh' ]]; \
+    then ibrun -o 56 -n $(( (SLURM_NNODES - 1 ) *56 )) ./SWMF.exe  > runlog_`date +%y%m%d%H%M` ; \
+fi
 
 sleep 180
 touch PostProc.STOP

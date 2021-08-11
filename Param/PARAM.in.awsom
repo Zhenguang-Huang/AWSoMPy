@@ -30,7 +30,7 @@ IH 0 -1 1		CompMap
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME
+#STARTTIME		^
 2011			iYear
 03			iMonth
 07			iDay
@@ -44,13 +44,19 @@ T			DoSaveRestart
 10000			DnSaveRestart
 -1.0			DtSaveRestart
 
+#ROTATEHGR		^
+-1.			dLongitudeHgr^
+
+#ROTATEHGI		^
+-1.			dLongitudeHgi^
+
 #TEST
 init_axes		StringTest
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+200000			MaxBlock
 
 INCLUDE
 SC/restartIN/restart.H
@@ -81,10 +87,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#HARMONICSFILE
+#HARMONICSFILE		^
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-#HARMONICSGRID
+#HARMONICSGRID		^
 1.0			rMagnetogram
 25			rSourceSurface^
 T			IsLogRadius^
@@ -93,7 +99,7 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
-FACTORB0
+FACTORB0		^
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
@@ -166,7 +172,13 @@ shell0			StringShape
 1.0			RadiusInner
 1.7			Radius
 
-#AMRCRITERIARESOLUTION
+#AMRREGION
+earthcone		NameRegion
+conex0			StringShape
+-24.			Height
+5.			Radius
+
+AMRCRITERIARESOLUTION
 3			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
@@ -174,6 +186,22 @@ dphi			StringRefine
 dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.5			MaxResolution
+
+#AMRCRITERIARESOLUTION
+4			nRefineCrit
+dphi			StringRefine
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
+dphi earthcone		StringRefine
+0.35			RefineTo
+0.175			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -247,19 +275,19 @@ x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti	NameVars
+{MHD} b1x b1y b1z te ti	dx dphi	NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti	NameVars
+{MHD} b1x b1y b1z te ti dx dphi	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti	NameVars
+{MHD} b1x b1y b1z te ti dx dphi	NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 80000			DnSavePlot
@@ -362,7 +390,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+200000			MaxBlock
 
 INCLUDE
 IH/restartIN/restart.H
@@ -401,7 +429,13 @@ shell0			StringShape
 18.0			RadiusInner
 21.0			Radius
 
-#AMRCRITERIARESOLUTION
+#AMRREGION
+earthcone		NameRegion
+conex0			StringShape
+-215.			Height
+20.			Radius
+
+AMRCRITERIARESOLUTION	
 3                       nRefineCrit
 dx			StringRefine
 8.			RefineTo
@@ -409,6 +443,22 @@ dx			StringRefine
 dx +Outershell		StringRefine
 0.5			RefineTo
 0.25			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.0			MaxResolution
+
+#AMRCRITERIARESOLUTION	
+4                       nRefineCrit
+dx			StringRefine
+8.			RefineTo
+4.			CoarsenFrom
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
+dx +earthcone		StringRefine
+0.35			RefineTo
+0.175			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -499,43 +549,43 @@ x=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti	NameVars
+{MHD} b1x b1y b1z te ti dx	NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti	NameVars
+{MHD} b1x b1y b1z te ti dx	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti	NameVars
+{MHD} b1x b1y b1z te ti dx	NameVars
 {default}		NamePars
 
 #SATELLITE
 3			nSatellite
-VAR trajrange		StringSatellite
+VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
-SC/TRAJECTORY/earth.dat		NameTrajectoryFile
+IH/TRAJECTORY/earth.dat		NameTrajectoryFile
 -20 d			StartTimeTraj
 10 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
+VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
-SC/TRAJECTORY/sta.dat		NameTrajectoryFile
+IH/TRAJECTORY/sta.dat		NameTrajectoryFile
 -20 d			StartTimeTraj
 10 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
+VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
-SC/TRAJECTORY/stb.dat		NameTrajectoryFile
+IH/TRAJECTORY/stb.dat		NameTrajectoryFile
 -20 d			StartTimeTraj
 10 d			EndTimeTraj
 1 h			DtTraj

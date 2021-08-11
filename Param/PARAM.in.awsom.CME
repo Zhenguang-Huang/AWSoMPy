@@ -33,7 +33,7 @@ T			IsTimeAccurate
 
 Make sure the starttime in steadystate is the time of the event.
 Specially if rotation is done.
-STARTTIME
+STARTTIME    	      	 ^
 2014
 9
 10
@@ -99,7 +99,7 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
-FACTORB0
+FACTORB0		^
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
@@ -182,7 +182,7 @@ F			UseNonConservative^
 
 #TIMESTEPLIMIT
 T			UseDtLimit
-0.5			DtLimitDim
+0.1			DtLimitDim
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -370,7 +370,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-60000			MaxBlock
+160000			MaxBlock
 
 #INCLUDE
 IH/restartIN/restart.H
