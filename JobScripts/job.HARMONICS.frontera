@@ -9,7 +9,7 @@
 #SBATCH -t 5:00:00            # Run time (hh:mm:ss)
 #SBATCH --mail-type=all       # Send email at begin and end of job
 ###SBATCH --mail-user=your_email@umich.edu
-###SBATCH -A myproject        # Project/Allocation name (req'd if you have more than 1)
+#SBATCH -A BCS21001        # Project/Allocation name (req'd if you have more than 1)
 
 # Any other commands must follow all #SBATCH directives...
 
@@ -20,13 +20,7 @@
 ibrun -n 1 ./PostProc.pl -r=180 -n=10 >& PostProc.log &
 
 # the remianing nodes running SWMF, remember to change the number of processors if -N is changed
-if [[ $SHELL == '/bin/bash' ]]; \
-    then ibrun -o 56 -n $(( (SLURM_NODES - 1 ) *56 )) ./SWMF.exe  > runlog_`date +%y%m%d%H%M` ; \
-fi
-
-if [[ $SHELL == '/bin/tcsh' ]]; \
-    then ibrun -o 56 -n $(( (SLURM_NNODES - 1 ) *56 )) ./SWMF.exe  > runlog_`date +%y%m%d%H%M` ; \
-fi
+ibrun -o 56 -n $(( (SLURM_NNODES - 1 ) *56 )) ./SWMF.exe  > runlog_`date +%y%m%d%H%M`
 
 sleep 180
 touch PostProc.STOP
