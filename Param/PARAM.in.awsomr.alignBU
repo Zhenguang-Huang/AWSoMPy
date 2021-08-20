@@ -103,20 +103,19 @@ F			IsLogRadius^
 180			nLon
 90			nLat
 
-#USECURLB0
-T		UseCurlB0
-2.5		rCurrentFreeB0 (read if UseCurlB0 is true)
+#CURLB0
+T			UseCurlB0
+2.5			rCurrentFreeB0
+T			UseB0MomentumFlux
 
-#B0MOMENTUMFLUX
-T                       UseB0MomentumFlux
-
-#DIVFULLBSOURCE
-T                       UseDivFullBSource
+#B0SOURCE
+T			UseB0Source
+T			UseDivFullBSource
 
 #ALIGNBANDU
-T                       UseClGL
-2.5                     RSourceChGL
-5                       RMinChGL
+T			UseChGL
+2.5			RSourceChGL
+5.0			RMinChGL
 
 FACTORB0		^
 1.0			FactorB0 BrFactor^
@@ -355,9 +354,9 @@ mc3			TypeLimiter
 1.2			LimiterBeta
 
 ALIGNBANDU
-T                       UseClGL
-8                     RSourceChGL
-8                     RMinChGL
+T			UseChGL
+8.0			RSourceChGL
+8.0			RMinChGL
 
 #END_COMP SC -----------------------------------------------------------------
 
@@ -576,9 +575,9 @@ SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 
 #ALIGNBANDU
-T                       UseClGL
-0                     RSourceChGL
-0                     RMinChGL
+T			UseChGL
+0.0			RSourceChGL
+0.0			RMinChGL
 
 #END_COMP IH -----------------------------------------------------------------
 
