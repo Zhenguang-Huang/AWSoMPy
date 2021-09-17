@@ -96,6 +96,7 @@ if __name__ == '__main__':
             PFSS  = 'HARMONICS'
             TIME  = 'MapTime'
             MODEL = 'AWSoM'
+            PARAM = 'Default'
             SCHEME= 2
 
             NewParam = {}
@@ -124,6 +125,8 @@ if __name__ == '__main__':
                     MODEL= paramTmp[1]
                 elif paramTmp[0].lower() == 'scheme':
                     SCHEME = int(paramTmp[1])
+                elif paramTmp[0].lower() == 'param':
+                    PARAM  = paramTmp[1]
                 elif paramTmp[0].lower() == 'realization':
                     strTmp  = paramTmp[1][1:-1]
                     ListRealizationTmp = strTmp.split(',')
@@ -187,10 +190,11 @@ if __name__ == '__main__':
 
             SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
 
-            strMAP  ='MAP='+MAP
-            strPFSS ='PFSS='+PFSS
-            strTime ='TIME='+TIME
-            strModel='MODEL='+MODEL
+            strMAP   ='MAP='+MAP
+            strPFSS  ='PFSS='+PFSS
+            strTime  ='TIME='+TIME
+            strModel ='MODEL='+MODEL
+            strPARAM ='PARAM='+PARAM
 
             strRealizations = 'REALIZATIONS='+StrRealizatinos
 
@@ -230,7 +234,7 @@ if __name__ == '__main__':
             subprocess.call(strbackup_run, shell=True)
 
             # copy the PARAM.in, HARMONICS.in and FDIPS.in files
-            strCopy_param = 'make copy_param ' + strModel
+            strCopy_param = 'make copy_param ' + strModel + ' ' + strPARAM
             subprocess.call(strCopy_param, shell=True)
 
             # change the PARAM.in file
