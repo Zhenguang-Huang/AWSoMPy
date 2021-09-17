@@ -17,6 +17,8 @@ MAP  = NoMap
 
 POYNTINGFLUX   = -1.0
 
+PARAM = Default
+
 REALIZATIONS    = 1,2,3,4,5,6,7,8,9,10,11,12
 REALIZATIONLIST = $(foreach v, $(shell echo ${REALIZATIONS} | tr , ' '), $(shell printf '%02d' $(v)))
 
@@ -157,6 +159,9 @@ copy_param:
 			cp Param/PARAM.in.awsomr PARAM.in; 				\
 		else									\
 			cp Param/PARAM.in.awsom PARAM.in;				\
+		fi;									\
+		if [[ "${PARAM}" != "Default" ]]; then					\
+			cp Param/${PARAM} PARAM.in;					\
 		fi;									\
 		cp Param/HARMONICS.in Param/FDIPS.in .; 				\
 	else										\
