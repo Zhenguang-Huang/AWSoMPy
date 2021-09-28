@@ -10,6 +10,89 @@ import os
 import warnings
 import re
 
+# -----------------------------------------------------------------------------
+def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations):
+
+    for param in list_params:
+        paramTmp = param.split('=')
+        if paramTmp[0].lower()   == 'map':
+            MAP  = paramTmp[1]
+            if 'adapt' in MAP.lower():
+                REALIZATIONS = [x for x in range(1,13)]
+                TypeMap      = 'ADAPT'
+            elif 'gong' in MAP.lower():
+                REALIZATIONS = [1]
+                TypeMap      = 'GONG'
+            else:
+                raise ValueError(MAP, ': unknown map type.')
+            if not StrRealizations.strip():
+                ListStrRealizations = [str(iRealztion)
+                                       for iRealztion in REALIZATIONS]
+                StrRealizations = ",".join(ListStrRealizations)
+        elif paramTmp[0].lower() == 'pfss':
+            PFSS = paramTmp[1]
+        elif paramTmp[0].lower() == 'time':
+            TIME = paramTmp[1]
+        elif paramTmp[0].lower() == 'model':
+            MODEL= paramTmp[1]
+        elif paramTmp[0].lower() == 'scheme':
+            SCHEME = int(paramTmp[1])
+        elif paramTmp[0].lower() == 'param':
+            PARAM  = paramTmp[1]
+        elif paramTmp[0].lower() == 'realization':
+            strTmp  = paramTmp[1][1:-1]
+            ListRealizationTmp = strTmp.split(',')
+            REALIZATIONS = []
+            for StrRealiaztion in ListRealizationTmp:
+                try:
+                    # try to convert it to an integer
+                    Realization = int(StrRealiaztion)
+                    REALIZATIONS.append(Realization)
+                except:
+                    # cannot convert to an integer as there is '-'
+                    ListTmp = StrRealiaztion.split('-')
+                    try:
+                        REALIZATIONS.extend([x for x in range(int(ListTmp[0]),
+                                                              int(ListTmp[1])+1)])
+                    except Exception as error:
+                        raise TypeError(error," wrong format: could only contain "
+                                        + "integer, ',' and '-'.")
+            ListStrRealizations = [str(iRealztion)
+                                   for iRealztion in REALIZATIONS]
+            StrRealizations = ",".join(ListStrRealizations)
+        else:
+            if paramTmp[0] == 'add' or paramTmp[0] == 'rm':
+                if not paramTmp[0] in NewParam.keys():
+                    NewParam[paramTmp[0]] = paramTmp[1]
+                else:
+                    NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
+            else:
+                if paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
+                    if not 'replace' in NewParam.keys():
+                        NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
+                    else:
+                        NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
+                else:
+                    if not 'change' in NewParam.keys():
+                        NewParam['change']  = {paramTmp[0]:paramTmp[1]}
+                    else:
+                        NewParam['change'][paramTmp[0]] = paramTmp[1]
+
+
+    # need to turn on these two commands if BrFactor and BrMin are used
+    if 'BrFactor' in NewParam['change'].keys() or 'BrMin' in NewParam['change'].keys():
+        if 'add' in NewParam.keys():
+            NewParam['add']=NewParam['add']+',FACTORB0,CHANGEWEAKFIELD'
+        else:
+            NewParam['add']='FACTORB0,CHANGEWEAKFIELD'
+
+    # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
+    if 'rMin_AWSoMR' in NewParam['change'].keys():
+        NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['change']['rMin_AWSoMR']) + 0.02
+
+    return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations
+
+# -----------------------------------------------------------------------------
 if __name__ == '__main__':
 
     PROG_DESCRIPTION = ('Script to submit jobs selected from a file.')
@@ -88,6 +171,7 @@ if __name__ == '__main__':
 
     for iID, params in enumerate(params_I):
         # if the run ID is found in the selected run ID.
+
         if params[0] in RunIDs:
             RunID = params[0]
 
@@ -98,80 +182,40 @@ if __name__ == '__main__':
             MODEL = 'AWSoM'
             PARAM = 'Default'
             SCHEME= 2
+            DoRestart = False
 
-            NewParam = {}
+            NewParam        = {}
+            StrRealizations = ''
+
+            # check whether restartdir exists, if yes, set the params first.
+            for param in params[1:]:
+                if 'restartdir=' in param.lower():
+                    paramTmp    = param.split('=')
+                    RestartDir  = paramTmp[1]
+                    DoRestart   = True
+                    filenameKeyparams = 'Results/' + RestartDir+'/key_params.txt'
+                    with open(filenameKeyparams, 'r') as file_keyparams:
+                        lines_keyparams = list(file_keyparams)
+
+                    # remove the /n in the .txt file...
+                    for iLine, line in enumerate(lines_keyparams):
+                        lines_keyparams[iLine] = line.strip()
+                        # the string for the realizations is saved...
+                        if 'realizations' in line.lower():
+                            StrRealizationsRestart = line.strip().split('=')[1]
+                        else:
+                            StrRealizationsRestart = ''
+
+                    # set the params based on the key_params.txt
+                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations = \
+                        set_dict_params(lines_keyparams,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations)
+
+                    if StrRealizationsRestart.strip():
+                        StrRealizations=StrRealizationsRestart
 
             # the actual param starts from the 2nd element
-            for param in params[1:]:
-                paramTmp = param.split('=')
-                if paramTmp[0].lower()   == 'map':
-                    MAP  = paramTmp[1]
-                    if 'adapt' in MAP.lower():
-                        REALIZATIONS = [x for x in range(1,13)]
-                        TypeMap      = 'ADAPT'
-                    elif 'gong' in MAP.lower():
-                        REALIZATIONS = [1]
-                        TypeMap      = 'GONG'
-                    else:
-                        raise ValueError(MAP, ': unknown map type.')
-                    ListStrRealizatinos = [str(iRealztion) 
-                                           for iRealztion in REALIZATIONS]
-                    StrRealizatinos = ",".join(ListStrRealizatinos)
-                elif paramTmp[0].lower() == 'pfss':
-                    PFSS = paramTmp[1]
-                elif paramTmp[0].lower() == 'time':
-                    TIME = paramTmp[1]
-                elif paramTmp[0].lower() == 'model':
-                    MODEL= paramTmp[1]
-                elif paramTmp[0].lower() == 'scheme':
-                    SCHEME = int(paramTmp[1])
-                elif paramTmp[0].lower() == 'param':
-                    PARAM  = paramTmp[1]
-                elif paramTmp[0].lower() == 'realization':
-                    strTmp  = paramTmp[1][1:-1]
-                    ListRealizationTmp = strTmp.split(',')
-                    REALIZATIONS = []
-                    for StrRealiaztion in ListRealizationTmp:
-                        try:
-                            # try to convert it to an integer
-                            Realization = int(StrRealiaztion)
-                            REALIZATIONS.append(Realization)
-                        except:
-                            # cannot convert to an integer as there is '-'
-                            ListTmp = StrRealiaztion.split('-')
-                            try:
-                                REALIZATIONS.extend([x for x in range(int(ListTmp[0]),
-                                                                     int(ListTmp[1])+1)])
-                            except Exception as error:
-                                raise TypeError(error," wrong format: could only contain "
-                                                + "integer, ',' and '-'.")
-                    ListStrRealizatinos = [str(iRealztion)
-                                           for iRealztion in REALIZATIONS]
-                    StrRealizatinos = ",".join(ListStrRealizatinos)
-                else:
-                    if paramTmp[0] == 'add' or paramTmp[0] == 'rm':
-                        if not paramTmp[0] in NewParam.keys():
-                            NewParam[paramTmp[0]] = paramTmp[1]
-                        else:
-                            NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
-                    else:
-                        if paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
-                            if not 'replace' in NewParam.keys():
-                                NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
-                            else:
-                                NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
-                        else:
-                            if not 'change' in NewParam.keys():
-                                NewParam['change']  = {paramTmp[0]:paramTmp[1]}
-                            else:
-                                NewParam['change'][paramTmp[0]] = paramTmp[1]
-
-            # need to turn on these two commands if BrFactor and BrMin are used
-            if 'BrFactor' in NewParam['change'].keys() or 'BrMin' in NewParam['change'].keys():
-                if 'add' in NewParam.keys():
-                    NewParam['add']=NewParam['add']+',FACTORB0,CHANGEWEAKFIELD'
-                else:
-                    NewParam['add']='FACTORB0,CHANGEWEAKFIELD'
+            NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations = \
+                set_dict_params(params[1:],NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations)
 
             if ARGS.ThresholdBrPoynting > 0:
                 BrFactor_local     = float(NewParam['change']['BrFactor'])
@@ -184,11 +228,10 @@ if __name__ == '__main__':
                                   +'BrFactor*PoyntingFluxPerBSi >'+str(ARGS.ThresholdBrPoynting))
                     continue
 
-            # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
-            if 'rMin_AWSoMR' in NewParam['change'].keys():
-                NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['change']['rMin_AWSoMR']) + 0.02
-
             SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
+
+            if DoRestart:
+                SIMDIR = SIMDIR+'_restart_'+RestartDir
 
             strMAP   ='MAP='+MAP
             strPFSS  ='PFSS='+PFSS
@@ -196,7 +239,7 @@ if __name__ == '__main__':
             strModel ='MODEL='+MODEL
             strPARAM ='PARAM='+PARAM
 
-            strRealizations = 'REALIZATIONS='+StrRealizatinos
+            strRealizations = 'REALIZATIONS='+StrRealizations
 
             strSIMDIR = 'SIMDIR='+SIMDIR
 
@@ -252,8 +295,21 @@ if __name__ == '__main__':
             for param in params[1:]:
                 if not 'realization' in param and not 'model' in param:
                     file_output.write(str(param)+'\n')
-            file_output.write('realizations='+StrRealizatinos+'\n')
+            file_output.write('realizations='+StrRealizations+'\n')
             file_output.close()
+
+            if DoRestart:
+                listRealizations = StrRealizations.split(',')
+                # only consider the current realization list
+                for iRealization in listRealizations:
+                    path_swmfsolar     = os.getcwd()
+                    StrRealizationLocal=str(int(iRealization)).zfill(2)
+                    # go to the realiztion dir in SIMDIR
+                    os.chdir(SIMDIR+'/run'+StrRealizationLocal)
+                    strLinkRestart = './Restart.pl -v -i '+RestartDir+'/run'+StrRealizationLocal+'/RESTART'
+                    subprocess.call(strLinkRestart, shell=True)
+                    # go back to the SWMFSOLAR dir
+                    os.chdir(path_swmfsolar)
 
             # clean the PARAM.in, HARMONICS.in, FDIPS.in and map_*.out files 
             # in the SWMFSOLAR folder
