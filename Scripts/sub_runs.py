@@ -11,7 +11,7 @@ import warnings
 import re
 
 # -----------------------------------------------------------------------------
-def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations):
+def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
 
     for param in list_params:
         paramTmp = param.split('=')
@@ -25,10 +25,10 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRea
                 TypeMap      = 'GONG'
             else:
                 raise ValueError(MAP, ': unknown map type.')
-            if not StrRealizations.strip():
+            if not strRealizations.strip():
                 ListStrRealizations = [str(iRealztion)
                                        for iRealztion in REALIZATIONS]
-                StrRealizations = ",".join(ListStrRealizations)
+                strRealizations = ",".join(ListStrRealizations)
         elif paramTmp[0].lower() == 'pfss':
             PFSS = paramTmp[1]
         elif paramTmp[0].lower() == 'time':
@@ -59,7 +59,7 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRea
                                         + "integer, ',' and '-'.")
             ListStrRealizations = [str(iRealztion)
                                    for iRealztion in REALIZATIONS]
-            StrRealizations = ",".join(ListStrRealizations)
+            strRealizations = ",".join(ListStrRealizations)
         else:
             if paramTmp[0] == 'add' or paramTmp[0] == 'rm':
                 if not paramTmp[0] in NewParam.keys():
@@ -90,7 +90,7 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRea
     if 'rMin_AWSoMR' in NewParam['change'].keys():
         NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['change']['rMin_AWSoMR']) + 0.02
 
-    return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations
+    return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations
 
 # -----------------------------------------------------------------------------
 if __name__ == '__main__':
@@ -185,7 +185,7 @@ if __name__ == '__main__':
             DoRestart = False
 
             NewParam        = {}
-            StrRealizations = ''
+            strRealizations = ''
 
             # check whether restartdir exists, if yes, set the params first.
             for param in params[1:]:
@@ -202,20 +202,20 @@ if __name__ == '__main__':
                         lines_keyparams[iLine] = line.strip()
                         # the string for the realizations is saved...
                         if 'realizations' in line.lower():
-                            StrRealizationsRestart = line.strip().split('=')[1]
+                            strRealizationsRestart = line.strip().split('=')[1]
                         else:
-                            StrRealizationsRestart = ''
+                            strRealizationsRestart = ''
 
                     # set the params based on the key_params.txt
-                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations = \
-                        set_dict_params(lines_keyparams,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations)
+                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
+                        set_dict_params(lines_keyparams,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
 
-                    if StrRealizationsRestart.strip():
-                        StrRealizations=StrRealizationsRestart
+                    if strRealizationsRestart.strip():
+                        strRealizations=strRealizationsRestart
 
             # the actual param starts from the 2nd element
-            NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations = \
-                set_dict_params(params[1:],NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,StrRealizations)
+            NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
+                set_dict_params(params[1:],NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
 
             if ARGS.ThresholdBrPoynting > 0:
                 BrFactor_local     = float(NewParam['change']['BrFactor'])
@@ -233,15 +233,13 @@ if __name__ == '__main__':
             if DoRestart:
                 SIMDIR = SIMDIR+'_restart_'+RestartDir.replace('/','_')
 
-            strMAP   ='MAP='+MAP
-            strPFSS  ='PFSS='+PFSS
-            strTime  ='TIME='+TIME
-            strModel ='MODEL='+MODEL
-            strPARAM ='PARAM='+PARAM
+            strPfssMake  ='PFSS='+PFSS
+            strModelMake ='MODEL='+MODEL
+            strParamMake ='PARAM='+PARAM
 
-            strRealizations = 'REALIZATIONS='+StrRealizations
+            strRealizationsMake = 'REALIZATIONS='+strRealizations
 
-            strSIMDIR = 'SIMDIR='+SIMDIR
+            strSimDirMake = 'SIMDIR='+SIMDIR
 
             # Compile the code if needed. AWSoM and AWSoM-R could not be 
             # selected at the same time
@@ -273,11 +271,11 @@ if __name__ == '__main__':
             ARGS.DoCompile = 0
 
             # backup previous results if needed
-            strbackup_run = 'make backup_run ' + strSIMDIR
+            strbackup_run = 'make backup_run ' + strSimDirMake
             subprocess.call(strbackup_run, shell=True)
 
             # copy the PARAM.in, HARMONICS.in and FDIPS.in files
-            strCopy_param = 'make copy_param ' + strModel + ' ' + strPARAM
+            strCopy_param = 'make copy_param ' + strModelMake + ' ' + strParamMake
             subprocess.call(strCopy_param, shell=True)
 
             # change the PARAM.in file
@@ -286,8 +284,8 @@ if __name__ == '__main__':
                                                   DoUseMarker=ARGS.DoUseMarker)
             
             # make run directories
-            strRun_dir = ('make rundir_realizations ' + strSIMDIR + ' '
-                          + strRealizations + ' ' + strPFSS + ' MODEL=' + MODEL)
+            strRun_dir = ('make rundir_realizations ' + strSimDirMake + ' '
+                          + strRealizationsMake + ' ' + strPfssMake + ' MODEL=' + MODEL)
             subprocess.call(strRun_dir, shell=True)
 
             file_output = open(SIMDIR+'/key_params.txt', 'w')
@@ -295,11 +293,11 @@ if __name__ == '__main__':
             for param in params[1:]:
                 if not 'realization' in param and not 'model' in param:
                     file_output.write(str(param)+'\n')
-            file_output.write('realizations='+StrRealizations+'\n')
+            file_output.write('realizations='+strRealizations+'\n')
             file_output.close()
 
             if DoRestart:
-                listRealizations = StrRealizations.split(',')
+                listRealizations = strRealizations.split(',')
                 # only consider the current realization list
                 for iRealization in listRealizations:
                     path_swmfsolar     = os.getcwd()
@@ -316,6 +314,6 @@ if __name__ == '__main__':
             subprocess.call('make clean_rundir_tmp', shell=True)
 
             # submit runs
-            strRun = ('make run ' + strPFSS + ' ' + strSIMDIR + ' ' 
-                      + strRealizations + ' JOBNAME=r'+str(RunID).zfill(2)+'_')
+            strRun = ('make run ' + strPfssMake + ' ' + strSimDirMake + ' '
+                      + strRealizationsMake + ' JOBNAME=r'+str(RunID).zfill(2)+'_')
             subprocess.call(strRun, shell=True)
