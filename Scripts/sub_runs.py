@@ -231,7 +231,7 @@ if __name__ == '__main__':
             SIMDIR = ('run' + str(RunID).zfill(3) + '_' + MODEL)
 
             if DoRestart:
-                SIMDIR = SIMDIR+'_restart_'+RestartDir
+                SIMDIR = SIMDIR+'_restart_'+RestartDir.replace('/','_')
 
             strMAP   ='MAP='+MAP
             strPFSS  ='PFSS='+PFSS
