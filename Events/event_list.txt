@@ -6,6 +6,12 @@
 #  model, which specifies the module used, either AWSoM or AWSoMR. AWSoM and AWSoMR could not be selected at the same time.
 #  param, which specifies the PARAM.in file (other than the default one, in the Param folder), e.g., PARAM.in.awsom.cme
 #  realization, which specifies the realization for ADAPT maps. The format is similar as run IDs.
+#  restartdir, which specifies the restart dir, e.g., run123_AWSoM. The realization dir should NOT be specified.
+#  	       The restart dir must be found directly under Results, e.g., Results/run123_AWSoM. The Results dir can be a
+#	       symbolic link. The script will set the params based on key_params.txt in the restart dir. The default is
+#	       to create restart runs for ALL realizations inside the restart dir. But if the user would like to restart only
+#	       a subset, then use realization=[subset of the realizations]. Any one realization in the subset should have
+#	       the corresponding realization dir in the restart dir.
 #  add, which specifies any command to be turned on. This requires that the command is already in the PARAM.in/FDIPS.in/HARMONICS.in.
 #      And it can turn on multiple commands (separated by comma, NO SPACE IN BWTWEEN), e.g., add=HARMONICSFILE,HARMONICSGRID.
 #      ExtraStr could be provided inside () to make the command unique, e.g., add=HARMONICSGRID(PFSS).
