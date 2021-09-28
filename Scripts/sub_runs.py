@@ -60,23 +60,23 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
             ListStrRealizations = [str(iRealztion)
                                    for iRealztion in REALIZATIONS]
             strRealizations = ",".join(ListStrRealizations)
-        else:
-            if paramTmp[0] == 'add' or paramTmp[0] == 'rm':
-                if not paramTmp[0] in NewParam.keys():
-                    NewParam[paramTmp[0]] = paramTmp[1]
-                else:
-                    NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
+        elif paramTmp[0].lower() == 'realizations' or paramTmp[0].lower() == 'restartdir':
+            continue
+        elif paramTmp[0] == 'add' or paramTmp[0] == 'rm':
+            if not paramTmp[0] in NewParam.keys():
+                NewParam[paramTmp[0]] = paramTmp[1]
             else:
-                if paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
-                    if not 'replace' in NewParam.keys():
-                        NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
-                    else:
-                        NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
-                else:
-                    if not 'change' in NewParam.keys():
-                        NewParam['change']  = {paramTmp[0]:paramTmp[1]}
-                    else:
-                        NewParam['change'][paramTmp[0]] = paramTmp[1]
+                NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
+        elif paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
+            if not 'replace' in NewParam.keys():
+                NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
+            else:
+                NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
+        else:
+            if not 'change' in NewParam.keys():
+                NewParam['change']  = {paramTmp[0]:paramTmp[1]}
+            else:
+                NewParam['change'][paramTmp[0]] = paramTmp[1]
 
 
     # need to turn on these two commands if BrFactor and BrMin are used
@@ -304,7 +304,9 @@ if __name__ == '__main__':
                     StrRealizationLocal=str(int(iRealization)).zfill(2)
                     # go to the realiztion dir in SIMDIR
                     os.chdir(SIMDIR+'/run'+StrRealizationLocal)
-                    strLinkRestart = './Restart.pl -v -i '+RestartDir+'/run'+StrRealizationLocal+'/RESTART'
+                    strLinkRestart = './Restart.pl -v -i '  \
+                        + path_swmfsolar + '/' + RestartDir \
+                        +'/run' + StrRealizationLocal+'/RESTART'
                     subprocess.call(strLinkRestart, shell=True)
                     # go back to the SWMFSOLAR dir
                     os.chdir(path_swmfsolar)
