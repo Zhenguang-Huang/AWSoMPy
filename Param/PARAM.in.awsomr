@@ -1,8 +1,8 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=Awsom,e=Awsom,g=6,8,8,ng=3
-./Config.pl -o=IH:u=Awsom,e=Awsom,g=8,8,8,ng=3
+./Config.pl -o=SC:u=Awsom,e=Awsom,g=6,8,8,nG=3
+./Config.pl -o=IH:u=Awsom,e=Awsom,g=8,8,8,nG=3
 
 Default inner boundary is 1.05 Rs
 Default rMinWaveReflection is 0.0
@@ -36,10 +36,16 @@ F			IsTimeAccurate
 00			iSecond
 0.0			FracSecond
 
-SAVERESTART
+#SAVERESTART
 T			DoSaveRestart
-10000			DnSaveRestart
+20000			DnSaveRestart
 -1.0			DtSaveRestart
+
+#ROTATEHGR		^
+-1.			dLongitudeHgr^
+
+#ROTATEHGI		^
+-1.			dLongitudeHgi^
 
 #TEST
 init_axes		StringTest
@@ -47,7 +53,7 @@ init_axes		StringTest
 #BEGIN_COMP SC ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+200000			MaxBlock
 
 INCLUDE
 SC/restartIN/restart.H
@@ -225,9 +231,10 @@ T			UseAccurateReschange
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLog
+VAR			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
+rho mx my mz p pmin urmin urmax		NameLogVars
 
 #OUTERBOUNDARY
 fieldlinethreads		TypeBc1   rMin
@@ -351,6 +358,9 @@ Begin session: 3
 #MINIMUMRADIALSPEED
 F			UseSpeedMin
 
+#AMR
+-1			DnRefine
+
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
@@ -368,7 +378,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-160000			MaxBlock
+200000			MaxBlock
 
 INCLUDE
 IH/restartIN/restart.H
@@ -495,9 +505,10 @@ F			UseConstrainB
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLog
+VAR			StringLog
 1			DnSaveLogfile
 -1.			DtSaveLogfile
+rho mx my mz p pmin urmin urmax		NameLogVars
 
 #SAVEPLOT
 3			nPlotFile
@@ -527,7 +538,7 @@ z=0 VAR idl_ascii		StringPlot
 
 #SATELLITE
 3			nSatellite
-VAR trajrange		StringSatellite
+VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
@@ -535,7 +546,7 @@ SC/TRAJECTORY/earth.dat		NameTrajectoryFile
 10 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
+VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
@@ -543,7 +554,7 @@ SC/TRAJECTORY/sta.dat		NameTrajectoryFile
 10 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
+VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile

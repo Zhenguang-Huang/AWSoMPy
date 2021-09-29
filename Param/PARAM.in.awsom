@@ -254,9 +254,10 @@ T			UseAccurateReschange
 
 #SAVELOGFILE
 T			DoSaveLogfile
-RAW			StringLog
+VAR			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
+rho mx my mz p pmin urmin urmax		NameLogVars
 
 #OUTERBOUNDARY
 user			TypeBc1   user for spherical and user_outerbcs
@@ -287,7 +288,7 @@ z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi	NameVars
+{MHD} b1x b1y b1z te ti dx dphi		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 80000			DnSavePlot
@@ -372,6 +373,9 @@ Begin session: 3
 
 #MINIMUMRADIALSPEED
 F			UseSpeedMin
+
+#AMR
+-1			DnRefine
 
 #END_COMP SC -----------------------------------------------------------------
 

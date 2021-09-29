@@ -1,8 +1,8 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,g=6,8,8,nG=2
-./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,g=8,8,8,nG=2
+./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,g=6,8,8,nG=3
+./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,g=8,8,8,nG=3
 
 Default rMinWaveReflection is 0.0
 Default UseSurfaceWaveRefl is F
@@ -293,7 +293,7 @@ z=0 VAR idl_ascii		StringPlot
 los ins idl_ascii		StringPlot
 80000			DnSavePlot
 -1.0			DtSavePlot
-sta:euvi stb:euvi sdo:aia	StringsInstrument
+sta:euvi stb:euvi sdo:aia		StringsInstrument
 
 #SATELLITE
 3			nSatellite
