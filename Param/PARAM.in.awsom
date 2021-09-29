@@ -39,9 +39,9 @@ F			IsTimeAccurate
 00			iSecond
 0.0			FracSecond
 
-SAVERESTART
+#SAVERESTART
 T			DoSaveRestart
-10000			DnSaveRestart
+20000			DnSaveRestart
 -1.0			DtSaveRestart
 
 #ROTATEHGR		^
