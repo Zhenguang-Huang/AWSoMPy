@@ -304,8 +304,8 @@ if __name__ == '__main__':
                     StrRealizationLocal=str(int(iRealization)).zfill(2)
                     # go to the realiztion dir in SIMDIR
                     os.chdir(SIMDIR+'/run'+StrRealizationLocal)
-                    strLinkRestart = './Restart.pl -v -i '  \
-                        + path_swmfsolar + '/' + RestartDir \
+                    strLinkRestart = './Restart.pl -v -i '          \
+                        + path_swmfsolar + '/Results/' + RestartDir \
                         +'/run' + StrRealizationLocal+'/RESTART'
                     subprocess.call(strLinkRestart, shell=True)
                     # go back to the SWMFSOLAR dir
