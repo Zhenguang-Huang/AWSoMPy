@@ -1,0 +1,73 @@
+selected run IDs = 1-70
+#START
+ID   params
+1 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.993597e+05    BrFactor=1.3796    PoyntingFluxPerBSi=3.340400e+05    
+2 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.794585e+05    BrFactor=1.3458    PoyntingFluxPerBSi=3.969442e+05    
+3 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.790485e+05    BrFactor=1.2026    PoyntingFluxPerBSi=3.963128e+05    
+4 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=2.044256e+05    BrFactor=1.3664    PoyntingFluxPerBSi=3.397618e+05    
+5 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.989137e+05    BrFactor=0.9803    PoyntingFluxPerBSi=5.440415e+05    
+6 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.781224e+05    BrFactor=1.1639    PoyntingFluxPerBSi=4.080940e+05    
+7 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=2.051155e+05    BrFactor=1.3855    PoyntingFluxPerBSi=3.413541e+05    
+8 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.726178e+05    BrFactor=1.1970    PoyntingFluxPerBSi=4.333727e+05    
+9 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=2.824081e+05    BrFactor=1.2662    PoyntingFluxPerBSi=4.243209e+05    
+10 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.989285e+05    BrFactor=0.9865    PoyntingFluxPerBSi=5.414368e+05    
+11 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.757283e+05    BrFactor=1.0342    PoyntingFluxPerBSi=4.351457e+05    
+12 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.795238e+05    BrFactor=1.1834    PoyntingFluxPerBSi=4.127159e+05    
+13 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.789709e+05    BrFactor=1.3853    PoyntingFluxPerBSi=3.945799e+05    
+14 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.752091e+05    BrFactor=1.3630    PoyntingFluxPerBSi=3.701494e+05    
+15 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.768286e+05    BrFactor=1.1982    PoyntingFluxPerBSi=4.072538e+05    
+16 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.793607e+05    BrFactor=1.3691    PoyntingFluxPerBSi=3.704265e+05    
+17 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.936234e+05    BrFactor=0.9585    PoyntingFluxPerBSi=5.585028e+05    
+18 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=1.825351e+05    BrFactor=1.3448    PoyntingFluxPerBSi=3.919030e+05    
+19 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=2.486725e+05    BrFactor=1.0528    PoyntingFluxPerBSi=3.103018e+05    
+20 map=ADAPT_CR2154.fits    model=AWSoM    LperpTimesSqrtBSi=2.370076e+05    BrFactor=1.3024    PoyntingFluxPerBSi=3.613653e+05    
+21 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.0250    ApexHeight=1.0737    Radius=0.6750    EEGGLMethod=Distance         Strength=1.5050    Helicity=1.0000    dOrientationCme=42.3000    
+22 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.6350    ApexHeight=1.1413    Radius=0.4950    EEGGLMethod=Distance         Strength=0.5450    Helicity=1.0000    dOrientationCme=20.7000    
+23 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.4150    ApexHeight=1.2463    Radius=0.5750    EEGGLMethod=Distance         Strength=1.6250    Helicity=1.0000    dOrientationCme=-6.3000    
+24 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.8050    ApexHeight=0.8938    Radius=0.6850    EEGGLMethod=Distance         Strength=1.1450    Helicity=-1.0000    dOrientationCme=-40.5000    
+25 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.0550    ApexHeight=0.9988    Radius=0.4450    EEGGLMethod=Area         Strength=0.8750    Helicity=1.0000    dOrientationCme=6.3000    
+26 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.3550    ApexHeight=1.1563    Radius=0.7450    EEGGLMethod=Area         Strength=1.9250    Helicity=-1.0000    dOrientationCme=-33.3000    
+27 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.6050    ApexHeight=1.1863    Radius=0.6950    EEGGLMethod=Distance         Strength=1.7150    Helicity=1.0000    dOrientationCme=-17.1000    
+28 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.5650    ApexHeight=1.0588    Radius=0.7750    EEGGLMethod=Area         Strength=1.3550    Helicity=1.0000    dOrientationCme=29.7000    
+29 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.7550    ApexHeight=0.9387    Radius=0.5850    EEGGLMethod=Area         Strength=0.6050    Helicity=-1.0000    dOrientationCme=-2.7000    
+30 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.7850    ApexHeight=0.9463    Radius=0.4650    EEGGLMethod=Distance         Strength=1.6850    Helicity=1.0000    dOrientationCme=38.7000    
+31 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.2950    ApexHeight=1.1787    Radius=0.3850    EEGGLMethod=Distance         Strength=0.8450    Helicity=-1.0000    dOrientationCme=-27.9000    
+32 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.6650    ApexHeight=1.0662    Radius=0.4050    EEGGLMethod=Area         Strength=1.8350    Helicity=1.0000    dOrientationCme=-29.7000    
+33 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.6550    ApexHeight=1.1938    Radius=0.4150    EEGGLMethod=Distance         Strength=1.5350    Helicity=1.0000    dOrientationCme=9.9000    
+34 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.6850    ApexHeight=1.0888    Radius=0.7150    EEGGLMethod=Area         Strength=0.9350    Helicity=1.0000    dOrientationCme=-0.9000    
+35 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.6250    ApexHeight=0.8788    Radius=0.5550    EEGGLMethod=Area         Strength=0.7850    Helicity=-1.0000    dOrientationCme=18.9000    
+36 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.2050    ApexHeight=1.2388    Radius=0.7550    EEGGLMethod=Area         Strength=0.7250    Helicity=1.0000    dOrientationCme=11.7000    
+37 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.1750    ApexHeight=1.1187    Radius=0.4350    EEGGLMethod=Area         Strength=1.5950    Helicity=-1.0000    dOrientationCme=-44.1000    
+38 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.3250    ApexHeight=1.0212    Radius=0.3250    EEGGLMethod=Area         Strength=1.6550    Helicity=-1.0000    dOrientationCme=26.1000    
+39 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.5150    ApexHeight=1.0437    Radius=0.3750    EEGGLMethod=Area         Strength=0.6650    Helicity=1.0000    dOrientationCme=35.1000    
+40 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.5050    ApexHeight=1.0813    Radius=0.4550    EEGGLMethod=Distance         Strength=1.9850    Helicity=1.0000    dOrientationCme=22.5000    
+41 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.1450    ApexHeight=0.9537    Radius=0.6550    EEGGLMethod=Distance         Strength=1.0550    Helicity=-1.0000    dOrientationCme=27.9000    
+42 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.9050    ApexHeight=1.0962    Radius=0.3450    EEGGLMethod=Distance         Strength=1.2350    Helicity=1.0000    dOrientationCme=13.5000    
+43 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.9950    ApexHeight=0.9313    Radius=0.3650    EEGGLMethod=Distance         Strength=0.7550    Helicity=1.0000    dOrientationCme=-42.3000    
+44 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.0850    ApexHeight=1.0288    Radius=0.7850    EEGGLMethod=Area         Strength=0.6350    Helicity=-1.0000    dOrientationCme=-38.7000    
+45 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.8950    ApexHeight=1.0137    Radius=0.5950    EEGGLMethod=Distance         Strength=1.2650    Helicity=1.0000    dOrientationCme=36.9000    
+46 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.5950    ApexHeight=1.0063    Radius=0.6450    EEGGLMethod=Area         Strength=1.8650    Helicity=-1.0000    dOrientationCme=-18.9000    
+47 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.2650    ApexHeight=1.1487    Radius=0.6150    EEGGLMethod=Distance         Strength=1.4150    Helicity=-1.0000    dOrientationCme=15.3000    
+48 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.4450    ApexHeight=0.9762    Radius=0.7050    EEGGLMethod=Area         Strength=0.5750    Helicity=-1.0000    dOrientationCme=40.5000    
+49 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.5350    ApexHeight=1.1038    Radius=0.5650    EEGGLMethod=Area         Strength=0.5150    Helicity=1.0000    dOrientationCme=-35.1000    
+50 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.2350    ApexHeight=0.9087    Radius=0.5050    EEGGLMethod=Distance         Strength=1.9550    Helicity=1.0000    dOrientationCme=-26.1000    
+51 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.9550    ApexHeight=1.2087    Radius=0.6350    EEGGLMethod=Distance         Strength=0.6950    Helicity=-1.0000    dOrientationCme=-4.5000    
+52 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.8750    ApexHeight=1.2163    Radius=0.6050    EEGGLMethod=Area         Strength=1.8050    Helicity=-1.0000    dOrientationCme=31.5000    
+53 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.8350    ApexHeight=1.1338    Radius=0.3350    EEGGLMethod=Area         Strength=1.7450    Helicity=1.0000    dOrientationCme=-15.3000    
+54 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.9850    ApexHeight=1.0513    Radius=0.5450    EEGGLMethod=Distance         Strength=1.7750    Helicity=1.0000    dOrientationCme=4.5000    
+55 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.6950    ApexHeight=0.9012    Radius=0.7650    EEGGLMethod=Distance         Strength=1.5650    Helicity=-1.0000    dOrientationCme=8.1000    
+56 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.5750    ApexHeight=0.9688    Radius=0.5350    EEGGLMethod=Distance         Strength=1.8950    Helicity=-1.0000    dOrientationCme=17.1000    
+57 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.8150    ApexHeight=1.1712    Radius=0.7950    EEGGLMethod=Distance         Strength=1.0850    Helicity=1.0000    dOrientationCme=2.7000    
+58 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.9650    ApexHeight=0.9838    Radius=0.7250    EEGGLMethod=Distance         Strength=1.2950    Helicity=-1.0000    dOrientationCme=-8.1000    
+59 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.7450    ApexHeight=0.9237    Radius=0.3950    EEGGLMethod=Area         Strength=1.1150    Helicity=1.0000    dOrientationCme=24.3000    
+60 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.7250    ApexHeight=1.2237    Radius=0.3150    EEGGLMethod=Distance         Strength=0.9050    Helicity=1.0000    dOrientationCme=-9.9000    
+61 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.7150    ApexHeight=0.9912    Radius=0.3550    EEGGLMethod=Distance         Strength=1.4450    Helicity=-1.0000    dOrientationCme=-31.5000    
+62 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.4750    ApexHeight=0.8862    Radius=0.3050    EEGGLMethod=Distance         Strength=1.3250    Helicity=1.0000    dOrientationCme=0.9000    
+63 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.8650    ApexHeight=1.1638    Radius=0.4250    EEGGLMethod=Area         Strength=1.0250    Helicity=-1.0000    dOrientationCme=44.1000    
+64 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.7750    ApexHeight=1.2312    Radius=0.7350    EEGGLMethod=Distance         Strength=1.3850    Helicity=1.0000    dOrientationCme=-24.3000    
+65 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.9350    ApexHeight=1.1262    Radius=0.6650    EEGGLMethod=Area         Strength=0.8150    Helicity=1.0000    dOrientationCme=-22.5000    
+66 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.9250    ApexHeight=0.9613    Radius=0.4850    EEGGLMethod=Area         Strength=0.9650    Helicity=1.0000    dOrientationCme=-20.7000    
+67 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.5450    ApexHeight=0.9163    Radius=0.6250    EEGGLMethod=Distance         Strength=0.9950    Helicity=1.0000    dOrientationCme=-13.5000    
+68 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.3850    ApexHeight=1.1113    Radius=0.5150    EEGGLMethod=Area         Strength=1.1750    Helicity=-1.0000    dOrientationCme=33.3000    
+69 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=1.1150    ApexHeight=1.2012    Radius=0.5250    EEGGLMethod=Distance         Strength=1.2050    Helicity=1.0000    dOrientationCme=-36.9000    
+70 restartdir=           param=PARAM.in.awsom.cme      FootptDistance=0.8450    ApexHeight=1.0362    Radius=0.4750    EEGGLMethod=Area         Strength=1.4750    Helicity=-1.0000    dOrientationCme=-11.7000    
