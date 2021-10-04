@@ -18,9 +18,9 @@ density so that the run does not fail for solar maximum
 Begin session: 1
 
 #DESCRIPTION
-SWMFSOLAR/Param/PARAM.in.awsom: create steady state solar corona and add CME	StringDescription
+SWMFSOLAR/Param/PARAM.in.awsom.CME: restart from steady state solar corona and add CME	StringDescription
 
-INCLUDE
+#INCLUDE
 RESTART.in
 
 #COMPONENTMAP
@@ -28,9 +28,9 @@ SC 0 -1 1		CompMap
 IH 0 -1 1		CompMap
 
 #TIMEACCURATE
-F			IsTimeAccurate
+T			IsTimeAccurate
 
-#STARTTIME		^
+STARTTIME		^
 2011			iYear
 03			iMonth
 07			iDay
@@ -41,13 +41,13 @@ F			IsTimeAccurate
 
 #SAVERESTART
 T			DoSaveRestart
-20000			DnSaveRestart
--1.0			DtSaveRestart
+-1			DnSaveRestart
+1800.0			DtSaveRestart
 
-#ROTATEHGR		^
+ROTATEHGR		^
 -1.			dLongitudeHgr^
 
-#ROTATEHGI		^
+ROTATEHGI		^
 -1.			dLongitudeHgi^
 
 #TEST
@@ -58,7 +58,7 @@ init_axes		StringTest
 #GRIDBLOCKALL
 200000			MaxBlock
 
-INCLUDE
+#INCLUDE
 SC/restartIN/restart.H
 
 #RESTARTOUTFILE
@@ -145,12 +145,12 @@ T			UseCoarseAxis
 
 turn these off when restarting
 ---------------------------------------------------
-#GRIDGEOMETRY
+GRIDGEOMETRY
 spherical_genr		TypeGeometry
 SC/Param/grid_awsom.dat		NameGridFile
 
 ! Use a true sphere, so box is made much larger
-#GRID
+GRID
 2			nRootBlock1
 2			nRootBlock2
 1			nRootBlock3
@@ -161,7 +161,7 @@ SC/Param/grid_awsom.dat		NameGridFile
 -100.0			zMin
  100.0			zMax
 
-#LIMITRADIUS
+LIMITRADIUS
 1.0			rMin
 24.0			rMax
 
@@ -212,7 +212,7 @@ currentsheet		StringRefine
 initial			StringShape
 
 #DOAMR
-T			DoAmr
+F			DoAmr
 30001			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
@@ -224,7 +224,7 @@ T			IsStrictAmr
 #SCHEME
 2			nOrder (1 or 2)
 Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
-minmod			TypeLimiter
+mc3			TypeLimiter
 1.2			LimiterBeta
 
 #LIMITER
@@ -240,7 +240,7 @@ F			UseRhoRatioLimiter
 1E-9			pMinDim for fluid 1
 1E-9			PeMinDim
 
-#MINIMUMRADIALSPEED
+MINIMUMRADIALSPEED
 T			UseSpeedMin
 10			rSpeedMin
 250			SpeedMinDim
@@ -252,13 +252,6 @@ F			UseNonConservative^
 #RESCHANGE
 T			UseAccurateReschange
 
-#SAVELOGFILE
-T			DoSaveLogfile
-VAR			StringLog
-100			DnSaveLogfile
--1.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
-
 #OUTERBOUNDARY
 user			TypeBc1   user for spherical and user_outerbcs
 float			TypeBc2   rMax
@@ -267,33 +260,77 @@ periodic		TypeBc4   LonMax
 periodic		TypeBc5   LatMin
 periodic		TypeBc6   LatMax
 
-#USERSWITCH
-+init +ic		StringSwitch
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR			StringLog
+-1			DnSaveLogfile
+120.			DtSaveLogfile
+rho mx my mz p pmin urmin urmax		NameLogVars
 
+------------ CME related parameters -------------------------------------------
+
+#UPDATECHECK
+F			DoUpdateCheck
+
+#TIMESTEPLIMIT
+T			UseDtLimit
+0.1			DtLimitDim
+
+add the perturb switch for CME
+#USERSWITCH
++init +ic +perturb	StringSwitch
+
+flux-rope parameters
+#CME
+T			UseCme
+T			DoAddFluxRope
+87.50			LongitudeCme
+14.50			LatitudeCme
+250.68			OrientationCme
+GL			TypeCme
+-18.81			BStrength
+0.75			Radius
+0.60			Stretch
+0.95			ApexHeight
+
+-------------------------------------------------------------------------------
+#SAVETECPLOT
+T			DoSaveOneTecFile
+
+save frequently for first few hours
 #SAVEPLOT
-4			nPlotFile
-x=0 VAR idl_ascii		StringPlot
-5000			DnSavePlot
--1.0			DtSavePlot
+6			nPlotFile
+x=0 VAR idl_ascii	StringPlot
+-1			DnSavePlot
+600.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
-5000			DnSavePlot
--1.			DtSavePlot
+y=0 VAR idl_ascii	StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
-5000			DnSavePlot
--1.			DtSavePlot
+z=0 VAR idl_ascii	StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi		NameVars
+{MHD} b1x b1y b1z te ti		NameVars
+{default}		NamePars
+3d VAR tcp		StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
+{MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
-80000			DnSavePlot
--1.0			DtSavePlot
-sta:euvi stb:euvi sdo:aia		StringsInstrument
+-1			DnSavePlot
+120.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
+los ins tec		StringPlot
+-1			DnSavePlot
+120.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
 
 #SATELLITE
 3			nSatellite
@@ -342,407 +379,6 @@ T			DoSaveInitial
 #COMPONENT
 IH			NameComp
 F			UseComp
-
-#STOP
-1000			MaxIter
--1.0			TimeMax
-
-End session: 1
-#RUN ##########################################################################
-Begin session: 2
-
-#BEGIN_COMP SC ---------------------------------------------------------------
-
-#SCHEME
-2			nOrder (1 or 2)
-Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
-mc3			TypeLimiter
-1.2			LimiterBeta
-
-#END_COMP SC -----------------------------------------------------------------
-
-#STOP
-70000			MaxIter
--1.0			TimeMax
-
-End session: 2
-#RUN ##########################################################################
-Begin session: 3
-
-#BEGIN_COMP SC ---------------------------------------------------------------
-
-#MINIMUMRADIALSPEED
-F			UseSpeedMin
-
-#AMR
--1			DnRefine
-
-#END_COMP SC -----------------------------------------------------------------
-
-#STOP
-80000			MaxIter
--1.0			TimeMax
-
-End session: 3
-#RUN ##########################################################################
-Begin session: 4
-
-#COMPONENT
-IH			NameComp
-T			UseComp
-
-#BEGIN_COMP IH ---------------------------------------------------------------
-
-#GRIDBLOCKALL
-200000			MaxBlock
-
-INCLUDE
-IH/restartIN/restart.H
-
-#RESTARTOUTFILE
-one			StringRestartOutFile
-
-#COORDSYSTEM
-HGC			TypeCoordSystem
-
-#BODY
-T			UseBody
-19.			rBody
-3.0E+8			BodyNDim
-3.5E+6			BodyTDim
-
-#PLASMA
-1.0			FluidMass [amu]
-1.0			IonCharge [e]
-1.0			ElectronTemperatureRatio
-
-#GRID
-1			nRootBlock1
-1			nRootBlock2
-1			nRootBlock3
--250.0			xMin
- 250.0			xMax
--250.0			yMin
- 250.0			yMax
--250.0			zMin
- 250.0			zMax
-
-#AMRREGION
-OuterShell		NameRegion
-shell0			StringShape
-18.0			RadiusInner
-21.0			Radius
-
-#AMRREGION
-earthcone		NameRegion
-conex0			StringShape
--215.			Height
-20.			Radius
-
-AMRCRITERIARESOLUTION	
-3                       nRefineCrit
-dx			StringRefine
-8.			RefineTo
-4.			CoarsenFrom
-dx +Outershell		StringRefine
-0.5			RefineTo
-0.25			CoarsenFrom
-currentsheet		StringRefine
-0.5			CoarsenLimit
-0.5			RefineLimit
-1.0			MaxResolution
-
-#AMRCRITERIARESOLUTION	
-4                       nRefineCrit
-dx			StringRefine
-8.			RefineTo
-4.			CoarsenFrom
-dx +Outershell		StringRefine
-0.5			RefineTo
-0.25			CoarsenFrom
-dx +earthcone		StringRefine
-0.35			RefineTo
-0.175			CoarsenFrom
-currentsheet		StringRefine
-0.5			CoarsenLimit
-0.5			RefineLimit
-1.0			MaxResolution
-
-#GRIDRESOLUTION
-0.5                     Resolution
-initial                 StringShape
-
-#SAVEINITIAL
-F			DoSaveInitial
-
-#INNERBOUNDARY
-buffergrid		TypeBcBody
-
-#BUFFERGRID
-5			nRBuff
-240			nPhiBuff
-120			nThetaBuff
-18.0			rBuffMin
-20.0			rBuffMax
-0.0			PhiBuffMin
-360.			PhiBuffMax
--90.0			LatBuffMin
-90.0			LatBuffMax
-
-#OUTERBOUNDARY
-float			TypeBc1
-float			TypeBc2
-float			TypeBc3
-float			TypeBc4
-float			TypeBc5
-float			TypeBc6
-
-#RESCHANGE
-T			UseAccurateReschange
-
-#USERSWITCH
-+init			StringSwitch
-
-#CORONALHEATING
-turbulentcascade		TypeCoronalHeating
-T			UseWaveReflection
-1.5e5			LperpTimesSqrtBSi^
-0.0			rMinWaveReflection^
-F			UseSurfaceWaveRefl^
-
-#HEATPARTITIONING
-stochasticheating		TypeHeatPartitioning
-0.21			StochasticExponent^
-0.18			StochasticAmplitude^
-
-#SCHEME
-2			nOrder
-Linde			TypeFlux
-mc3			TypeLimiter
-1.2			LimiterBeta
-
-The following minimum pressure is sufficiently small even when the
-domain extends to 400 Rsun, i.e. including Mars orbit.
-It might be important to prevent code crashing due to CMEs with strong shocks.
-#MINIMUMPRESSURE
-1E-14			pMinDim
-1E-14			PeMinDim
-
-#NONCONSERVATIVE
-F			UseNonConservative^
-
-#TIMESTEPPING
-2			nStage
-0.8			CflExpl
-
-#DIVB
-T			UseDivbSource
-T			UseDivbDiffusion
-F			UseProjection
-F			UseConstrainB
-
-#SAVELOGFILE
-T			DoSaveLogfile
-VAR			StringLog
-1			DnSaveLogfile
--1.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
-
-#SAVEPLOT
-3			nPlotFile
-x=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
--1.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx	NameVars
-{default}		NamePars
-y=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
--1.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx	NameVars
-{default}		NamePars
-z=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
--1.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx	NameVars
-{default}		NamePars
-
-#SATELLITE
-3			nSatellite
-VAR HGC trajrange		StringSatellite
-5000			DnOutput
--1			DtOutput
-IH/TRAJECTORY/earth.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR HGC trajrange		StringSatellite
-5000			DnOutput
--1			DtOutput
-IH/TRAJECTORY/sta.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR HGC trajrange		StringSatellite
-5000			DnOutput
--1			DtOutput
-IH/TRAJECTORY/stb.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-
-#END_COMP IH -----------------------------------------------------------------
-
-#COUPLE1
-SC			NameSource
-IH			NameTarget
-1			DnCouple
--1.0			DtCouple
-
-#STOP
-80001			MaxIter
--1.0			TimeMax
-
-End session: 4
-#RUN ##########################################################################
-Begin session: 5
-
-#COUPLE1
-SC			NameSource
-IH			NameTarget
--1			DnCouple
--1.0			DtCouple
-
-#COMPONENT
-SC			NameComp
-F			UseComp
-
-#BEGIN_COMP IH ---------------------------------------------------------------
-
-#DOAMR
-T			DoAmr
-501			DnAmr
--1.0			DtAmr
-T			IsStrictAmr
-
-#END_COMP IH -----------------------------------------------------------------
-
-#STOP
-83000			MaxIter
--1.0			TimeMax
-
-End session: 5
-#RUN ##########################################################################
-Begin session: 6
-
-#BEGIN_COMP IH ---------------------------------------------------------------
-
-#AMR
--1			DnRefine
-
-#END_COMP IH -----------------------------------------------------------------
-
-#STOP
-85000			MaxIter
--1.0			TimeMax
-
-End session: 6
-#RUN ##########################################################################
-Begin session: 7
-
-#TIMEACCURATE
-T			IsTimeAccurate
-
-#SAVERESTART
-T			DoSaveRestart
--1			DnSaveRestart
-3600.0			DtSaveRestart
-
-#COMPONENT
-SC			NameComp
-T			UseComp
-
-#COMPONENT
-IH			NameComp
-F			UseComp
-
-#BEGIN_COMP SC ---------------------------------------------------------------
-
-#UPDATECHECK
-F			DoUpdateCheck
-
-#TIMESTEPLIMIT
-T			UseDtLimit
-0.1			DtLimitDim
-
-#SAVELOGFILE
-T			DoSaveLogfile
-VAR			StringLog
--1			DnSaveLogfile
-120.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
-
-add the perturb switch for CME
-#USERSWITCH
-+init +ic +perturb	StringSwitch
-
-flux-rope parameters
-#CME
-T			UseCme
-T			DoAddFluxRope
-87.50			LongitudeCme
-14.50			LatitudeCme
-250.68			OrientationCme
-GL			TypeCme
--18.81			BStrength
-0.75			Radius
-0.60			Stretch
-0.95			ApexHeight
-
-#SAVETECPLOT
-T			DoSaveOneTecFile
-
-save frequently for first few hours
-#SAVEPLOT
-6			nPlotFile
-x=0 VAR idl_ascii	StringPlot
--1			DnSavePlot
-600.0			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
-{default}		NamePars
-y=0 VAR idl_ascii	StringPlot
--1			DnSavePlot
-600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
-{default}		NamePars
-z=0 VAR idl_ascii	StringPlot
--1			DnSavePlot
-600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
-{default}		NamePars
-3d VAR tcp		StringPlot
--1			DnSavePlot
-600.			DtSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
-{default}		NamePars
-los ins idl_ascii		StringPlot
--1			DnSavePlot
-120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
-los ins tec		StringPlot
--1			DnSavePlot
-120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
-
-#END_COMP SC
 
 #STOP
 -1			MaxIter
