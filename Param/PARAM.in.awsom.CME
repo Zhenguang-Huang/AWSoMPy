@@ -286,12 +286,12 @@ T			UseCme
 T			DoAddFluxRope
 87.50			LongitudeCme
 14.50			LatitudeCme
-250.68			OrientationCme
+250.68			OrientationCme^
 GL			TypeCme
--18.81			BStrength
-0.75			Radius
-0.60			Stretch
-0.95			ApexHeight
+-18.81			BStrength^
+0.75			Radius^
+0.60			Stretch^
+0.95			ApexHeight^
 
 -------------------------------------------------------------------------------
 #SAVETECPLOT
@@ -384,5 +384,5 @@ F			UseComp
 -1			MaxIter
 1 h			TimeMax
 
-End session: 7
+End session: 1
 #END ##########################################################################
