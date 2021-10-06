@@ -37,7 +37,9 @@
 # - can also read in EEGGL params, calculate and put in final values instead of distribution values in event list
 # - add ArgParse with appropriate options so you can easily modify arguments from command line to generate new event list :) 
 # - corrected formula for BStrength
+# - corrected formula for Radius - it should be Radius_distribution * Radius_EEGGL
 # - dropped FootptDistance and EEGGLMethod
+# - drop helicity - not used directly
 
 # TO DO: 
 # - options - define variable that lists selected background, then have restart = those runs in sequence, 
@@ -152,7 +154,7 @@ insertcols!(
             XRestart, 
             1,
             :BStrength      => (XRestart.Strength_distribution .+ BStrength_EEGGL) .* XRestart.Helicity,
-            :Radius         => XRestart.Radius_distribution .+ Radius_EEGGL,
+            :Radius         => XRestart.Radius_distribution .* Radius_EEGGL,
             :ApexHeight     => XRestart.ApexHeight_distribution .+ ApexHeight_EEGGL,
             :OrientationCme => XRestart.Orientation_distribution .+ OrientationCme_EEGGL
             )
@@ -166,7 +168,8 @@ deletecols!(
             "ApexHeight_distribution", 
             "Orientation_distribution",
             "FootptDistance",
-            "EEGGLMethod"
+            "EEGGLMethod",
+            "Helicity"
             ]
             )
 
