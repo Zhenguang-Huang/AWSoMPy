@@ -36,7 +36,8 @@
 # - added param = PARAM.in.awsom.cme
 # - can also read in EEGGL params, calculate and put in final values instead of distribution values in event list
 # - add ArgParse with appropriate options so you can easily modify arguments from command line to generate new event list :) 
-
+# - corrected formula for BStrength
+# - dropped FootptDistance and EEGGLMethod
 
 # TO DO: 
 # - options - define variable that lists selected background, then have restart = those runs in sequence, 
@@ -142,7 +143,7 @@ ApexHeight_EEGGL        = 0.62
 OrientationCme_EEGGL    = 251.57
 
 # Now use the formulas to create new columns for BStrength, Radius, ApexHeight and OrientationCme!
-# BStrength = BStrength_from_EEGGL + Strength_from_distribution +  Helicity_from_distribution
+# BStrength = (BStrength_from_EEGGL + Strength_from_distribution) *  Helicity_from_distribution
 # Radius      = Radius_from_EEGGL + Radius_from_distribution
 # ApexHeight = ApexHeight_EEGGL + ApexHeight_distribution
 # OrientationCme = OrientationCme_EEGGL + Orientation_distribution
@@ -150,7 +151,7 @@ OrientationCme_EEGGL    = 251.57
 insertcols!(
             XRestart, 
             1,
-            :BStrength      => XRestart.Strength_distribution + XRestart.Helicity .+ BStrength_EEGGL,
+            :BStrength      => (XRestart.Strength_distribution .+ BStrength_EEGGL) .* XRestart.Helicity,
             :Radius         => XRestart.Radius_distribution .+ Radius_EEGGL,
             :ApexHeight     => XRestart.ApexHeight_distribution .+ ApexHeight_EEGGL,
             :OrientationCme => XRestart.Orientation_distribution .+ OrientationCme_EEGGL
@@ -163,7 +164,9 @@ deletecols!(
             "Strength_distribution", 
             "Radius_distribution", 
             "ApexHeight_distribution", 
-            "Orientation_distribution"
+            "Orientation_distribution",
+            "FootptDistance",
+            "EEGGLMethod"
             ]
             )
 
@@ -247,6 +250,8 @@ for count = 1:size(XRestart, 1)
             appendVal = @sprintf("%s=[%d]    ", key, value[1])
         elseif value >= 1000
             appendVal = @sprintf("%s=%e    ", key, value)
+        elseif value isa Int
+            appendVal = @sprintf("%s=%d     ", key, value)
         else
             appendVal = @sprintf("%s=%.4f    ", key, value)
         end
