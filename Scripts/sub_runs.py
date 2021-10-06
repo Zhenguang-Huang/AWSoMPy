@@ -98,8 +98,8 @@ if __name__ == '__main__':
     PROG_DESCRIPTION = ('Script to submit jobs selected from a file.')
     ARG_PARSER = argparse.ArgumentParser(description=PROG_DESCRIPTION)
     ARG_PARSER.add_argument('-f', '--filename',
-                            help='(default:event_list.txt)',
-                            type=str, default='event_list.txt')
+                            help='(default:run_list.txt)',
+                            type=str, default='run_list.txt')
     ARG_PARSER.add_argument('-c', '--DoCompile',
                             help='(default: 1)'
                             + 'Use if you want to re-install and compile '
