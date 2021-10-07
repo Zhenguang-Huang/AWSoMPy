@@ -549,7 +549,7 @@ VAR			StringLog
 rho mx my mz p pmin urmin urmax		NameLogVars
 
 #SAVEPLOT
-3			nPlotFile
+4			nPlotFile
 x=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
@@ -568,6 +568,21 @@ z=0 VAR idl_ascii		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx	NameVars
 {default}		NamePars
+shl VAR idl		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+HGC			TypeCoordPlot
+212.0			rMin
+217.0			rMax
+1.			dR    ! only read if rMin /= rMax
+0.			LonMin
+360.			LonMax
+1.			dLon    ! only read if LonMin /= LonMax
+-90.			LatMin
+90.			LatMax
+1.			dLat    ! only read if LatMin /= LatMax
+{MHD} b1x b1y b1z qheat qebyq qparbyq qperpbyq 	      NameVars
+{default}     	  	NamePars
 
 #SATELLITE
 3			nSatellite
