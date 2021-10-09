@@ -1,18 +1,16 @@
-# Generate event_list with background and restart - read background runs csv, restart runs csv as well as an EEGGL Params list
+# Generate run_list with background and restart - read background runs csv, restart runs csv as well as an EEGGL Params list
 #  and merge them by converting them as follows:
 # CSV --> DataFrame --> Dictionary with Keys equal to column names and values equal to param value for that run ---> append `key = value`
-# to a string and write string to a file ---> write final event_list with appropriate date at the end.
+# to a string and write string to a file ---> write final run_list with appropriate date at the end.
 
 # Earlier versions had full date and time but this is 
 # unnecessary, we will just overwrite a previously written file on the same date if it needs changes. 
 
-# Format for new event list combining background and restart
+# Format for new run list combining background and restart
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-# EEGGL parameters (from Nishtha)
+# EEGGL parameters in header
 #CME
-# Reading CME Para
 # T                   UseCme
 # T                   DoAddFluxRope
 # 87.50               LongitudeCme
@@ -25,25 +23,34 @@
 # 0.62                ApexHeight
 
 # #START
-# 1 restart=run***  OrientationCme=*** ApexHeight=***
-# 2 restart=run***  OrientationCme=*** ApexHeight=***
-# 3 restart=run***  OrientationCme=*** ApexHeight=***
+# 1 model=          map=                BrFactor=       PoyntingFluxPerBSi=         LperpTimesSqrtBSi=
+# (same upto nb runs)
+
+# nb+1  restart=run***  OrientationCme=*** ApexHeight=***
+# nb+2  restart=run***  OrientationCme=*** ApexHeight=***
+# (same up to nb + nr runs)
+# nb+nr restart=run***  OrientationCme=*** ApexHeight=***
 
 # ----------------------------------------------------------------------------------------------------------------------
 # DONE:
 # - Can take in multiple background runs and write run IDs correctly
 # - No params that are in the background repeat for the CME runs
 # - added param = PARAM.in.awsom.cme
-# - can also read in EEGGL params, calculate and put in final values instead of distribution values in event list
-# - add ArgParse with appropriate options so you can easily modify arguments from command line to generate new event list :) 
-# - corrected formula for BStrength
-# - corrected formula for Radius - it should be Radius_distribution * Radius_EEGGL
+# - add ArgParse with appropriate options so you can easily modify arguments from command line to generate new run list
 # - dropped FootptDistance and EEGGLMethod
 # - drop helicity - not used directly
+# - variable renaming + lots of formula corrections + dropping some variables entirely
+# - EEGGL params now read from file and put into header
+# - removing start_time arg for now since we are checking for Date_CME from EEGGL file
+# - put in ability to give a single background run, which will be written as restartdir = selectedRun
+
 
 # TO DO: 
+# - for EEGGL params file, also need Date_CME (start time) listed ? If not found, then time is MapTime??? Sounds OK, but
+# the actual key name may be different. 
 # - options - define variable that lists selected background, then have restart = those runs in sequence, 
 # but restart params repeat. 
+# - also write out seed used while producing list in R? Helps keep track for reproducing if needed. 
 # other options? for eg: path to output
 
 using CSV
@@ -57,33 +64,45 @@ using DelimitedFiles
 using ArgParse
 s = ArgParseSettings(
     description="Generate event list for background and restart")
-@add_arg_table! s begin
+@add_arg_table s begin
     "--mg"
-        help = "Which magnetogram?  eg: GONG"
+        help = "Magnetogram to use, for example, GONG."
         default = "ADAPT"
     "--cr"
-        help = "Which CR are we analyzing for ? eg: 2152"
+        help = "CR to use eg: 2152."
+        arg_type = Int
         default = 2154
     "--md"
-        help = "Which model are we using? eg: AWSoM, AWSoMR, AWSoM2T"
+        help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
         default = "AWSoM"
-    # Disabling reading EEGGL file for now
-    # "--fileEEGGL",
-    #     help = "Path to load EEGGL Params"
-    #     default = "./EEGGLParams/eeggl_params_2154.txt"
+    "--fileEEGGL"
+        help = "Path to load EEGGL Params from."
+        arg_type = String
+        default = "./SampleOutputs/restartRunDesignFiles/EEGGLParams_CR2154.txt"
     "--fileBackground"
-        help = "Path to load background wind runs"
+        help = "Path to load background wind runs from."
+        arg_type = String
         default = "./SampleOutputs/restartRunDesignFiles/3params_background_0928.csv"
     "--fileRestart"
-        help = "Path to load restart runs"
-        default = "./SampleOutputs/restartRunDesignFiles/X_design_CME_2021_10_01.csv"
+        help = "Path to load restart runs from."
+        arg_type = String
+        default = "./SampleOutputs/restartRunDesignFiles/X_design_CME_2021_10_08.csv"
     "--start_time"
-        help = "start time to use for background"
+        help = "start time to use for background. Can give yyyy-mm-ddThh:mm:sec:fracsec"
         default="MapTime"
+    "--restartID"
+        help = "give selected background run to which to apply restarts. For example, run005_AWSoM"
+        arg_type = String
+        default="run001_AWSoM"  # This is a bad idea, also what if we give multiple runs
+    # "--runListFile"
+    #     help = "Give path to file where we wish to write runlist"
+    #     default = "run_list_" * mg * "_" * md * "_" * 
+    #             "CR$(cr)" * "_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+    # this is broken because I set the default name to need a CR, 
+    # which is an unparsed arg :(
 end
 
 args = parse_args(s)
-
 
 # restartdir - directory containing background runs to restart (if linking to existing runs)
 # N/A here?
@@ -92,8 +111,6 @@ args = parse_args(s)
 mg = args["mg"]
 cr = args["cr"]
 md = args["md"]
-
-
 
 # load file for background params
 fileBackground = args["fileBackground"]
@@ -120,63 +137,108 @@ fileRestart = args["fileRestart"]
 XRestart = DataFrame(CSV.File(fileRestart))
 deletecols!(XRestart, "Column1")
 
-# convert EEGGL Method from (1, 2) to (Distance, Area) => 1 = Distance, 2 = Area
-EEGGLMethod = replace(XRestart.EEGGLMethod, 1=>"Distance", 2=>"Area")
-select!(XRestart, Not(:EEGGLMethod))
-insertcols!(XRestart, :EEGGLMethod=>EEGGLMethod)
-
 colNamesRestart = [
-                "Strength_distribution",
-                "Radius_distribution",
-                "Orientation_distribution",
-                "ApexHeight_distribution",
-                "FootptDistance",
+                "RelativeStrength",
+                "CmeRadius",
+                "DeltaOrientation",
+                "ApexCoeff",
                 "Helicity",
-                "EEGGLMethod"
-                ]   # give column names for data frame
+                ]   # give column names for data frame (can be redundant if names are already correct)
 
 rename!(XRestart, colNamesRestart)
 
-# TO DO: Read file with EEGGL params
-# For now: using values Nishtha supplied - 
-BStrength_EEGGL         = -30.10
-Radius_EEGGL            = 0.42
-ApexHeight_EEGGL        = 0.62
-OrientationCme_EEGGL    = 251.57
+# Now read in the file with EEGGL params
+fileEEGGL = args["fileEEGGL"]
 
-# Now use the formulas to create new columns for BStrength, Radius, ApexHeight and OrientationCme!
-# BStrength = (BStrength_from_EEGGL + Strength_from_distribution) *  Helicity_from_distribution
-# Radius      = Radius_from_EEGGL + Radius_from_distribution
-# ApexHeight = ApexHeight_EEGGL + ApexHeight_distribution
-# OrientationCme = OrientationCme_EEGGL + Orientation_distribution
+
+# Write a function that takes in fileEEGGL, extracts EEGGLParams 
+function getEEGGLParams(f::IOStream)
+    println("Opened EEGGL file")
+    eegglParams = Dict()
+    iParamStart = 2 # Hardcoding for now, problems with break :(
+    # for (iLine, line) in enumerate(readlines(f))
+    #     if occursin("#CME", line[1:4])
+    #         iParamStart = iLine + 1
+    #         break
+    #     end
+    # end
+    println("Found #CME")
+    lines = readlines(f)
+    # Extract param names and values and store them in `eegglParams`
+    for line in lines[iParamStart:end]
+        strValue, nameEEGGL = split(line)
+        eegglParams[nameEEGGL] = strValue
+    end 
+    println("Got EEGGL Parameters")
+    return eegglParams
+end
+
+eegglParams = open(getEEGGLParams, fileEEGGL)
+
+
+# Some processing on the lines of Scripts/sub_runs.py. Clunky, but works?
+# open(fileEEGGL) do file
+#     println("Opened file")
+#     eegglParams = Dict()
+#     iParamStart = 1
+#     for (iLine, line) in enumerate(readlines(file))
+#         if occursin("#CME", line[1:4])
+#             iParamStart = iLine + 1
+#             break
+#         end
+#     end
+#     println("Found #CME")
+#     # Next, extract the param names and values and store them in `eegglParams`
+#     for (iLine, line) in enumerate(readlines(file)[iParamStart:end])
+#         strValue, nameEEGGL = split(line)
+#         eegglParams[nameEEGGl] = strValue
+#     end
+
+# end
+
+
+
+
+# Parse values for the event specific parameters 
+Radius_EEGGL        = parse(Float64, eegglParams["Radius"])
+B_EEGGL             = parse(Float64, eegglParams["BStrength"])
+Orientation_EEGGL   = parse(Float64, eegglParams["OrientationCme"])
+
+# Date_CME is not in the EEGGL file, so we will just use start_time as an arg to be
+# supplied when running the file. Let's gooo.
+
+# Corrected formulae:
+# 1) Radius    = CmeRadius - produce this first
+# 2) BStrength = RelativeStrength * |B_EEGGL| * Helicity * (Radius_EEGGL / Radius)
+# 3) ApexHeight = Radius * ApexCoeff
+# 4) Orientation = Orientation_EEGGL + DeltaOrientation
+
+# Deliberately splitting up insertion for radius and others, since others are dependent on radius. 
+# Can be done in one go using CmeRadius instead of Radius in formulae, 
+# but this would be catastrophic if we decided to change how we calculate Radius in the future!!!
+insertcols!(
+            XRestart,
+            1, 
+            :Radius         => XRestart.CmeRadius
+        )
+
 
 insertcols!(
             XRestart, 
-            1,
-            :BStrength      => (XRestart.Strength_distribution .+ BStrength_EEGGL) .* XRestart.Helicity,
-            :Radius         => XRestart.Radius_distribution .* Radius_EEGGL,
-            :ApexHeight     => XRestart.ApexHeight_distribution .+ ApexHeight_EEGGL,
-            :OrientationCme => XRestart.Orientation_distribution .+ OrientationCme_EEGGL
+            2,
+            :BStrength      => (abs(B_EEGGL) * Radius_EEGGL * XRestart.Helicity)  .* (XRestart.RelativeStrength ./ XRestart.Radius),
+            :ApexHeight     => XRestart.Radius .* XRestart.ApexCoeff,
+            :Orientation    => XRestart.DeltaOrientation .+ Orientation_EEGGL
             )
 
 # Discard distribution columns now, we don't want to write them to file!
 deletecols!(
             XRestart, 
-            [
-            "Strength_distribution", 
-            "Radius_distribution", 
-            "ApexHeight_distribution", 
-            "Orientation_distribution",
-            "FootptDistance",
-            "EEGGLMethod",
-            "Helicity"
-            ]
+            colNamesRestart
             )
 
-# what does the start time param mean exactly? for now just putting in map time
+
 startTime = args["start_time"]
-
-
 
 # count number of restarts
 nRestart = size(XRestart, 1)
@@ -184,15 +246,22 @@ nRestart = size(XRestart, 1)
 # start restart numbering from nBackground + 1
 runIDRange = (nBackground + 1):(nBackground + nRestart)
 
-# fileName (make separate directory for restart event lists??)
-currDateTime = Dates.now()
-# currDTString = Dates.format(currDateTime, "yyyy_mm_dd_HH_MM_SS")
-currDTString = Dates.format(currDateTime, "yyyy_mm_dd")
-fileName = "event_list_" * mg * "_" * md * "_" * "CR$(cr)" * "_" * currDTString * ".txt"
-
-
-# Extract keys and values from DataFrame and write as strings to event_list_file
+# Extract keys and values from DataFrame and write as strings to run_list_file
 (tmppath, tmpio) = mktemp()
+
+# Get filename for output
+runListFileName = "run_list_" * mg * "_" * md * "_" * 
+            "CR$(cr)" * "_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+
+# touch(joinpath("./SampleOutputs/", runListFileName))
+# tmpio = open(joinpath("./SampleOutputs", runListFileName), "a")
+
+# Write EEGGL params in header
+write(tmpio, "#CME\n")
+for (key, value) in eegglParams
+    write(tmpio, "# " * value * "    " * key * "\n")
+end    
+
 
 # for loop for writing out to file
 write(tmpio, "selected run IDs = 1-$(size(XRestart, 1) + nBackground)\n")
@@ -228,16 +297,21 @@ for count = 1:size(XBackground, 1)
         stringToWrite = stringToWrite * appendVal
     end
 
-    # Here we will put conditional to write startTime or have it not appear in the event list
-    if startTime isa DateTime # is this really the best way to do it :( ? 
-        write(tmpio, 
-        string(count) * " time = $(startTime)   " * stringToWrite * "\n")
-    else
+    # Here we will put conditional to write startTime or have it not appear in the event list (revert to MapTime)
+    if startTime == "MapTime"
         write(tmpio, 
         string(count) * " " * stringToWrite * "\n")
+    else
+        write(tmpio, 
+        string(count) * " time=$(startTime)   " * stringToWrite * "\n")
     end
 
 end
+println("Wrote background runs")
+
+# Get restart run ID (enabled just for a single best run for now)
+restartID = args["restartID"]
+
 
 
 # Loop through DataFrame for restart
@@ -262,10 +336,13 @@ for count = 1:size(XRestart, 1)
     end
 
     write(tmpio, 
-        string(runIDRange[count]) * " " * "restartdir=          " * " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
+        string(runIDRange[count]) * " " * "restartdir=$(restartID)         " * " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
 end
-close(tmpio); 
-mv(tmppath, joinpath("./SampleOutputs/", fileName), force=true)
+
+flush(tmpio)
+mv(tmppath, joinpath("./SampleOutputs/", runListFileName), force=true)
+
 # end for loop
 # confirmation message
-println("Successfully wrote runs to file " * fileName)
+println("Wrote restart runs")
+println("Successfully wrote runs to file " * runListFileName)
