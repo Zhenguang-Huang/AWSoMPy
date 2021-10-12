@@ -1,12 +1,12 @@
-# Generate run_list with background and restart - read background runs csv, restart runs csv as well as an EEGGL Params list
+# Generate param_list with background and restart - read background runs csv, restart runs csv as well as an EEGGL Params list
 #  and merge them by converting them as follows:
 # CSV --> DataFrame --> Dictionary with Keys equal to column names and values equal to param value for that run ---> append `key = value`
-# to a string and write string to a file ---> write final run_list with appropriate date at the end.
+# to a string and write string to a file ---> write final list with appropriate date at the end.
 
 # Earlier versions had full date and time but this is 
 # unnecessary, we will just overwrite a previously written file on the same date if it needs changes. 
 
-# Format for new run list combining background and restart
+# Format for new param list combining background and restart
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EEGGL parameters in header
@@ -24,7 +24,7 @@
 
 # #START
 # 1 model=          map=                BrFactor=       PoyntingFluxPerBSi=         LperpTimesSqrtBSi=
-# (same upto nb runs)
+# (same upto nb runs, optionally has time=      if start_time has been specified)
 
 # nb+1  restart=run***  OrientationCme=*** ApexHeight=***
 # nb+2  restart=run***  OrientationCme=*** ApexHeight=***
@@ -36,22 +36,22 @@
 # - Can take in multiple background runs and write run IDs correctly
 # - No params that are in the background repeat for the CME runs
 # - added param = PARAM.in.awsom.cme
-# - add ArgParse with appropriate options so you can easily modify arguments from command line to generate new run list
+# - add ArgParse with appropriate options so you can easily modify arguments from command line to generate new list
 # - dropped FootptDistance and EEGGLMethod
 # - drop helicity - not used directly
 # - variable renaming + lots of formula corrections + dropping some variables entirely
 # - EEGGL params now read from file and put into header
 # - removing start_time arg for now since we are checking for Date_CME from EEGGL file
 # - put in ability to give a single background run, which will be written as restartdir = selectedRun
-
+# - rename filepaths to be consistent with renamed directories
 
 # TO DO: 
-# - for EEGGL params file, also need Date_CME (start time) listed ? If not found, then time is MapTime??? Sounds OK, but
-# the actual key name may be different. 
 # - options - define variable that lists selected background, then have restart = those runs in sequence, 
 # but restart params repeat. 
 # - also write out seed used while producing list in R? Helps keep track for reproducing if needed. 
-# other options? for eg: path to output
+# - other options? for eg: path to output. Currently trying to have a default path also contain CR, which is a different arg. 
+# - use RCall and call the R MaxPro package directly from Julia? Might help integrate all steps from generating design to writing it
+# - but more difficult to run the script since other users must also have R installed. 
 
 using CSV
 using DataFrames
@@ -78,15 +78,15 @@ s = ArgParseSettings(
     "--fileEEGGL"
         help = "Path to load EEGGL Params from."
         arg_type = String
-        default = "./SampleOutputs/restartRunDesignFiles/EEGGLParams_CR2154.txt"
+        default = "./output/restartRunDesignFiles/EEGGLParams_CR2154.txt"
     "--fileBackground"
         help = "Path to load background wind runs from."
         arg_type = String
-        default = "./SampleOutputs/restartRunDesignFiles/3params_background_0928.csv"
+        default = "./output/restartRunDesignFiles/3params_background_0928.csv"
     "--fileRestart"
         help = "Path to load restart runs from."
         arg_type = String
-        default = "./SampleOutputs/restartRunDesignFiles/X_design_CME_2021_10_08.csv"
+        default = "./output/restartRunDesignFiles/X_design_CME_2021_10_08.csv"
     "--start_time"
         help = "start time to use for background. Can give yyyy-mm-ddThh:mm:sec:fracsec"
         default="MapTime"
@@ -150,12 +150,12 @@ rename!(XRestart, colNamesRestart)
 # Now read in the file with EEGGL params
 fileEEGGL = args["fileEEGGL"]
 
-
 # Write a function that takes in fileEEGGL, extracts EEGGLParams 
 function getEEGGLParams(f::IOStream)
     println("Opened EEGGL file")
     eegglParams = Dict()
-    iParamStart = 2 # Hardcoding for now, problems with break :(
+    iParamStart = 2 
+    # Hardcoding for now, problems with break, ideally want the loop below:
     # for (iLine, line) in enumerate(readlines(f))
     #     if occursin("#CME", line[1:4])
     #         iParamStart = iLine + 1
@@ -173,31 +173,8 @@ function getEEGGLParams(f::IOStream)
     return eegglParams
 end
 
+# Call the above function with filename for eeggl params
 eegglParams = open(getEEGGLParams, fileEEGGL)
-
-
-# Some processing on the lines of Scripts/sub_runs.py. Clunky, but works?
-# open(fileEEGGL) do file
-#     println("Opened file")
-#     eegglParams = Dict()
-#     iParamStart = 1
-#     for (iLine, line) in enumerate(readlines(file))
-#         if occursin("#CME", line[1:4])
-#             iParamStart = iLine + 1
-#             break
-#         end
-#     end
-#     println("Found #CME")
-#     # Next, extract the param names and values and store them in `eegglParams`
-#     for (iLine, line) in enumerate(readlines(file)[iParamStart:end])
-#         strValue, nameEEGGL = split(line)
-#         eegglParams[nameEEGGl] = strValue
-#     end
-
-# end
-
-
-
 
 # Parse values for the event specific parameters 
 Radius_EEGGL        = parse(Float64, eegglParams["Radius"])
@@ -205,7 +182,7 @@ B_EEGGL             = parse(Float64, eegglParams["BStrength"])
 Orientation_EEGGL   = parse(Float64, eegglParams["OrientationCme"])
 
 # Date_CME is not in the EEGGL file, so we will just use start_time as an arg to be
-# supplied when running the file. Let's gooo.
+# supplied when running the file.
 
 # Corrected formulae:
 # 1) Radius    = CmeRadius - produce this first
@@ -222,7 +199,6 @@ insertcols!(
             :Radius         => XRestart.CmeRadius
         )
 
-
 insertcols!(
             XRestart, 
             2,
@@ -237,7 +213,6 @@ deletecols!(
             colNamesRestart
             )
 
-
 startTime = args["start_time"]
 
 # count number of restarts
@@ -246,27 +221,24 @@ nRestart = size(XRestart, 1)
 # start restart numbering from nBackground + 1
 runIDRange = (nBackground + 1):(nBackground + nRestart)
 
-# Extract keys and values from DataFrame and write as strings to run_list_file
+# Create temporary file path and IO
 (tmppath, tmpio) = mktemp()
 
 # Get filename for output
-runListFileName = "run_list_" * mg * "_" * md * "_" * 
+paramListFileName = "param_list_" * mg * "_" * md * "_" * 
             "CR$(cr)" * "_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
-
-# touch(joinpath("./SampleOutputs/", runListFileName))
-# tmpio = open(joinpath("./SampleOutputs", runListFileName), "a")
 
 # Write EEGGL params in header
 write(tmpio, "#CME\n")
 for (key, value) in eegglParams
-    write(tmpio, "# " * value * "    " * key * "\n")
+    write(tmpio, "# " * value * "           " * key * "\n")
 end    
 
-
-# for loop for writing out to file
 write(tmpio, "selected run IDs = 1-$(size(XRestart, 1) + nBackground)\n")
 write(tmpio, "#START\n")
 write(tmpio, "ID   params\n")
+
+# Extract keys and values from DataFrame and write as strings to param_list_file
 
 # Loop through DataFrame for background
 for count = 1:size(XBackground, 1)
@@ -297,7 +269,7 @@ for count = 1:size(XBackground, 1)
         stringToWrite = stringToWrite * appendVal
     end
 
-    # Here we will put conditional to write startTime or have it not appear in the event list (revert to MapTime)
+    # Here we will put conditional to write startTime or have it not appear in the param list (revert to MapTime)
     if startTime == "MapTime"
         write(tmpio, 
         string(count) * " " * stringToWrite * "\n")
@@ -311,8 +283,6 @@ println("Wrote background runs")
 
 # Get restart run ID (enabled just for a single best run for now)
 restartID = args["restartID"]
-
-
 
 # Loop through DataFrame for restart
 for count = 1:size(XRestart, 1)
@@ -338,11 +308,14 @@ for count = 1:size(XRestart, 1)
     write(tmpio, 
         string(runIDRange[count]) * " " * "restartdir=$(restartID)         " * " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
 end
-
-flush(tmpio)
-mv(tmppath, joinpath("./SampleOutputs/", runListFileName), force=true)
-
 # end for loop
+
+# close or flush the temporary IO stream
+flush(tmpio)
+
+# Move the temporary file (src) to appropriate location (dst), force=true overwrites dst if it already exists 
+mv(tmppath, joinpath("./output/", paramListFileName), force=true)
+
 # confirmation message
 println("Wrote restart runs")
-println("Successfully wrote runs to file " * runListFileName)
+println("Successfully wrote runs to file " * paramListFileName)
