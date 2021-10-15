@@ -255,7 +255,7 @@ T			DoTRCorrection
 F			UsePlanarTriangles
 
 #SAVEPLOT
-4			nPlotFile
+5			nPlotFile
 x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
@@ -278,6 +278,16 @@ los ins idl_ascii		StringPlot
 80000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
+cut ray idl_ascii       StringPlot ! 3D cut plot with raytrace info
+80000                   DnSavePlot
+-1.                     DtSavePlot
+1.01                    Coord1MinCut
+1.6                     Coord1MaxCut
+0.                      Coord2MinCut
+360.                    Coord2MaxCut
+-90.                    Coord3MinCut
+90.                     Coord3MaxCut
+0			DxSavePlot
 
 #SATELLITE
 3			nSatellite
