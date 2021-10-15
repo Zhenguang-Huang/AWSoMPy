@@ -51,12 +51,25 @@ def download_ADAPT_magnetogram(timeIn, NameTypeMap='fixed'):
     filenames = ftp.nlst(patten)
     
     if len(filenames) < 1:
-        sys.exit('******************************************************************\n' 
-                 + 'File not found on the ftp server with the patten: '+patten + '.\n'
-                 + 'Try another even hour within 24 hours range of the desired time.\n'
-                 + 'Or check ftp://gong2.nso.edu/adapt/maps/gong in the corresponding \n'
-                 + 'year/month/day to see whether it provides a map.\n'
-                 + '******************************************************************\n')
+        iTry = 0
+        timeLocal = timeIn
+        while True:
+            iTry += 1
+            timeLocal   = timeLocal + dt.timedelta(hours=-1)
+            pattenLocal = 'adapt4'+StrTypeMap+'3*' + str(timeLocal.year).zfill(4) + \
+                str(timeLocal.month).zfill(2) + str(timeLocal.day).zfill(2)       + \
+                str(timeLocal.hour).zfill(2)  + '*'
+            filenames = ftp.nlst(pattenLocal)
+            if len(filenames) > 0:
+                print('Warning: cannot find the specific year/month/day/hour.')
+                print('         But a map is found at '+ timeLocal.strftime("%Y-%m-%dT%H:00:00"))
+                break
+            if iTry > 1000:
+                sys.exit('******************************************************************\n'
+                         + 'Could not find any map with the specific time including prior 1000 \n'
+                         + 'hours. Check ftp://gong2.nso.edu/adapt/maps/gong in the \n'
+                         + 'corresponding year/month/day to see whether it provides a map.\n'
+                         + '******************************************************************\n')
     
     for ifile, filename in enumerate(filenames):
         # open the file locally
