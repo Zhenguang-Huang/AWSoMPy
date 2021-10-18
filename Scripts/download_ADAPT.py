@@ -49,6 +49,8 @@ def download_ADAPT_magnetogram(timeIn, NameTypeMap='fixed'):
         str(timeIn.hour).zfill(2)  + '*'
     
     filenames = ftp.nlst(patten)
+
+    timeMap = timeIn
     
     if len(filenames) < 1:
         iTry = 0
@@ -59,8 +61,21 @@ def download_ADAPT_magnetogram(timeIn, NameTypeMap='fixed'):
             pattenLocal = 'adapt4'+StrTypeMap+'3*' + str(timeLocal.year).zfill(4) + \
                 str(timeLocal.month).zfill(2) + str(timeLocal.day).zfill(2)       + \
                 str(timeLocal.hour).zfill(2)  + '*'
+            if timeLocal.year != timeIn.year:
+                ftp=FTP('gong2.nso.edu')
+                ftp.login()
+                ftp.cwd('adapt/maps/gong')
+                try:
+                    ftp.cwd(str(timeLocal.year))
+                except:
+                    sys.exit('******************************************************************\n'
+                             + 'Year not found on the ftp server: '+str(timeLocal.year) + '.\n'
+                             + 'Check ftp://gong2.nso.edu/adapt/maps/gong in the corresponding \n'
+                             + 'year to see whether it provides a map.\n'
+                             + '******************************************************************\n')
             filenames = ftp.nlst(pattenLocal)
             if len(filenames) > 0:
+                timeMap = timeLocal
                 print('Warning: cannot find the specific year/month/day/hour.')
                 print('         But a map is found at '+ timeLocal.strftime("%Y-%m-%dT%H:00:00"))
                 break
@@ -86,7 +101,7 @@ def download_ADAPT_magnetogram(timeIn, NameTypeMap='fixed'):
 
         #unzip the file
         if '.gz' in filename:
-            filename_unzip = filename.replace('.gz','')
+            filename_unzip = 'adapt_' + timeMap.strftime('%Y%m%d%H') + '.fits'
             with gzip.open(filename, 'rb') as s_file, \
                 open(filename_unzip, 'wb') as d_file:
                     shutil.copyfileobj(s_file, d_file, 65536)
