@@ -1,62 +1,74 @@
-# Details for viewing and running Julia scripts
+**Script**:
+writeRestartRunsToFile.jl:
+This script will write a `param_list` with the following components:
+1) Event specific params (to be read in from a file such as EEGGL_Params_CR2154.txt). Will begin with header `#CME`.
+2) Background runs - these will only consist of params downselected from sensitivity analysis, sampled from their respective posterior distributions that data assimilation provides. This is also read in from a file.
+3) Restart runs. We specify which background runs we want to restart and insert a flux rope into, the params for these are calculated with formulae that use the event specific params read in 1) and Design Parameters sampled from uniform distributions imposed on their respective ranges. 
 
-## Downloading Julia:
 
-1) Go to [the Julia Website](https://julialang.org)
+Options:
+- run from the Julia REPL using `include("path/to/writeRestartRunsToFile.jl` or use the `Execute File in REPL` command if using VSCode. Note that both these options will only parse default arguments so we will need to manually change the defaults if a different `param_list` is desired.
 
-2) Click on the `Download` tab.
+- (Preferred): Navigate to `ParamListScripts` in the Terminal / shell and type:
+`julia --project=. writeRestartRunsToFile.jl --help` and if all goes well, the following help message should show up (at the time of writing, 2021/10/16):
+```
+usage: writeRestartRunsToFile.jl [--mg MG] [--cr CR] [--md MD]
+                        [--fileEEGGL FILEEEGGL]
+                        [--fileBackground FILEBACKGROUND]
+                        [--fileRestart FILERESTART]
+                        [--start_time START_TIME]
+                        [--restartID RESTARTID] [-h]
 
-3) This should open a page with details of the latest stable release (currently v1.5.3)
+Generate event list for background and restart
 
-4) Download the correct installer according to your operating system
+optional arguments:
+  --mg MG               Magnetogram to use, for example, GONG.
+                        (default: "ADAPT")
+  --cr CR               CR to use eg: 2152. (type: Int64, default:
+                        2154)
+  --md MD               Model to use, for example AWSoM, AWSoMR,
+                        AWSoM2T. (default: "AWSoM")
+  --fileEEGGL FILEEEGGL
+                        Path to load EEGGL Params from. (default:
+                        "./output/restartRunDesignFiles/EEGGLParams_CR2154.txt")
+  --fileBackground FILEBACKGROUND
+                        Path to load background wind runs from.
+                        (default:
+                        "./output/restartRunDesignFiles/Params_MaxPro_postdist.csv")
+  --fileRestart FILERESTART
+                        Path to load restart runs from. (default:
+                        "./output/restartRunDesignFiles/X_design_CME_2021_10_15.csv")
+  --start_time START_TIME
+                        start time to use for background. Can give
+                        yyyy-mm-ddThh:mm:sec:fracsec (default:
+                        "MapTime")
+  --restartID RESTARTID
+                        give one or more selected background runs to
+                        which to apply restarts. defaults to 'all',
+                        i.e. all backgrounds are used.        If for
+                        eg, '5' is supplied, then restartdir will be
+                        printed as `run005_MODEL` where MODEL can be,
+                        say, AWSoM        If for eg, '1 3 5 7' is
+                        supplied, and nRestart > nBackground, then we
+                        will cycle through 1, 3, 5, and 7 till restart
+                        runs are written.         It is flexible in
+                        that we can give '1, 3, 5, 7', '1,3,5,7' or '1
+                        3 5 7' and all are valid.        Another
+                        option is to specify a range directly, for eg
+                        '1:2:8' will return the same output. Another
+                        valid range example is '1:100'.        Note
+                        that all these arguments have to supplied in
+                        double quotes, and parsing functions take care
+                        of the rest. (default: "all")
+  -h, --help            show this help message and exit
+```
 
-5) For older releases, visit [the Older Releases page](https://julialang.org/downloads/oldreleases/). Note that while you are free to use these, they are no longer developed or maintained actively.
+Some of the important arguments: 
 
-6) Once the installation is complete, open the Julia REPL and you should be ready to go. If you wish to use an editor or a specific IDE with Julia, check out options like the [Juno IDE](https://junolab.org/) or the [VS Code Extension](https://www.julia-vscode.org/) for Julia. You can also use Julia in Jupyter notebooks!
+we can supply paths to EEGGL Params, background and restart design files, a start time to use for background (which will revert to MapTime if not given) and one or more backgrounds to be restarted under "--restartID", which will revert to using all backgrounds as the default behaviour.
 
-VS Code Extension is the currently supported IDE, so it is one of the preferred ways (though not necessarily the best way) to use Julia. It can be setup through the instructions provided here: (https://www.julia-vscode.org/docs/stable/gettingstarted/) Any other setup that's convenient for the user is also fine (for example, a text editor like `Vim`  open side by side with the REPL - see these [Workflow Tips](https://docs.julialang.org/en/v1/manual/workflow-tips/))
+To generate a new list, the command may be for example:
+`julia --project=. writeRestartRunsToFile.jl --restartID "1, 4, 5, 9, 15" --cr=2152`
 
-## IDEs: 
-
-[Juno](https://junolab.org/) is an IDE based on [Atom](https://atom.io/) for the Julia language. Another popular environment for Julia is the [VS Code] (https://www.julia-vscode.org/) Extension. In addition, Julia also offers great plugins for widely-used text editors like [Vim](https://github.com/JuliaEditorSupport/julia-vim), [Emacs](https://github.com/JuliaEditorSupport/julia-emacs) and [Notepad++](https://github.com/JuliaEditorSupport/julia-NotepadPlusPlus). 
-
-## Activating the environment & Execution: 
-
-Two files `Project.toml` and `Manifest.toml` are included in the scripts folder. These collectively define the project environment and any packages and dependencies that need to be installed for running the various scripts. They are machine generated files and update automatically every time any action is taken regarding addition, removal or changes to packages. To activate the project, `cd` to the directory path, launch Julia and at the Julia prompt, enter the Package mode via `]` . This should change the prompt from `julia >` to something on the lines of `@(v1.5) pkg >`. Now type `activate .`, and this should change the prompt to `(SelectInputRuns) pkg>`. (To go back to `julia>` prompt, hit Backspace). Now the correct environment has been set. If you are viewing the files in VS Code, assuming the Julia extension for the same is installed, the following steps should be taken: 
-
-1) Go to `View` on the top ribbon, and select `Command Palette`.  Type `Julia start REPL` and select the search result `Julia: Start REPL`. This should open up the Julia prompt in the `Terminal` section of the IDE. Open the folder where the scripts are stored through `File > Open Folder`. 
-
-2) At the bottom left of the screen, click on `Julia: v1.5`. At the top of the screen, you should be prompted to select an environment. Select the folder opened previously, and the correct environment should load (this can take some time the first time around). 
-
-3) To execute individual files, the simplest way is to open up a file by double clicking on file name in the file tree (typically under `Untitled (Workspace)`). Then open the `Command Palette` again and type `Julia execute file`. Select the correct entry `Julia: Execute file` and the output should appear, with all created variables showing up in `Julia Explorer: Julia Workspace`.  To execute individual chunks of code in the file, select the desired lines and press `Alt-Enter`. Alternately, open the `Command Palette` and select `Julia: Execute Code and Move`. 
-
-4) In case of errors like: `ArgumentError: Package foo not found in current path`, enter Package mode through `]` and type `add foo`.  Please reach out if any issues are encountered in running the files, or if there are missing files. To use the relevant package's methods,  you need to type `using <Package Name>` in the REPL or in a script. 
-
-**Note**: To exit Package mode, or any other mode, hit the Backspace key. To access help for a command, type `?` at the `julia>` prompt and the prompt should change to `help>`. In Linux and Mac, shell commands can also be accessed by typing `;`, this will change the prompt to `shell>`. Alternately, similar methods are implemented in regular prompt as well, such as `pwd()` and `mkdir()`. 
-
-## Details of the files:
-
-### 1) Modules:
-
-**SelectInputs.jl**: This module contains functions as well as data type needed to define a new random variable type, which not only samples from uniform distribution with lower and upper bound but can also revert to a default setting of parameter with some user defined probability. This probability is set to zero by default, but can be initialized by user if needed. 
-
-**LHSDesign.jl**: This module contains functions needed to create a design matrix via Latin Hypercube Sampling. The current approach used is a so-called "maximin LHS" that tries to select a design from space of possible LH Designs by maximizing minimum distance between design points. We make use of a simple update method that runs for a certain number of iterations (we have called it for 100 iterations in our script). This method is implemented in our module. Note that some variables, like `pfss`, `REALIZATIONS_ADAPT` take discrete values and therefore can not be created with the above LHS. Instead, they are sampled from respective distributions and their columns are concatenated with proposed LHS design to give the final design matrix. 
-
-### 2) Scripts:
-
-**writeLHSRunsToFile.jl**: Making use of the modules we have created, we now generate an array with LHS Design runs and convert it to appropriate text file in the format `YYYY_MM_DD_HH_MM_SS_event_list.txt`.  For full details of the conversion, refer to code comments. The basic procedure is to convert the array into a DataFrame and use the column headings of the DataFrame as well as the individual rows to print strings in the correct format for the `event_list` file. 
-
-**writeBaselineRunsToFile.jl**: Here, all the remaining parameters are set to default values, hence not written to the text file. Instead, runs based on the groups for `model`, `Carrington Rotation` and `magnetogram` are written (16 in total). The implementation is similar to the script for writing LHS runs. 
-
-Sample Outputs from the above scripts are in a separate subdirectory called `SampleOutputs`. 
-
-## Sources for help:
-
-1) The Julia documentation is fairly comprehensive, and is available for several releases of the language, including `v1.5.3`. Access it at [Julia Docs](https://docs.julialang.org/en/v1/)
-
-2) Stack Overflow is often helpful, searching for `how to do xxxx in Julia` will usually lead to useful results. 
-
-3) The Julia language [Discourse forum](https://discourse.julialang.org/) has threads categorized according to domains of application, like Statistics, Modelling & Simulations, as well as general usage and workflows. 
-
-The community for Julia is gradually growing, and it is possible once in a while to encounter something unusual without clear help from the above sources. For the most part however, it should be a fairly good experience to write working scripts in Julia. There are interesting syntactic elements of the language, having something in common with other popular programming environments as well as its own distinct flavour. The `Noteworthy Differences` page (https://docs.julialang.org/en/v1/manual/noteworthy-differences/) is a good starting point to explore when writing Julia code or converting from another environment. 
+The document will be likely updated as further changes are made. 
 

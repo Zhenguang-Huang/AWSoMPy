@@ -44,10 +44,11 @@
 # - removing start_time arg for now since we are checking for Date_CME from EEGGL file
 # - put in ability to give a single background run, which will be written as restartdir = selectedRun
 # - rename filepaths to be consistent with renamed directories
+# - put in ability to give all or an arbitrary set of background runs.
 
 # TO DO: 
-# - options - define variable that lists selected background, then have restart = those runs in sequence, 
-# but restart params repeat. 
+# - write a separate utilities / tools script that exports a module with helpful functions (for eg: parsing function later in this script)
+# - write helper function for parsing dates supplied in arbitrary formats - low priority
 # - also write out seed used while producing list in R? Helps keep track for reproducing if needed. 
 # - other options? for eg: path to output. Currently trying to have a default path also contain CR, which is a different arg. 
 # - use RCall and call the R MaxPro package directly from Julia? Might help integrate all steps from generating design to writing it
@@ -62,9 +63,25 @@ using Distributions
 using DelimitedFiles
 
 using ArgParse
+
 s = ArgParseSettings(
-    description="Generate event list for background and restart")
+    description="Generate run list for background and restart")
 @add_arg_table s begin
+    "--fileEEGGL"
+        help = "Path to load EEGGL Params from."
+        arg_type = String
+        default = "./output/restartRunDesignFiles/EEGGLParams_CR2154.txt"
+    "--fileBackground"
+        help = "Path to load background wind runs from."
+        arg_type = String
+        default = "./output/restartRunDesignFiles/Params_MaxPro_postdist.csv"
+    "--fileRestart"
+        help = "Path to load restart runs from."
+        arg_type = String
+        default = "./output/restartRunDesignFiles/X_design_CME_2021_10_18.csv"
+    "--fileOutput"
+        help = "Give path to file where we wish to write param list"
+        default = "param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
     "--mg"
         help = "Magnetogram to use, for example, GONG."
         default = "ADAPT"
@@ -75,37 +92,22 @@ s = ArgParseSettings(
     "--md"
         help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
         default = "AWSoM"
-    "--fileEEGGL"
-        help = "Path to load EEGGL Params from."
-        arg_type = String
-        default = "./output/restartRunDesignFiles/EEGGLParams_CR2154.txt"
-    "--fileBackground"
-        help = "Path to load background wind runs from."
-        arg_type = String
-        default = "./output/restartRunDesignFiles/3params_background_0928.csv"
-    "--fileRestart"
-        help = "Path to load restart runs from."
-        arg_type = String
-        default = "./output/restartRunDesignFiles/X_design_CME_2021_10_08.csv"
     "--start_time"
         help = "start time to use for background. Can give yyyy-mm-ddThh:mm:sec:fracsec"
         default="MapTime"
     "--restartID"
-        help = "give selected background run to which to apply restarts. For example, run005_AWSoM"
-        arg_type = String
-        default="run001_AWSoM"  # This is a bad idea, also what if we give multiple runs
-    # "--runListFile"
-    #     help = "Give path to file where we wish to write runlist"
-    #     default = "run_list_" * mg * "_" * md * "_" * 
-    #             "CR$(cr)" * "_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
-    # this is broken because I set the default name to need a CR, 
-    # which is an unparsed arg :(
+        arg_type = Any
+        help = "give one or more selected background runs to which to apply restarts. defaults to 'all', 
+        i.e. all backgrounds are used.
+        If for eg, '5' is supplied, then restartdir will be printed as `run005_MODEL` where MODEL can be, say, AWSoM
+        If for eg, '1 3 5 7' is supplied, and nRestart > nBackground, then we will cycle through 1, 3, 5, and 7 till restart runs are written. 
+        It is flexible in that we can give '1, 3, 5, 7', '1,3,5,7' or '1 3 5 7' and all are valid.
+        Another option is to specify a range directly, for eg '1:2:8' will return the same output. Another valid range example is '1:100'.
+        Note that all these arguments have to supplied in double quotes, and parsing functions in the script take care of the rest."
+        default="all"
 end
 
 args = parse_args(s)
-
-# restartdir - directory containing background runs to restart (if linking to existing runs)
-# N/A here?
 
 # specify mg, cr and md
 mg = args["mg"]
@@ -281,33 +283,96 @@ for count = 1:size(XBackground, 1)
 end
 println("Wrote background runs")
 
-# Get restart run ID (enabled just for a single best run for now)
-restartID = args["restartID"]
+# Get restart run ID (enabled for a single or multiple runs)
+function parseRestartDirs(suppliedRestartIDs::AbstractString)
+    if occursin(":", suppliedRestartIDs)
+        splitIDs = split(suppliedRestartIDs, r"(:\s+|:|\s+:\s+)")
+        if length(splitIDs)==3
+            return collect(range(parse(Int, splitIDs[1]), parse(Int, splitIDs[3]), step=parse(Int, splitIDs[2])))
+        else
+            return collect(range(parse(Int, splitIDs[1]), parse(Int, splitIDs[2]), step=1))
+        end
+    elseif suppliedRestartIDs == "all" 
+        return collect(1:nBackground)
+    else # covers the case of comma separated values
+        splitIDs = split(suppliedRestartIDs, r"(,\s+|\s+|,)")
+        return parse.(Int, splitIDs)
+    end
+end
+
+restartIDs = parseRestartDirs(args["restartID"])
+nBackgroundSelected = length(restartIDs)
+
+# Determine number of times we will write selected background as restartdir (nCycles)
+if mod(nRestart, nBackgroundSelected) == 0
+    nCycles = floor(Int, nRestart / nBackgroundSelected)
+else
+    # we will do one extra cycle (shortened) if not perfectly divisible. i.e. if nRestart = 18 and nBackgroundSelected = 5,
+    # then we will do 4 cycles, but 4th cycle will only have 1,2,3 written as restartdirs
+    nCycles = floor(Int, nRestart / nBackgroundSelected) + 1 
+end
+
+restartRunCount = 0     # Keeps track of restart runs independent of background run loop.
+# Now outer loop is through each cycle and keeps track of the restartdirs written
+for cycle in 1:nCycles
+    restartIDIdx = 1 # this will be used as restartIDs[restartIDIdx] which may or may not be 1.
+    # inner loop goes through all the selected background runs. If on the last cycle, this may be terminated early with the help of `min`.
+    for n in (cycle - 1) * nBackgroundSelected + 1:min(cycle * nBackgroundSelected, nRestart)
+        global restartRunCount += 1
+        dfParams = XRestart[restartRunCount, 1:end]
+        dictParams = Dict(names(dfParams) .=> values(dfParams))
+        stringToWrite = ""
+        # innermost loop adds key, value pairs to the string that goes on each line
+        for (key, value) in dictParams
+            if value isa String
+                appendVal = @sprintf("%s=%s         ", key, value)
+            elseif value isa Array
+                appendVal = @sprintf("%s=[%d]    ", key, value[1])
+            elseif value >= 1000
+                appendVal = @sprintf("%s=%e    ", key, value)
+            elseif value isa Int
+                appendVal = @sprintf("%s=%d     ", key, value)
+            else
+                appendVal = @sprintf("%s=%.4f    ", key, value)
+            end
+            stringToWrite = stringToWrite * appendVal
+        end
+
+        # Write string to tmpio, taking care of counts and indexing.
+        write(tmpio, 
+        string(runIDRange[restartRunCount]) * " " * 
+        "restartdir=run" * @sprintf("%03d", restartIDs[restartIDIdx]) * "_" * "$(md)        " *
+        " param=PARAM.in.awsom.cme      " * 
+        stringToWrite * "\n")
+        restartIDIdx += 1
+    end
+end
+
 
 # Loop through DataFrame for restart
-for count = 1:size(XRestart, 1)
-    dfParams = XRestart[count, 1:end]
-    dictParams = Dict(names(dfParams) .=> values(dfParams))
-    stringToWrite = ""
+# for count = 1:size(XRestart, 1)
+#     dfParams = XRestart[count, 1:end]
+#     dictParams = Dict(names(dfParams) .=> values(dfParams))
+#     stringToWrite = ""
 
-    for (key, value) in dictParams
-        if value isa String
-            appendVal = @sprintf("%s=%s         ", key, value)
-        elseif value isa Array
-            appendVal = @sprintf("%s=[%d]    ", key, value[1])
-        elseif value >= 1000
-            appendVal = @sprintf("%s=%e    ", key, value)
-        elseif value isa Int
-            appendVal = @sprintf("%s=%d     ", key, value)
-        else
-            appendVal = @sprintf("%s=%.4f    ", key, value)
-        end
-        stringToWrite = stringToWrite * appendVal
-    end
+#     for (key, value) in dictParams
+#         if value isa String
+#             appendVal = @sprintf("%s=%s         ", key, value)
+#         elseif value isa Array
+#             appendVal = @sprintf("%s=[%d]    ", key, value[1])
+#         elseif value >= 1000
+#             appendVal = @sprintf("%s=%e    ", key, value)
+#         elseif value isa Int
+#             appendVal = @sprintf("%s=%d     ", key, value)
+#         else
+#             appendVal = @sprintf("%s=%.4f    ", key, value)
+#         end
+#         stringToWrite = stringToWrite * appendVal
+#     end
 
-    write(tmpio, 
-        string(runIDRange[count]) * " " * "restartdir=$(restartID)         " * " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
-end
+#     write(tmpio, 
+#         string(runIDRange[count]) * " " * "restartdir=$(restartIDs)         " * " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
+# end
 # end for loop
 
 # close or flush the temporary IO stream
