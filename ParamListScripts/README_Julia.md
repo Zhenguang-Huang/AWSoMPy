@@ -10,24 +10,18 @@ Options:
 - run from the Julia REPL using `include("path/to/writeRestartRunsToFile.jl` or use the `Execute File in REPL` command if using VSCode. Note that both these options will only parse default arguments so we will need to manually change the defaults if a different `param_list` is desired.
 
 - (Preferred): Navigate to `ParamListScripts` in the Terminal / shell and type:
-`julia --project=. writeRestartRunsToFile.jl --help` and if all goes well, the following help message should show up (at the time of writing, 2021/10/16):
+`julia --project=. writeRestartRunsToFile.jl --help` and if all goes well, the following help message should show up (at the time of writing, 2021/10/19):
 ```
-usage: writeRestartRunsToFile.jl [--mg MG] [--cr CR] [--md MD]
-                        [--fileEEGGL FILEEEGGL]
+usage: writeRestartRunsToFile.jl [--fileEEGGL FILEEEGGL]
                         [--fileBackground FILEBACKGROUND]
                         [--fileRestart FILERESTART]
-                        [--start_time START_TIME]
+                        [--fileOutput FILEOUTPUT] [--mg MG] [--cr CR]
+                        [--md MD] [--start_time START_TIME]
                         [--restartID RESTARTID] [-h]
 
-Generate event list for background and restart
+Generate run list for background and restart
 
 optional arguments:
-  --mg MG               Magnetogram to use, for example, GONG.
-                        (default: "ADAPT")
-  --cr CR               CR to use eg: 2152. (type: Int64, default:
-                        2154)
-  --md MD               Model to use, for example AWSoM, AWSoMR,
-                        AWSoM2T. (default: "AWSoM")
   --fileEEGGL FILEEEGGL
                         Path to load EEGGL Params from. (default:
                         "./output/restartRunDesignFiles/EEGGLParams_CR2154.txt")
@@ -37,7 +31,17 @@ optional arguments:
                         "./output/restartRunDesignFiles/Params_MaxPro_postdist.csv")
   --fileRestart FILERESTART
                         Path to load restart runs from. (default:
-                        "./output/restartRunDesignFiles/X_design_CME_2021_10_15.csv")
+                        "./output/restartRunDesignFiles/X_design_CME_2021_10_18.csv")
+  --fileOutput FILEOUTPUT
+                        Give path to file where we wish to write param
+                        list (default:
+                        "./output/param_list_2021_10_19.txt")
+  --mg MG               Magnetogram to use, for example, GONG.
+                        (default: "ADAPT")
+  --cr CR               CR to use eg: 2152. (type: Int64, default:
+                        2154)
+  --md MD               Model to use, for example AWSoM, AWSoMR,
+                        AWSoM2T. (default: "AWSoM")
   --start_time START_TIME
                         start time to use for background. Can give
                         yyyy-mm-ddThh:mm:sec:fracsec (default:
@@ -58,8 +62,8 @@ optional arguments:
                         '1:2:8' will return the same output. Another
                         valid range example is '1:100'.        Note
                         that all these arguments have to supplied in
-                        double quotes, and parsing functions take care
-                        of the rest. (default: "all")
+                        double quotes, and parsing functions in the
+                        script take care of the rest. (default: "all")
   -h, --help            show this help message and exit
 ```
 

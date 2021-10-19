@@ -81,7 +81,7 @@ s = ArgParseSettings(
         default = "./output/restartRunDesignFiles/X_design_CME_2021_10_18.csv"
     "--fileOutput"
         help = "Give path to file where we wish to write param list"
-        default = "param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+        default = "./output/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
     "--mg"
         help = "Magnetogram to use, for example, GONG."
         default = "ADAPT"
@@ -226,9 +226,10 @@ runIDRange = (nBackground + 1):(nBackground + nRestart)
 # Create temporary file path and IO
 (tmppath, tmpio) = mktemp()
 
-# Get filename for output
-paramListFileName = "param_list_" * mg * "_" * md * "_" * 
-            "CR$(cr)" * "_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+# Get filename for output - we will use default filename for now
+paramListFileName = args["fileOutput"]
+# paramListFileName = "param_list_" * mg * "_" * md * "_" * 
+#             "CR$(cr)" * "_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
 
 # Write EEGGL params in header
 write(tmpio, "#CME\n")
@@ -236,8 +237,8 @@ for (key, value) in eegglParams
     write(tmpio, "# " * value * "           " * key * "\n")
 end    
 
-write(tmpio, "selected run IDs = 1-$(size(XRestart, 1) + nBackground)\n")
-write(tmpio, "#START\n")
+write(tmpio, "\nselected run IDs = 1-$(size(XRestart, 1) + nBackground)\n")
+write(tmpio, "\n#START\n")
 write(tmpio, "ID   params\n")
 
 # Extract keys and values from DataFrame and write as strings to param_list_file
@@ -342,44 +343,17 @@ for cycle in 1:nCycles
         write(tmpio, 
         string(runIDRange[restartRunCount]) * " " * 
         "restartdir=run" * @sprintf("%03d", restartIDs[restartIDIdx]) * "_" * "$(md)        " *
-        " param=PARAM.in.awsom.cme      " * 
+        " param=PARAM.in.awsom.CME      " * 
         stringToWrite * "\n")
         restartIDIdx += 1
     end
 end
 
-
-# Loop through DataFrame for restart
-# for count = 1:size(XRestart, 1)
-#     dfParams = XRestart[count, 1:end]
-#     dictParams = Dict(names(dfParams) .=> values(dfParams))
-#     stringToWrite = ""
-
-#     for (key, value) in dictParams
-#         if value isa String
-#             appendVal = @sprintf("%s=%s         ", key, value)
-#         elseif value isa Array
-#             appendVal = @sprintf("%s=[%d]    ", key, value[1])
-#         elseif value >= 1000
-#             appendVal = @sprintf("%s=%e    ", key, value)
-#         elseif value isa Int
-#             appendVal = @sprintf("%s=%d     ", key, value)
-#         else
-#             appendVal = @sprintf("%s=%.4f    ", key, value)
-#         end
-#         stringToWrite = stringToWrite * appendVal
-#     end
-
-#     write(tmpio, 
-#         string(runIDRange[count]) * " " * "restartdir=$(restartIDs)         " * " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
-# end
-# end for loop
-
 # close or flush the temporary IO stream
 flush(tmpio)
 
 # Move the temporary file (src) to appropriate location (dst), force=true overwrites dst if it already exists 
-mv(tmppath, joinpath("./output/", paramListFileName), force=true)
+mv(tmppath, paramListFileName, force=true)
 
 # confirmation message
 println("Wrote restart runs")
