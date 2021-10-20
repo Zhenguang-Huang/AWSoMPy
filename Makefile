@@ -121,7 +121,7 @@ install:
 
 compile:
 	-@(make install;								\
-	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_OHSP)" ]]; then		\
+	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_OHSP)" ]]; then	\
 		cd ${DIR}; 								\
 		if [[ "${DOINSTALL}" == "T" ]]; then					\
 			rm -f ${DIR}/bin/*.exe;						\
@@ -150,7 +150,7 @@ compile:
 		make HARMONICS FDIPS; 							\
 	else										\
 		echo "MODEL = ${MODEL}";						\
-		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, or AWSoMR.";		\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_OHSP.";	\
 	fi;										\
 	)
 
@@ -178,7 +178,7 @@ copy_param:
 		cp Param/HARMONICS.in Param/FDIPS.in .; 				\
 	else										\
 		echo "MODEL = ${MODEL}";						\
-		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, or AWSoMR.";		\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_OHSP.";	\
 	fi;										\
 	)
 
