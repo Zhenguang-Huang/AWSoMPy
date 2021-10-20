@@ -127,20 +127,23 @@ compile:
 			rm -f ${DIR}/bin/*.exe;						\
 			./Config.pl -uninstall; 					\
 			./Config.pl -install; 						\
-			./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS,OH/BATSRUS,SP/MFLAMPA; 			\
+			./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 			\
 		fi;									\
 		if [[ "${MODEL}" == "AWSoM" ]]; then 					\
 			./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 		\
 			./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 		\
-		else if [[ "${MODEL}" == "AWSoMR_OHSP" ]]; then 			\
-                        ./Config.pl -o=SC:u=Awsom,e=AwsomChGL,nG=2,g=6,8,8;             \
-                        ./Config.pl -o=IH:u=Awsom,e=AwsomChGL,nG=2,g=8,8,8;             \
-                        ./Config.pl -o=OH:u=Awsom,e=AwsomChGL,nG=2,g=4,4,4;             \
-                        ./Config.pl -o=SP:g=20000;                                      \
-		else
+		fi;									\
+		if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM2T AWSoMR)" ]]; then	\
 			./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8;                 \
-                        ./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8;                 \
+			./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8;                 \
 		fi; 									\
+		if [[ "${MODEL}" == "AWSoMR_OHSP" ]]; then 				\
+			./Config.pl -v=OH/BATSRUS,SP/MFLAMPA;				\
+			./Config.pl -o=SC:u=Awsom,e=AwsomChGL,nG=2,g=6,8,8;             \
+			./Config.pl -o=IH:u=Awsom,e=AwsomChGL,nG=2,g=8,8,8;             \
+			./Config.pl -o=OH:u=Awsom,e=AwsomChGL,nG=2,g=4,4,4;             \
+			./Config.pl -o=SP:g=20000;                                      \
+		fi;									\
 		make -j SWMF PIDL; 							\
 		cp ${DIR}/bin/SWMF.exe ${DIR}/bin/${MODEL}.exe;				\
 		cd ${DIR}/util/DATAREAD/srcMagnetogram; 				\
@@ -159,11 +162,15 @@ backup_run:
 	fi
 
 copy_param:
-	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR)" ]]; then	\
+	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_OHSP)" ]]; then	\
 		if [[ "${MODEL}" == "AWSoMR" ]]; then					\
 			cp Param/PARAM.in.awsomr PARAM.in; 				\
-		else									\
+		fi; 									\
+		if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T)" ]]; then		\
 			cp Param/PARAM.in.awsom PARAM.in;				\
+		fi;									\
+		if [[ "${MODEL}" == "AWSoMR_OHSP" ]]; then				\
+			cp Param/PARAM.in.awsomr_ohsp PARAM.in;				\
 		fi;									\
 		if [[ "${PARAM}" != "Default" ]]; then					\
 			cp Param/${PARAM} PARAM.in;					\
