@@ -121,20 +121,25 @@ install:
 
 compile:
 	-@(make install;								\
-	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR)" ]]; then		\
+	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_OHSP)" ]]; then		\
 		cd ${DIR}; 								\
 		if [[ "${DOINSTALL}" == "T" ]]; then					\
 			rm -f ${DIR}/bin/*.exe;						\
 			./Config.pl -uninstall; 					\
 			./Config.pl -install; 						\
-			./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS; 			\
+			./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS,OH/BATSRUS,SP/MFLAMPA; 			\
 		fi;									\
 		if [[ "${MODEL}" == "AWSoM" ]]; then 					\
 			./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,nG=3,g=6,8,8; 		\
 			./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,nG=3,g=8,8,8; 		\
-		else									\
-			./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8; 		\
-			./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8; 		\
+		else if [[ "${MODEL}" == "AWSoMR_OHSP" ]]; then 			\
+                        ./Config.pl -o=SC:u=Awsom,e=AwsomChGL,nG=2,g=6,8,8;             \
+                        ./Config.pl -o=IH:u=Awsom,e=AwsomChGL,nG=2,g=8,8,8;             \
+                        ./Config.pl -o=OH:u=Awsom,e=AwsomChGL,nG=2,g=4,4,4;             \
+                        ./Config.pl -o=SP:g=20000;                                      \
+		else
+			./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8;                 \
+                        ./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8;                 \
 		fi; 									\
 		make -j SWMF PIDL; 							\
 		cp ${DIR}/bin/SWMF.exe ${DIR}/bin/${MODEL}.exe;				\
@@ -276,6 +281,13 @@ check_compare_remote:
 		csh compare_remote.sh ${DIR} $${iRunDir}/SC $${iRunDir} ${MYDIR}/Results/obsdata; \
 	done)
 
+check_animate_xyz:
+	-@(								\
+	for iRunDir in ${FullResRunDirList};  do			\
+		cd $${iRunDir};						\
+		csh ${IDLDIR}/animate_xyz.sh;				\
+	done)
+
 clean_plot:
 	@for RunDir in ${FullResRunDirList};  do 	\
 		echo "cleaning $${RunDir}";		\
@@ -301,6 +313,11 @@ check_compare_insitu_all:
 check_compare_remote_all:
 	@for iResDir in ${ResDirList};  do 				\
 		make check_compare_remote RESDIR=$${iResDir};		\
+	done
+
+check_animate_xyz_all:
+	@for iResDir in ${ResDirList};  do				\
+		make check_animate_xyz RESDIR=$${iResDir};		\
 	done
 
 clean_plot_all:
