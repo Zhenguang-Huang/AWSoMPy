@@ -271,7 +271,8 @@ check_compare:
 check_compare_insitu:
 	-@(cd ${IDLDIR}; 									\
 	for iRunDir in ${FullResRunDirList};  do 						\
-		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL}; 		\
+		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL} 		\
+			${MYDIR}/Results/obsdata;						\
 	done)
 
 check_compare_insitu_py:
