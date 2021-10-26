@@ -552,24 +552,24 @@ VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/earth.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
+-14 d			StartTimeTraj
+14 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/sta.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
+-14 d			StartTimeTraj
+14 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
+-14 d			StartTimeTraj
+14 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 
