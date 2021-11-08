@@ -78,7 +78,7 @@ s = ArgParseSettings(
     "--fileRestart"
         help = "Path to load restart runs from."
         arg_type = String
-        default = "./output/restartRunDesignFiles/X_design_CME_2021_10_18.csv"
+        default = "./output/restartRunDesignFiles/X_design_CME_2021_11_06.csv"
     "--fileOutput"
         help = "Give path to file where we wish to write param list"
         default = "./output/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
@@ -145,6 +145,7 @@ colNamesRestart = [
                 "DeltaOrientation",
                 "ApexCoeff",
                 "Helicity",
+                "restartdir"
                 ]   # give column names for data frame (can be redundant if names are already correct)
 
 rename!(XRestart, colNamesRestart)
@@ -212,7 +213,7 @@ insertcols!(
 # Discard distribution columns now, we don't want to write them to file!
 deletecols!(
             XRestart, 
-            colNamesRestart
+            colNamesRestart[1:5]
             )
 
 startTime = args["start_time"]
@@ -236,6 +237,8 @@ write(tmpio, "#CME\n")
 for (key, value) in eegglParams
     write(tmpio, "# " * value * "           " * key * "\n")
 end    
+
+write(tmpio, "\n # selected backgrounds = ")
 
 write(tmpio, "\nselected run IDs = 1-$(size(XRestart, 1) + nBackground)\n")
 write(tmpio, "\n#START\n")
@@ -284,70 +287,101 @@ for count = 1:size(XBackground, 1)
 end
 println("Wrote background runs")
 
-# Get restart run ID (enabled for a single or multiple runs)
-function parseRestartDirs(suppliedRestartIDs::AbstractString)
-    if occursin(":", suppliedRestartIDs)
-        splitIDs = split(suppliedRestartIDs, r"(:\s+|:|\s+:\s+)")
-        if length(splitIDs)==3
-            return collect(range(parse(Int, splitIDs[1]), parse(Int, splitIDs[3]), step=parse(Int, splitIDs[2])))
-        else
-            return collect(range(parse(Int, splitIDs[1]), parse(Int, splitIDs[2]), step=1))
-        end
-    elseif suppliedRestartIDs == "all" 
-        return collect(1:nBackground)
-    else # covers the case of comma separated values
-        splitIDs = split(suppliedRestartIDs, r"(,\s+|\s+|,)")
-        return parse.(Int, splitIDs)
-    end
-end
+bestBackgrounds = Dict(1:20 .=> [4, 1, 8, 13, 10, 19, 17, 14, 6, 16, 11, 5, 9, 7, 2, 12, 15, 20, 3, 18])
 
-restartIDs = parseRestartDirs(args["restartID"])
-nBackgroundSelected = length(restartIDs)
+# Revert to usual style of writing restarts since allocation of restart dir is already in the file we read in, and is not done ad hoc anymore.
+for count = 1:size(XRestart, 1)
+    dfParams = XRestart[count, 1:end-1] # don't write restartdir as an integer directly.
+    dictParams = Dict(names(dfParams) .=> values(dfParams))
+    stringToWrite = ""
+
+    for (key, value) in dictParams
+        if value isa String
+            appendVal = @sprintf("%s=%s         ", key, value)
+        elseif value isa Array
+            appendVal = @sprintf("%s=[%d]    ", key, value[1])
+        elseif value >= 1000
+            appendVal = @sprintf("%s=%e    ", key, value)
+        elseif value isa Int
+            appendVal = @sprintf("%s=%d     ", key, value)
+        else
+            appendVal = @sprintf("%s=%.4f    ", key, value)
+        end
+        stringToWrite = stringToWrite * appendVal
+    end
+
+    write(tmpio, 
+        string(runIDRange[count]) * " " * "restartdir=" * @sprintf("run%03d_", XRestart[count, "restartdir"]) * "$(md)      " * 
+            " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
+end
+# end for loop
+
+
+
+# Get restart run ID (enabled for a single or multiple runs)
+# function parseRestartDirs(suppliedRestartIDs::AbstractString)
+#     if occursin(":", suppliedRestartIDs)
+#         splitIDs = split(suppliedRestartIDs, r"(:\s+|:|\s+:\s+)")
+#         if length(splitIDs)==3
+#             return collect(range(parse(Int, splitIDs[1]), parse(Int, splitIDs[3]), step=parse(Int, splitIDs[2])))
+#         else
+#             return collect(range(parse(Int, splitIDs[1]), parse(Int, splitIDs[2]), step=1))
+#         end
+#     elseif suppliedRestartIDs == "all" 
+#         return collect(1:nBackground)
+#     else # covers the case of comma separated values
+#         splitIDs = split(suppliedRestartIDs, r"(,\s+|\s+|,)")
+#         return parse.(Int, splitIDs)
+#     end
+# end
+
+# restartIDs = parseRestartDirs(args["restartID"])
+# nBackgroundSelected = length(restartIDs)
 
 # Determine number of times we will write selected background as restartdir (nCycles)
-if mod(nRestart, nBackgroundSelected) == 0
-    nCycles = floor(Int, nRestart / nBackgroundSelected)
-else
-    # we will do one extra cycle (shortened) if not perfectly divisible. i.e. if nRestart = 18 and nBackgroundSelected = 5,
-    # then we will do 4 cycles, but 4th cycle will only have 1,2,3 written as restartdirs
-    nCycles = floor(Int, nRestart / nBackgroundSelected) + 1 
-end
+# if mod(nRestart, nBackgroundSelected) == 0
+#     nCycles = floor(Int, nRestart / nBackgroundSelected)
+# else
+#     # we will do one extra cycle (shortened) if not perfectly divisible. i.e. if nRestart = 18 and nBackgroundSelected = 5,
+#     # then we will do 4 cycles, but 4th cycle will only have 1,2,3 written as restartdirs
+#     nCycles = floor(Int, nRestart / nBackgroundSelected) + 1 
+# end
 
-restartRunCount = 0     # Keeps track of restart runs independent of background run loop.
+# restartRunCount = 0     # Keeps track of restart runs independent of background run loop.
 # Now outer loop is through each cycle and keeps track of the restartdirs written
-for cycle in 1:nCycles
-    restartIDIdx = 1 # this will be used as restartIDs[restartIDIdx] which may or may not be 1.
-    # inner loop goes through all the selected background runs. If on the last cycle, this may be terminated early with the help of `min`.
-    for n in (cycle - 1) * nBackgroundSelected + 1:min(cycle * nBackgroundSelected, nRestart)
-        global restartRunCount += 1
-        dfParams = XRestart[restartRunCount, 1:end]
-        dictParams = Dict(names(dfParams) .=> values(dfParams))
-        stringToWrite = ""
-        # innermost loop adds key, value pairs to the string that goes on each line
-        for (key, value) in dictParams
-            if value isa String
-                appendVal = @sprintf("%s=%s         ", key, value)
-            elseif value isa Array
-                appendVal = @sprintf("%s=[%d]    ", key, value[1])
-            elseif value >= 1000
-                appendVal = @sprintf("%s=%e    ", key, value)
-            elseif value isa Int
-                appendVal = @sprintf("%s=%d     ", key, value)
-            else
-                appendVal = @sprintf("%s=%.4f    ", key, value)
-            end
-            stringToWrite = stringToWrite * appendVal
-        end
+# for cycle in 1:nCycles
+#     restartIDIdx = 1 # this will be used as restartIDs[restartIDIdx] which may or may not be 1.
+#     # inner loop goes through all the selected background runs. If on the last cycle, this may be terminated early with the help of `min`.
+#     for n in (cycle - 1) * nBackgroundSelected + 1:min(cycle * nBackgroundSelected, nRestart)
+#         global restartRunCount += 1
+#         dfParams = XRestart[restartRunCount, 1:end]
+#         dictParams = Dict(names(dfParams) .=> values(dfParams))
+#         stringToWrite = ""
+#         # innermost loop adds key, value pairs to the string that goes on each line
+#         for (key, value) in dictParams
+#             if value isa String
+#                 appendVal = @sprintf("%s=%s         ", key, value)
+#             elseif value isa Array
+#                 appendVal = @sprintf("%s=[%d]    ", key, value[1])
+#             elseif value >= 1000
+#                 appendVal = @sprintf("%s=%e    ", key, value)
+#             elseif value isa Int
+#                 appendVal = @sprintf("%s=%d     ", key, value)
+#             else
+#                 appendVal = @sprintf("%s=%.4f    ", key, value)
+#             end
+#             stringToWrite = stringToWrite * appendVal
+#         end
 
-        # Write string to tmpio, taking care of counts and indexing.
-        write(tmpio, 
-        string(runIDRange[restartRunCount]) * " " * 
-        "restartdir=run" * @sprintf("%03d", restartIDs[restartIDIdx]) * "_" * "$(md)        " *
-        " param=PARAM.in.awsom.CME      " * 
-        stringToWrite * "\n")
-        restartIDIdx += 1
-    end
-end
+#         # Write string to tmpio, taking care of counts and indexing.
+#         write(tmpio, 
+#         string(runIDRange[restartRunCount]) * " " * 
+#         "restartdir=run" * @sprintf("%03d", restartIDs[restartIDIdx]) * "_" * "$(md)        " *
+#         " param=PARAM.in.awsom.CME      " * 
+#         stringToWrite * "\n")
+#         restartIDIdx += 1
+#     end
+# end
 
 # close or flush the temporary IO stream
 flush(tmpio)
