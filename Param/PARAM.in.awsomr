@@ -234,7 +234,8 @@ T			DoSaveLogfile
 VAR			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
+rho mx my mz p pmin urmin urmax neteflx peflx meflx keflx		NameLogVars
+1.06 23.99
 
 #OUTERBOUNDARY
 fieldlinethreads		TypeBc1   rMin

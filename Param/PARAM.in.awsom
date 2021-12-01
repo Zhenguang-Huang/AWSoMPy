@@ -257,7 +257,8 @@ T			DoSaveLogfile
 VAR			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
+rho mx my mz p pmin urmin urmax neteflx peflx meflx keflx		NameLogVars
+1.01 23.99
 
 #OUTERBOUNDARY
 user			TypeBc1   user for spherical and user_outerbcs
