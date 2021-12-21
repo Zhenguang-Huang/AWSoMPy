@@ -248,9 +248,9 @@ if __name__ == '__main__':
                                   + ' to '        +os.path.join('Results/'+SIMDIR,     dirTmp, 'RESTART/IH')     )
                             os.symlink(os.path.join('Results/'+RestartDir, dirTmp, 'RESTART/IH'),
                                        os.path.join('Results/'+SIMDIR,     dirTmp, 'RESTART/IH') )
-                        else:
-                            print('Results/'+SIMDIR+' does not exist!!!!')
-                    continue
+                else:
+                    print('Results/'+SIMDIR+' does not exist!!!!')
+                continue
 
             strPfssMake  ='PFSS='+PFSS
             strModelMake ='MODEL='+MODEL
