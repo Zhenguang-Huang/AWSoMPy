@@ -244,10 +244,13 @@ if __name__ == '__main__':
                 if os.path.isdir('Results/'+SIMDIR):
                     for dirTmp in os.listdir('Results/'+SIMDIR):
                         if os.path.isdir(os.path.join('Results/'+SIMDIR, dirTmp)):
-                            print('Created link: '+os.path.join('Results/'+RestartDir, dirTmp, 'RESTART/IH')
-                                  + ' to '        +os.path.join('Results/'+SIMDIR,     dirTmp, 'RESTART/IH')     )
-                            os.symlink(os.path.join('Results/'+RestartDir, dirTmp, 'RESTART/IH'),
-                                       os.path.join('Results/'+SIMDIR,     dirTmp, 'RESTART/IH') )
+                            linkSrc = os.path.join(os.getcwd(), 'Results/'+RestartDir, dirTmp, 'RESTART/IH')
+                            linkDst = os.path.join(os.getcwd(), 'Results/'+SIMDIR,     dirTmp, 'RESTART/IH')
+                            # check whether the IH restart files is linked or not, if yes, remove the link first.
+                            if os.path.islink(linkDst):
+                                os.unlink(linkDst)
+                            os.symlink(linkSrc, linkDst)
+                            print('Created link from '+ linkSrc  + ' to ' + linkDst)
                 else:
                     print('Results/'+SIMDIR+' does not exist!!!!')
                 continue
