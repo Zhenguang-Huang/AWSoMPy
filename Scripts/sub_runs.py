@@ -105,6 +105,11 @@ if __name__ == '__main__':
                             + 'Use if you want to re-install and compile '
                             + 'the code.', 
                             type=int, default=1)
+    ARG_PARSER.add_argument('-l', '--DoLink',
+                            help='(default: 1)'
+                            + 'Use if you want to link the restart '
+                            + 'files only.',
+                            type=int, default=0)
     ARG_PARSER.add_argument('-m', '--DoUseMarker',
                             help='(default: 1)'
                             + 'Use if you want to use the marker ^ for'
@@ -232,6 +237,18 @@ if __name__ == '__main__':
 
             if DoRestart:
                 SIMDIR = SIMDIR+'_restart_'+RestartDir.replace('/','_')
+
+            # if ARGS.DoLink, link the associated IH restart files and continue the loop.
+            if ARGS.DoLink:
+                # check if the SIMDIR exists in Results
+                if os.path.isdir('Results/'+SIMDIR):
+                    for dirTmp in os.listdir('Results/'+SIMDIR):
+                        if os.path.isdir(os.path.join('Results/'+SIMDIR, dirTmp)):
+                            print('Created link: '+os.path.join('Results/'+RestartDir, dirTmp, 'RESTART/IH')
+                                  + ' to '        +os.path.join('Results/'+SIMDIR,     dirTmp, 'RESTART/IH')     )
+                            os.symlink(os.path.join('Results/'+RestartDir, dirTmp, 'RESTART/IH'),
+                                       os.path.join('Results/'+SIMDIR,     dirTmp, 'RESTART/IH')
+                    continue
 
             strPfssMake  ='PFSS='+PFSS
             strModelMake ='MODEL='+MODEL
