@@ -9,6 +9,7 @@ import argparse
 import os
 import warnings
 import re
+import glob
 
 # -----------------------------------------------------------------------------
 def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
@@ -94,9 +95,9 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
 
 # -----------------------------------------------------------------------------
 def set_restart_params(strIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
-    paramTmp    = strIn.split('=')
+    paramTmp    = strIn.strip().split('=')
     RestartDir  = paramTmp[1]
-    filenameKeyparams = 'Results/' + RestartDir+'/key_params.txt'
+    filenameKeyparams = glob.glob('Results/' + RestartDir+'*/key_params.txt')[0]
     with open(filenameKeyparams, 'r') as file_keyparams:
         lines_keyparams = list(file_keyparams)
 
@@ -109,7 +110,8 @@ def set_restart_params(strIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealiz
         else:
             strRealizationsRestart = ''
         if 'restartdir' in line.lower():
-            set_restart_params(line, NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
+            NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
+                set_restart_params(line, NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
 
     # set the params based on the key_params.txt
     NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
@@ -224,7 +226,9 @@ if __name__ == '__main__':
             for param in params[1:]:
                 if 'restartdir=' in param.lower():
                     DoRestart   = True
-                    
+                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
+                        set_restart_params(param,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
+                    RestartDir  = param.strip().split('=')[1]
 
             # the actual param starts from the 2nd element
             NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
@@ -335,8 +339,8 @@ if __name__ == '__main__':
                     # go to the realiztion dir in SIMDIR
                     os.chdir(SIMDIR+'/run'+StrRealizationLocal)
                     strLinkRestart = './Restart.pl -v -i '          \
-                        + path_swmfsolar + '/Results/' + RestartDir \
-                        +'/run' + StrRealizationLocal+'/RESTART'
+                        + glob.glob(path_swmfsolar + '/Results/' + RestartDir \
+                                    +'*/run' + StrRealizationLocal+'/RESTART')[0]
                     subprocess.call(strLinkRestart, shell=True)
                     # go back to the SWMFSOLAR dir
                     os.chdir(path_swmfsolar)
