@@ -243,7 +243,7 @@ check_postproc:
 			cd $${RunDir};                                    			\
 			if([ -f SWMF.SUCCESS ]); then                              		\
 				mkdir -p ${FullResDir}/$${RunDir: -6:5};                      	\
-				if([ ! -d RESULTS ]); then ./PostProc.pl RESULTS; fi;   	\
+				if([ ! -d RESULTS ]); then ./PostProc.pl -l=IH RESULTS; fi;   	\
 				cp SC/map_*out ${FullResDir}/$${RunDir: -6:5}/;			\
 				mv RESULTS/* ${FullResDir}/$${RunDir: -6:5}/;			\
 				if [[ -f SC/fdips_bxyz.out ]]; then          			\
