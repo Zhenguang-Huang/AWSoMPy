@@ -93,6 +93,34 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
     return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations
 
 # -----------------------------------------------------------------------------
+def set_restart_params(strIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
+    paramTmp    = strIn.split('=')
+    RestartDir  = paramTmp[1]
+    filenameKeyparams = 'Results/' + RestartDir+'/key_params.txt'
+    with open(filenameKeyparams, 'r') as file_keyparams:
+        lines_keyparams = list(file_keyparams)
+
+        # remove the /n in the .txt file...
+    for iLine, line in enumerate(lines_keyparams):
+        lines_keyparams[iLine] = line.strip()
+        # the string for the realizations is saved...
+        if 'realizations' in line.lower():
+            strRealizationsRestart = line.strip().split('=')[1]
+        else:
+            strRealizationsRestart = ''
+        if 'restartdir' in line.lower():
+            set_restart_params(line, NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
+
+    # set the params based on the key_params.txt
+    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
+        set_dict_params(lines_keyparams,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
+
+    if strRealizationsRestart.strip():
+        strRealizations=strRealizationsRestart
+
+    return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations
+    
+# -----------------------------------------------------------------------------
 if __name__ == '__main__':
 
     PROG_DESCRIPTION = ('Script to submit jobs selected from a file.')
@@ -195,28 +223,8 @@ if __name__ == '__main__':
             # check whether restartdir exists, if yes, set the params first.
             for param in params[1:]:
                 if 'restartdir=' in param.lower():
-                    paramTmp    = param.split('=')
-                    RestartDir  = paramTmp[1]
                     DoRestart   = True
-                    filenameKeyparams = 'Results/' + RestartDir+'/key_params.txt'
-                    with open(filenameKeyparams, 'r') as file_keyparams:
-                        lines_keyparams = list(file_keyparams)
-
-                    # remove the /n in the .txt file...
-                    for iLine, line in enumerate(lines_keyparams):
-                        lines_keyparams[iLine] = line.strip()
-                        # the string for the realizations is saved...
-                        if 'realizations' in line.lower():
-                            strRealizationsRestart = line.strip().split('=')[1]
-                        else:
-                            strRealizationsRestart = ''
-
-                    # set the params based on the key_params.txt
-                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
-                        set_dict_params(lines_keyparams,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
-
-                    if strRealizationsRestart.strip():
-                        strRealizations=strRealizationsRestart
+                    
 
             # the actual param starts from the 2nd element
             NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
