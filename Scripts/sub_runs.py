@@ -94,15 +94,15 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
     return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations
 
 # -----------------------------------------------------------------------------
-def set_restart_params(strIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
-    paramTmp    = strIn.strip().split('=')
-    RestartDir  = paramTmp[1]
-    filenameKeyparams = glob.glob('Results/' + RestartDir+'*/key_params.txt')[0]
+def set_restart_params(RestartDirIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
+    # use patten search to find, RestartDirIn does not need to be the full name
+    print('RestartDirIn =', RestartDirIn)
+    filenameKeyparams = glob.glob('Results/' + RestartDirIn+'*/key_params.txt')[0]
     with open(filenameKeyparams, 'r') as file_keyparams:
         lines_keyparams = list(file_keyparams)
 
-        # remove the /n in the .txt file...
     for iLine, line in enumerate(lines_keyparams):
+        # remove the /n in the .txt file...
         lines_keyparams[iLine] = line.strip()
         # the string for the realizations is saved...
         if 'realizations' in line.lower():
@@ -110,8 +110,10 @@ def set_restart_params(strIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealiz
         else:
             strRealizationsRestart = ''
         if 'restartdir' in line.lower():
+            # remove /n with strip() and then RestartDir is the second element after split
+            RestartDirLocal  = line.strip().split('=')[1]
             NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
-                set_restart_params(line, NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
+                set_restart_params(RestartDirLocal, NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
 
     # set the params based on the key_params.txt
     NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
@@ -226,9 +228,10 @@ if __name__ == '__main__':
             for param in params[1:]:
                 if 'restartdir=' in param.lower():
                     DoRestart   = True
-                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
-                        set_restart_params(param,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
+                    # remove /n with strip() and then RestartDir is the second element after split
                     RestartDir  = param.strip().split('=')[1]
+                    NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
+                        set_restart_params(RestartDir,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations)
 
             # the actual param starts from the 2nd element
             NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
