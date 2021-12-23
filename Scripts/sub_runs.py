@@ -96,7 +96,6 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
 # -----------------------------------------------------------------------------
 def set_restart_params(RestartDirIn,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
     # use patten search to find, RestartDirIn does not need to be the full name
-    print('RestartDirIn =', RestartDirIn)
     filenameKeyparams = glob.glob('Results/' + RestartDirIn+'*/key_params.txt')[0]
     with open(filenameKeyparams, 'r') as file_keyparams:
         lines_keyparams = list(file_keyparams)
