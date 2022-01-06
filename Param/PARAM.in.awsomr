@@ -234,7 +234,7 @@ T			DoSaveLogfile
 VAR			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax neteflx peflx meflx keflx		NameLogVars
+rho mx my mz p pmin urmin urmax wflx wplusflx wminusflx keflx		NameLogVars
 1.06 23.99     	    	  rLog
 
 #OUTERBOUNDARY
