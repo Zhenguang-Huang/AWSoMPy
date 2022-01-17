@@ -10,6 +10,7 @@ import os
 import warnings
 import re
 import glob
+import shutil
 
 # -----------------------------------------------------------------------------
 def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
@@ -344,10 +345,15 @@ if __name__ == '__main__':
                     StrRealizationLocal=str(int(iRealization)).zfill(2)
                     # go to the realiztion dir in SIMDIR
                     os.chdir(SIMDIR+'/run'+StrRealizationLocal)
-                    strLinkRestart = './Restart.pl -v -i '          \
-                        + glob.glob(path_swmfsolar + '/Results/' + RestartDir \
-                                    +'*/run' + StrRealizationLocal+'/RESTART')[0]
-                    subprocess.call(strLinkRestart, shell=True)
+                    RestartDirFull = glob.glob(path_swmfsolar + '/Results/' + RestartDir
+                                               + '*/run' + StrRealizationLocal+'/RESTART')
+                    if len(RestartDirFull):
+                        strLinkRestart = './Restart.pl -v -i ' + RestartDirFull[0]
+                        subprocess.call(strLinkRestart, shell=True)
+                        if os.path.exists(RestartDirFull[0]+'/../fdips_bxyz.out'):
+                            shutil.copy2(RestartDirFull[0] +'/../fdips_bxyz.out', './SC/')
+                        if os.path.exists(RestartDirFull[0]+'/../harmonics_bxyz.out'):
+                            shutil.copy2(RestartDirFull[0] +'/../harmonics_bxyz.out', './SC/')
                     # go back to the SWMFSOLAR dir
                     os.chdir(path_swmfsolar)
 
