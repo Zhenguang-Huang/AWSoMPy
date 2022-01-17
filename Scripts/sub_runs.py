@@ -146,6 +146,10 @@ if __name__ == '__main__':
                             + 'Use if you want to use the marker ^ for'
                             + 'changing the PARAM.in file.',
                             type=int, default=1)
+    ARG_PARSER.add_argument('-r', '--DoSubRun',
+                            help='(default: 1)'
+                            + 'Use if you want to submit runs',
+                            type=int, default=1)
     ARG_PARSER.add_argument('-t', '--ThresholdBrPoynting',
                             help='(default: -1.0)'
                             + 'Use if you want to set the Threshold for'
@@ -352,6 +356,7 @@ if __name__ == '__main__':
             subprocess.call('make clean_rundir_tmp', shell=True)
 
             # submit runs
-            strRun = ('make run ' + strPfssMake + ' ' + strSimDirMake + ' '
-                      + strRealizationsMake + ' JOBNAME=r'+str(RunID).zfill(2)+'_')
-            subprocess.call(strRun, shell=True)
+            if ARGS.DoSubRun:
+                strRun = ('make run ' + strPfssMake + ' ' + strSimDirMake + ' '
+                          + strRealizationsMake + ' JOBNAME=r'+str(RunID).zfill(2)+'_')
+                subprocess.call(strRun, shell=True)
