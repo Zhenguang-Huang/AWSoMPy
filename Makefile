@@ -101,13 +101,13 @@ help:
 adapt_run_w_compile:
 	@echo "Submitting AWSoM runs with a ADAPT map with re-compiling the code."
 	make compile
-	make rundir
+	make rundir_local
 	make run
 	@echo "Finished submitting AWSoM runs with a ADAPT map."
 
 adapt_run:
 	@echo "Submitting AWSoM runs with a ADAPT map without re-compiling the code."
-	make rundir
+	make rundir_local
 	make run
 	@echo "Finished submitting AWSoM runs with a ADAPT map."
 
@@ -199,9 +199,17 @@ rundir_realizations:
 		cp ${MYDIR}/FDIPS.in     ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
 		cp ${MYDIR}/JobScripts/job.${PFSS}.${MACHINE} ${MYDIR}/${SIMDIR}/run$${iRealization}/job.long;		\
 		mv ${MYDIR}/map_$${iRealization}.out ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/;  			\
+		cd ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 								\
+		if [[ "${PFSS}"  == "HARMONICS" ]]; then								\
+			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;					\
+			./HARMONICS.exe; 										\
+		fi; 													\
+		if [[ "${PFSS}"  == "FDIPS" ]]; then									\
+			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;					\
+		fi; 													\
 	done
 
-rundir:
+rundir_local:
 	@echo "Creating rundirs"
 	make backup_run
 	make copy_param
@@ -212,14 +220,6 @@ rundir:
 run:
 	@echo "Submitting jobs"
 	-@for iRealization in ${REALIZATIONLIST}; do              	        		\
-		cd ${MYDIR}/${SIMDIR}/run$${iRealization}/SC/; 					\
-		if [[ "${PFSS}"  == "HARMONICS" ]]; then					\
-			perl -i -p -e "s/map_1/map_$${iRealization}/g" HARMONICS.in;		\
-			./HARMONICS.exe; 							\
-		fi; 										\
-		if [[ "${PFSS}"  == "FDIPS" ]]; then						\
-			perl -i -p -e "s/map_1/map_$${iRealization}/g" FDIPS.in;		\
-		fi; 										\
 		cd ${MYDIR}/${SIMDIR}/run$${iRealization}; 					\
 		if [[ "${MACHINE}" == "frontera" ]];						\
 			then perl -i -p -e "s/amap01/${JOBNAME}$${iRealization}/g" job.long;  	\
