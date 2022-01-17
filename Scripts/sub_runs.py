@@ -284,7 +284,7 @@ if __name__ == '__main__':
             # Compile the code if needed. AWSoM and AWSoM-R could not be 
             # selected at the same time
             if not MODEL in ['AWSoM','AWSoMR','AWSoM2T']:
-                raise ValueError(MODEL, ': un-supported model.')
+                warnings.warn(MODEL, ' may not be supported.')
 
             # If the corresponding MODEL.exe does not exist, need to re-compile the code.
             # If it exists, do not change ARGS.DoCompile, which default is 1 (to re-compile
