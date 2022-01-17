@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
-import array
 import argparse
-import os
-import re
 import glob
 
 # -----------------------------------------------------------------------------
