@@ -33,7 +33,6 @@ if __name__ == '__main__':
                  '#SBATCH -J '+ARGS.strJob,
                  '#SBATCH -o '+ARGS.strJob+'.o%j',
                  '#SBATCH -e '+ARGS.strJob+'.e%j',
-                 '#SBATCH -p normal',
                  '#SBATCH --tasks-per-node 56',
                  '#SBATCH -t 24:00:00',
                  '#SBATCH -A BCS21001',
@@ -75,7 +74,12 @@ if __name__ == '__main__':
             file_out.write(line+'\n')
 
         # Total number of nodes
-        file_out.write('#SBATCH -N '+str(ARGS.nodes*len(SIMDirs))+'\n\n\n')
+        nodesTotal = ARGS.nodes*len(SIMDirs)
+        if nodesTotal > 512:
+            file_out.write('#SBATCH -p large\n')
+        else:
+            file_out.write('#SBATCH -p normal\n')
+        file_out.write('#SBATCH -N '+str(nodesTotal)+'\n\n\n')
         
         iRunLocal = 0
         for iDir in SIMDirs:
