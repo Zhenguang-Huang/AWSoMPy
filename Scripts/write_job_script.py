@@ -85,7 +85,7 @@ if __name__ == '__main__':
                            + ' -n 1 ./PostProc.pl -r=180 -n=30 >& PostProc.log &\n')
             file_out.write('ibrun -o '+str(offset+56)
                            +' -n '+str((ARGS.nodes-1)*56)+' SWMF.exe  > runlog_`date +%y%m%d%H%M` &\n')
-            file_out.write('cd ..\n')
+            file_out.write('cd ../../\n')
             iRunLocal += 1
 
         file_out.write('\n\nsleep 180\n\n')
