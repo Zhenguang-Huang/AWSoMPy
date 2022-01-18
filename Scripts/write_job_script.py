@@ -90,9 +90,7 @@ if __name__ == '__main__':
 
         file_out.write('\n\nsleep 180\n\n')
 
-        iRunLocal = 0
         for iDir in SIMDirs:
             file_out.write('touch '+iDir+'/PostProc.STOP\n')
-            iRunLocal += 1
 
         file_out.write('\nwait\n')
