@@ -90,7 +90,8 @@ if __name__ == '__main__':
 
         file_out.write('\n\nsleep 180\n\n')
 
-        for iDir in SIMDirs:
-            file_out.write('touch '+iDir+'/PostProc.STOP\n')
-
+        if ARGS.IDs.strip():
+            file_out.write('ibrun -o 0 -n 1 Scripts/watch_runlog.py -i '+ARGS.IDs+' >& log_watch_runlog_`date +%y%m%d%H%M%S` &\n')
+        else:
+            file_out.write('ibrun -o 0 -n 1 Scripts/watch_runlog.py >& log_watch_runlog_`date +%y%m%d%H%M%S` &\n')
         file_out.write('\nwait\n')
