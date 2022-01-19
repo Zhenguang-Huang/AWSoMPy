@@ -11,6 +11,12 @@
 ###SBATCH --mail-user=your_email@umich.edu
 #SBATCH -A BCS21001        # Project/Allocation name (req'd if you have more than 1)
 
+# If there is error messages like
+# ib_mlx5_log.c:174 Transport retry count exceeded on
+#    mlx5_1:1/RoCE (synd 0x15 vend 0x81 hw_synd 0/0)
+# add the following setting:
+# export UCX_TLS="knem,rc"
+
 # Any other commands must follow all #SBATCH directives...
 
 cd SC
