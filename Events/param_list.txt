@@ -25,6 +25,13 @@
 #      based on the input parameters. ExtraStr could be provided inside () to make the command unique, e.g.,
 #      HARMONICSGRID(PFSS)=[1.0,20,F,180,400,180,90].
 #
+#  any white space could be preserved within '', e.g.:
+#
+#  #USERSWITCH             sc_cme^
+#  +init +ic +perturb      StringSwitch StringSwitch_SC^
+#
+#  could be changed as USERSWITCH(sc_cme)=['+init +ic -perturb'] or StringSwitch_SC='+init +ic -perturb'
+#
 #
 # Choose the run IDs, can be multiple IDs, e.g., 1,3,4,5-10,16
 selected run IDs = 1,3
