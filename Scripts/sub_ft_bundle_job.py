@@ -14,7 +14,7 @@ def sub_one_bundle_job(list_RunIDs, strJobName, nNodes):
                       '#SBATCH -o '+strJobName+'.o%j',
                       '#SBATCH -e '+strJobName+'.e%j',
                       '#SBATCH --tasks-per-node 56',
-                      '#SBATCH -t 2:00:00',
+                      '#SBATCH -t 24:00:00',
                       '#SBATCH -A BCS21001',
                   ]
 
@@ -47,7 +47,7 @@ def sub_one_bundle_job(list_RunIDs, strJobName, nNodes):
 
         iRunLocal = 0
         for iDir in SIMDirs:
-            file_out.write('sleep 5')
+            file_out.write('sleep 5\n')
             file_out.write('cd '+iDir+'\n')
             offset = iRunLocal * nNodes*56
             file_out.write('ibrun -o '+str(offset)
@@ -64,10 +64,13 @@ def sub_one_bundle_job(list_RunIDs, strJobName, nNodes):
 # -----------------------------------------------------------------------------
 if __name__ == '__main__':
 
-    PROG_DESCRIPTION = ('Script to submit jobs selected from a file.')
+    PROG_DESCRIPTION = ('Script to write and submit bundle jobs.')
     ARG_PARSER = argparse.ArgumentParser(description=PROG_DESCRIPTION)
     ARG_PARSER.add_argument('-i', '--IDs',
-                            help='(default:)',
+                            help='A string for the run IDs, similar to'  +
+                            'the format in the param_list.txt. If it is' +
+                            'not specified, then all the run*.' +
+                            '(default:)',
                             type=str, default='')
     ARG_PARSER.add_argument('-n', '--nodes',
                             help='The number of nodes per run dir, '+
