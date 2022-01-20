@@ -78,6 +78,7 @@ if __name__ == '__main__':
     ARGS = ARG_PARSER.parse_args()
 
     list_RunIDs = []
+    SIMDirs     = []
 
     # get the run IDs if ARGS.IDs is not empty
     if ARGS.IDs.strip():
