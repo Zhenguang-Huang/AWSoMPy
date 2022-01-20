@@ -329,11 +329,11 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
                         # use the same comment if the size of the command does not change
                         # split the original line parame, the parameter starts at iLine+1
                         line_split = lines[iLine+1+iParam].split()
-                        line_new   = strParam_I[iParam] +'\t\t\t' \
-                            + ' '.join(line_split[1:])+'\n'
+                        line_new   = param_local +'\t\t\t' \
+                            + ' '.join(line_split[len(param_local.split()):])+'\n'
                     else:
                         # if the size changes, then no comment for the parameters...
-                        line_new   = strParam_I[iParam] + '\n'
+                        line_new   = param_local + '\n'
                     lines_command.append(line_new)
 
                 if ExtraStr != None:
