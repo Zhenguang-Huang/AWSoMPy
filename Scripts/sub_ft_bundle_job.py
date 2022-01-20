@@ -103,6 +103,7 @@ if __name__ == '__main__':
         for iRun in list_RunIDs:
             dirTmp = glob.glob('run'+str(iRun).zfill(3)+'*/run*')
             if len(dirTmp):
+                dirTmp = sorted(dirTmp)
                 SIMDirs.extend(dirTmp)
     else:
         SIMDirs = glob.glob('run*/run*')
