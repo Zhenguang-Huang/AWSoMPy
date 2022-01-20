@@ -11,6 +11,7 @@ import warnings
 import re
 import glob
 import shutil
+import shlex
 
 # -----------------------------------------------------------------------------
 def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations):
@@ -71,9 +72,9 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
                 NewParam[paramTmp[0]] = NewParam[paramTmp[0]]+','+paramTmp[1]
         elif paramTmp[1][0] == '[' and paramTmp[1][-1] == ']':
             if not 'replace' in NewParam.keys():
-                NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-2]}
+                NewParam['replace'] = {paramTmp[0]:paramTmp[1][1:-1]}
             else:
-                NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-2]
+                NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-1]
         else:
             if not 'change' in NewParam.keys():
                 NewParam['change']  = {paramTmp[0]:paramTmp[1]}
@@ -203,8 +204,10 @@ if __name__ == '__main__':
 
     for iLine, line in enumerate(lines[iParamStart:]):
         if line.strip():
-            # preserve the white space inside []
-            param_now    = re.split(r'\s+(?![^[\]]*])', line.strip())
+            # preserve the white space within ''
+            param_now = shlex.split(line.strip())
+            # this will preserve the white space within []
+            # param_now    = re.split(r'\s+(?![^[\]]*])', line.strip())
 
             # the first element is always an inter representing the run ID.
             param_now[0] = int(param_now[0])
