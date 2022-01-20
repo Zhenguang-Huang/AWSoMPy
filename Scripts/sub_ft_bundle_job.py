@@ -98,18 +98,15 @@ if __name__ == '__main__':
                 except Exception as error:
                     raise TypeError(error," wrong format: could only contain "
                                     + "integer, ',' and '-'.")
+
+        for iRun in list_RunIDs:
+            dirTmp = glob.glob('run'+str(iRun).zfill(3)+'*/run*')
+            if len(dirTmp):
+                SIMDirs.extend(dirTmp)
+                list_strRunIDs.extend([str(iRun)])
     else:
         SIMDirs = glob.glob('run*/run*')
         SIMDirs = sorted(SIMDirs)
-        list_RunIDs  = [0]*len(SIMDirs)
-        for i, iDir in enumerate(SIMDirs):
-            list_RunIDs[i] = int(iDir[3:6])
-
-    for iRun in list_RunIDs:
-        dirTmp = glob.glob('run'+str(iRun).zfill(3)+'*/run*')
-        if len(dirTmp):
-            SIMDirs.extend(dirTmp)
-            list_strRunIDs.extend([str(iRun)])
 
     # see if it fits into only one job script
     if (len(SIMDirs)*ARGS.nodes)/ARGS.MaxNodes > 1:
