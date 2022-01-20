@@ -6,7 +6,7 @@ import numpy as np
 import subprocess
 
 # -----------------------------------------------------------------------------
-def sub_one_bundle_job(list_RunIDs, strJobName, nNodes):
+def sub_one_bundle_job(SIMDirs, strJobName, nNodes):
 
     ## header for the job script
     list_strHeader = ['#!/bin/bash','',
@@ -17,15 +17,6 @@ def sub_one_bundle_job(list_RunIDs, strJobName, nNodes):
                       '#SBATCH -t 24:00:00',
                       '#SBATCH -A BCS21001',
                   ]
-
-    # get the dir list
-    SIMDirs        = []
-    list_strRunIDs = []
-    for iRun in list_RunIDs:
-        dirTmp = glob.glob('run'+str(iRun).zfill(3)+'*/run*')
-        if len(dirTmp):
-            SIMDirs.extend(dirTmp)
-            list_strRunIDs.extend([str(iRun)])
 
     if len(SIMDirs) == 0:
         return
@@ -114,22 +105,28 @@ if __name__ == '__main__':
         for i, iDir in enumerate(SIMDirs):
             list_RunIDs[i] = int(iDir[3:6])
 
+    for iRun in list_RunIDs:
+        dirTmp = glob.glob('run'+str(iRun).zfill(3)+'*/run*')
+        if len(dirTmp):
+            SIMDirs.extend(dirTmp)
+            list_strRunIDs.extend([str(iRun)])
+
     # see if it fits into only one job script
-    if (len(list_RunIDs)*ARGS.nodes)/ARGS.MaxNodes > 1:
+    if (len(SIMDirs)*ARGS.nodes)/ARGS.MaxNodes > 1:
         # number of runs per job script
         nRunPerScript = np.floor(ARGS.MaxNodes/ARGS.nodes)
 
         # number of job scripts
-        nScript = np.floor(len(list_RunIDs)/nRunPerScript) + 1
+        nScript = np.floor(len(SIMDirs)/nRunPerScript) + 1
 
         iScript = 0
         while iScript < nScript:
             # the the list of IDs within the script
             iStart = int( iScript   *nRunPerScript)
             iEnd   = int((iScript+1)*nRunPerScript)
-            list_RunIDsLocal = list_RunIDs[iStart:iEnd]
+            SIMDirsLocal = SIMDirs[iStart:iEnd]
 
-            sub_one_bundle_job(list_RunIDsLocal, ARGS.strJob+str(iScript), ARGS.nodes)
+            sub_one_bundle_job(SIMDirsLocal, ARGS.strJob+str(iScript), ARGS.nodes)
             iScript +=  1
     else:
-        sub_one_bundle_job(list_RunIDs, ARGS.strJob, ARGS.nodes)
+        sub_one_bundle_job(SIMDirs, ARGS.strJob, ARGS.nodes)
