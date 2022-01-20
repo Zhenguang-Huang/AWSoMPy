@@ -277,15 +277,15 @@ T			UseDtLimit
 0.1			DtLimitDim
 
 add the perturb switch for CME
-USERSWITCH		sc_cme^
+#USERSWITCH		sc_cme^
 +init +ic +perturb	StringSwitch
 
-#USERSWITCH		sc_restart^
+USERSWITCH		sc_restart^
 +init +ic -perturb	StringSwitch
 
 flux-rope parameters
 #CME
-F			UseCme^
+T			UseCme^
 T			DoAddFluxRope
 87.50			LongitudeCme
 14.50			LatitudeCme
@@ -385,11 +385,11 @@ F			UseComp
 
 #STOP
 -1			MaxIter
-2 h			TimeMax^
+1 h			TimeMax^
 
 End session: 1
 
-END			sc_only^
+#END			sc_only^
 
 #RUN ##########################################################################
 Begin session: 2
