@@ -178,7 +178,7 @@ conex0			StringShape
 -24.			Height
 5.			Radius
 
-AMRCRITERIARESOLUTION
+AMRCRITERIARESOLUTION		regular_grid^
 3			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
@@ -191,7 +191,7 @@ currentsheet		StringRefine
 0.5			RefineLimit
 1.5			MaxResolution
 
-#AMRCRITERIARESOLUTION
+#AMRCRITERIARESOLUTION		cme_grid^
 4			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
@@ -277,12 +277,15 @@ T			UseDtLimit
 0.1			DtLimitDim
 
 add the perturb switch for CME
-#USERSWITCH
+USERSWITCH		sc_cme^
++init +ic +perturb	StringSwitch
+
+#USERSWITCH		sc_restart^
 +init +ic -perturb	StringSwitch
 
 flux-rope parameters
 #CME
-F			UseCme
+F			UseCme^
 T			DoAddFluxRope
 87.50			LongitudeCme
 14.50			LatitudeCme
@@ -382,9 +385,12 @@ F			UseComp
 
 #STOP
 -1			MaxIter
-2 h			TimeMax
+2 h			TimeMax^
 
 End session: 1
+
+END			sc_only^
+
 #RUN ##########################################################################
 Begin session: 2
 
