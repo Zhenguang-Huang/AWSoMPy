@@ -42,7 +42,7 @@ def sub_one_bundle_job(SIMDirs, strJobName, nNodes):
             file_out.write('cd '+iDir+'\n')
             offset = iRunLocal * nNodes*56
             file_out.write('ibrun -o '+str(offset)
-                           + ' -n 1 ./PostProc.pl -r=180 -n=30 >& PostProc.log &\n')
+                           + ' -n 1 ./PostProc.pl -r=180 -n=1 >& PostProc.log &\n')
             file_out.write('( ibrun -o '+str(offset+56)
                            +' -n '+str((nNodes-1)*56)+' SWMF.exe > runlog_`date +%y%m%d%H%M` ; touch PostProc.STOP ) &\n')
             file_out.write('cd ../../\n')
