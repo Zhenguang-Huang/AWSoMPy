@@ -14,7 +14,7 @@ def sub_one_bundle_job(SIMDirs, strJobName, nNodes):
                       '#SBATCH -o '+strJobName+'.o%j',
                       '#SBATCH -e '+strJobName+'.e%j',
                       '#SBATCH --tasks-per-node 56',
-                      '#SBATCH -t 24:00:00',
+                      '#SBATCH -t 48:00:00',
                       '#SBATCH -A BCS21001',
                   ]
 
