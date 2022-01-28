@@ -120,7 +120,8 @@ XBackground = DataFrame(CSV.File(fileBackground))
 # count number of background runs
 nBackground = size(XBackground, 1) # Going to set it to 20 assuming we just do the runs from the CSV file 
 # Add columns for writing out .fits fileName and model
-insertcols!(XBackground, 1, :map=>string(mg, "_CR", "$(cr)",  ".fits"))
+insertcols!(XBackground, 1, :map=>"ADAPT_41_GONG_CR2161.fts")
+# insertcols!(XBackground, 1, :map=>string(mg, "_CR", "$(cr)",  ".fits"))
 insertcols!(XBackground, 2, :model=>md)
 
 colNamesBackground = [
@@ -137,7 +138,10 @@ rename!(XBackground, colNamesBackground)
 # load file for restart params
 fileRestart = args["fileRestart"]
 XRestart = DataFrame(CSV.File(fileRestart))
-deletecols!(XRestart, "Column1")
+if "Column1" in names(XRestart) 
+    deletecols!(XRestart, "Column1")
+end
+deletecols!(XRestart, ["BrFactor_ADAPT", "PoyntingFluxPerBSi", "LperpTimesSqrtBSi"])
 
 colNamesRestart = [
                 "RelativeStrength",
@@ -216,6 +220,21 @@ deletecols!(
             colNamesRestart[1:5]
             )
 
+# bestBackgrounds = Dict(1:20 .=> [4, 1, 8, 13, 10, 19, 17, 14, 6, 16, 11, 5, 9, 7, 2, 12, 15, 20, 3, 18])
+# bestBackgrounds = Dict(1:10 .=> [11, 7, 17, 6, 5, 3, 16, 1, 2, 8])
+# bestRealizations = Dict(1:10 .=> [4, 4, 9, 9, 5, 2, 12, 5, 2, 4])
+
+bg_realization_lookup = Dict([11, 7, 17, 6, 5, 3, 16, 1, 2, 8] .=> [4, 4, 9, 9, 5, 2, 12, 5, 2, 4])
+
+REALIZATIONS = [[bg_realization_lookup[i]] for i in XRestart.restartdir]
+
+insertcols!(XRestart,
+            5,
+            :realization => REALIZATIONS)
+
+# Small addition: Also save above as a csv because its useful for future processing (param list is not as easily readable into array like form).
+CSV.write("./output/restartRunDesignFiles/X_restart_CME_2022_01_28.csv", XRestart)
+
 startTime = args["start_time"]
 
 # count number of restarts
@@ -245,6 +264,10 @@ write(tmpio, "\n#START\n")
 write(tmpio, "ID   params\n")
 
 # Extract keys and values from DataFrame and write as strings to param_list_file
+
+
+
+
 
 # Loop through DataFrame for background
 for count = 1:size(XBackground, 1)
@@ -287,7 +310,7 @@ for count = 1:size(XBackground, 1)
 end
 println("Wrote background runs")
 
-bestBackgrounds = Dict(1:20 .=> [4, 1, 8, 13, 10, 19, 17, 14, 6, 16, 11, 5, 9, 7, 2, 12, 15, 20, 3, 18])
+
 
 # Revert to usual style of writing restarts since allocation of restart dir is already in the file we read in, and is not done ad hoc anymore.
 for count = 1:size(XRestart, 1)
@@ -312,7 +335,7 @@ for count = 1:size(XRestart, 1)
 
     write(tmpio, 
         string(runIDRange[count]) * " " * "restartdir=" * @sprintf("run%03d_", XRestart[count, "restartdir"]) * "$(md)      " * 
-            " param=PARAM.in.awsom.cme      " * stringToWrite * "\n")
+            " param=PARAM.in.awsom.CME      " * stringToWrite * "\n")
 end
 # end for loop
 
