@@ -303,23 +303,23 @@ T			DoSaveOneTecFile
 save frequently for first few hours
 #SAVEPLOT
 6			nPlotFile
-x=0 VAR idl_ascii	StringPlot
+x=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
 {default}		NamePars
-y=0 VAR idl_ascii	StringPlot
+y=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
 {default}		NamePars
-z=0 VAR idl_ascii	StringPlot
+z=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 -1			DnSavePlot
@@ -598,6 +598,12 @@ Begin session: 3
 
 #BEGIN_COMP SC -----------------------------------------------------------------
 
+#CME
+F			UseCME
+
+#USERSWITCH		sc_cme^
++init +ic -perturb	StringSwitch
+
 #SAVEPLOT
 4			nPlotFile
 x=0 VAR idl		StringPlot
@@ -634,19 +640,19 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 1800.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq	NameVars
+{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq dt	NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 1800.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq	NameVars
+{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq dt	NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 1800.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq	NameVars
+{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq dt	NameVars
 {default}		NamePars
 3d VAR tcp              StringPlot
 -1                      DnSavePlot
@@ -682,19 +688,19 @@ x=0 VAR idl             StringPlot
 -1                      DnSavePlot
 3600.                   DtSavePlot
 -1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq dx	NameVars
+{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq dt	NameVars
 {default}               NamePars
 y=0 VAR idl             StringPlot
 -1                      DnSavePlot
 3600.                   DtSavePlot
 -1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq dx	NameVars
+{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq dt	NameVars
 {default}               NamePars
 z=0 VAR idl             StringPlot
 -1                      DnSavePlot
 3600.                   DtSavePlot
 -1.0                    DxSavePlot
-{MHD} dt b1x b1y b1z qrad qheat qebyq qparbyq qperpbyq dx	NameVars
+{MHD} b1x b1y b1z te ti dx qrad qheat qebyq qparbyq qperpbyq dt	NameVars
 {default}               NamePars
 shl VAR idl             StringPlot
 -1                      DnSavePlot
