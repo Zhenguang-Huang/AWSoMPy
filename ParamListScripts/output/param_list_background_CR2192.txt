@@ -1,0 +1,23 @@
+selected run IDs = 1-20
+#START
+ID   params
+1 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.741733e+05    BrFactor=0.9727    PoyntingFluxPerBSi=4.650963e+05    
+2 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.249088e+05    BrFactor=0.9810    PoyntingFluxPerBSi=7.266470e+05    
+3 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.600974e+05    BrFactor=1.0033    PoyntingFluxPerBSi=6.208008e+05    
+4 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.070104e+05    BrFactor=1.0201    PoyntingFluxPerBSi=5.038494e+05    
+5 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.868723e+05    BrFactor=1.0594    PoyntingFluxPerBSi=5.324009e+05    
+6 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.410595e+05    BrFactor=1.0823    PoyntingFluxPerBSi=4.423290e+05    
+7 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.942666e+05    BrFactor=1.1245    PoyntingFluxPerBSi=6.989298e+05    
+8 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.540997e+05    BrFactor=1.2106    PoyntingFluxPerBSi=7.670270e+05    
+9 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=9.838691e+04    BrFactor=1.2268    PoyntingFluxPerBSi=4.565708e+05    
+10 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=2.143897e+05    BrFactor=1.2756    PoyntingFluxPerBSi=7.366490e+05    
+11 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.225469e+05    BrFactor=1.3254    PoyntingFluxPerBSi=4.826552e+05    
+12 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=2.202110e+05    BrFactor=1.3687    PoyntingFluxPerBSi=5.431633e+05    
+13 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.839471e+05    BrFactor=1.3977    PoyntingFluxPerBSi=7.530530e+05    
+14 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.992781e+05    BrFactor=1.4425    PoyntingFluxPerBSi=6.316907e+05    
+15 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.033676e+05    BrFactor=1.4664    PoyntingFluxPerBSi=5.762700e+05    
+16 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.141559e+05    BrFactor=1.5333    PoyntingFluxPerBSi=7.612182e+05    
+17 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.581915e+05    BrFactor=1.5455    PoyntingFluxPerBSi=4.504093e+05    
+18 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=9.345112e+04    BrFactor=1.5864    PoyntingFluxPerBSi=5.248170e+05    
+19 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=1.919920e+05    BrFactor=1.6262    PoyntingFluxPerBSi=4.756519e+05    
+20 map=ADAPT_41_GONG_CR2192.fts    model=AWSoM    LperpTimesSqrtBSi=2.045952e+05    BrFactor=1.6607    PoyntingFluxPerBSi=7.181237e+05    

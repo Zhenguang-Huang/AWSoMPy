@@ -74,7 +74,7 @@ s = ArgParseSettings(
     "--fileBackground"
         help = "Path to load background wind runs from."
         arg_type = String
-        default = "./output/restartRunDesignFiles/Params_MaxPro_postdist.csv"
+        default = "./output/restartRunDesignFiles/X_background_CR2192_2022_02_14.csv"
     "--fileRestart"
         help = "Path to load restart runs from."
         arg_type = String
