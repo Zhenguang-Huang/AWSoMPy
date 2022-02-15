@@ -6,7 +6,7 @@ import numpy as np
 import subprocess
 
 # -----------------------------------------------------------------------------
-def sub_one_bundle_job(SIMDirs, strJobName, nNodes):
+def sub_one_bundle_job(SIMDirs, strJobName, strTime, nNodes):
 
     ## header for the job script
     list_strHeader = ['#!/bin/bash','',
@@ -14,7 +14,7 @@ def sub_one_bundle_job(SIMDirs, strJobName, nNodes):
                       '#SBATCH -o '+strJobName+'.o%j',
                       '#SBATCH -e '+strJobName+'.e%j',
                       '#SBATCH --tasks-per-node 56',
-                      '#SBATCH -t 48:00:00',
+                      '#SBATCH -t '+strTime,
                       '#SBATCH -A BCS21001',
                   ]
 
@@ -75,6 +75,10 @@ if __name__ == '__main__':
                             help='The String for the job info, '+
                             '(default:bundle)',
                             type=str, default='bundle')
+    ARG_PARSER.add_argument('-t', '--strTime',
+                            help='The String for the wall time, '+
+                            '(default:48:00:00)',
+                            type=str, default='48:00:00')
     ARGS = ARG_PARSER.parse_args()
 
     list_RunIDs = []
@@ -124,7 +128,7 @@ if __name__ == '__main__':
             iEnd   = int((iScript+1)*nRunPerScript)
             SIMDirsLocal = SIMDirs[iStart:iEnd]
 
-            sub_one_bundle_job(SIMDirsLocal, ARGS.strJob+str(iScript), ARGS.nodes)
+            sub_one_bundle_job(SIMDirsLocal, ARGS.strJob+str(iScript).zfill(2), ARGS.strTime, ARGS.nodes)
             iScript +=  1
     else:
-        sub_one_bundle_job(SIMDirs, ARGS.strJob, ARGS.nodes)
+        sub_one_bundle_job(SIMDirs, ARGS.strJob, ARGS.strTime, ARGS.nodes)
