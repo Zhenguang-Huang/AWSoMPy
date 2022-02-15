@@ -178,6 +178,12 @@ conex0			StringShape
 -24.			Height
 5.			Radius
 
+#AMRREGION
+cmecone			NameRegion
+conex0			StringShape
+-24.			Height
+9.			Radius
+
 AMRCRITERIARESOLUTION
 3			nRefineCrit
 dphi			StringRefine
@@ -202,6 +208,9 @@ dphi Innershell		StringRefine
 dphi earthcone		StringRefine
 0.35			RefineTo
 0.175			CoarsenFrom
+dphi cmecone		StringRefine
+0.7			RefineTo
+0.35			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -450,6 +459,12 @@ conex0			StringShape
 -215.			Height
 20.			Radius
 
+#AMRREGION
+cmecone			NameRegion
+conex0			StringShape
+-215.			Height
+80.			Radius
+
 AMRCRITERIARESOLUTION	
 3                       nRefineCrit
 dx			StringRefine
@@ -474,6 +489,9 @@ dx +Outershell		StringRefine
 dx +earthcone		StringRefine
 0.35			RefineTo
 0.175			CoarsenFrom
+dx +cmecone		StringRefine
+0.7			RefineTo
+0.35			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
