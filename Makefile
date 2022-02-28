@@ -15,6 +15,9 @@ PFSS  = HARMONICS
 TIME = MapTime
 MAP  = NoMap
 
+EVTIME = none
+DTEV   = -7
+
 POYNTINGFLUX   = -1.0
 
 PARAM = Default
@@ -272,7 +275,7 @@ check_compare_insitu:
 	-@(cd ${IDLDIR}; 									\
 	for iRunDir in ${FullResRunDirList};  do 						\
 		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL} 		\
-			${MYDIR}/Results/obsdata;						\
+			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV};				\
 	done)
 
 check_compare_insitu_py:
@@ -315,7 +318,7 @@ check_compare_insitu_all:
 	-@(cd ${IDLDIR}; 								\
 	for iResDir in ${FullResDirList}; do						\
 		csh compare_insitu.sh ${DIR} $${iResDir} $${iResDir} ${MODEL} 		\
-			${MYDIR}/Results/obsdata; 					\
+			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV}; 			\
 	done)
 
 check_compare_remote_all:
