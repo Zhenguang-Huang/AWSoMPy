@@ -1,0 +1,11 @@
+#CME
+T                       UseCme
+T                       DoAddFluxRope
+111.50                  LongitudeCme
+-5.50                   LatitudeCme
+187.13                  OrientationCme
+GL                      TypeCme
+15.07                   BStrength
+0.71                    Radius
+0.60                    Stretch
+0.91                    ApexHeight
