@@ -296,8 +296,8 @@ flux-rope parameters
 #CME
 T			UseCme^
 T			DoAddFluxRope
-87.50			LongitudeCme
-14.50			LatitudeCme
+87.50			LongitudeCme^
+14.50			LatitudeCme^
 250.68			OrientationCme^
 GL			TypeCme
 -18.81			BStrength^
@@ -398,7 +398,7 @@ F			UseComp
 
 End session: 1
 
-#END			sc_only^
+END			sc_only^
 
 #RUN ##########################################################################
 Begin session: 2
