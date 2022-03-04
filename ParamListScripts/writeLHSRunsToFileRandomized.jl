@@ -21,16 +21,6 @@ using Random
 runGeneratingSeed = 8191
 Random.seed!(runGeneratingSeed)
 
-REALIZATIONS_ADAPTvals = collect(1:12)
-PFSSVals = ["HARMONICS";
-            "FDIPS"]
-BrMin_Vals = SelectInputs.MixedRandomVariable(5.0, 0.0, 10.0)
-
-# Add in vals for UseSurfaceWaveRefl
-UseSurfaceWaveRefl_Vals = ["T";
-                           "F"]
-
-# Assumptions: Separate groups based on `model`, `magnetogram`, and `CRVals`. Fixed values for `nOrderVals`, `NonConservativeVals` and `GridResolutionVals`.
 
 
 # fetch current date and time and add to generated file
@@ -48,14 +38,25 @@ mg = ["GONG", "ADAPT"]
 cr = [2208, 2209, 2152, 2154]
 md = ["AWSoM", "AWSoMR"]
 
+REALIZATIONS_ADAPTvals = collect(1:12)
+PFSSVals = ["HARMONICS";
+            "FDIPS"]
+# BrMin_Vals = SelectInputs.MixedRandomVariable(5.0, 0.0, 10.0)
+BrMin_Vals = [0.0, 10.0]
+
+# Add in vals for UseSurfaceWaveRefl
+UseSurfaceWaveRefl_Vals = ["T";
+                           "F"]
+
+# Assumptions: Separate groups based on `model`, `magnetogram`, and `CRVals`. Fixed values for `nOrderVals`, `NonConservativeVals` and `GridResolutionVals`.
 
 # We will use the following order for the real valued variables while creating columns of upper bounds and lower bounds. 
 # Order: BrFactor_GONG, BrFactor_ADAPT, rMin_AWSoMR, nChromoSi_AWSoM, PoyntingFluxPerBSI, LperpTimesSqrtBSI, StochasticExponent. 
+lowerBounds = [1.0, 0.54, 1.05, 2e17, 0.3e6, 0.3e5, 0.1]
+upperBounds = [4.0, 2.7, 1.15, 5e18, 1.1e6, 3e5, 0.34]
 
 # We will augment rMinWaveReflection separately, since we are imposing an additional constraint that it should be greater than rMin_AWSoMR. 
 
-lowerBounds = [1.0, 0.54, 1.05, 2e17, 0.3e6, 0.3e5, 0.1]
-upperBounds = [4.0, 2.7, 1.15, 5e18, 1.1e6, 3e5, 0.34]
 
 pRV = length(lowerBounds)
 nRV = 6

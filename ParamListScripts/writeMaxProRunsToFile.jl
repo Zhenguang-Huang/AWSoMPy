@@ -14,7 +14,7 @@ md = "AWSoM"
 
 # Read in csv file for MaxPro design (file generated from RStudio script) and convert to DataFrame
 # XMaxPro = CSV.File("./SampleOutputs/2021_04_09_X_design_MaxPro_ADAPT_AWSoM.csv") |> DataFrame
-XMaxPro = CSV.File("./SampleOutputs/X_design_MaxPro_ADAPT_AWSoM.csv") |> DataFrame
+XMaxPro = CSV.File("./output/X_design_MaxPro_ADAPT_AWSoM.csv") |> DataFrame
 XMaxPro = XMaxPro[1:200, 2:end]
 
 REALIZATIONS_ADAPT = floor.(XMaxPro[:, :REALIZATIONS_ADAPT] * 11 .+ 1) .|> Int
@@ -100,5 +100,3 @@ for count = 1:size(XMaxPro, 1)
 end
 close(tmpio); 
 mv(tmppath, joinpath("./SampleOutputs/", fileName), force=true)
-
- 
