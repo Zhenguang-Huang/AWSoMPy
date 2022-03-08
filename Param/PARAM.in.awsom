@@ -198,7 +198,7 @@ currentsheet		StringRefine
 1.5			MaxResolution
 
 #AMRCRITERIARESOLUTION
-4			nRefineCrit
+5			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
 1.5			CoarsenFrom
@@ -479,7 +479,7 @@ currentsheet		StringRefine
 1.0			MaxResolution
 
 #AMRCRITERIARESOLUTION	
-4                       nRefineCrit
+5                       nRefineCrit
 dx			StringRefine
 8.			RefineTo
 4.			CoarsenFrom
