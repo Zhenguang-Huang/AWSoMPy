@@ -5,12 +5,29 @@ This script will write a `param_list` with the following components:
 2) Background runs - these will only consist of params downselected from sensitivity analysis, sampled from their respective posterior distributions that data assimilation provides. This is also read in from a file.
 3) Restart runs. We specify which background runs we want to restart and insert a flux rope into, the params for these are calculated with formulae that use the event specific params read in 1) and Design Parameters sampled from uniform distributions imposed on their respective ranges. 
 
+writeSEPBackgroundList.jl
+Write param list for background parameters.
 
-Options:
-- run from the Julia REPL using `include("path/to/writeRestartRunsToFile.jl` or use the `Execute File in REPL` command if using VSCode. Note that both these options will only parse default arguments so we will need to manually change the defaults if a different `param_list` is desired.
+Process to run:
+- Navigate to ParamListScripts, and go to Julia REPL
+```julia
+julia> using Pkg
+julia> Pkg.activate()
+julia> Pkg.resolve()     # rebuild Manifest if dependencies have changed
+julia> Pkg.instantiate() # install packages for environment as specified by Manifest
+```
+- run script from 
+1) the Julia REPL using `include("path/to/writeRestartRunsToFile.jl)` 
+OR 
+2) use the `Execute File in REPL` command if using VSCode. 
+OR
+3) the Terminal / shell via `julia --project=. writeRestartRunsToFile.jl`
 
-- (Preferred): Navigate to `ParamListScripts` in the Terminal / shell and type:
-`julia --project=. writeRestartRunsToFile.jl --help` and if all goes well, the following help message should show up (at the time of writing, 2021/10/19):
+These options will only parse default arguments so we will need to manually change the defaults if a different `param_list` is desired.
+
+- In the terminal, type
+`julia --project=. writeRestartRunsToFile.jl --help` 
+to list all options
 ```
 usage: writeRestartRunsToFile.jl [--fileEEGGL FILEEEGGL]
                         [--fileBackground FILEBACKGROUND]
@@ -67,12 +84,28 @@ optional arguments:
   -h, --help            show this help message and exit
 ```
 
-Some of the important arguments: 
 
-we can supply paths to EEGGL Params, background and restart design files, a start time to use for background (which will revert to MapTime if not given) and one or more backgrounds to be restarted under "--restartID", which will revert to using all backgrounds as the default behaviour.
+To generate a new list of restart runs, the command may be for example:
+`julia --project=. writeRestartRunsToFile.jl --cr=2152`
 
-To generate a new list, the command may be for example:
-`julia --project=. writeRestartRunsToFile.jl --restartID "1, 4, 5, 9, 15" --cr=2152`
+To generate a new background params list for SEP event, the command may be for example:
+`julia --project=. writeSEPBackgroundList.jl --nRuns=500 --fileParam="../Param/PARAM.in.awsomr.SCIHOH"`
 
-The document will be likely updated as further changes are made. 
+The output from this will be:
+bash```
+Valid PARAM file provided
+Wrote background runs
+The PARAM file gives the following results when checking keywords:
+1.0                     FactorB0 BrFactor^
+1e6                     PoyntingFluxPerBSi
+1.5e5                   LperpTimesSqrtBSi^
+1.5e5                   LperpTimesSqrtBSi^
+1.5e5                   LperpTimesSqrtBSi
+Successfully wrote runs to file ./output/sep_param_lists/param_list_2022_03_14.txt
+```
+
+The above has:
+1) Checking if a _valid_ PARAM file name is supplied, to avoid errors in case for example.
+
+2) grepping the keywords written from script in the PARAM file to provide basic check that correct keywords have been written. We can open PARAM file manually for detailed checking.
 
