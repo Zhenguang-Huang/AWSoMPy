@@ -1,0 +1,237 @@
+#CME
+# 19.68           BStrength
+# T               UseCme
+# 0.60            aStretch
+# GL              TypeCme
+# 0.57            ApexHeight
+# 195.50          LongitudeCme
+# 0.37            Radius
+# -19.50          LatitudeCme
+# T               DoAddFluxRope
+# 232.13          OrientationCme
+
+ # selected backgrounds = 
+selected run IDs = 1-220
+
+#START
+ID   params
+1 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.238356e+05    BrFactor=0.7151    PoyntingFluxPerBSi=5.076149e+05    
+2 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=2.165413e+05    BrFactor=0.7271    PoyntingFluxPerBSi=3.051967e+05    
+3 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.656657e+05    BrFactor=0.7459    PoyntingFluxPerBSi=3.676977e+05    
+4 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.081121e+05    BrFactor=0.7835    PoyntingFluxPerBSi=4.604455e+05    
+5 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=2.071052e+05    BrFactor=0.8041    PoyntingFluxPerBSi=4.046034e+05    
+6 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.400950e+05    BrFactor=0.8212    PoyntingFluxPerBSi=3.144461e+05    
+7 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=2.344140e+05    BrFactor=0.8613    PoyntingFluxPerBSi=3.455279e+05    
+8 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.281239e+05    BrFactor=0.8872    PoyntingFluxPerBSi=3.904135e+05    
+9 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=2.214418e+05    BrFactor=0.9055    PoyntingFluxPerBSi=5.230521e+05    
+10 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.590971e+05    BrFactor=0.9266    PoyntingFluxPerBSi=4.482435e+05    
+11 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.995985e+05    BrFactor=0.9524    PoyntingFluxPerBSi=3.254929e+05    
+12 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.465736e+05    BrFactor=0.9719    PoyntingFluxPerBSi=5.469280e+05    
+13 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.119791e+05    BrFactor=0.9930    PoyntingFluxPerBSi=3.543068e+05    
+14 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.880645e+05    BrFactor=1.0151    PoyntingFluxPerBSi=4.244360e+05    
+15 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.348781e+05    BrFactor=1.0443    PoyntingFluxPerBSi=4.792771e+05    
+16 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=2.258780e+05    BrFactor=1.0597    PoyntingFluxPerBSi=3.794785e+05    
+17 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.759945e+05    BrFactor=1.0809    PoyntingFluxPerBSi=3.004750e+05    
+18 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=2.125353e+05    BrFactor=1.1179    PoyntingFluxPerBSi=4.654620e+05    
+19 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.510818e+05    BrFactor=1.1309    PoyntingFluxPerBSi=3.386795e+05    
+20 map=ADAPT_41_GONG_CR2161.fts    model=AWSoM    LperpTimesSqrtBSi=1.691273e+05    BrFactor=1.1585    PoyntingFluxPerBSi=5.141890e+05    
+21 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=7.7152    ApexHeight=0.5782    Radius=0.5038    realization=[9]    OrientationCME=268.8050      LongitudeCme=197.5    LatitudeCme=-19.5
+22 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=9.8943    ApexHeight=0.3394    Radius=0.3762    realization=[9]    OrientationCME=232.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+23 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-11.2871    ApexHeight=0.8575    Radius=0.7362    realization=[4]    OrientationCME=226.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+24 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=12.9043    ApexHeight=0.4585    Radius=0.5212    realization=[12]    OrientationCME=223.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+25 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=14.5132    ApexHeight=0.5799    Radius=0.5463    realization=[5]    OrientationCME=190.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+26 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=20.2267    ApexHeight=0.3919    Radius=0.4163    realization=[4]    OrientationCME=227.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+27 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-11.5314    ApexHeight=0.4289    Radius=0.3513    realization=[2]    OrientationCME=243.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+28 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=19.2630    ApexHeight=0.6988    Radius=0.7262    realization=[12]    OrientationCME=266.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+29 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=28.2526    ApexHeight=0.3878    Radius=0.4063    realization=[12]    OrientationCME=189.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+30 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=20.1907    ApexHeight=0.5241    Radius=0.5062    realization=[4]    OrientationCME=214.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+31 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-6.3156    ApexHeight=0.8581    Radius=0.7538    realization=[2]    OrientationCME=241.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+32 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=27.2188    ApexHeight=0.3987    Radius=0.4437    realization=[4]    OrientationCME=198.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+33 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=5.4128    ApexHeight=0.9003    Radius=0.7987    realization=[4]    OrientationCME=237.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+34 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=12.0579    ApexHeight=0.5943    Radius=0.6212    realization=[5]    OrientationCME=212.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+35 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=12.9724    ApexHeight=0.8394    Radius=0.7037    realization=[2]    OrientationCME=268.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+36 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-8.8607    ApexHeight=0.4855    Radius=0.5188    realization=[4]    OrientationCME=234.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+37 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=10.1020    ApexHeight=0.6975    Radius=0.6713    realization=[4]    OrientationCME=258.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+38 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-5.7202    ApexHeight=0.6615    Radius=0.6412    realization=[2]    OrientationCME=261.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+39 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-5.5331    ApexHeight=0.7391    Radius=0.7913    realization=[9]    OrientationCME=212.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+40 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-9.2323    ApexHeight=0.6747    Radius=0.6813    realization=[12]    OrientationCME=244.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+41 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.6246    ApexHeight=0.5038    Radius=0.4738    realization=[9]    OrientationCME=195.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+42 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-18.7001    ApexHeight=0.7101    Radius=0.5962    realization=[12]    OrientationCME=219.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+43 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-6.5916    ApexHeight=0.9130    Radius=0.7388    realization=[5]    OrientationCME=260.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+44 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-18.5879    ApexHeight=0.4175    Radius=0.3912    realization=[2]    OrientationCME=274.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+45 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-8.9584    ApexHeight=0.6927    Radius=0.5863    realization=[2]    OrientationCME=209.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+46 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=20.3317    ApexHeight=0.5434    Radius=0.4813    realization=[2]    OrientationCME=202.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+47 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.7049    ApexHeight=0.7714    Radius=0.6488    realization=[4]    OrientationCME=242.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+48 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=10.1563    ApexHeight=0.6755    Radius=0.5763    realization=[12]    OrientationCME=257.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+49 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-5.8982    ApexHeight=0.7262    Radius=0.7238    realization=[4]    OrientationCME=217.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+50 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=7.5695    ApexHeight=0.7642    Radius=0.7588    realization=[9]    OrientationCME=233.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+51 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.5058    ApexHeight=0.6948    Radius=0.6663    realization=[4]    OrientationCME=222.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+52 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=9.9419    ApexHeight=0.5516    Radius=0.5337    realization=[5]    OrientationCME=224.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+53 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=10.4823    ApexHeight=0.7093    Radius=0.5687    realization=[4]    OrientationCME=211.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+54 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-17.7660    ApexHeight=0.6644    Radius=0.6338    realization=[9]    OrientationCME=271.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+55 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-20.4913    ApexHeight=0.3456    Radius=0.3362    realization=[9]    OrientationCME=256.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+56 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-7.1145    ApexHeight=0.6450    Radius=0.6538    realization=[5]    OrientationCME=262.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+57 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.7524    ApexHeight=0.5754    Radius=0.5088    realization=[12]    OrientationCME=193.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+58 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-5.7124    ApexHeight=0.7082    Radius=0.6613    realization=[5]    OrientationCME=236.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+59 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=8.8043    ApexHeight=0.4434    Radius=0.4662    realization=[5]    OrientationCME=258.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+60 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-13.2089    ApexHeight=0.5566    Radius=0.4637    realization=[9]    OrientationCME=225.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+61 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=7.3285    ApexHeight=0.8590    Radius=0.7762    realization=[5]    OrientationCME=204.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+62 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.5796    ApexHeight=0.5814    Radius=0.4913    realization=[4]    OrientationCME=263.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+63 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=7.3789    ApexHeight=0.8187    Radius=0.7488    realization=[2]    OrientationCME=244.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+64 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-14.5412    ApexHeight=0.4330    Radius=0.4138    realization=[2]    OrientationCME=210.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+65 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-17.4382    ApexHeight=0.3405    Radius=0.3387    realization=[5]    OrientationCME=192.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+66 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-9.8063    ApexHeight=0.5456    Radius=0.5913    realization=[4]    OrientationCME=197.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+67 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-7.5086    ApexHeight=0.5916    Radius=0.5613    realization=[9]    OrientationCME=239.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+68 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=9.9856    ApexHeight=0.4296    Radius=0.4713    realization=[2]    OrientationCME=230.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+69 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=9.2446    ApexHeight=0.6436    Radius=0.6863    realization=[2]    OrientationCME=226.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+70 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.3269    ApexHeight=0.7168    Radius=0.6038    realization=[9]    OrientationCME=216.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+71 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-27.8484    ApexHeight=0.3188    Radius=0.3063    realization=[5]    OrientationCME=255.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+72 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=7.1789    ApexHeight=0.6567    Radius=0.7087    realization=[9]    OrientationCME=253.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+73 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=9.1655    ApexHeight=0.6702    Radius=0.6088    realization=[9]    OrientationCME=200.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+74 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=21.3091    ApexHeight=0.5976    Radius=0.5437    realization=[9]    OrientationCME=222.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+75 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-19.8965    ApexHeight=0.3393    Radius=0.3738    realization=[4]    OrientationCME=270.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+76 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=15.5301    ApexHeight=0.4784    Radius=0.4612    realization=[4]    OrientationCME=267.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+77 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=8.7979    ApexHeight=0.6410    Radius=0.5162    realization=[2]    OrientationCME=220.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+78 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=17.4563    ApexHeight=0.6364    Radius=0.6512    realization=[9]    OrientationCME=231.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+79 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=12.0009    ApexHeight=0.7571    Radius=0.6288    realization=[4]    OrientationCME=208.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+80 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-8.3988    ApexHeight=0.5519    Radius=0.4562    realization=[5]    OrientationCME=204.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+81 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=28.6827    ApexHeight=0.3911    Radius=0.3488    realization=[5]    OrientationCME=226.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+82 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.2576    ApexHeight=0.5059    Radius=0.4587    realization=[4]    OrientationCME=235.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+83 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=10.3927    ApexHeight=0.7587    Radius=0.6787    realization=[9]    OrientationCME=201.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+84 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=8.8960    ApexHeight=0.5228    Radius=0.5413    realization=[4]    OrientationCME=253.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+85 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=18.6282    ApexHeight=0.8519    Radius=0.7188    realization=[2]    OrientationCME=198.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+86 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=13.2918    ApexHeight=0.5562    Radius=0.5513    realization=[2]    OrientationCME=250.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+87 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=6.3090    ApexHeight=0.8711    Radius=0.7113    realization=[12]    OrientationCME=228.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+88 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=25.5201    ApexHeight=0.3530    Radius=0.3962    realization=[2]    OrientationCME=196.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+89 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=8.6226    ApexHeight=0.7416    Radius=0.7738    realization=[4]    OrientationCME=217.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+90 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=7.0327    ApexHeight=0.8969    Radius=0.7312    realization=[4]    OrientationCME=254.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+91 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.7015    ApexHeight=0.7260    Radius=0.6388    realization=[9]    OrientationCME=263.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+92 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=20.5440    ApexHeight=0.6568    Radius=0.6438    realization=[4]    OrientationCME=275.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+93 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=24.3131    ApexHeight=0.4495    Radius=0.3688    realization=[9]    OrientationCME=276.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+94 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-31.5536    ApexHeight=0.4400    Radius=0.4537    realization=[5]    OrientationCME=221.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+95 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-25.0940    ApexHeight=0.3131    Radius=0.3137    realization=[9]    OrientationCME=206.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+96 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-34.9772    ApexHeight=0.4323    Radius=0.3563    realization=[4]    OrientationCME=216.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+97 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=8.8970    ApexHeight=0.6515    Radius=0.7438    realization=[4]    OrientationCME=242.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+98 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=25.6852    ApexHeight=0.4247    Radius=0.4788    realization=[4]    OrientationCME=260.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+99 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=22.2048    ApexHeight=0.6771    Radius=0.5563    realization=[9]    OrientationCME=256.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+100 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=9.2094    ApexHeight=0.8658    Radius=0.7837    realization=[12]    OrientationCME=276.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+101 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=17.4532    ApexHeight=0.5477    Radius=0.5637    realization=[4]    OrientationCME=249.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+102 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-20.2106    ApexHeight=0.4220    Radius=0.3787    realization=[4]    OrientationCME=248.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+103 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-7.5929    ApexHeight=0.5764    Radius=0.5262    realization=[4]    OrientationCME=199.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+104 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-13.0961    ApexHeight=0.7230    Radius=0.6763    realization=[4]    OrientationCME=257.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+105 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=15.8512    ApexHeight=0.6640    Radius=0.7137    realization=[4]    OrientationCME=192.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+106 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-24.7975    ApexHeight=0.4503    Radius=0.3638    realization=[12]    OrientationCME=202.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+107 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=13.8013    ApexHeight=0.8556    Radius=0.7288    realization=[9]    OrientationCME=259.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+108 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-19.8803    ApexHeight=0.4837    Radius=0.4263    realization=[9]    OrientationCME=231.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+109 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=12.8363    ApexHeight=0.5964    Radius=0.5112    realization=[5]    OrientationCME=272.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+110 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-16.3456    ApexHeight=0.7524    Radius=0.6587    realization=[4]    OrientationCME=193.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+111 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=38.0589    ApexHeight=0.3272    Radius=0.3088    realization=[4]    OrientationCME=235.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+112 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-12.6083    ApexHeight=0.8522    Radius=0.6937    realization=[5]    OrientationCME=221.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+113 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=16.2776    ApexHeight=0.5982    Radius=0.4938    realization=[4]    OrientationCME=200.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+114 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=14.6649    ApexHeight=0.5885    Radius=0.6262    realization=[12]    OrientationCME=233.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+115 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-19.3564    ApexHeight=0.4110    Radius=0.4462    realization=[2]    OrientationCME=261.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+116 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=5.6690    ApexHeight=0.8243    Radius=0.7338    realization=[5]    OrientationCME=246.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+117 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-22.4534    ApexHeight=0.4406    Radius=0.4188    realization=[5]    OrientationCME=264.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+118 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.3837    ApexHeight=0.7166    Radius=0.7688    realization=[5]    OrientationCME=269.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+119 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=11.9208    ApexHeight=0.7582    Radius=0.7612    realization=[2]    OrientationCME=207.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+120 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=12.5059    ApexHeight=0.4239    Radius=0.3937    realization=[12]    OrientationCME=213.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+121 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.6516    ApexHeight=0.7305    Radius=0.5938    realization=[9]    OrientationCME=189.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+122 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=14.1053    ApexHeight=0.6126    Radius=0.6162    realization=[2]    OrientationCME=219.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+123 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-36.2981    ApexHeight=0.2933    Radius=0.3312    realization=[5]    OrientationCME=188.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+124 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=6.4477    ApexHeight=0.6569    Radius=0.6112    realization=[4]    OrientationCME=208.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+125 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-18.2905    ApexHeight=0.9216    Radius=0.7887    realization=[9]    OrientationCME=211.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+126 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=23.7408    ApexHeight=0.4435    Radius=0.4512    realization=[9]    OrientationCME=251.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+127 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-18.1954    ApexHeight=0.5078    Radius=0.5288    realization=[9]    OrientationCME=270.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+128 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-16.0822    ApexHeight=0.6802    Radius=0.5813    realization=[2]    OrientationCME=227.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+129 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-26.1900    ApexHeight=0.5813    Radius=0.5363    realization=[4]    OrientationCME=201.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+130 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.4782    ApexHeight=0.7272    Radius=0.7063    realization=[2]    OrientationCME=272.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+131 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=30.5942    ApexHeight=0.3446    Radius=0.3162    realization=[2]    OrientationCME=237.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+132 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-24.1859    ApexHeight=0.5413    Radius=0.5988    realization=[2]    OrientationCME=209.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+133 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=29.7189    ApexHeight=0.5074    Radius=0.4763    realization=[2]    OrientationCME=224.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+134 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=14.3807    ApexHeight=0.4040    Radius=0.4487    realization=[5]    OrientationCME=258.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+135 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-14.8306    ApexHeight=0.7034    Radius=0.5787    realization=[5]    OrientationCME=223.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+136 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=27.4703    ApexHeight=0.4007    Radius=0.3463    realization=[4]    OrientationCME=247.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+137 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-13.7159    ApexHeight=0.8230    Radius=0.7412    realization=[9]    OrientationCME=245.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+138 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-17.8844    ApexHeight=0.6657    Radius=0.5837    realization=[4]    OrientationCME=273.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+139 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=15.2640    ApexHeight=0.7301    Radius=0.7662    realization=[4]    OrientationCME=205.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+140 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=15.4085    ApexHeight=0.5825    Radius=0.6138    realization=[9]    OrientationCME=188.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+141 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-30.1905    ApexHeight=0.3985    Radius=0.4363    realization=[12]    OrientationCME=252.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+142 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-23.4030    ApexHeight=0.3116    Radius=0.3038    realization=[5]    OrientationCME=213.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+143 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.1898    ApexHeight=0.4180    Radius=0.4213    realization=[4]    OrientationCME=222.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+144 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=44.7461    ApexHeight=0.3760    Radius=0.3187    realization=[5]    OrientationCME=214.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+145 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=26.3719    ApexHeight=0.3418    Radius=0.3337    realization=[4]    OrientationCME=203.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+146 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=27.4172    ApexHeight=0.4579    Radius=0.3887    realization=[9]    OrientationCME=194.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+147 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-9.4391    ApexHeight=0.6424    Radius=0.5737    realization=[4]    OrientationCME=275.5550    LongitudeCme=197.5    LatitudeCme=-19.5
+148 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.8788    ApexHeight=0.6985    Radius=0.6987    realization=[4]    OrientationCME=191.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+149 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-13.0386    ApexHeight=0.8594    Radius=0.7462    realization=[12]    OrientationCME=250.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+150 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-11.6391    ApexHeight=0.8620    Radius=0.7937    realization=[4]    OrientationCME=262.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+151 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-29.3572    ApexHeight=0.4417    Radius=0.4338    realization=[4]    OrientationCME=199.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+152 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=24.5083    ApexHeight=0.4157    Radius=0.4238    realization=[5]    OrientationCME=199.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+153 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-7.0194    ApexHeight=0.6991    Radius=0.7638    realization=[4]    OrientationCME=206.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+154 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-19.0793    ApexHeight=0.6696    Radius=0.6188    realization=[2]    OrientationCME=187.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+155 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-13.0698    ApexHeight=0.9143    Radius=0.7863    realization=[2]    OrientationCME=232.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+156 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-33.3391    ApexHeight=0.2882    Radius=0.3262    realization=[9]    OrientationCME=249.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+157 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=26.5927    ApexHeight=0.4958    Radius=0.3987    realization=[2]    OrientationCME=225.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+158 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-12.4256    ApexHeight=0.7841    Radius=0.7963    realization=[5]    OrientationCME=240.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+159 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-24.8386    ApexHeight=0.4064    Radius=0.3588    realization=[4]    OrientationCME=213.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+160 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-31.6737    ApexHeight=0.3921    Radius=0.3538    realization=[5]    OrientationCME=229.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+161 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=18.4886    ApexHeight=0.7452    Radius=0.6238    realization=[4]    OrientationCME=243.1550    LongitudeCme=197.5    LatitudeCme=-19.5
+162 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.8654    ApexHeight=0.4999    Radius=0.5587    realization=[5]    OrientationCME=245.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+163 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-7.9361    ApexHeight=0.9523    Radius=0.7788    realization=[4]    OrientationCME=265.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+164 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=20.1662    ApexHeight=0.4651    Radius=0.4012    realization=[5]    OrientationCME=238.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+165 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=14.8452    ApexHeight=0.4879    Radius=0.5487    realization=[4]    OrientationCME=267.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+166 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-29.2200    ApexHeight=0.5335    Radius=0.4863    realization=[4]    OrientationCME=246.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+167 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=18.5856    ApexHeight=0.4767    Radius=0.4412    realization=[9]    OrientationCME=251.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+168 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-31.4830    ApexHeight=0.3159    Radius=0.3438    realization=[2]    OrientationCME=195.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+169 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-17.7020    ApexHeight=0.8275    Radius=0.7163    realization=[5]    OrientationCME=218.4050    LongitudeCme=197.5    LatitudeCme=-19.5
+170 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=20.9090    ApexHeight=0.3036    Radius=0.3113    realization=[2]    OrientationCME=252.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+171 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-25.1562    ApexHeight=0.6638    Radius=0.5387    realization=[2]    OrientationCME=271.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+172 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=18.8745    ApexHeight=0.6382    Radius=0.6312    realization=[5]    OrientationCME=249.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+173 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=8.7182    ApexHeight=0.7188    Radius=0.6462    realization=[2]    OrientationCME=265.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+174 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=34.0921    ApexHeight=0.4408    Radius=0.4088    realization=[9]    OrientationCME=264.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+175 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-20.4275    ApexHeight=0.6340    Radius=0.5138    realization=[9]    OrientationCME=204.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+176 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=21.2393    ApexHeight=0.6000    Radius=0.5713    realization=[2]    OrientationCME=187.3550    LongitudeCme=197.5    LatitudeCme=-19.5
+177 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=22.5887    ApexHeight=0.5788    Radius=0.6362    realization=[4]    OrientationCME=271.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+178 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-15.8732    ApexHeight=0.7811    Radius=0.7712    realization=[12]    OrientationCME=208.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+179 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-31.7592    ApexHeight=0.3548    Radius=0.3837    realization=[9]    OrientationCME=239.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+180 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-8.2124    ApexHeight=0.5435    Radius=0.6062    realization=[12]    OrientationCME=274.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+181 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-38.3198    ApexHeight=0.3722    Radius=0.3237    realization=[2]    OrientationCME=259.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+182 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-11.1512    ApexHeight=0.6138    Radius=0.6963    realization=[2]    OrientationCME=240.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+183 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-31.3618    ApexHeight=0.4713    Radius=0.4113    realization=[9]    OrientationCME=235.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+184 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-36.8348    ApexHeight=0.3290    Radius=0.3412    realization=[2]    OrientationCME=218.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+185 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-23.8991    ApexHeight=0.4700    Radius=0.4963    realization=[5]    OrientationCME=248.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+186 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-10.1030    ApexHeight=0.5159    Radius=0.4387    realization=[5]    OrientationCME=207.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+187 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=31.8091    ApexHeight=0.3703    Radius=0.4037    realization=[5]    OrientationCME=236.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+188 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=34.3814    ApexHeight=0.3869    Radius=0.3862    realization=[5]    OrientationCME=267.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+189 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=26.9322    ApexHeight=0.5635    Radius=0.4688    realization=[12]    OrientationCME=273.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+190 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-18.4039    ApexHeight=0.9003    Radius=0.7512    realization=[4]    OrientationCME=210.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+191 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=-36.6497    ApexHeight=0.2932    Radius=0.3013    realization=[4]    OrientationCME=240.0050    LongitudeCme=197.5    LatitudeCme=-19.5
+192 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-24.8339    ApexHeight=0.5894    Radius=0.5238    realization=[2]    OrientationCME=253.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+193 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=16.7186    ApexHeight=0.7942    Radius=0.7813    realization=[4]    OrientationCME=269.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+194 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=-21.1047    ApexHeight=0.7492    Radius=0.6887    realization=[2]    OrientationCME=215.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+195 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=17.8471    ApexHeight=0.8693    Radius=0.7013    realization=[4]    OrientationCME=231.4550    LongitudeCme=197.5    LatitudeCme=-19.5
+196 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=-20.1966    ApexHeight=0.6521    Radius=0.6737    realization=[9]    OrientationCME=228.3050    LongitudeCme=197.5    LatitudeCme=-19.5
+197 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-17.2753    ApexHeight=0.6045    Radius=0.5537    realization=[5]    OrientationCME=276.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+198 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=10.9948    ApexHeight=0.8634    Radius=0.6913    realization=[9]    OrientationCME=215.7050    LongitudeCme=197.5    LatitudeCme=-19.5
+199 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=22.2777    ApexHeight=0.6835    Radius=0.5887    realization=[4]    OrientationCME=229.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+200 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=-25.4085    ApexHeight=0.5201    Radius=0.5313    realization=[4]    OrientationCME=254.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+201 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=-22.3595    ApexHeight=0.6879    Radius=0.6012    realization=[5]    OrientationCME=195.9050    LongitudeCme=197.5    LatitudeCme=-19.5
+202 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=37.8991    ApexHeight=0.3744    Radius=0.3663    realization=[2]    OrientationCME=238.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+203 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=-17.2914    ApexHeight=0.5117    Radius=0.4838    realization=[12]    OrientationCME=262.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+204 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=36.9474    ApexHeight=0.4484    Radius=0.3713    realization=[5]    OrientationCME=203.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+205 restartdir=run011_AWSoM       param=PARAM.in.awsom.CME      BStrength=35.8350    ApexHeight=0.3768    Radius=0.3812    realization=[4]    OrientationCME=190.9550    LongitudeCme=197.5    LatitudeCme=-19.5
+206 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=19.1227    ApexHeight=0.7062    Radius=0.6687    realization=[5]    OrientationCME=234.6050    LongitudeCme=197.5    LatitudeCme=-19.5
+207 restartdir=run001_AWSoM       param=PARAM.in.awsom.CME      BStrength=-22.4780    ApexHeight=0.6086    Radius=0.4888    realization=[5]    OrientationCME=194.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+208 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=-21.6432    ApexHeight=0.4167    Radius=0.3613    realization=[2]    OrientationCME=191.8550    LongitudeCme=197.5    LatitudeCme=-19.5
+209 restartdir=run005_AWSoM       param=PARAM.in.awsom.CME      BStrength=15.8269    ApexHeight=0.9049    Radius=0.7562    realization=[5]    OrientationCME=190.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+210 restartdir=run003_AWSoM       param=PARAM.in.awsom.CME      BStrength=26.6426    ApexHeight=0.5170    Radius=0.4288    realization=[2]    OrientationCME=247.2050    LongitudeCme=197.5    LatitudeCme=-19.5
+211 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=11.6149    ApexHeight=0.6934    Radius=0.6637    realization=[12]    OrientationCME=197.2550    LongitudeCme=197.5    LatitudeCme=-19.5
+212 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=21.4842    ApexHeight=0.6093    Radius=0.6563    realization=[4]    OrientationCME=220.6550    LongitudeCme=197.5    LatitudeCme=-19.5
+213 restartdir=run007_AWSoM       param=PARAM.in.awsom.CME      BStrength=-25.1118    ApexHeight=0.2935    Radius=0.3287    realization=[4]    OrientationCME=255.7550    LongitudeCme=197.5    LatitudeCme=-19.5
+214 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=17.9579    ApexHeight=0.6331    Radius=0.7212    realization=[9]    OrientationCME=205.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+215 restartdir=run008_AWSoM       param=PARAM.in.awsom.CME      BStrength=19.9468    ApexHeight=0.5351    Radius=0.4988    realization=[4]    OrientationCME=230.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+216 restartdir=run002_AWSoM       param=PARAM.in.awsom.CME      BStrength=26.9947    ApexHeight=0.4069    Radius=0.4313    realization=[2]    OrientationCME=266.1050    LongitudeCme=197.5    LatitudeCme=-19.5
+217 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=27.4740    ApexHeight=0.5086    Radius=0.5012    realization=[9]    OrientationCME=217.5050    LongitudeCme=197.5    LatitudeCme=-19.5
+218 restartdir=run017_AWSoM       param=PARAM.in.awsom.CME      BStrength=13.0362    ApexHeight=0.5130    Radius=0.5663    realization=[9]    OrientationCME=244.0550    LongitudeCme=197.5    LatitudeCme=-19.5
+219 restartdir=run016_AWSoM       param=PARAM.in.awsom.CME      BStrength=32.8380    ApexHeight=0.3585    Radius=0.3212    realization=[12]    OrientationCME=241.8050    LongitudeCme=197.5    LatitudeCme=-19.5
+220 restartdir=run006_AWSoM       param=PARAM.in.awsom.CME      BStrength=-19.5019    ApexHeight=0.6464    Radius=0.6837    realization=[9]    OrientationCME=196.8050    LongitudeCme=197.5    LatitudeCme=-19.5
