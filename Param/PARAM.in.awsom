@@ -234,7 +234,6 @@ T			IsStrictAmr
 2			nOrder (1 or 2)
 Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 minmod			TypeLimiter
-1.2			LimiterBeta
 
 #LIMITER
 T			UseLogRhoLimiter
@@ -545,10 +544,8 @@ stochasticheating		TypeHeatPartitioning
 0.18			StochasticAmplitude^
 
 #SCHEME
-2			nOrder
+1			nOrder
 Linde			TypeFlux
-mc3			TypeLimiter
-1.2			LimiterBeta
 
 The following minimum pressure is sufficiently small even when the
 domain extends to 400 Rsun, i.e. including Mars orbit.
@@ -559,10 +556,6 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 
 #NONCONSERVATIVE
 F			UseNonConservative^
-
-#TIMESTEPPING
-2			nStage
-0.8			CflExpl
 
 #DIVB
 T			UseDivbSource
@@ -686,6 +679,12 @@ Begin session: 6
 
 #BEGIN_COMP IH ---------------------------------------------------------------
 
+#SCHEME
+2			nOrder
+Linde			TypeFlux
+mc3			TypeLimiter
+1.2			LimiterBeta
+
 #AMR
 -1			DnRefine
 
@@ -717,10 +716,6 @@ F			UseSpeedMin
 
 #AMR
 -1			DnRefine
-
-#TIMESTEPPING
-3			nStage
-0.8			CflExpl
 
 #REGION
 loworder		NameRegion
