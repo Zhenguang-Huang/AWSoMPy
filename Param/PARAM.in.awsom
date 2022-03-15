@@ -498,7 +498,7 @@ currentsheet		StringRefine
 1.0			MaxResolution
 
 #GRIDRESOLUTION
-0.5                     Resolution
+2.0                     Resolution
 initial                 StringShape
 
 #SAVEINITIAL
