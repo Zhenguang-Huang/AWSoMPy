@@ -285,19 +285,19 @@ x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi		NameVars
+{MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi		NameVars
+{MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx dphi		NameVars
+{MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 80000			DnSavePlot
@@ -557,6 +557,10 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 #NONCONSERVATIVE
 F			UseNonConservative^
 
+#TIMESTEPPING
+2			nStage
+0.8			CflExpl
+
 #DIVB
 T			UseDivbSource
 T			UseDivbDiffusion
@@ -716,6 +720,10 @@ F			UseSpeedMin
 
 #AMR
 -1			DnRefine
+
+#TIMESTEPPING
+3			nStage
+0.8			CflExpl
 
 #REGION
 loworder		NameRegion

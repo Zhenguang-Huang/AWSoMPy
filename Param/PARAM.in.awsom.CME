@@ -18,7 +18,7 @@ density so that the run does not fail for solar maximum
 Begin session: 1
 
 #DESCRIPTION
-SWMFSOLAR/Param/PARAM.in.awsom.CME.cont: restart from CME run in SC and continue in SC and IH	StringDescription
+SWMFSOLAR/Param/PARAM.in.awsom.CME: restart from CME run in SC and continue in SC and IH	StringDescription
 
 #INCLUDE
 RESTART.in
@@ -330,11 +330,6 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
 {default}		NamePars
-3d VAR tcp		StringPlot
--1			DnSavePlot
-600.			DtSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
-{default}		NamePars
 los ins idl_ascii		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
@@ -343,6 +338,11 @@ los ins tec		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
 soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
+3d VAR tcp		StringPlot
+-1			DnSavePlot
+600.			DtSavePlot
+{MHD} b1x b1y b1z te ti		NameVars
+{default}		NamePars
 
 #SATELLITE
 3			nSatellite
@@ -402,6 +402,16 @@ END			sc_only^
 
 #RUN ##########################################################################
 Begin session: 2
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#CME
+F			UseCME
+
+#USERSWITCH		sc_cme^
++init +ic -perturb
+
+#END_COMP SC -----------------------------------------------------------------
 
 #COMPONENT
 IH			NameComp
@@ -553,8 +563,8 @@ F			UseConstrainB
 #SAVELOGFILE
 T			DoSaveLogfile
 VAR			StringLog
-120			DnSaveLogfile
--1.			DtSaveLogfile
+-1			DnSaveLogfile
+120.			DtSaveLogfile
 rho mx my mz p pmin urmin urmax		NameLogVars
 
 #SAVEPLOT
@@ -614,13 +624,7 @@ End session: 2
 #RUN ##########################################################################
 Begin session: 3
 
-#BEGIN_COMP SC -----------------------------------------------------------------
-
-#CME
-F			UseCME
-
-#USERSWITCH		sc_cme^
-+init +ic -perturb	StringSwitch
+#BEGIN_COMP SC ---------------------------------------------------------------
 
 #SAVEPLOT
 4			nPlotFile
@@ -650,7 +654,7 @@ z=0 VAR idl		StringPlot
 
 #END_COMP SC -----------------------------------------------------------------
 
-#BEGIN_COMP IH -----------------------------------------------------------------
+#BEGIN_COMP IH ---------------------------------------------------------------
 
 #SAVEPLOT
 4			nPlotFile
@@ -685,7 +689,7 @@ z=0 VAR idl		StringPlot
 12 h			TimeMax
 
 End Session: 3
-#RUN #################################################################################
+#RUN ##########################################################################
 Begin Session: 4
 
 #COUPLE1
