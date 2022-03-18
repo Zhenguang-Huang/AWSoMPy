@@ -466,7 +466,7 @@ conex0                  StringShape
 80                      Radius
 
 #AMRCRITERIARESOLUTION
-4                       nRefineCrit
+5                       nRefineCrit
 dx                      StringRefine
 8.                      RefineTo
 4.                      CoarsenFrom
