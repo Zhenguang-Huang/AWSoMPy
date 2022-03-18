@@ -18,7 +18,7 @@ density so that the run does not fail for solar maximum
 Begin session: 1
 
 #DESCRIPTION
-SWMFSOLAR/Param/PARAM.in.awsom.CME: restart from CME run in SC and continue in SC and IH	StringDescription
+SWMFSOLAR/Param/PARAM.in.awsom.CME: restart from background run and initiate CME		StringDescription
 
 #INCLUDE
 RESTART.in
@@ -88,7 +88,7 @@ SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
 #HARMONICSFILE		^
-SC/harmonics_adapt.dat	NameHarmonicsFile
+SC/harmonics_adapt.dat		NameHarmonicsFile
 
 #HARMONICSGRID		^
 1.0			rMagnetogram
@@ -126,16 +126,16 @@ load			NameCommand
 SC/Param/RadCoolCorona_8.0.dat		NameFile
 ascii			TypeFile
 
-#USERINPUTBEGIN
+#USERINPUTBEGIN -----------------------------------
 
 #CHROMOBC
 2e17			NchromoSi	nChromoSi_AWSoM^
 5e4			TchromoSi
 
-#USERINPUTEND
+#USERINPUTEND -------------------------------------
 
 #TRANSITIONREGION
-T			DoExpandTransitionRegion
+T			DoExtendTransitionRegion
 2.2e5			TeTransitionRegionSi
 1.0e1			DeltaTeModSi
 
@@ -222,9 +222,6 @@ initial			StringShape
 
 #DOAMR
 F			DoAmr
-30001			DnAmr
--1.0			DtAmr
-T			IsStrictAmr
 
 #TIMESTEPPING
 2			nStage
@@ -279,7 +276,7 @@ rho mx my mz p pmin urmin urmax		NameLogVars
 ------------ CME related parameters -------------------------------------------
 
 #UPDATECHECK
-F			DoUpdateCheck
+F			UseUpdateCheck
 
 #TIMESTEPLIMIT
 T			UseDtLimit
@@ -287,10 +284,10 @@ T			UseDtLimit
 
 add the perturb switch for CME
 #USERSWITCH		sc_cme^
-+init +ic +perturb	StringSwitch
++init +ic +perturb		StringSwitch
 
 USERSWITCH		sc_restart^
-+init +ic -perturb	StringSwitch
++init +ic -perturb		StringSwitch
 
 flux-rope parameters
 #CME
@@ -316,28 +313,28 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
 los ins tec		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2	StringsInstrument
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
@@ -409,9 +406,9 @@ Begin session: 2
 F			UseCME
 
 #USERSWITCH		sc_cme^
-+init +ic -perturb
++init +ic -perturb	StringSwitch
 
-#END_COMP SC -----------------------------------------------------------------
+#END_COMP SC ---------------------------------------------------------------
 
 #COMPONENT
 IH			NameComp
@@ -689,7 +686,7 @@ z=0 VAR idl		StringPlot
 12 h			TimeMax
 
 End Session: 3
-#RUN ##########################################################################
+#RUN #################################################################################
 Begin Session: 4
 
 #COUPLE1
