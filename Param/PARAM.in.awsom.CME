@@ -599,11 +599,11 @@ IH/TRAJECTORY/earth.dat	NameTrajectoryFile
 MHD hgi			StringSatellite
 -1  			DnOutput
 1800.			DtOutput
-IH/TRAJECTORY/sta.dat	NameTrajetoryFile
+IH/TRAJECTORY/sta.dat	NameTrajectoryFile
 MHD hgi			StringSatellite
 -1  			DnOutput
 1800.			DtOutput
-IH/TRAJECTORY/stb.dat	NameTrajetoryFile
+IH/TRAJECTORY/stb.dat	NameTrajectoryFile
 
 #END_COMP IH -----------------------------------------------------------------
 
