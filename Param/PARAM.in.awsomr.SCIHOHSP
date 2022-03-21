@@ -786,7 +786,6 @@ T                       UseChGL
 0.0                     RSourceChGL
 0.0                     RMinChGL
 
-End session: 7
 #END_COMP OH -----------------------------------------------------------------
 
 #COUPLE1
@@ -798,6 +797,8 @@ OH                      NameTarget
 #STOP
 85001			MaxIter
 -1			TimeMax
+
+End session: 7
 #RUN ##########################################################################
 Begin session: 8
 
