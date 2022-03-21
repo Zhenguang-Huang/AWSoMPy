@@ -229,7 +229,7 @@ run:
 			sbatch job.long;							\
 		fi;										\
 		if [[ "${MACHINE}" == "pfe" ]];                         			\
-			then ./qsub.pfe.pl job.long ${JOBNAME}$${iRealization};      		\
+			then ./qsub.pfe.pbspl.pl job.long ${JOBNAME}$${iRealization};      		\
 		fi; 										\
 	done
 
