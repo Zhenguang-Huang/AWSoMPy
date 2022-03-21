@@ -19,20 +19,20 @@ s = ArgParseSettings(
         default = "./output/sep_param_lists/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
     "--fileParam"
         help = "Give path to correct PARAM file (specify in restarts AND check for keywords"
-        default = "../Param/PARAM.in.awsomr.SCIHOH"
+        default = "../Param/PARAM.in.awsomr.SCIHOHSP"
     "--fileMap"
         help = "Give filename of map to be used, for eg: `ADAPT_41_GONG_CR2161.fts`."
         default = "gong_201304110604.fts"
     "--md"
         help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
-        default = "AWSoMR_OHSP"
+        default = "AWSoMR_SCIHOHSP"
     "--start_time"
         help = "start time to use for background. Can give yyyy-mm-ddThh:mm:sec:fracsec"
         default="MapTime"
     "--nRuns"
         help = "Number of runs to write. Will be checked to ensure it is less than total size of background design."
         arg_type=Int
-        default=200
+        default=125
 end
 
 args = parse_args(s)
