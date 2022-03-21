@@ -131,7 +131,7 @@ FACTORB0		^
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
-1e6			PoyntingFluxPerBSi
+1e6			PoyntingFluxPerBSi^
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
