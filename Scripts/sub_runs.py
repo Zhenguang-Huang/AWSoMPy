@@ -287,7 +287,7 @@ if __name__ == '__main__':
 
             # Compile the code if needed. AWSoM and AWSoM-R could not be 
             # selected at the same time
-            if not MODEL in ['AWSoM','AWSoMR','AWSoM2T','AWSoMR_OHSP']:
+            if not MODEL in ['AWSoM','AWSoMR','AWSoM2T','AWSoMR_SCIHOHSP']:
                 warnings.warn(MODEL+' may not be supported.')
 
             # If the corresponding MODEL.exe does not exist, need to re-compile the code.
