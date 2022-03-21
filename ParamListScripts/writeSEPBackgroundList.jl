@@ -22,7 +22,7 @@ s = ArgParseSettings(
         default = "../Param/PARAM.in.awsomr.SCIHOHSP"
     "--fileMap"
         help = "Give filename of map to be used, for eg: `ADAPT_41_GONG_CR2161.fts`."
-        default = "gong_201304110604.fts"
+        default = "gong_201304110604.fits"
     "--md"
         help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
         default = "AWSoMR_SCIHOHSP"
