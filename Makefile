@@ -173,7 +173,7 @@ copy_param:
 			cp Param/PARAM.in.awsom PARAM.in;				\
 		fi;									\
 		if [[ "${MODEL}" == "AWSoMR_SCIHOHSP" ]]; then				\
-			cp Param/PARAM.in.awsomr_ohsp PARAM.in;				\
+			cp Param/PARAM.in.awsomr.SCIHOHSP PARAM.in;				\
 		fi;									\
 		if [[ "${PARAM}" != "Default" ]]; then					\
 			cp Param/${PARAM} PARAM.in;					\
