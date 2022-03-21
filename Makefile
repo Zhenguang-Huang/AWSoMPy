@@ -124,7 +124,7 @@ install:
 
 compile:
 	-@(make install;								\
-	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_OHSP)" ]]; then	\
+	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_SCIHOHSP)" ]]; then	\
 		cd ${DIR}; 								\
 		if [[ "${DOINSTALL}" == "T" ]]; then					\
 			rm -f ${DIR}/bin/*.exe;						\
@@ -140,7 +140,7 @@ compile:
 			./Config.pl -o=SC:u=Awsom,e=Awsom,nG=3,g=6,8,8;                 \
 			./Config.pl -o=IH:u=Awsom,e=Awsom,nG=3,g=8,8,8;                 \
 		fi; 									\
-		if [[ "${MODEL}" == "AWSoMR_OHSP" ]]; then 				\
+		if [[ "${MODEL}" == "AWSoMR_SCIHOHSP" ]]; then 				\
 			./Config.pl -v=OH/BATSRUS,SP/MFLAMPA;				\
 			./Config.pl -o=SC:u=Awsom,e=AwsomChGL,nG=2,g=6,8,8;             \
 			./Config.pl -o=IH:u=Awsom,e=AwsomChGL,nG=2,g=8,8,8;             \
@@ -153,7 +153,7 @@ compile:
 		make HARMONICS FDIPS; 							\
 	else										\
 		echo "MODEL = ${MODEL}";						\
-		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_OHSP.";	\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_SCIHOHSP.";	\
 	fi;										\
 	)
 
@@ -165,14 +165,14 @@ backup_run:
 	fi
 
 copy_param:
-	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_OHSP)" ]]; then	\
+	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_SCIHOHSP)" ]]; then	\
 		if [[ "${MODEL}" == "AWSoMR" ]]; then					\
 			cp Param/PARAM.in.awsomr PARAM.in; 				\
 		fi; 									\
 		if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T)" ]]; then		\
 			cp Param/PARAM.in.awsom PARAM.in;				\
 		fi;									\
-		if [[ "${MODEL}" == "AWSoMR_OHSP" ]]; then				\
+		if [[ "${MODEL}" == "AWSoMR_SCIHOHSP" ]]; then				\
 			cp Param/PARAM.in.awsomr_ohsp PARAM.in;				\
 		fi;									\
 		if [[ "${PARAM}" != "Default" ]]; then					\
@@ -181,7 +181,7 @@ copy_param:
 		cp Param/HARMONICS.in Param/FDIPS.in .; 				\
 	else										\
 		echo "MODEL = ${MODEL}";						\
-		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_OHSP.";	\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_SCIHOHSP.";	\
 	fi;										\
 	)
 
