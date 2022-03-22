@@ -173,13 +173,13 @@ shell0			StringShape
 1.7			Radius
 
 #AMRREGION
-cmecone			NameRegion
+earthcone		NameRegion
 conex0			StringShape
 -24.			Height
 5.			Radius
 
 #AMRREGION
-earthcone		NameRegion
+cmecone			NameRegion
 conex0			StringShape
 -24.			Height
 9.			Radius
@@ -205,10 +205,10 @@ dphi			StringRefine
 dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
-dphi cmecone		StringRefine
+dphi earthcone		StringRefine
 0.35			RefineTo
 0.175			CoarsenFrom
-dphi earthcone		StringRefine
+dphi cmecone		StringRefine
 0.7			RefineTo
 0.35			CoarsenFrom
 currentsheet		StringRefine
@@ -258,6 +258,13 @@ F			UseNonConservative^
 #RESCHANGE
 T			UseAccurateReschange
 
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR			StringLog
+-1			DnSaveLogfile
+120.			DtSaveLogfile
+rho mx my mz p pmin urmin urmax		NameLogVars
+
 #OUTERBOUNDARY
 user			TypeBc1   user for spherical and user_outerbcs
 float			TypeBc2   rMax
@@ -265,13 +272,6 @@ periodic		TypeBc3   LonMin
 periodic		TypeBc4   LonMax
 periodic		TypeBc5   LatMin
 periodic		TypeBc6   LatMax
-
-#SAVELOGFILE
-T			DoSaveLogfile
-VAR			StringLog
--1			DnSaveLogfile
-120.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
 
 ------------ CME related parameters -------------------------------------------
 
