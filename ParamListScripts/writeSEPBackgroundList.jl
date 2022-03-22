@@ -13,10 +13,10 @@ s = ArgParseSettings(
     "--fileBackground"
         help = "Path to load background params from."
         arg_type = String
-        default="./output/sep_param_lists/SEP_Background_20220311.csv"
+        default="./output/sep_param_lists/SEP_Background_20220321.csv"
     "--fileOutput"
         help = "Give path to file where we wish to write param list"
-        default = "./output/sep_param_lists/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+        default = "./output/sep_param_lists/param_list_SEP_bg_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
     "--fileParam"
         help = "Give path to correct PARAM file (specify in restarts AND check for keywords"
         default = "../Param/PARAM.in.awsomr.SCIHOHSP"
@@ -32,7 +32,7 @@ s = ArgParseSettings(
     "--nRuns"
         help = "Number of runs to write. Will be checked to ensure it is less than total size of background design."
         arg_type=Int
-        default=125
+        default=100
 end
 
 args = parse_args(s)
@@ -80,6 +80,9 @@ rename!(XBackground, colNamesBackground)
 
 # Get filename for output
 paramListFileName = args["fileOutput"]
+
+# Track which file was used to read the runs!
+write(tmpio, "# Background design: " * fileBackground * "\n")
 
 write(tmpio, "\n # selected backgrounds = ")
 
