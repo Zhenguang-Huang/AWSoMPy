@@ -20,9 +20,16 @@ s = ArgParseSettings(
     "--fileParam"
         help = "Give path to correct PARAM file (specify in restarts AND check for keywords"
         default = "../Param/PARAM.in.awsomr.SCIHOHSP"
+    "--fileHarmonics"
+        help = "Give path to correct PARAM file (specify in restarts AND check for keywords"
+        default = "../Param/HARMONICS.in"
     "--fileMap"
         help = "Give filename of map to be used, for eg: `ADAPT_41_GONG_CR2161.fts`."
         default = "gong_201304110604.fits"
+    "--nHarmonics"
+        help = "Change the nHarmonics to be 90."
+	arg_type=Int
+        default = 90
     "--md"
         help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
         default = "AWSoMR_SCIHOHSP"
@@ -51,6 +58,8 @@ end
 md = args["md"]
 fileMap = args["fileMap"]
 startTime = args["start_time"]
+nHarmonics = args["nHarmonics"]
+fileHarmonics = args["fileHarmonics"]
 
 fileBackground = args["fileBackground"]
 XBackground = CSV.read(fileBackground, DataFrame)
@@ -62,10 +71,12 @@ nRunsToWrite = args["nRuns"]
 
 insertcols!(XBackground, 1, :map=> fileMap)
 insertcols!(XBackground, 2, :model=>md)
+insertcols!(XBackground, 3, :nHarmonics=>nHarmonics)
 
 colNamesBackground = [
                     "map",
                     "model",
+		    "nHarmonics",
                     "BrFactor", 
                     "PoyntingFluxPerBSi", 
                     "LperpTimesSqrtBSi"
@@ -73,6 +84,8 @@ colNamesBackground = [
 
 rename!(XBackground, colNamesBackground)
 
+## multiply BrFactor by a factor of 3.75 for GONG magnetogram
+XBackground[:BrFactor] = XBackground[:BrFactor]*3.75
 
 ## START WRITING TO TEMP FILE
 # Create temporary file path and IO
@@ -102,19 +115,21 @@ for count = 1:size(XBackground, 1)
 
     # we write map and model in a different loop to ensure they come first in each line of the list. 
     for (key, value) in dictMapModel
-        appendVal = @sprintf("%s=%s    ", key, value)
+        appendVal = @sprintf("%s=%s\t", key, value)
         stringToWrite = stringToWrite * appendVal
     end
 
     for (key, value) in dictParams
         if value isa String
-            appendVal = @sprintf("%s=%s    ", key, value)
+            appendVal = @sprintf("%s=%s\t", key, value)
         elseif value isa Array
-            appendVal = @sprintf("%s=[%d]    ", key, value[1])
+            appendVal = @sprintf("%s=[%d]\t", key, value[1])
         elseif value >= 1000
-            appendVal = @sprintf("%s=%e    ", key, value)
+            appendVal = @sprintf("%s=%e\t", key, value)
+	elseif value isa Int
+	    appendVal = @sprintf("%s=%i\t", key, value)
         else
-            appendVal = @sprintf("%s=%.4f    ", key, value)
+            appendVal = @sprintf("%s=%.4f\t", key, value)
         end
         stringToWrite = stringToWrite * appendVal
     end
@@ -140,13 +155,13 @@ end
 println("Wrote background runs")
 
 ## GREP FROM PARAM FILE!
-colNamesToCheck = colNamesBackground[3:5]
+colNamesToCheck = colNamesBackground[3:6]
 
 # The o/p of the run command acts as a preliminary comparison with Param file.
 println("The PARAM file gives the following results when checking keywords:")
 # run(`grep "$(colNamesToCheck[1])""\|""$(colNamesToCheck[2])""\|""$(colNamesToCheck[3])" $fileParam`)
 for i in 1:length(colNamesToCheck)
-    run(`grep "$(colNamesToCheck[i])" $fileParam`)
+    run(`grep "$(colNamesToCheck[i])" $fileParam $fileHarmonics`)
 end
 
 # close or flush the temporary IO stream
