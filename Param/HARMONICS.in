@@ -19,4 +19,4 @@ harmonics_adapt.dat		NameFileOut
 ! Default is the number of latitudes in the magnetogram but at most
 ! MaxHarmonics = 180 (see ModMagHarmonics.f90)
 #HARMONICS
-180				nHarmonics
+180				nHarmonics^
