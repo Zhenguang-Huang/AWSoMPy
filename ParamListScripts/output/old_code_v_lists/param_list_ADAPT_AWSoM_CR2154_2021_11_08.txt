@@ -1,3 +1,4 @@
+# code_v_2021_05_17- incorrect keyword for Orientation, LatitudeCme and LongitudeCme not written
 #CME
 # -30.10           BStrength
 # T           UseCme
