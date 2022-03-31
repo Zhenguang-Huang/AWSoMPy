@@ -107,7 +107,7 @@ T			IsLogRadius^
 90			nLat
 
 FACTORB0		^
-1.0			FactorB0 BrFactor^
+1.0			FactorB0^
 
 #POYNTINGFLUX
 1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
