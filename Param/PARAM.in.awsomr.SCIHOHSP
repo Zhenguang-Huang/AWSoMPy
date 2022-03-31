@@ -128,7 +128,7 @@ T			UseChGL
 3.5			RMinChGL
 
 FACTORB0		^
-1.0			FactorB0 BrFactor^
+1.0			FactorB0
 
 #POYNTINGFLUX
 1e6			PoyntingFluxPerBSi^
@@ -653,6 +653,16 @@ OH                      NameComp
 T                       UseComp
 
 #BEGIN_COMP OH ---------------------------------------------------------------
+
+#GRIDBLOCKALL
+1200000                    MaxBlock
+
+INCLUDE
+OH/restartIN/restart.H
+
+#RESTARTOUTFILE
+one                     StringRestartOutFile
+
 #COORDSYSTEM
 HGC                     TypeCoordSystem
 
@@ -677,9 +687,6 @@ T                       UseBody
  5.0                   yMax
 -5.0                   zMin
  5.0                   zMax
-
-#GRIDBLOCKALL
-1200000                    MaxBlock
 
 #AMRREGION
 OuterShell              NameRegion
