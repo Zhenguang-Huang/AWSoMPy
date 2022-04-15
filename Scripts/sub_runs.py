@@ -76,28 +76,12 @@ def set_dict_params(list_params,NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRea
             else:
                 NewParam['replace'][paramTmp[0]] = paramTmp[1][1:-1]
         else:
+            if paramTmp[0] == 'GridResolution':
+                continue
             if not 'change' in NewParam.keys():
                 NewParam['change']  = {paramTmp[0]:paramTmp[1]}
             else:
                 NewParam['change'][paramTmp[0]] = paramTmp[1]
-
-
-    # need to turn on these two commands if BrFactor and BrMin are used
-    if 'BrFactor' in NewParam['change'].keys() or 'BrMin' in NewParam['change'].keys():
-        if 'add' in NewParam.keys():
-            NewParam['add']=NewParam['add']+',CHANGEWEAKFIELD'
-        else:
-            NewParam['add']='CHANGEWEAKFIELD'
-
-    if 'FactorB0' in NewParam['change'].keys():
-        if 'add' in NewParam.keys():
-            NewParam['add']=NewParam['add']+',FACTORB0'
-        else:
-            NewParam['add']='FACTORB0'
-
-    # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
-    if 'rMin_AWSoMR' in NewParam['change'].keys():
-        NewParam['change']['rMaxLayer_AWSoMR'] = float(NewParam['change']['rMin_AWSoMR']) + 0.02
 
     return NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations
 
