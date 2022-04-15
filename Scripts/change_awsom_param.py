@@ -10,7 +10,8 @@ from remap_magnetogram import FITS_RECOGNIZE
 import download_ADAPT
 
 # -----------------------------------------------------------------------------
-def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params={}, DoUseMarker=0):
+def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params={},
+                       DoUseMarker=0,DoRestart=0):
 
     params_pfss = ['CHANGEWEAKFIELD', 'BrFactor', 'BrMin']
 
@@ -135,6 +136,10 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
     else:
         new_params['replace'] = {'STARTTIME':time_param}
 
+    if DoRestart:
+        if 'STARTTIME' in new_params['replace']:
+            new_params['replace'].pop('STARTTIME',None)
+
     if poynting_flux > 0:
         # set #POYNTINGFLUX
         if 'replace' in new_params.keys():
@@ -210,6 +215,11 @@ if __name__ == '__main__':
                             ' Use if you want to change the values of the'
                             + ' parameters.',
                             type=list)
+    ARG_PARSER.add_argument('--DoRestart',
+                            help='(default: 0)' +
+                            ' Use if it is a restart run.',
+                            type=int)
     ARGS = ARG_PARSER.parse_args()
 
-    change_param_local(time=ARGS.time, map=ARGS.map, pfss=ARGS.pfss, poynting_flux=ARGS.poynting_flux, DoUseMarker=0)
+    change_param_local(time=ARGS.time, map=ARGS.map, pfss=ARGS.pfss,
+                       poynting_flux=ARGS.poynting_flux, DoUseMarker=0, DoRestart=ARGS.DoRestart)

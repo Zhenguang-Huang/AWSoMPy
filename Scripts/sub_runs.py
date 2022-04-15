@@ -216,7 +216,7 @@ if __name__ == '__main__':
             MODEL = 'AWSoM'
             PARAM = 'Default'
             SCHEME= 2
-            DoRestart = False
+            DoRestart = 0
 
             NewParam        = {}
             strRealizations = ''
@@ -224,7 +224,7 @@ if __name__ == '__main__':
             # check whether restartdir exists, if yes, set the params first.
             for param in params[1:]:
                 if 'restartdir=' in param.lower():
-                    DoRestart   = True
+                    DoRestart   = 1
                     # remove /n with strip() and then RestartDir is the second element after split
                     RestartDir  = param.strip().split('=')[1]
                     NewParam,MAP,PFSS,TIME,MODEL,PARAM,SCHEME,strRealizations = \
@@ -315,7 +315,8 @@ if __name__ == '__main__':
             # change the PARAM.in file
             change_awsom_param.change_param_local(time=TIME, map=MAP, pfss=PFSS, 
                                                   new_params=NewParam,scheme=SCHEME,
-                                                  DoUseMarker=ARGS.DoUseMarker)
+                                                  DoUseMarker=ARGS.DoUseMarker,
+                                                  DoRestart=DoRestart)
             
             # make run directories
             strRun_dir = ('make rundir_realizations ' + strSimDirMake + ' '
