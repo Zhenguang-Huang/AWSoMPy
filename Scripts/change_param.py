@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+import sys
 
 # -----------------------------------------------------------------------------
 def add_commands(StrCommands, filenameIn='PARAM.in',
@@ -64,8 +65,14 @@ def add_commands(StrCommands, filenameIn='PARAM.in',
         raise TypeError('StrCommands is not a string, StrCommands=', 
                         StrCommands)
 
+    # return if is an empty string
+    if len(StrCommands) == 0:
+        return
+
     # get all the commands in an array
     command_I=StrCommands.split(',')
+
+    IsChanged_I = [False for i in range(len(command_I))]
 
     with open(filenameIn, 'rt') as params:
         lines = list(params)
@@ -73,7 +80,7 @@ def add_commands(StrCommands, filenameIn='PARAM.in',
     # loop through all the lines
     for iLine, line in enumerate(lines):
         # loop through all the commands
-        for command in command_I:
+        for icom, command in enumerate(command_I):
             # well the line may contain the command name + ExtraStr
             commands_line = line.split()
 
@@ -98,13 +105,22 @@ def add_commands(StrCommands, filenameIn='PARAM.in',
                     if ((re.search(rf'\b{ExtraStr}\b', line) and not DoUseMarker) or
                         (re.search(rf'\b{ExtraStr}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
                         lines[iLine] = '#'+line
+                        IsChanged_I[icom] = True
                 elif not DoUseMarker:
                     # DoUseMarker = 0 and ExtraStr = None
                     lines[iLine] = '#'+line
+                    IsChanged_I[icom] = True
                 else:
                     # DoUseMarker = 1 and ExtraStr = None
                     if '^' in line:
                         lines[iLine] = '#'+line
+                        IsChanged_I[icom] = True
+
+    if False in IsChanged_I:
+        print('--------------------------------------------------------')
+        print("command_I   =", command_I)
+        print("IsChanged_I =", IsChanged_I)
+        sys.exit("Some commands are not added!!!")
 
     with open(filenameOut, 'w') as file_output:
         for line in lines:
@@ -137,8 +153,14 @@ def remove_commands(StrCommands, filenameIn='PARAM.in',
         raise TypeError('StrCommands is not a string, StrCommands=',
                         StrCommands)
 
+    # return if is an empty string
+    if len(StrCommands)== 0:
+        return
+
     # get all the commands in an array
     command_I=StrCommands.split(',')
+
+    IsChanged_I = [False for i in range(len(command_I))]
 
     with open(filenameIn, 'rt') as params:
         lines = list(params)
@@ -146,7 +168,7 @@ def remove_commands(StrCommands, filenameIn='PARAM.in',
     # loop through all the lines
     for iLine, line in enumerate(lines):
         # loop through all the commands
-        for command in command_I:
+        for icom, command in enumerate(command_I):
             # well the line may contain the command name + ExtraStr
             commands_line = line.split()
 
@@ -170,14 +192,23 @@ def remove_commands(StrCommands, filenameIn='PARAM.in',
                     if ((re.search(rf'\b{ExtraStr}\b', line) and not DoUseMarker) or
                         (re.search(rf'\b{ExtraStr}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
                         lines[iLine] = line[1:]
+                        IsChanged_I[icom] = True
                 elif not DoUseMarker:
                     # DoUseMarker = 0 and ExtraStr = None
                     lines[iLine] = line[1:]
+                    IsChanged_I[icom] = True
                 else:
                     # DoUseMarker = 1 and ExtraStr = None
                     if '^' in line:
                         lines[iLine] = line[1:]
+                        IsChanged_I[icom] = True
     
+    if False in IsChanged_I:
+        print('--------------------------------------------------------')
+        print("command_I   =", command_I)
+        print("IsChanged_I =", IsChanged_I)
+        sys.exit("Some commands are not removed!!!")
+
     with open(filenameOut, 'w') as file_output:
         for line in lines:
             file_output.write(line)
@@ -288,11 +319,25 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
     if not isinstance(DictParam,dict):
         raise TypeError('DictParam is not a dict, DictParam=', DictParam)
 
+    # return if is an empty dict
+    if not DictParam:
+        return
+
+    IsChanged_I = [False for i in range(len(DictParam.keys()))]
+
     with open(filenameIn, 'rt') as params:
         lines = list(params)
 
     # loop through all the keys
-    for NameCommand in DictParam.keys():
+    for icom, NameCommand in enumerate(DictParam.keys()):
+        # check whether extra string is provided with () for the command to be replaced
+        if '(' and ')' in NameCommand:
+            commandLocal = NameCommand.split('(')[0]
+            ExtraStr     = NameCommand.split('(')[1].split(')')[0]
+        else:
+            commandLocal = NameCommand
+            ExtraStr     = None
+
         # loop through all lines
         for iLine, line in enumerate(lines):
             # well the line may contain the command name + ExtraStr
@@ -301,14 +346,6 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
             # skip empty line
             if len(commands_line) == 0:
                 continue
-
-            # check whether extra string is provided with () for the command to be replaced
-            if '(' and ')' in NameCommand:
-                commandLocal = NameCommand.split('(')[0]
-                ExtraStr     = NameCommand.split('(')[1].split(')')[0]
-            else:
-                commandLocal = NameCommand
-                ExtraStr     = None
 
             # obtain the parameter list for the command to be replaced
             strParam_I = DictParam[NameCommand].split(',')
@@ -344,13 +381,22 @@ def replace_commands(DictParam, filenameIn='PARAM.in',
                     if ((re.search(rf'\b{ExtraStr}\b', line) and not DoUseMarker) or
                         (re.search(rf'\b{ExtraStr}\^(?=\W)', line, re.IGNORECASE) and DoUseMarker)):
                         lines[iLine+1:iLine+1+len_comm_orig] = lines_command
+                        IsChanged_I[icom] = True
                 elif not DoUseMarker:
                     # DoUseMarker = 0 and ExtraStr = None
                     lines[iLine+1:iLine+1+len_comm_orig] = lines_command
+                    IsChanged_I[icom] = True
                 else:
                     # DoUseMarker = 1 and ExtraStr = None
                     if '^' in line:
                         lines[iLine+1:iLine+1+len_comm_orig] = lines_command
+                        IsChanged_I[icom] = True
+
+    if False in IsChanged_I:
+        print('--------------------------------------------------------')
+        print("DictParam.keys =", DictParam.keys())
+        print("IsChanged_I    =", IsChanged_I)
+        sys.exit("Some commands are not replaced!!!")
 
     with open(filenameOut, 'w') as file_output:
         for line in lines:
@@ -420,13 +466,19 @@ def change_param_value(DictParam, filenameIn='PARAM.in',
     if not isinstance(DictParam,dict):
         raise TypeError('DictParam is not a dict, DictParam=', DictParam)
 
+    # return if is an empty dict
+    if not DictParam:
+        return
+
+    IsChanged_I = [False for i in range(len(DictParam.keys()))]
+
     with open(filenameIn, 'rt') as params:
         lines = list(params)
 
     # loop through all lines
     for iLine, line in enumerate(lines):
         # loop through all keys
-        for key in DictParam.keys():
+        for ikey, key in enumerate(DictParam.keys()):
             # change the value if:
             # 1. the name of the parameter is in the line if 
             #    DoUseMarker = 0
@@ -437,11 +489,19 @@ def change_param_value(DictParam, filenameIn='PARAM.in',
                 value = DictParam[key]
                 if isinstance(value, str):
                     lines[iLine] = value+'\t\t\t'+key+'\n'
+                    IsChanged_I[ikey] = True
                 else:
                     try:
                         lines[iLine] = str(value)+'\t\t\t'+key+'\n'
+                        IsChanged_I[ikey] = True
                     except Exception as error:
                         raise TypeError(error, "Value cannot convert to a string.")
+
+    if False in IsChanged_I:
+        print('--------------------------------------------------------')
+        print("DictParam.keys =", DictParam.keys())
+        print("IsChanged_I    =", IsChanged_I)
+        sys.exit("Some params are not changed!!!")
 
     with open(filenameOut, 'w') as file_output:
         for line in lines:
