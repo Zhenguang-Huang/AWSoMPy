@@ -12,6 +12,86 @@ import download_ADAPT
 # -----------------------------------------------------------------------------
 def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params={}, DoUseMarker=0):
 
+    params_pfss = ['CHANGEWEAKFIELD', 'BrFactor', 'BrMin']
+
+    # need to turn on CHANGEWEAKFIELD if BrFactor and/or BrMin are changed
+    if 'BrFactor' in new_params['change'].keys() or 'BrMin' in new_params['change'].keys():
+        if 'add' in new_params.keys():
+            new_params['add']=new_params['add']+',CHANGEWEAKFIELD'
+        else:
+            new_params['add']='CHANGEWEAKFIELD'
+
+    # need to turn on FACTORB0 if FactorB0 is changed
+    if 'FactorB0' in new_params['change'].keys():
+        if 'add' in new_params.keys():
+            new_params['add']=new_params['add']+',FACTORB0'
+        else:
+            new_params['add']='FACTORB0'
+
+    # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
+    if 'rMin_AWSoMR' in new_params['change'].keys():
+        new_params['change']['rMaxLayer_AWSoMR'] = float(new_params['change']['rMin_AWSoMR']) + 0.02
+
+    # set the PFSS solver, FDIPS or Harmonics
+    # If it is HARAMONICS, no need to change as HARMONICS is the default
+    if (pfss == 'FDIPS'):
+        if 'add' in new_params.keys():
+            new_params['add']=new_params['add']+',LOOKUPTABLE(FDIPS)'
+        else:
+            new_params['add']='LOOKUPTABLE(FDIPS)'
+        if 'rm' in new_params.keys():
+            new_params['rm'] =new_params['rm']+',HARMONICSFILE,HARMONICSGRID' 
+        else:
+            new_params['rm'] = 'HARMONICSFILE,HARMONICSGRID'
+    elif pfss not in ['FDIPS','HARMONICS']:
+        raise ValueError(pfss + ' must be either FDIPS')
+
+    # for 5th order scheme
+    if scheme == 5:
+        if 'rm'in new_params.keys():
+            new_params['rm'] =new_params['rm']+',END(END_2nd_scheme)'
+        else:
+            new_params['rm'] ='END(END_2nd_scheme)'
+
+    new_params_pfss = {}
+
+    # key1 could be change, add, rm, replace
+    for key1 in list(new_params.keys()):
+        if key1 in ['change','replace']:
+            # another dict for ['change','replace']
+            for key2 in list(new_params[key1].keys()):
+                if key2 in params_pfss:
+                    if key1 not in new_params_pfss.keys():
+                        new_params_pfss[key1]={key2:new_params[key1][key2]}
+                    else:
+                        new_params_pfss[key1][key2] = new_params[key1][key2]
+                    # delete the entry found in params_pfss
+                    new_params[key1].pop(key2,None)
+        elif key1 in ['add','rm']:
+            # a string for ['add','rm']
+            commands_local = new_params[key1]
+            commands_list_local = commands_local.split(',')
+            commands_list_pfss  = []
+
+            for i in range(len(commands_list_local)):
+                if commands_list_local[i] in params_pfss:
+                    commands_list_pfss.append(commands_list_local[i])
+                    commands_list_local[i] = ''
+
+            # remove '' in the list
+            if '' in commands_list_local:
+                commands_list_local.remove('')
+
+            if len(commands_list_local) == 0:
+                # remove the key if the list of the string is empty (for PARAM.in)
+                new_params.pop(key1,None)
+            else:
+                new_params[key1] = ','.join(commands_list_local)
+
+            # if the list of the string for the pfss is not empty, add the entry
+            if len(commands_list_pfss) > 0:
+                new_params_pfss[key1] = ','.join(commands_list_pfss)
+
     if time != 'MapTime':
         # TIME is given with the correct format
         time_input = dt.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
@@ -68,39 +148,34 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
     if 'add' in new_params.keys():
         commands_add=new_params['add']
         change_param.add_commands(commands_add, DoUseMarker=DoUseMarker)
-        change_param.add_commands(commands_add, DoUseMarker=DoUseMarker, filenameIn='FDIPS.in',    filenameOut='FDIPS.in')
-        change_param.add_commands(commands_add, DoUseMarker=DoUseMarker, filenameIn='HARMONICS.in',filenameOut='HARMONICS.in')
+
+    if 'add' in new_params_pfss.keys():
+        commands_add=new_params_pfss['add']
+        change_param.add_commands(commands_add, DoUseMarker=DoUseMarker, filenameIn=pfss+'.in', filenameOut=pfss+'.in')
 
     if 'rm' in new_params.keys():
         commands_rm=new_params['rm']
         change_param.remove_commands(commands_rm, DoUseMarker=DoUseMarker)
-        change_param.remove_commands(commands_rm, DoUseMarker=DoUseMarker, filenameIn='FDIPS.in',     filenameOut='FDIPS.in')
-        change_param.remove_commands(commands_rm, DoUseMarker=DoUseMarker, filenameIn='HARMONICS.in', filenameOut='HARMONICS.in')
+
+    if 'rm' in new_params_pfss.keys():
+        commands_rm=new_params_pfss['rm']
+        change_param.remove_commands(commands_rm, DoUseMarker=DoUseMarker, filenameIn=pfss+'.in', filenameOut=pfss+'.in')
 
     if 'replace' in new_params.keys():
         DictReplace = new_params['replace']
         change_param.replace_commands(DictReplace, DoUseMarker=DoUseMarker)
-        change_param.replace_commands(DictReplace, DoUseMarker=DoUseMarker, filenameIn='FDIPS.in',     filenameOut='FDIPS.in')
-        change_param.replace_commands(DictReplace, DoUseMarker=DoUseMarker, filenameIn='HARMONICS.in', filenameOut='HARMONICS.in')
+
+    if 'replace' in new_params_pfss.keys():
+        DictReplace = new_params_pfss['replace']
+        change_param.replace_commands(DictReplace, DoUseMarker=DoUseMarker, filenameIn=pfss+'.in', filenameOut=pfss+'.in')
 
     if 'change' in new_params.keys():
         DictChange  = new_params['change']
         change_param.change_param_value(DictChange, DoUseMarker=DoUseMarker)
-        change_param.change_param_value(DictChange, DoUseMarker=DoUseMarker, filenameIn='FDIPS.in',     filenameOut='FDIPS.in')
-        change_param.change_param_value(DictChange, DoUseMarker=DoUseMarker, filenameIn='HARMONICS.in', filenameOut='HARMONICS.in')
 
-    # set the PFSS solver, FDIPS or Harmonics
-    if (pfss == 'FDIPS'):
-        change_param.add_commands('LOOKUPTABLE(FDIPS)', DoUseMarker=DoUseMarker)
-        change_param.remove_commands('MAGNETOGRAM,HARMONICSFILE,HARMONICSGRID', DoUseMarker=DoUseMarker)
-    elif (pfss == 'HARMONICS'):
-        change_param.remove_commands('LOOKUPTABLE(FDIPS)', DoUseMarker=DoUseMarker)
-        change_param.add_commands('HARMONICSFILE,HARMONICSGRID',     DoUseMarker=DoUseMarker)
-    else:
-        raise ValueError(pfss + ' must be either HARMONICS or FDIPS')
-
-    if scheme == 5:
-        change_param.remove_commands('END(END_2nd_scheme)',DoUseMarker=DoUseMarker)
+    if 'change' in new_params_pfss.keys():
+        DictChange  = new_params_pfss['change']
+        change_param.change_param_value(DictChange, DoUseMarker=DoUseMarker, filenameIn=pfss+'.in', filenameOut=pfss+'.in')
 
     # prepare each realization map.
     str_exe = str('Scripts/remap_magnetogram.py ' + filename_map)
