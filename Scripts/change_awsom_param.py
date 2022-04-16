@@ -15,23 +15,24 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
 
     params_pfss = ['CHANGEWEAKFIELD', 'BrFactor', 'BrMin']
 
-    # need to turn on CHANGEWEAKFIELD if BrFactor and/or BrMin are changed
-    if 'BrFactor' in new_params['change'].keys() or 'BrMin' in new_params['change'].keys():
-        if 'add' in new_params.keys():
-            new_params['add']=new_params['add']+',CHANGEWEAKFIELD'
-        else:
-            new_params['add']='CHANGEWEAKFIELD'
+    if 'change' in new_params.keys():
+        # need to turn on CHANGEWEAKFIELD if BrFactor and/or BrMin are changed
+        if 'BrFactor' in new_params['change'].keys() or 'BrMin' in new_params['change'].keys():
+            if 'add' in new_params.keys():
+                new_params['add']=new_params['add']+',CHANGEWEAKFIELD'
+            else:
+                new_params['add']='CHANGEWEAKFIELD'
 
-    # need to turn on FACTORB0 if FactorB0 is changed
-    if 'FactorB0' in new_params['change'].keys():
-        if 'add' in new_params.keys():
-            new_params['add']=new_params['add']+',FACTORB0'
-        else:
-            new_params['add']='FACTORB0'
+        # need to turn on FACTORB0 if FactorB0 is changed
+        if 'FactorB0' in new_params['change'].keys():
+            if 'add' in new_params.keys():
+                new_params['add']=new_params['add']+',FACTORB0'
+            else:
+                new_params['add']='FACTORB0'
 
-    # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
-    if 'rMin_AWSoMR' in new_params['change'].keys():
-        new_params['change']['rMaxLayer_AWSoMR'] = float(new_params['change']['rMin_AWSoMR']) + 0.02
+        # well, for 5th order scheme, there is a 0.02 thick layer above rMin for AWSoM-R
+        if 'rMin_AWSoMR' in new_params['change'].keys():
+            new_params['change']['rMaxLayer_AWSoMR'] = float(new_params['change']['rMin_AWSoMR']) + 0.02
 
     # set the PFSS solver, FDIPS or Harmonics
     # If it is HARAMONICS, no need to change as HARMONICS is the default
@@ -137,8 +138,9 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
         new_params['replace'] = {'STARTTIME':time_param}
 
     if DoRestart:
-        if 'STARTTIME' in new_params['replace']:
-            new_params['replace'].pop('STARTTIME',None)
+        if 'replace' in new_params.keys():
+            if 'STARTTIME' in new_params['replace']:
+                new_params['replace'].pop('STARTTIME',None)
 
     if poynting_flux > 0:
         # set #POYNTINGFLUX
@@ -146,9 +148,6 @@ def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params
             new_params['replace']['POYNTINGFLUX']='{:<10.3e}'.format(poynting_flux)
         else:
             new_params['replace']={'POYNTINGFLUX':'{:<10.3e}'.format(poynting_flux)}
-    elif not 'PoyntingFluxPerBSi' in new_params['change'].keys() and not 'POYNTINGFLUX' in new_params['replace'].keys():
-        warnings.warn('PoyntingFluxPerBSi is less than 0, use the PoyntingFluxPerBSi in' +
-                      ' the original PARAM.in.')
 
     if 'add' in new_params.keys():
         commands_add=new_params['add']
