@@ -730,6 +730,16 @@ OH                      NameComp
 T                       UseComp
 
 #BEGIN_COMP OH ---------------------------------------------------------------
+
+#GRIDBLOCKALL
+1200000                    MaxBlock
+
+#INCLUDE
+OH/restartIN/restart.H
+
+#RESTARTOUTFILE
+one                     StringRestartOutFile
+
 #COORDSYSTEM
 HGI                     TypeCoordSystem
 
@@ -754,9 +764,6 @@ T                       UseBody
  5.0                   yMax
 -5.0                   zMin
  5.0                   zMax
-
-#GRIDBLOCKALL
-1200000                    MaxBlock
 
 #AMRREGION
 OuterShell              NameRegion
