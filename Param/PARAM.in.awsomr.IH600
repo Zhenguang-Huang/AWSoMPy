@@ -27,7 +27,7 @@ IH 0 -1 1		CompMap
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME		^
+#STARTTIME
 2013			iYear
 4			iMonth
 11			iDay
@@ -38,7 +38,7 @@ F			IsTimeAccurate
 
 #SAVERESTART
 T			DoSaveRestart
-5000			DnSaveRestart
+10000			DnSaveRestart
 -1.0			DtSaveRestart
 
 #TEST
@@ -73,9 +73,6 @@ T			UseFieldLineThreads
 200			nPointThreadMax
 2.0e-3			DsThreadMin
 
-#TEST
-radiative_cooling		StringTest
-
 #BODY
 T			UseBody
 1.0			rBody
@@ -91,37 +88,23 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#HARMONICSFILE		^
+#HARMONICSFILE
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-#HARMONICSGRID		^
+#HARMONICSGRID
 1.0			rMagnetogram
-2.5			rSourceSurface^
-F			IsLogRadius^
+25			rSourceSurface^
+T			IsLogRadius^
 180			MaxOrder
-100			nR
+400			nR
 180			nLon
 90			nLat
 
-#CURLB0
-T			UseCurlB0
-2.5			rCurrentFreeB0
-T			UseB0MomentumFlux
-
-#B0SOURCE
-T			UseB0Source
-T			UseDivFullBSource
-
-#ALIGNBANDU
-T			UseChGL
-2.5			RSourceChGL
-5.0			RMinChGL
-
-FACTORB0		^
+FACTORB0
 1.0			FactorB0 BrFactor^
 
 #POYNTINGFLUX
-1e6			PoyntingFluxPerBSi
+1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
@@ -235,7 +218,7 @@ T			UseSpeedMin
 10 h			TauSpeedMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+F			UseNonConservative^
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -267,19 +250,19 @@ F			UsePlanarTriangles
 #SAVEPLOT
 4			nPlotFile
 x=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti		NameVars
@@ -353,11 +336,6 @@ Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 mc3			TypeLimiter
 1.2			LimiterBeta
 
-ALIGNBANDU
-T			UseChGL
-8.0			RSourceChGL
-8.0			RMinChGL
-
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
@@ -390,7 +368,7 @@ T			UseComp
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-160000			MaxBlock
+3240000			MaxBlock
 
 INCLUDE
 IH/restartIN/restart.H
@@ -416,12 +394,12 @@ T			UseBody
 1			nRootBlock1
 1			nRootBlock2
 1			nRootBlock3
--250.0			xMin
- 250.0			xMax
--250.0			yMin
- 250.0			yMax
--250.0			zMin
- 250.0			zMax
+-600.0			xMin
+ 600.0			xMax
+-600.0			yMin
+ 600.0			yMax
+-600.0			zMin
+ 600.0			zMax
 
 #AMRREGION
 OuterShell		NameRegion
@@ -429,18 +407,50 @@ shell0			StringShape
 18.0			RadiusInner
 21.0			Radius
 
+#AMRREGION
+Shell1              NameRegion
+shell0                  StringShape
+21.0                    RadiusInner
+250.0                    Radius
+
+#AMRREGION
+Shell2              NameRegion
+shell0                  StringShape
+250.0                    RadiusInner
+400.0                    Radius
+
+#AMRREGION
+Shell3              NameRegion
+shell0                  StringShape
+400.0                    RadiusInner
+600.0                    Radius
+
 #AMRCRITERIARESOLUTION
-3                       nRefineCrit
-dx			StringRefine
-8.			RefineTo
-4.			CoarsenFrom
+7                       nRefineCrit
 dx +Outershell		StringRefine
 0.5			RefineTo
 0.25			CoarsenFrom
-currentsheet		StringRefine
+dx +Shell1              StringRefine
+2.                      RefineTo
+1.                      CoarsenFrom
+dx +Shell2              StringRefine
+4.                      RefineTo
+2.                      CoarsenFrom
+dx +Shell3              StringRefine
+8.                      RefineTo
+4.                      CoarsenFrom
+currentsheet +Shell1	StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
 1.0			MaxResolution
+currentsheet +Shell2    StringRefine
+0.5                     CoarsenLimit
+0.5                     RefineLimit
+2.0                     MaxResolution
+currentsheet +Shell3    StringRefine
+0.5                     CoarsenLimit
+0.5                     RefineLimit
+4.0                     MaxResolution
 
 #GRIDRESOLUTION
 0.5                     Resolution
@@ -503,7 +513,7 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 1E-14			PeMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+F			UseNonConservative^
 
 #TIMESTEPPING
 2			nStage
@@ -524,22 +534,22 @@ RAW			StringLog
 #SAVEPLOT
 3			nPlotFile
 x=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+1			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+1			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti	dx	NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
-1000			DnSavePlot
+1			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti	dx	NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 5000			DnSavePlot
@@ -574,11 +584,6 @@ SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 1 h			DtTraj
 rho ux uy uz bx by bz p pe		NameSatelliteVars
 
-#ALIGNBANDU
-T			UseChGL
-0.0			RSourceChGL
-0.0			RMinChGL
-
 #END_COMP IH -----------------------------------------------------------------
 
 #COUPLE1
@@ -612,6 +617,32 @@ T			DoAmr
 501			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
+
+#SAVEPLOT
+3                       nPlotFile
+x=0 VAR idl_ascii       StringPlot
+1000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
+y=0 VAR idl_ascii       StringPlot
+1000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
+z=0 VAR idl_ascii       StringPlot
+1000                    DnSavePlot
+-1.                     DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
+3d VAR tcp              StringPlot
+5000                    DnSavePlot
+-1.                     DtSavePlot
+{MHD} b1x b1y b1z te ti NameVars
+{default}               NamePars
 
 #END_COMP IH -----------------------------------------------------------------
 
