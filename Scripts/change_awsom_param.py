@@ -13,7 +13,7 @@ import download_ADAPT
 def change_param_local(time, map, pfss, scheme=2, poynting_flux=-1.0, new_params={},
                        DoUseMarker=0,DoRestart=0):
 
-    params_pfss = ['CHANGEWEAKFIELD', 'BrFactor', 'BrMin']
+    params_pfss = ['CHANGEWEAKFIELD', 'BrFactor', 'BrMin', 'nHarmonics']
 
     if 'change' in new_params.keys():
         # need to turn on CHANGEWEAKFIELD if BrFactor and/or BrMin are changed
