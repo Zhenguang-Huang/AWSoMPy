@@ -40,7 +40,7 @@ IH                      NameSource
 240                     RIhMax 
 OH			NameSource
 220.0			RIhMin
-1500.0			RIhMax
+1000.0			RIhMax
 
 #TIMEACCURATE
 T			IsTimeAccurate
@@ -301,13 +301,12 @@ SPHEROMAK               TypeCme
 
 #PARTICLELINE
 T                       UseParticles
-5000                      nFieldLineMax
+2000                      nFieldLineMax
 3000                    nParticlePerLine
 -1                      SpaceStepMin
 -1                      SpaceStepMax
 import                  InitMode
 F                       UseBRAlignment
-0.7                     ConBRAngleMax
 F                       UseBUAlignment
 0.99                    ConBUAngleMax
 
@@ -322,7 +321,7 @@ F			UsePlanarTriangles
 T			DoSaveOneTecFile
 
 #SAVEPLOT
-4			nPlotFile
+3			nPlotFile
 x=0 VAR idl		StringPlot
 -1.0			DnSavePlot
 600			DtSavePlot
@@ -542,7 +541,7 @@ RAW			StringLog
 100.			DtSaveLogfile
 
 #SAVEPLOT
-4			nPlotFile
+3			nPlotFile
 x=0 VAR idl		StringPlot
 -1.0			DnSavePlot
 3600			DtSavePlot
@@ -601,13 +600,12 @@ F			UseChGL
 
 #PARTICLELINE
 T                       UseParticles
-5000                      nFieldLineMax
+2000                      nFieldLineMax
 3000                    nParticlePerLine
 -1                      SpaceStepMin
 -1                      SpaceStepMax
 import                  InitMode
 F                       UseBRAlignment
-0.1                     ConBRAngleMax
 F                       UseBUAlignment
 0.99                    ConBUAngleMax
 
@@ -768,13 +766,12 @@ F                       UseChGL
 
 #PARTICLELINE
 T                       UseParticles
-5000                      nFieldLineMax
+2000                      nFieldLineMax
 3000                    nParticlePerLine
 -1                      SpaceStepMin
 -1                      SpaceStepMax
 import                  InitMode
 F                       UseBRAlignment
-0.1                     ConBRAngleMax
 F                       UseBUAlignment
 0.99                    ConBUAngleMax
 
@@ -793,8 +790,8 @@ T                       DoTraceShock
 T                       UseDiffusion
 
 #GRIDNODE
-4                     nLat
-8                      nLon
+4			nLat
+8			nLon
 
 GRID
 1.15                    RMin
@@ -805,7 +802,7 @@ GRID
 #ORIGIN
 2.5                     ROrigin
 0                       LonMin
--80                       LatMin
+-80                     LatMin
 360                     LonMax
 80                      LatMax
 
@@ -818,7 +815,7 @@ T                                   UseFixedMFPUpstream
 0.3                                 MeanFreePath0 [AU]
 
 #SAVEPLOT
-1
+2
 mh1d flux tec
 mh2d flux spread ascii
 215.0
@@ -883,6 +880,33 @@ Begin session: 3
 #USERSWITCH
 +init +ic -perturb               StringSwitch
 
+Saving every hour
+#SAVEPLOT
+3                       nPlotFile
+x=0 VAR idl             StringPlot
+-1                      DnSavePlot
+3600.0                  DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+y=0 VAR idl             StringPlot
+-1                      DnSavePlot
+3600.                   DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+z=0 VAR idl             StringPlot
+-1                      DnSavePlot
+3600.                   DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+3d VAR tcp              StringPlot
+-1                      DnSavePlot
+7200.                   DtSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+
 #END_COMP SC -----------------------------------------------------------------
 
 #COUPLE1
@@ -898,6 +922,36 @@ IH                      NameTarget
 End session: 3
 #RUN ##########################################################################
 Begin session: 4
+
+#BEGIN_COMP IH ---------------------------------------------------------------
+
+#SAVEPLOT
+3                       nPlotFile
+x=0 VAR idl             StringPlot
+-1                      DnSavePlot
+3600.                   DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+y=0 VAR idl             StringPlot
+-1                      DnSavePlot
+3600.                   DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+z=0 VAR idl             StringPlot
+-1                      DnSavePlot
+3600.                   DtSavePlot
+-1.0                    DxSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+3d VAR tcp              StringPlot
+-1                      DnSavePlot
+7200.                   DtSavePlot
+{MHD} b1x b1y b1z te ti         NameVars
+{default}               NamePars
+
+#END_COMP IH -----------------------------------------------------------------
 
 #COUPLE1
 SC                      NameSource
@@ -939,4 +993,3 @@ OH                      NameTarget
 
 End session: 6
 #END #####################################################################
-
