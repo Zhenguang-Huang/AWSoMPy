@@ -65,7 +65,6 @@ T			UseFieldLineThreads
 200			nPointThreadMax
 2.0e-3			DsThreadMin
 
-<<<<<<< HEAD:Events/CR2209/AWSoM_AWSoMR_comp_06Oct2020/PARAM.in.awsomr
 #BODY
 T			UseBody
 1.0			rBody
@@ -85,13 +84,10 @@ util/DATAREAD/srcMagnetogram directory of SWMF.
 
 GONG magnetograms are obtained from http://gong.nso.edu/data/magmap/crmap.html
 
-LOOKUPTABLE
-=======
 #TEST
 radiative_cooling		StringTest
 
 LOOKUPTABLE		FDIPS^
->>>>>>> No need for #BODY commands as long as the new code is used:Param/PARAM.in.awsomr.alignBU
 B0			NameTable
 load			NameCommand
 SC/fdips_bxyz.out		NameFile
