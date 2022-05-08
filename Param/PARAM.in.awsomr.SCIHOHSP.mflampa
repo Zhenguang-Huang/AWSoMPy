@@ -27,7 +27,7 @@ RESTART.in
 SC 0 -1 1		CompMap
 IH 0 -1 1		CompMap
 OH 0 -1 1		CompMap
-SP 1 20 2		CompMap
+SP 0 200 2		CompMap
 
 #FIELDLINE
 SP                      NameTarget
@@ -99,6 +99,15 @@ T			UseFieldLineThreads
 
 TEST
 radiative_cooling		StringTest
+
+#BODY
+T			UseBody
+1.0			rBody
+1.5e8			BodyNDim
+1.5e6			BodyTDim
+
+#BODY
+F			UseBody
 
 LOOKUPTABLE		FDIPS^
 B0			NameTable
@@ -312,7 +321,7 @@ F			UsePlanarTriangles
 T			DoSaveOneTecFile
 
 #SAVEPLOT
-3			nPlotFile
+4			nPlotFile
 x=0 VAR idl		StringPlot
 -1.0			DnSavePlot
 600			DtSavePlot
@@ -559,30 +568,18 @@ z=0 VAR idl		StringPlot
 
 #SATELLITE
 3			nSatellite
-VAR trajrange		StringSatellite
+MHD hgi                 StringSatellite
 -1			DnOutput
-3600			DtOutput
-SC/TRAJECTORY/earth.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
+1800			DtOutput
+IH/TRAJECTORY/earth.dat		NameTrajectoryFile
+MHD hgi                 StringSatellite
 -1			DnOutput
-3600			DtOutput
-SC/TRAJECTORY/sta.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
+1800			DtOutput
+IH/TRAJECTORY/sta.dat		NameTrajectoryFile
+MHD hgi                 StringSatellite
 -1			DnOutput
-3600			DtOutput
-SC/TRAJECTORY/stb.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
+1800			DtOutput
+IH/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #ALIGNBANDU
 F			UseChGL
@@ -677,9 +674,9 @@ initial                 StringShape
 buffergrid              TypeBcBody
 
 #HELIOBUFFERGRID
-2                       nRBuff
-64                      nLonBuff
-32                      nLatBuff
+4                       nRBuff
+128                     nLonBuff
+64                      nLatBuff
 0.95                    RBuffMin
 1.10                    RBuffMax
 
@@ -773,6 +770,9 @@ F                       UseBUAlignment
 INCLUDE
 SP/restartIN/restart.H
 
+#COORDSYSTEM
+HGR                     TypeCoordSystem
+
 #DORUN
 T
 
@@ -781,8 +781,8 @@ T                       DoTraceShock
 T                       UseDiffusion
 
 #GRIDNODE
-4			nLat
-8			nLon
+10			nLat
+30			nLon
 
 GRID
 1.15                    RMin
@@ -792,10 +792,10 @@ GRID
 
 #ORIGIN
 2.5                     ROrigin
-0                       LonMin
--80                     LatMin
-360                     LonMax
-80                      LatMax
+50                      LonMin
+-15                     LatMin
+140                     LonMax
+15                      LatMax
 
 #INJECTION
 5
@@ -806,7 +806,7 @@ T                                   UseFixedMFPUpstream
 0.3                                 MeanFreePath0 [AU]
 
 #SAVEPLOT
-2
+3
 mh1d flux tec
 mh2d flux spread ascii
 215.0
@@ -914,6 +914,14 @@ End session: 3
 #RUN ##########################################################################
 Begin session: 4
 
+#BEGIN_COMP SC -----------------------------------------------------------------
+
+#TIMESTEPLIMIT
+T                       UseDtLimit
+300                     DtLimitDim
+
+#END_COMP SC -----------------------------------------------------------------
+
 #BEGIN_COMP IH ---------------------------------------------------------------
 
 #SAVEPLOT
@@ -966,7 +974,7 @@ OH                      NameTarget
 
 #STOP
 -1                      MaxIter
-2.5 d                     TimeMax
+3 d                     TimeMax
 
 End session: 5
 #RUN #####################################################################

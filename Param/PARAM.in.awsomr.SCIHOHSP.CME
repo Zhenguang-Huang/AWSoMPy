@@ -86,6 +86,15 @@ T			UseFieldLineThreads
 TEST
 radiative_cooling		StringTest
 
+#BODY
+T			UseBody
+1.0			rBody
+1.5e8			BodyNDim
+1.5e6			BodyTDim
+
+#BODY
+F			UseBody
+
 LOOKUPTABLE		FDIPS^
 B0			NameTable
 load			NameCommand
@@ -607,30 +616,18 @@ z=0 VAR idl		StringPlot
 
 #SATELLITE
 3			nSatellite
-VAR trajrange		StringSatellite
--1			DnOutput
-3600			DtOutput
-SC/TRAJECTORY/earth.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
--1			DnOutput
-3600			DtOutput
-SC/TRAJECTORY/sta.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
-VAR trajrange		StringSatellite
--1			DnOutput
-3600			DtOutput
-SC/TRAJECTORY/stb.dat		NameTrajectoryFile
--20 d			StartTimeTraj
-10 d			EndTimeTraj
-1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
+MHD hgi                 StringSatellite
+-1                      DnOutput
+1800.                   DtOutput
+IH/TRAJECTORY/earth.dat NameTrajectoryFile
+MHD hgi                 StringSatellite
+-1                      DnOutput
+1800.                   DtOutput
+IH/TRAJECTORY/sta.dat   NameTrajectoryFile
+MHD hgi                 StringSatellite
+-1                      DnOutput
+1800.                   DtOutput
+IH/TRAJECTORY/stb.dat   NameTrajectoryFile
 
 #ALIGNBANDU
 F			UseChGL
@@ -884,7 +881,7 @@ OH                      NameTarget
 
 #STOP
 -1			MaxIter
-2.5 d			TimeMax
+3 d			TimeMax
 #RUN ##########################################################################
 Begin session: 6
 
