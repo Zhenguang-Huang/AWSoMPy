@@ -244,36 +244,37 @@ periodic		TypeBc6   LatMax
 
 flux-rope parameters
 CME
-T                       UseCme
-T                       DoAddFluxRope
-74.5                    LongitudeCme
-7.5                     LatitudeCme
-79.47                   OrientationCme
-SPHEROMAK               TypeCme
--11.41                  BStrength
-0.39                    Radius
-0.60                    Stretch
-0.59                    ApexHeight
-860                     uCme   Expected CME speed
+T			UseCme
+T			DoAddFluxRope
+74.5			LongitudeCme
+7.5			LatitudeCme
+79.47			OrientationCme
+SPHEROMAK		TypeCme
+11.41			BStrength
+-1			iHelicity
+0.39			Radius
+0.60			Stretch
+0.59			ApexHeight
+860			uCme   Expected CME speed
 
 HELIOUPDATEB0
 600                     DtUodateB0   ! Time intervals to update the magnetic field in the threaded gap
 
 #PARTICLELINE
-T                       UseParticles
-5000                      nFieldLineMax
-3000                    nParticlePerLine
--1                      SpaceStepMin
--1                      SpaceStepMax
-import                  InitMode
-T                       UseBRAlignment
-0.7                     ConBRAngleMax
-F                       UseBUAlignment
-0.99                    ConBUAngleMax
+T			UseParticles
+5000			nFieldLineMax
+3000			nParticlePerLine
+-1			SpaceStepMin
+-1			SpaceStepMax
+import			InitMode
+T			UseBRAlignment
+0.7			ConBRAngleMax
+F			UseBUAlignment
+0.99			ConBUAngleMax
 
 
 #SAVETECPLOT
-T                       DoSaveOneTecFile
+T			DoSaveOneTecFile
 
 #PLOTTHREADS
 T			DoPlotThreads
