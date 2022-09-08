@@ -47,24 +47,28 @@ s = ArgParseSettings(
     "--fileEEGGL"
         help = "Path to load EEGGL Params from."
         arg_type = String
-        default = "./output/restartRunDesignFiles/CR2192/EEGGLParams_CR2192.txt"
+        # default = "./output/restartRunDesignFiles/CR2192/EEGGLParams_CR2192.txt"
+        default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/EEGGL_Params_CR2154_20220908.txt"
     "--fileBackground"
         help = "Path to load background wind runs from."
         arg_type = String
-        default = "./output/restartRunDesignFiles/CR2192/X_background_CR2192_2022_02_14.csv"
+        # default = "./output/restartRunDesignFiles/CR2192/X_background_CR2192_2022_02_14.csv"
+        default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/X_background_CR2154.csv"
     "--fileRestart"
         help = "Path to load restart runs from."
         arg_type = String
-        default = "./output/restartRunDesignFiles/CR2192/X_design_CR2192_2022_03_21.csv"
+        # default = "./output/restartRunDesignFiles/CR2192/X_design_CR2192_2022_03_21.csv"
+        default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/X_design_CR2154_2022_09_07.csv"
     "--fileOutput"
         help = "Give path to file where we wish to write param list"
-        default = "./output/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+        default = "./ParamListScripts/output/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
     "--fileParam"
         help = "Give path to correct PARAM file (specify in restarts AND check for keywords"
-        default = "../Param/PARAM.in.awsom.CME"
+        default = "./Param/PARAM.in.awsom.CME"
     "--fileMap"
         help = "Give filename of map to be used, for eg: `ADAPT_41_GONG_CR2161.fts`."
-        default = "ADAPT_41_GONG_CR2192.fts"
+        # default = "ADAPT_41_GONG_CR2192.fts"
+        default = "ADAPT_41_CR2154.fts"
     "--mg"
         help = "Magnetogram to use, for example, GONG."
         default = "ADAPT"
@@ -74,7 +78,8 @@ s = ArgParseSettings(
         default = 2154
     "--md"
         help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
-        default = "AWSoM"
+        # default = "AWSoM"
+        default = "AWSoM2T"
     "--start_time"
         help = "start time to use for background. Can give yyyy-mm-ddThh:mm:sec:fracsec"
         default="MapTime"
@@ -106,7 +111,7 @@ insertcols!(XBackground, 2, :model=>md)
 colNamesBackground = [
                     "map",
                     "model",
-                    "BrFactor", 
+                    "FactorB0", 
                     "PoyntingFluxPerBSi", 
                     "LperpTimesSqrtBSi"
                     ]
@@ -126,14 +131,12 @@ colNamesRestart = [
                 "CmeRadius",
                 "DeltaOrientation",
                 "ApexCoeff",
-                "Helicity",
+                "iHelicity",
                 "restartdir",
-                "realization"
+                # "realization" # valid for CR2192 only (as of now)
                 ]   # give column names for data frame (can be redundant if names are already correct)
 
 rename!(XRestart, colNamesRestart)
-
-
 
 
 ## EXTRACT AND PROCESS EEGGL PARAMS
@@ -200,7 +203,7 @@ insertcols!(
 insertcols!(
             XRestart, 
             2,
-            :BStrength      => (abs(B_EEGGL) * Radius_EEGGL * XRestart.Helicity)  .* (XRestart.RelativeStrength ./ XRestart.Radius),
+            :BStrength      => (abs(B_EEGGL) * Radius_EEGGL)  .* (XRestart.RelativeStrength ./ XRestart.Radius),
             :ApexHeight     => XRestart.Radius .* XRestart.ApexCoeff,
             :OrientationCme => XRestart.DeltaOrientation .+ Orientation_EEGGL
             )
@@ -212,7 +215,7 @@ deletecols!(
             "CmeRadius",
             "DeltaOrientation",
             "ApexCoeff",
-            "Helicity",
+            # "iHelicity",
             # "realization"
             ]
             )
@@ -220,18 +223,19 @@ deletecols!(
 # CR2154 did not vary realizations, CR2161 and CR2192 already have it incorporated into the XDesign file!!
 # bg_realization_lookup = Dict([11, 7, 17, 6, 5, 3, 16, 1, 2, 8] .=> [4, 4, 9, 9, 5, 2, 12, 5, 2, 4])
 
-REALIZATIONS = [[i] for i in XRestart.realization]
-insertcols!(XRestart,
-            6,
-            :REALIZATIONS => REALIZATIONS)
-deletecols!(XRestart, :realization)
-rename!(XRestart, :REALIZATIONS => :realization)
+# valid for CR2192
+# REALIZATIONS = [[i] for i in XRestart.realization]
+# insertcols!(XRestart,
+#             6,
+#             :REALIZATIONS => REALIZATIONS)
+# deletecols!(XRestart, :realization)
+# rename!(XRestart, :REALIZATIONS => :realization)
 
 
 
 # Small addition: Also save above as a csv because its useful for future processing 
 # (param list is not as easily readable into array like form).
-CSV.write("./output/restartRunDesignFiles/X_restart_CME_2022_03_21.csv", XRestart)
+CSV.write("./ParamListScripts/output/restartRunDesignFiles/CR2154/X_restart_CME_2022_09_08.csv", XRestart)
 
 startTime = args["start_time"]
 
@@ -324,6 +328,8 @@ for count = 1:size(XRestart, 1)
             appendVal = @sprintf("%s=%e    ", key, value)
         elseif value isa Int
             appendVal = @sprintf("%s=%d     ", key, value)
+        elseif value in [-1, 1]
+            appendVal = @sprintf("%s=%d     ", key, value)
         else
             appendVal = @sprintf("%s=%.4f    ", key, value)
         end
@@ -339,7 +345,8 @@ for count = 1:size(XRestart, 1)
 end
 # end for loop
 
-colNamesToCheck = names(XRestart[!, Not(["realization", "restartdir"])])
+# colNamesToCheck = names(XRestart[!, Not(["realization", "restartdir"])])
+colNamesToCheck = names(XRestart[!, Not(["restartdir"])])
 # The o/p of the run command acts as a preliminary comparison with Param file.
 println("The PARAM file gives the following results when checking keywords:")
 for i in 1:length(colNamesToCheck)
