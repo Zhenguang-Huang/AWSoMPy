@@ -1,5 +1,6 @@
 selected run IDs = 1-30
 #START
+ID        params
 1	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.5987 	 PoyntingFluxPerBSi=5.476869e+05	 LperpTimesSqrtBSi=2.590775e+05 	  
 2	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.6876 	 PoyntingFluxPerBSi=5.142482e+05	 LperpTimesSqrtBSi=1.702405e+05 	  
 3	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.7334 	 PoyntingFluxPerBSi=4.371697e+05	 LperpTimesSqrtBSi=2.424774e+05 	  
