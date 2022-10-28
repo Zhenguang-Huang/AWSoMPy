@@ -47,35 +47,39 @@ s = ArgParseSettings(
     "--fileEEGGL"
         help = "Path to load EEGGL Params from."
         arg_type = String
-        # default = "./output/restartRunDesignFiles/CR2192/EEGGLParams_CR2192.txt"
-        default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/EEGGL_Params_CR2154_20220908.txt"
+        default = "./output/restartRunDesignFiles/CR2192/EEGGLParamsCR2192_updated_2022_10_28.txt"
+        # default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/EEGGL_Params_CR2154_20220908.txt"
     "--fileBackground"
         help = "Path to load background wind runs from."
         arg_type = String
         # default = "./output/restartRunDesignFiles/CR2192/X_background_CR2192_2022_02_14.csv"
-        default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/X_background_CR2154.csv"
+        # default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/X_background_CR2154.csv"
+        default = ""
     "--fileRestart"
         help = "Path to load restart runs from."
         arg_type = String
-        # default = "./output/restartRunDesignFiles/CR2192/X_design_CR2192_2022_03_21.csv"
-        default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/X_design_CR2154_2022_09_07.csv"
+        default = "./output/restartRunDesignFiles/CR2192/X_design_CR2192_2022_10_28.csv"
+        # default = "./ParamListScripts/output/restartRunDesignFiles/CR2154/X_design_CR2154_2022_09_07.csv"
     "--fileOutput"
         help = "Give path to file where we wish to write param list"
-        default = "./ParamListScripts/output/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
+        default = "./output/param_list_" * Dates.format(Dates.now(), "yyyy_mm_dd") * ".txt"
     "--fileParam"
         help = "Give path to correct PARAM file (specify in restarts AND check for keywords"
-        default = "./Param/PARAM.in.awsom.CME"
+        default = "../Param/PARAM.in.awsom.CME"
     "--fileMap"
         help = "Give filename of map to be used, for eg: `ADAPT_41_GONG_CR2161.fts`."
         # default = "ADAPT_41_GONG_CR2192.fts"
         default = "ADAPT_41_CR2154.fts"
+    "--saveRestart"
+        help = "Save processed restart CSV with actual param list variables"
+        default = "./output/restartRunDesignFiles/CR2192/X_restart_CR2192_CR2192_2022_10_28.csv"
     "--mg"
         help = "Magnetogram to use, for example, GONG."
         default = "ADAPT"
     "--cr"
         help = "CR to use eg: 2152."
         arg_type = Int
-        default = 2154
+        default = 2192
     "--md"
         help = "Model to use, for example AWSoM, AWSoMR, AWSoM2T."
         # default = "AWSoM"
@@ -98,25 +102,29 @@ mg = args["mg"]
 cr = args["cr"]
 md = args["md"]
 
-fileBackground = args["fileBackground"]
-XBackground = DataFrame(CSV.File(fileBackground))
+if !isempty(args["fileBackground"])
+    fileBackground = args["fileBackground"]
+    XBackground = DataFrame(CSV.File(fileBackground))
 
-nBackground = size(XBackground, 1)
+    nBackground = size(XBackground, 1)
 
-fileMap = args["fileMap"]
+    fileMap = args["fileMap"]
 
-insertcols!(XBackground, 1, :map=> fileMap)
-insertcols!(XBackground, 2, :model=>md)
+    insertcols!(XBackground, 1, :map=> fileMap)
+    insertcols!(XBackground, 2, :model=>md)
 
-colNamesBackground = [
-                    "map",
-                    "model",
-                    "FactorB0", 
-                    "PoyntingFluxPerBSi", 
-                    "LperpTimesSqrtBSi"
-                    ]
+    colNamesBackground = [
+                        "map",
+                        "model",
+                        "FactorB0", 
+                        "PoyntingFluxPerBSi", 
+                        "LperpTimesSqrtBSi"
+                        ]
 
-rename!(XBackground, colNamesBackground)
+    rename!(XBackground, colNamesBackground)
+else
+    println("No argument supplied for background file, writing restart runs only")
+end
 
 
 ## EXTRACT AND PROCESS ARGUMENTS FOR RESTART
@@ -133,11 +141,16 @@ colNamesRestart = [
                 "ApexCoeff",
                 "iHelicity",
                 "restartdir",
-                # "realization" # valid for CR2192 only (as of now)
+                "realization" # valid for CR2192 only (as of now)
                 ]   # give column names for data frame (can be redundant if names are already correct)
 
 rename!(XRestart, colNamesRestart)
 
+REALIZATIONS_ADAPT = XRestart[!, "realization"]
+REALIZATIONS_ADAPT = [REALIZATIONS_ADAPT[i, :] for i in 1:size(XRestart, 1)]
+
+select!(XRestart, Not("realization"))
+insertcols!(XRestart, :realization=>REALIZATIONS_ADAPT)
 
 ## EXTRACT AND PROCESS EEGGL PARAMS
 fileEEGGL = args["fileEEGGL"]
@@ -235,7 +248,7 @@ deletecols!(
 
 # Small addition: Also save above as a csv because its useful for future processing 
 # (param list is not as easily readable into array like form).
-CSV.write("./ParamListScripts/output/restartRunDesignFiles/CR2154/X_restart_CME_2022_09_08.csv", XRestart)
+CSV.write(args["saveRestart"], XRestart)
 
 startTime = args["start_time"]
 
@@ -243,6 +256,7 @@ startTime = args["start_time"]
 nRestart = size(XRestart, 1)
 
 # start restart numbering from nBackground + 1
+nBackground = 30
 runIDRange = (nBackground + 1):(nBackground + nRestart)
 
 
@@ -261,7 +275,9 @@ end
 
 # Track which files the runs were read from.
 write(tmpio, "# EEGGL File: " * fileEEGGL * "\n")
-write(tmpio, "# Background design: " * fileBackground * "\n")
+if @isdefined fileBackground
+    write(tmpio, "# Background design: " * fileBackground * "\n")
+end
 write(tmpio, "# Restart design: " * fileRestart * "\n")
 
 write(tmpio, "\n # selected backgrounds = ")
@@ -269,47 +285,51 @@ write(tmpio, "\n # selected backgrounds = ")
 write(tmpio, "\nselected run IDs = 1-$(size(XRestart, 1) + nBackground)\n")
 write(tmpio, "\n#START\n")
 write(tmpio, "ID   params\n")
-
+println("Wrote headers")
 # Loop through DataFrame for background
-for count = 1:size(XBackground, 1)
+if @isdefined XBackground
+    for count = 1:size(XBackground, 1)
 
-    dfParams = XBackground[count, Not(["map", "model"])]
-    dictParams = Dict(names(dfParams) .=> values(dfParams))
+        dfParams = XBackground[count, Not(["map", "model"])]
+        dictParams = Dict(names(dfParams) .=> values(dfParams))
 
-    dfMapModel = XBackground[count, 1:2]                      # By convention, map and model will be the first 2 columns
-    dictMapModel = Dict(names(dfMapModel) .=> values(dfMapModel))
-    stringToWrite = ""
+        dfMapModel = XBackground[count, 1:2]                      # By convention, map and model will be the first 2 columns
+        dictMapModel = Dict(names(dfMapModel) .=> values(dfMapModel))
+        stringToWrite = ""
 
-    # we write map and model in a different loop to ensure they come first in each line of the list. 
-    for (key, value) in dictMapModel
-        appendVal = @sprintf("%s=%s    ", key, value)
-        stringToWrite = stringToWrite * appendVal
-    end
-
-    for (key, value) in dictParams
-        if value isa String
+        # we write map and model in a different loop to ensure they come first in each line of the list. 
+        for (key, value) in dictMapModel
             appendVal = @sprintf("%s=%s    ", key, value)
-        elseif value isa Array
-            appendVal = @sprintf("%s=[%d]    ", key, value[1])
-        elseif value >= 1000
-            appendVal = @sprintf("%s=%e    ", key, value)
-        else
-            appendVal = @sprintf("%s=%.4f    ", key, value)
+            stringToWrite = stringToWrite * appendVal
         end
-        stringToWrite = stringToWrite * appendVal
-    end
 
-    # Here we will put conditional to write startTime or have it not appear in the param list (revert to MapTime)
-    if startTime == "MapTime"
-        write(tmpio, 
-        string(count) * " " * stringToWrite * "\n")
-    else
-        write(tmpio, 
-        string(count) * " time=$(startTime)   " * stringToWrite * "\n")
-    end
+        for (key, value) in dictParams
+            if value isa String
+                appendVal = @sprintf("%s=%s    ", key, value)
+            elseif value isa Array
+                appendVal = @sprintf("%s=[%d]    ", key, value[1])
+            elseif value >= 1000
+                appendVal = @sprintf("%s=%e    ", key, value)
+            else
+                appendVal = @sprintf("%s=%.4f    ", key, value)
+            end
+            stringToWrite = stringToWrite * appendVal
+        end
 
+        # Here we will put conditional to write startTime or have it not appear in the param list (revert to MapTime)
+        if startTime == "MapTime"
+            write(tmpio, 
+            string(count) * " " * stringToWrite * "\n")
+        else
+            write(tmpio, 
+            string(count) * " time=$(startTime)   " * stringToWrite * "\n")
+        end
+
+    end
+    println("Wrote background runs")
+else
+    println("Skipping backgrounds, writing restart runs")
 end
-println("Wrote background runs")
 
 
 
