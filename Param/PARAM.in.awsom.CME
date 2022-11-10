@@ -284,6 +284,7 @@ flux-rope parameters
 #CME
 T			UseCme^
 T			DoAddFluxRope
+-1.0			tDecayCme^
 87.50			LongitudeCme^
 14.50			LatitudeCme^
 250.68			OrientationCme^
@@ -391,17 +392,6 @@ END			sc_only^
 
 #RUN ##########################################################################
 Begin session: 2
-
-#BEGIN_COMP SC ---------------------------------------------------------------
-
-#CME
-F			UseCME
-
-#USERSWITCH		sc_cme^
-+init +ic -perturb	StringSwitch
-
-#END_COMP SC ---------------------------------------------------------------
-
 #COMPONENT
 IH			NameComp
 T			UseComp
