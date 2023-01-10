@@ -331,7 +331,7 @@ soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		S
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
 {default}		NamePars
 
 #SATELLITE
@@ -606,6 +606,52 @@ Begin session: 3
 #BEGIN_COMP SC ---------------------------------------------------------------
 
 #SAVEPLOT
+6			nPlotFile
+x=0 VAR idl		StringPlot
+-1			DnSavePlot
+3600.0			DtSavePlot
+-1.0			DxSavePlot
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
+{default}		NamePars
+y=0 VAR idl		StringPlot
+-1			DnSavePlot
+3600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
+{default}		NamePars
+z=0 VAR idl		StringPlot
+-1			DnSavePlot
+3600.			DtSavePlot
+-1.0			DxSavePlot
+{MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
+{default}		NamePars
+los ins idl_ascii		StringPlot
+-1			DnSavePlot
+120.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
+los ins tec		StringPlot
+-1			DnSavePlot
+120.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
+3d VAR tcp              StringPlot
+-1                      DnSavePlot
+3600.                    DtSavePlot
+{MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
+{default}               NamePars
+
+#END_COMP SC -----------------------------------------------------------------
+
+#STOP
+-1			MaxIter
+6 h			TimeMax
+
+End session: 3
+#RUN #########################################################################
+Begin session: 4
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#SAVEPLOT
 4			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
@@ -631,7 +677,7 @@ z=0 VAR idl		StringPlot
 {MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
 {default}               NamePars
 
-#END_COMP SC -----------------------------------------------------------------
+#END_COMP SC ---------------------------------------------------------------
 
 #BEGIN_COMP IH ---------------------------------------------------------------
 
@@ -667,9 +713,9 @@ z=0 VAR idl		StringPlot
 -1			MaxIter
 12 h			TimeMax
 
-End Session: 3
+End Session: 4
 #RUN #################################################################################
-Begin Session: 4
+Begin Session: 5
 
 #COUPLE1
 SC			NameSource
@@ -724,5 +770,5 @@ hgi                     TypeCoordPlot
 -1			MaxIter
 4 d			TimeMax
 
-End session: 4
+End session: 5
 #END ##########################################################################
