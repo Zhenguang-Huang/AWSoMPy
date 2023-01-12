@@ -162,7 +162,19 @@ shell0			StringShape
 1.05			RadiusInner rMin_AWSoMR^
 1.7			Radius
 
-#AMRCRITERIARESOLUTION
+#AMRREGION
+earthcone		NameRegion
+conex0			StringShape
+-24.			Height
+5.			Radius
+
+#AMRREGION
+cmecone			NameRegion
+conex0			StringShape
+-24.			Height
+9.			Radius
+
+AMRCRITERIARESOLUTION
 3			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
@@ -170,6 +182,25 @@ dphi			StringRefine
 dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.5			MaxResolution
+
+#AMRCRITERIARESOLUTION
+5			nRefineCrit
+dphi			StringRefine
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
+dphi earthcone		StringRefine
+0.35			RefineTo
+0.175			CoarsenFrom
+dphi cmecone		StringRefine
+0.7			RefineTo
+0.35			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -193,7 +224,6 @@ T			IsStrictAmr
 2			nOrder (1 or 2)
 Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 minmod			TypeLimiter
-1.2			LimiterBeta
 
 #LIMITER
 T			UseLogRhoLimiter
@@ -226,7 +256,7 @@ VAR			StringLog
 100			DnSaveLogfile
 -1.			DtSaveLogfile
 rho mx my mz p pmin urmin urmax wflx wplusflx wminusflx keflx		NameLogVars
-1.06 23.99     	    	  rLog
+1.06 23.99		StringLogRadii
 
 #OUTERBOUNDARY
 fieldlinethreads		TypeBc1   rMin
@@ -252,19 +282,19 @@ x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
 los ins idl_ascii		StringPlot
 80000			DnSavePlot
@@ -402,7 +432,7 @@ T			UseBody
 1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
-#GRID
+#GRID			GRID_IH^
 1			nRootBlock1
 1			nRootBlock2
 1			nRootBlock3
@@ -419,8 +449,20 @@ shell0			StringShape
 18.0			RadiusInner
 21.0			Radius
 
-#AMRCRITERIARESOLUTION
-3                       nRefineCrit
+#AMRREGION
+earthcone		NameRegion
+conex0			StringShape
+-215.			Height
+20.			Radius
+
+#AMRREGION
+cmecone			NameRegion
+conex0			StringShape
+-215.			Height
+80.			Radius
+
+AMRCRITERIARESOLUTION
+3			nRefineCrit
 dx			StringRefine
 8.			RefineTo
 4.			CoarsenFrom
@@ -432,9 +474,28 @@ currentsheet		StringRefine
 0.5			RefineLimit
 1.0			MaxResolution
 
+#AMRCRITERIARESOLUTION
+5			nRefineCrit
+dx			StringRefine
+8.			RefineTo
+4.			CoarsenFrom
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
+dx +earthcone		StringRefine
+0.35			RefineTo
+0.175			CoarsenFrom
+dx +cmecone		StringRefine
+0.7			RefineTo
+0.35			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.0			MaxResolution
+
 #GRIDRESOLUTION
-0.5                     Resolution
-initial                 StringShape
+2.0			Resolution
+initial			StringShape
 
 #SAVEINITIAL
 F			DoSaveInitial
@@ -444,12 +505,12 @@ buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
-240			nPhiBuff
-120			nThetaBuff
-18.0			rBuffMin
-20.0			rBuffMax
-0.0			PhiBuffMin
-360.			PhiBuffMax
+240			nLonBuff
+120			nLatBuff
+18.0			RBuffMin
+20.0			RBuffMax
+0.0			LonBuffMin
+360.			LonBuffMax
 -90.0			LatBuffMin
 90.0			LatBuffMax
 
@@ -480,10 +541,8 @@ stochasticheating		TypeHeatPartitioning
 0.18			StochasticAmplitude^
 
 #SCHEME
-2			nOrder
+1			nOrder
 Linde			TypeFlux
-mc3			TypeLimiter
-1.2			LimiterBeta
 
 The following minimum pressure is sufficiently small even when the
 domain extends to 400 Rsun, i.e. including Mars orbit.
@@ -518,19 +577,19 @@ x=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
 y=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
 z=0 VAR idl_ascii		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti		NameVars
+{MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
 3d VAR tcp		StringPlot
 5000			DnSavePlot
@@ -538,32 +597,33 @@ z=0 VAR idl_ascii		StringPlot
 {MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
 
+Start and EndTimeTraj may need to change to stop before CME flare time
 #SATELLITE
 3			nSatellite
 VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
-SC/TRAJECTORY/earth.dat		NameTrajectoryFile
+IH/TRAJECTORY/earth.dat		NameTrajectoryFile
 -14 d			StartTimeTraj
 14 d			EndTimeTraj
 1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
+rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
 VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
-SC/TRAJECTORY/sta.dat		NameTrajectoryFile
+IH/TRAJECTORY/sta.dat		NameTrajectoryFile
 -14 d			StartTimeTraj
 14 d			EndTimeTraj
 1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
+rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
 VAR HGC trajrange		StringSatellite
 5000			DnOutput
 -1			DtOutput
-SC/TRAJECTORY/stb.dat		NameTrajectoryFile
+IH/TRAJECTORY/stb.dat		NameTrajectoryFile
 -14 d			StartTimeTraj
 14 d			EndTimeTraj
 1 h			DtTraj
-rho ux uy uz bx by bz p pe		NameSatelliteVars
+rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
 
 #END_COMP IH -----------------------------------------------------------------
 
@@ -610,6 +670,12 @@ End session: 5
 Begin session: 6
 
 #BEGIN_COMP IH ---------------------------------------------------------------
+
+#SCHEME
+2			nOrder
+Linde			TypeFlux
+mc3			TypeLimiter
+1.2			LimiterBeta
 
 #AMR
 -1			DnRefine
