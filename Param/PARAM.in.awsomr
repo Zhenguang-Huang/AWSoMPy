@@ -244,6 +244,15 @@ T			UseSpeedMin
 250			SpeedMinDim
 10 h			TauSpeedMinDim
 
+B0SOURCE
+T			UseB0Source
+T			UseDivFullBSource
+
+ALIGNBANDU
+T			UseChGL
+1.1			RSourceChGL
+3.5			RMinChGL
+
 #NONCONSERVATIVE
 F			UseNonConservative^
 
@@ -563,6 +572,11 @@ T			UseDivbSource
 T			UseDivbDiffusion
 F			UseProjection
 F			UseConstrainB
+
+ALIGNBANDU
+T			UseChGL
+0.0			RSourceChGL
+0.0			RMinChGL
 
 #SAVELOGFILE
 T			DoSaveLogfile
