@@ -181,13 +181,10 @@ shell0			StringShape
 1.7			Radius
 
 #AMRREGION
-earthcone               NameRegion
-conex0 rotated          StringShape
--24.                    Height
-5.                     Radius
-0.0                     xRotate
-10.0                    yRotate
-0.0                     zRotate
+earthcone		NameRegion
+conex0			StringShape
+-24.			Height
+5.			Radius
 
 #AMRREGION
 cgl			NameRegion
@@ -208,15 +205,15 @@ dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
 dphi earthcone		StringRefine
-1.5                     RefineTo
-0.75                    CoarsenFrom
+1.5  			RefineTo
+0.75			CoarsenFrom
 dphi cgl		StringRefine
-1.5                     RefineTo
-0.75                    CoarsenFrom
-currentsheet            StringRefine
-0.5                     CoarsenLimit
-0.5                     RefineLimit
-1.5                     MaxResolution
+1.5  			RefineTo
+0.75			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.5			MaxResolution
 
 #GRIDRESOLUTION
 1.5			Resolution
@@ -236,7 +233,6 @@ T			IsStrictAmr
 2			nOrder (1 or 2)
 Linde			TypeFlux (Roe, Rusanov, Linde, Sokolov
 minmod			TypeLimiter
-1.2			LimiterBeta
 
 #LIMITER
 T			UseLogRhoLimiter
@@ -258,7 +254,7 @@ T			UseSpeedMin
 10 h			TauSpeedMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+T			UseNonConservative^
 
 #RESCHANGE
 T			UseAccurateReschange
@@ -403,6 +399,9 @@ Begin session: 3
 #MINIMUMRADIALSPEED
 F			UseSpeedMin
 
+#AMR
+-1			DnRefine
+
 #END_COMP SC -----------------------------------------------------------------
 
 #STOP
@@ -460,19 +459,16 @@ shell0			StringShape
 21.0			Radius
 
 #AMRREGION
-IHShell              NameRegion
-shell0                  StringShape
-21.0                    RadiusInner
-250.0                    Radius
+IHShell			NameRegion
+shell0			StringShape
+21.0			RadiusInner
+250.0			Radius
 
 #AMRREGION
-earthcone               NameRegion
-conex0 rotated          StringShape
--250.                   Height
-20.                    Radius
-0.0                     xRotate
-10.0                    yRotate
-0.0                     zRotate
+earthcone		NameRegion
+conex0			StringShape
+-250.			Height
+20.			Radius
 
 #AMRCRITERIARESOLUTION
 5                       nRefineCrit
@@ -480,21 +476,21 @@ dx			StringRefine
 32.			RefineTo
 16.			CoarsenFrom
 dx +IHshell		StringRefine
-8			RefineTo
+8  			RefineTo
 4			CoarsenFrom
-dx +Outershell          StringRefine
-0.5                     RefineTo
-0.25                    CoarsenFrom
-dx +earthcone           StringRefine
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
+dx +earthcone		StringRefine
 1.5			RefineTo
 0.75			CoarsenFrom
-currentsheet            StringRefine
-0.5                     CoarsenLimit
-0.5                     RefineLimit
-1.0                     MaxResolution
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.0			MaxResolution
 
 #GRIDRESOLUTION
-0.5			Resolution
+2.0			Resolution
 initial			StringShape
 
 #SAVEINITIAL
@@ -543,7 +539,6 @@ stochasticheating		TypeHeatPartitioning
 #SCHEME
 1			nOrder
 Linde			TypeFlux
-1.2			LimiterBeta
 
 The following minimum pressure is sufficiently small even when the
 domain extends to 400 Rsun, i.e. including Mars orbit.
@@ -553,7 +548,7 @@ It might be important to prevent code crashing due to CMEs with strong shocks.
 1E-14			PeMinDim
 
 #NONCONSERVATIVE
-T			UseNonConservative
+T			UseNonConservative^
 
 #TIMESTEPPING
 2			nStage
@@ -564,6 +559,11 @@ T			UseDivbSource
 T			UseDivbDiffusion
 F			UseProjection
 F			UseConstrainB
+
+#ALIGNBANDU
+T			UseChGL
+0.0			RSourceChGL
+0.0			RMinChGL
 
 #SAVELOGFILE
 T			DoSaveLogfile
@@ -625,11 +625,6 @@ IH/TRAJECTORY/stb.dat		NameTrajectoryFile
 14 d			EndTimeTraj
 1 h			DtTraj
 rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
-
-#ALIGNBANDU
-T			UseChGL
-0.0			RSourceChGL
-0.0			RMinChGL
 
 #END_COMP IH -----------------------------------------------------------------
 
@@ -696,7 +691,7 @@ End session: 6
 
 #END			END_2nd_scheme^
 
-#RUN #########################################################################
+#RUN ##########################################################################
 Begin session: 7
 
 #COMPONENT
