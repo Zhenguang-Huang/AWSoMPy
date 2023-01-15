@@ -97,6 +97,20 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
+CURLB0
+T			UseCurlB0
+2.5			rCurrentFreeB0
+T			UseB0MomentumFlux
+
+B0SOURCE
+T			UseB0Source
+T			UseDivFullBSource
+
+ALIGNBANDU
+T			UseChGL
+1.1			RSourceChGL
+3.5			RMinChGL
+
 FACTORB0		^
 1.0			FactorB0^
 
@@ -243,15 +257,6 @@ T			UseSpeedMin
 10			rSpeedMin
 250			SpeedMinDim
 10 h			TauSpeedMinDim
-
-B0SOURCE
-T			UseB0Source
-T			UseDivFullBSource
-
-ALIGNBANDU
-T			UseChGL
-1.1			RSourceChGL
-3.5			RMinChGL
 
 #NONCONSERVATIVE
 F			UseNonConservative^
