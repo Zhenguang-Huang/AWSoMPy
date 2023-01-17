@@ -471,7 +471,7 @@ conex0			StringShape
 20.			Radius
 
 #AMRCRITERIARESOLUTION
-5                       nRefineCrit
+6                       nRefineCrit
 dx			StringRefine
 32.			RefineTo
 16.			CoarsenFrom
@@ -484,10 +484,15 @@ dx +Outershell		StringRefine
 dx +earthcone		StringRefine
 1.5			RefineTo
 0.75			CoarsenFrom
-currentsheet		StringRefine
+currentsheet +IHshell		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
 1.0			MaxResolution
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+2.0			MaxResolution
+
 
 #GRIDRESOLUTION
 2.0			Resolution
