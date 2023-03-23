@@ -124,7 +124,7 @@ install:
 
 compile:
 	-@(make install;								\
-	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_SCIHOHSP)" ]]; then	\
+	if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_SOFIE)" ]]; then	\
 		cd ${DIR}; 								\
 		if [[ "${DOINSTALL}" == "T" ]]; then					\
 			rm -f ${DIR}/bin/*.exe;						\
@@ -152,7 +152,7 @@ compile:
 		make HARMONICS FDIPS; 							\
 	else										\
 		echo "MODEL = ${MODEL}";						\
-		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_SCIHOHSP.";	\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_SOFIE.";	\
 	fi;										\
 	)
 
@@ -164,15 +164,15 @@ backup_run:
 	fi
 
 copy_param:
-	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_SCIHOHSP)" ]]; then	\
+	-@(if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T AWSoMR AWSoMR_SOFIE)" ]]; then	\
 		if [[ "${MODEL}" == "AWSoMR" ]]; then					\
 			cp Param/PARAM.in.awsomr PARAM.in; 				\
 		fi; 									\
 		if [[ "${MODEL}" == "$(filter ${MODEL},AWSoM AWSoM2T)" ]]; then		\
 			cp Param/PARAM.in.awsom PARAM.in;				\
 		fi;									\
-		if [[ "${MODEL}" == "AWSoMR_SCIHOHSP" ]]; then				\
-			cp Param/PARAM.in.awsomr.SCIHOHSP PARAM.in;				\
+		if [[ "${MODEL}" == "AWSoMR_SOFIE" ]]; then				\
+			cp Param/PARAM.in.awsomr.sofie PARAM.in;				\
 		fi;									\
 		if [[ "${PARAM}" != "Default" ]]; then					\
 			cp Param/${PARAM} PARAM.in;					\
@@ -180,7 +180,7 @@ copy_param:
 		cp Param/HARMONICS.in Param/FDIPS.in .; 				\
 	else										\
 		echo "MODEL = ${MODEL}";						\
-		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_SCIHOHSP.";	\
+		echo "ERROR: MODEL must be either AWSoM, AWSoM2T, AWSoMR or AWSoMR_SOFIE.";	\
 	fi;										\
 	)
 
