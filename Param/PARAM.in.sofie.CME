@@ -29,7 +29,7 @@ IH 0 -1 1		CompMap
 #TIMEACCURATE
 T			IsTimeAccurate
 
-#STARTTIME		^
+STARTTIME		^
 2013			iYear
 4			iMonth
 11			iDay
@@ -209,18 +209,18 @@ add the perturb switch for CME
 
 flux-rope parameters
 #CME
-T			UseCme
+T			UseCme^
 T			DoAddFluxRope
--1.0			tDecayCme
-182.5			LongitudeCme
-11.5			LatitudeCme
-0.0			OrientationCme
-SPHEROMAK			TypeCme
-14.19			BStrength
--1			iHelicity
-0.8			Radius
-0.60			Stretch
-1.0			ApexHeight
+-1.0			tDecayCme^
+182.5			LongitudeCme^
+11.5			LatitudeCme^
+0.0			OrientationCme^
+SPHEROMAK		TypeCme
+14.19			BStrength^
+-1			iHelicity^
+0.8			Radius^
+0.60			Stretch^
+1.0			ApexHeight^
 
 #HELIOUPDATEB0
 600                     DtUodateB0   ! Time intervals to update the magnetic field in the threaded gap
