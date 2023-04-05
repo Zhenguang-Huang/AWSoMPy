@@ -221,6 +221,7 @@ SPHEROMAK		TypeCme
 0.8			Radius^
 0.60			Stretch^
 1.0			ApexHeight^
+710			uCme^
 
 #HELIOUPDATEB0
 600                     DtUodateB0   ! Time intervals to update the magnetic field in the threaded gap
