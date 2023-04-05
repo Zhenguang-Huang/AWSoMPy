@@ -264,11 +264,11 @@ z=0 VAR idl		StringPlot
 los ins idl_ascii		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
-soho:c2			StringsInstrument
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
 los ins tec		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
-soho:c2			StringsInstrument
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
 
 #SATELLITE
 3			nSatellite
