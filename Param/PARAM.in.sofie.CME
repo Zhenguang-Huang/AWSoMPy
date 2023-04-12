@@ -105,7 +105,7 @@ T			UseChGL
 3.5			RMinChGL
 
 FACTORB0		^
-1.0			FactorB0 BrFactor^
+1.0			FactorB0^
 
 #POYNTINGFLUX
 0.35e6 			PoyntingFluxPerBSi^ [J/m^2/s/T]
