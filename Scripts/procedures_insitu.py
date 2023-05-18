@@ -85,7 +85,8 @@ class preprocess:
         data['ndens'] = data['rho']/self.ProtonMass
         data['ti']    = data['p']*self.ProtonMass/data['rho']/self.k*1E-7
         data['te']    = data['pe']*self.ProtonMass/data['rho']/self.k*1E-7
-        data['bmag']  = (data['bx']**2.+data['by']**2.+data['bz']**2.)**0.5
+        data['bmag']  = (data['bx']**2.+data['by']**2.+data['bz']**2.\
+			+4.0*np.pi*(data['i01']+data['i02']) )**0.5
         return data
     def get_icme_list(self,filename,start_time,end_time,spacecraft): 
         #read in ICME list
@@ -153,7 +154,7 @@ class preprocess:
         #add legend to the first plot
         ux.legend(frameon=False,loc=2)
 
-        #save figure to eps
+        #save figure to png
         plt.subplots_adjust(left=0.13, bottom=0.08, right=0.98, top=0.98, wspace=None, hspace=0.1)
-        plt.savefig(dir_plot+spacecraft+'_'+data['date'][0].strftime("%d-%b-%y")+'.eps')
+        plt.savefig(dir_plot+spacecraft+'_'+data['date'][0].strftime("%d-%b-%y")+'.png',dpi=300)
         plt.close()
