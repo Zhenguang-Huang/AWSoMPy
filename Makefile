@@ -273,7 +273,7 @@ check_compare:
 check_compare_insitu:
 	-@(cd ${IDLDIR}; 									\
 	for iRunDir in ${FullResRunDirList};  do 						\
-		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} ${MODEL} 		\
+		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} DEFAULT 		\
 			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV};				\
 	done)
 
@@ -316,7 +316,7 @@ check_postproc_all:
 check_compare_insitu_all:
 	-@(cd ${IDLDIR}; 								\
 	for iResDir in ${FullResDirList}; do						\
-		csh compare_insitu.sh ${DIR} $${iResDir} $${iResDir} ${MODEL} 		\
+		csh compare_insitu.sh ${DIR} $${iResDir} $${iResDir} DEFAULT 		\
 			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV}; 			\
 	done)
 
