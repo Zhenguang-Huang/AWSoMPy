@@ -111,7 +111,7 @@ class preprocess:
         ylabels    = ['$\mathdefault{U_r}$ [km/s]','$\mathdefault{N_p}$ [cm$^{-3}$]',
                         'Temperature [k]','B [nT]']
 
-        fig = plt.figure(figsize=(6,6))
+        fig = plt.figure(figsize=(5,5))
         ux  = fig.add_subplot(4,1,1)
         dx  = fig.add_subplot(4,1,2,sharex=ux)
         tx  = fig.add_subplot(4,1,3,sharex=ux)
@@ -143,18 +143,20 @@ class preprocess:
         for px in [ux,dx,tx]: 
             px.tick_params(labelbottom=False)
         for pxi, px in enumerate([ux,dx,tx,bx]): 
-            px.set_ylabel(ylabels[pxi])
+            px.set_ylabel(ylabels[pxi],fontweight='bold',fontsize=14)
             px.set_xlim(data['date'].iloc[0],data['date'].iloc[-1])
             px.yaxis.set_ticks_position('both')
 
-        bx.set_xlabel('Start Time ('+data['date'][0].strftime("%d-%b-%y %H:%M:%S")+')',fontsize=12)
+        bx.set_xlabel('Start Time ('+data['date'][0].strftime("%d-%b-%y %H:%M:%S")+')',fontsize=14,
+			fontweight='bold')
         bx.xaxis.set_major_formatter(dates.DateFormatter('%d-%b'))
         bx.xaxis.set_major_locator(plt.MaxNLocator(8))
 
         #add legend to the first plot
-        ux.legend(frameon=False,loc=2)
+        legend_prop={'weight':'bold'}
+        ux.legend(frameon=False,loc=2,fontsize=14,prop=legend_prop)
 
         #save figure to png
-        plt.subplots_adjust(left=0.13, bottom=0.08, right=0.98, top=0.98, wspace=None, hspace=0.1)
+        plt.subplots_adjust(left=0.15, bottom=0.09, right=0.98, top=0.98, wspace=None, hspace=0.1)
         plt.savefig(dir_plot+spacecraft+'_'+data['date'][0].strftime("%d-%b-%y")+'.png',dpi=300)
         plt.close()
