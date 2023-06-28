@@ -26,7 +26,7 @@ RESTART.in
 #COMPONENTMAP
 SC 0 -1 1		CompMap
 IH 0 -1 1		CompMap
-SP 1 30 2		CompMap
+SP 1 300 2		CompMap
 
 #FIELDLINE
 SP                      NameTarget
@@ -250,7 +250,7 @@ T			DoSaveOneTecFile
 
 save frequently for first few hours
 #SAVEPLOT
-6			nPlotFile
+3			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
@@ -274,14 +274,6 @@ z=0 VAR idl		StringPlot
 600.            DtSavePlot
 {MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn         NameVars
 {default}               NamePars
-los ins idl_ascii		StringPlot
--1			DnSavePlot
-600.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
-los ins tec		StringPlot
--1			DnSavePlot
-600.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
 
 #SATELLITE
 3			nSatellite
@@ -444,7 +436,7 @@ RAW			StringLog
 T			DoSaveOneTecFile
 
 #SAVEPLOT
-4			nPlotFile
+3			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
@@ -608,7 +600,7 @@ Begin session: 3
 
 Saving every hour
 #SAVEPLOT
-4			nPlotFile
+3			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.0			DtSavePlot
@@ -635,31 +627,6 @@ z=0 VAR idl		StringPlot
 
 #END_COMP SC -----------------------------------------------------------------
 
-#BEGIN_COMP IH ---------------------------------------------------------------
-
-#SAVEPLOT
-3			nPlotFile
-x=0 VAR idl		StringPlot
--1			DnSavePlot
-3600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
-y=0 VAR idl		StringPlot
--1 			DnSavePlot
-3600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
-z=0 VAR idl		StringPlot
--1 			DnSavePlot
-3600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
-
-#END_COMP IH -----------------------------------------------------------------
-
 couple for few hours every 30 s
 #COUPLE1
 SC			NameSource
@@ -676,34 +643,13 @@ End session: 3
 #RUN ##########################################################################
 Begin session: 4
 
-#BEGIN_COMP SC ---------------------------------------------------------------
+#BEGIN_COMP SC -------------------------------------------------------------
+
+#TIMESTEPLIMIT
 T                       UseDtLimit
 300                     DtLimitDim
 
 #END_COMP SC ---------------------------------------------------------------
-
-#SAVEPLOT
-3			nPlotFile
-x=0 VAR idl		StringPlot
--1			DnSavePlot
-3600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
-y=0 VAR idl		StringPlot
--1 			DnSavePlot
-3600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
-z=0 VAR idl		StringPlot
--1 			DnSavePlot
-3600.			DtSavePlot
--1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
-
-#END_COMP IH -----------------------------------------------------------------
 
 #COUPLE1
 SC			NameSource
