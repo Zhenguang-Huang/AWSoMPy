@@ -274,7 +274,7 @@ check_compare_insitu:
 	-@(cd ${IDLDIR}; 									\
 	for iRunDir in ${FullResRunDirList};  do 						\
 		csh compare_insitu.sh ${DIR} $${iRunDir}/IH $${iRunDir} DEFAULT 		\
-			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV};				\
+			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV} ${MYDIR}/Events;		\
 	done)
 
 check_compare_insitu_py:
@@ -317,7 +317,7 @@ check_compare_insitu_all:
 	-@(cd ${IDLDIR}; 								\
 	for iResDir in ${FullResDirList}; do						\
 		csh compare_insitu.sh ${DIR} $${iResDir} $${iResDir} DEFAULT 		\
-			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV}; 			\
+			${MYDIR}/Results/obsdata ${EVTIME} ${DTEV} ${MYDIR}/Events;	\
 	done)
 
 check_compare_remote_all:
