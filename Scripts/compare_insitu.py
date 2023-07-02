@@ -29,7 +29,7 @@ spacecrafts = ['earth','sta','stb']
 #
 for spacecraft in spacecrafts:
     if(spacecraft == 'earth'): 
-        icme_file = dir_swmf+'/SWMFSOLAR/Events/ICME_list_ACE.csv'
+        icme_file = dir_swmf+'/SWMFSOLAR/Events/ICME_list_EARTH.csv'
     elif('st' in spacecraft ): 
         icme_file = dir_swmf+'/SWMFSOLAR/Events/ICME_list_STEREO.csv'
     else: 
