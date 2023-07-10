@@ -14,4 +14,4 @@ jobs:
           target_repo_url:
             git@github.com:MSTEM-QUDA/SWMFSOLAR.git
           ssh_private_key:                              # <-- use 'secrets' to pass credential information.
-            ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
+            ${{ secrets.MIRROR_SSH_PRIVATE_KEY_SOLAR }}
