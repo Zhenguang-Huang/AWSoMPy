@@ -253,19 +253,19 @@ save frequently for first few hours
 3			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
-600.0			DtSavePlot
+3600.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
-600.			DtSavePlot
+3600.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
-600.			DtSavePlot
+3600.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
@@ -315,7 +315,7 @@ SC/Param/los_EuviB.dat		NameFile
 ascii			TypeFile
 
 #SAVEINITIAL
-T			DoSaveInitial
+F			DoSaveInitial
 
 #PARTICLELINE
 T                       UseParticles
@@ -357,7 +357,7 @@ F			DoAmr
 T			IsStrictAmr
 
 #SAVEINITIAL
-T			DoSaveInitial
+F			DoSaveInitial
 
 #INNERBOUNDARY
 buffergrid		TypeBcBody
@@ -647,7 +647,7 @@ Begin session: 4
 
 #TIMESTEPLIMIT
 T                       UseDtLimit
-300                     DtLimitDim
+120                     DtLimitDim
 
 #END_COMP SC ---------------------------------------------------------------
 

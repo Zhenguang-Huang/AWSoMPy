@@ -142,8 +142,8 @@ compile:
 		fi; 									\
 		if [[ "${MODEL}" == "AWSoMR_SOFIE" ]]; then 				\
 			./Config.pl -v=SP/MFLAMPA;				\
-			./Config.pl -o=SC:u=Awsom,e=AwsomChGL,nG=2,g=6,8,8;             \
-			./Config.pl -o=IH:u=Awsom,e=AwsomChGL,nG=2,g=8,8,8;             \
+			./Config.pl -o=SC:u=Awsom,e=AwsomSA,nG=2,g=6,8,8;             \
+			./Config.pl -o=IH:u=Awsom,e=AwsomSA,nG=2,g=8,8,8;             \
 			./Config.pl -o=SP:g=20000;                                      \
 		fi;									\
 		make -j SWMF PIDL; 							\
