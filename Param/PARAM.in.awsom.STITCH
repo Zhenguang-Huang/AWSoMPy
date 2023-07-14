@@ -15,7 +15,7 @@ Use the user CHROMOBC command to increase the inner boundary number
 density so that the run does not fail for solar maximum
 
 When using the rotated frame, SATELLITE command should include
-a TypeCoordPlot string. REMOVE THE ROTATEHGI/HGR commands if you
+a TypeCoordPlot String. REMOVE THE ROTATEHGI/HGR commands if you
 want to use the true HGI/HGR coordinate systems.
 
 Begin session: 1
