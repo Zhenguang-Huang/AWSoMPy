@@ -1,13 +1,13 @@
 For a SOFIE simulation, configure SWMF with
 
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS,SP/MFLAMPA;
-./Config.pl -o=SC:u=Awsom,e=AwsomChGL,nG=2,g=6,8,8;
-./Config.pl -o=IH:u=Awsom,e=AwsomChGL,nG=2,g=8,8,8;
+./Config.pl -o=SC:u=Awsom,e=AwsomSA,nG=2,g=6,8,8;
+./Config.pl -o=IH:u=Awsom,e=AwsomSA,nG=2,g=8,8,8;
 ./Config.pl -o=SP:g=20000;
 
 Default inner boundary is 1.1 Rs
 Default rMinWaveReflection is 0.0
-Default UseSurfaceWaveRefl is F
+Default UseReynoldsDecomposition is F
 
 ChGL SC setup: 1.1Rs, 3.5Rs
 
@@ -124,10 +124,9 @@ FACTORB0		^
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
-T			UseReflectionParam
 1.5e5			LperpTimesSqrtBSi^
 0.0			rMinWaveReflection^
-F			UseSurfaceWaveRefl^
+F			UseReynoldsDecomposition^
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
@@ -389,10 +388,9 @@ T			UseAccurateReschange
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
-T			UseReflectionParam
 1.5e5			LperpTimesSqrtBSi^
 0.0			rMinWaveReflection^
-F			UseSurfaceWaveRefl^
+F			UseReynoldsDecomposition^
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning

@@ -9,7 +9,7 @@ It restarts from a steady state (with NO ROTATE HGR/HGI) and add a CME
 
 Default Nonconservative is F (conservative scheme in both SC and IH)
 Default Poynting flux is 0.35
-Defauot Rotate is ON
+Default Rotate is ON
 
 For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file
@@ -107,10 +107,9 @@ FACTORB0
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
-T			UseReflectionParam
 1.5e5			LperpTimesSqrtBSi^
 0.0			rMinWaveReflection^
-F			UseSurfaceWaveRefl^
+F			UseReynoldsDecomposition^
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
@@ -431,10 +430,9 @@ T			UseAccurateReschange
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
-T			UseReflectionParam
 1.5e5			LperpTimesSqrtBSi^
 0.0			rMinWaveReflection^
-F			UseSurfaceWaveRefl^
+F			UseReynoldsDecomposition^
 
 #HEATPARTITIONING
 stochasticheating		TypeHeatPartitioning
