@@ -182,13 +182,13 @@ conex0			StringShape
 
 #AMRREGION
 cmebox			NameRegion
-box_gen			StringShape
+box_gen	HGR		StringShape
 1.0			xMin
-160.0			yMin
--20.0			zMin
+160.0			yMin LonCME_min^
+-20.0			zMin LatCME_min^
 1.5			xMax
-200.0			yMax
-20.0			zMax
+200.0			yMax LonCME_max^
+20.0			zMax LatCME_max^
 
 AMRCRITERIARESOLUTION
 3			nRefineCrit
