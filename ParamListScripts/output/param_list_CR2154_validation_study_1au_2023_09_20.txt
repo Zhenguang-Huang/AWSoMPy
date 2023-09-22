@@ -10,10 +10,10 @@
 # T           DoAddFluxRope
 # 30.71           BStrength
 # T           UseCme
-# EEGGL File: ./ParamListScripts/output/restartRunDesignFiles/CR2154/EEGGL_Params_CR2154_20220908.t
-# Background dsign: ./ParamListScrits/output/restartRunDesigniles/CR2154/X_background   CR2154.csv  LonCME_min=     LonCME_max=     LatCME_min=     LatCME_max=     
+# EEGGL File: ./ParamListScripts/output/restartRunDesignFiles/CR2154/EEGGL_Params_CR2154_20220908.txt
+# Background design: ./ParamListScripts/output/restartRunDesigniles/CR2154/X_background_CR2154.csv
 
-selected run IDs = 124
+selected run IDs = 1-24
 
 #START
 ID   params
