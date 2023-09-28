@@ -289,7 +289,7 @@ periodic		TypeBc6   LatMax
 +init +ic		StringSwitch
 
 #SAVEPLOT
-5			nPlotFile
+6			nPlotFile
 x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
@@ -322,6 +322,22 @@ cut ray idl_ascii       StringPlot ! 3D cut plot with raytrace info
 -90.                    Coord3MinCut
 90.                     Coord3MaxCut
 0			DxSavePlot
+slg VAR idl_real4	StringPlot
+80000			DnSavePlot
+-1.0			DtSavePlot
+HGR			TypeCoord
+1.01			rMin
+20.0			rMax
+0.01			dR
+0.0			LonMin
+360.0			LonMax
+1.4			dLon
+-90.0			LatMin
+90.0			LatMax
+1.4			dLat
+rho ux uy uz te pe bx by bz		NameVars
+{default}    	      	NamePars
+
 
 #SATELLITE
 3			nSatellite
