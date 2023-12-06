@@ -253,7 +253,7 @@ T			DoSaveLogfile
 VAR			StringLog
 -1			DnSaveLogfile
 120.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
+rho mx my mz p pmin urmin urmax dt	NameLogVars
 
 #OUTERBOUNDARY
 user			TypeBc1   user for spherical and user_outerbcs
@@ -542,7 +542,7 @@ T			DoSaveLogfile
 VAR			StringLog
 -1			DnSaveLogfile
 120.			DtSaveLogfile
-rho mx my mz p pmin urmin urmax		NameLogVars
+rho mx my mz p pmin urmin urmax dt	NameLogVars
 
 #SAVEPLOT
 4			nPlotFile
