@@ -27,6 +27,9 @@ RESTART.in
 SC 0 -1 1		CompMap
 IH 0 -1 1		CompMap
 
+#CPUTIMEMAX
+47.8 hours		CpuTimeMax
+
 #TIMEACCURATE
 T			IsTimeAccurate
 
@@ -195,12 +198,12 @@ dphi			StringRefine
 dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
-dphi earthcone		StringRefine
-0.35			RefineTo
-0.175			CoarsenFrom
 dphi cmecone		StringRefine
-0.7			RefineTo
-0.35			CoarsenFrom
+0.75			RefineTo
+0.375			CoarsenFrom
+dphi earthcone		StringRefine
+0.375			RefineTo
+0.1875			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -268,9 +271,12 @@ periodic		TypeBc6   LatMax
 #UPDATECHECK
 F			UseUpdateCheck
 
-#TIMESTEPLIMIT
+TIMESTEPLIMIT		^
 T			UseDtLimit
 0.1			DtLimitDim
+
+#PARTLOCALTIMESTEP	^
+1.05			rLocalTimeStep
 
 add the perturb switch for CME
 #USERSWITCH		sc_cme^
@@ -300,7 +306,7 @@ T			DoSaveOneTecFile
 
 save frequently for first few hours
 #SAVEPLOT
-6			nPlotFile
+5			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 600.0			DtSavePlot
@@ -319,19 +325,19 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
-los ins idl_ascii		StringPlot
--1			DnSavePlot
-120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
 los ins tec		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
+soho:c2 soho:c3 sdo:aia							StringsInstrument
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 {MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
 {default}		NamePars
+los ins idl_ascii		StringPlot
+-1			DnSavePlot
+120.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
 
 #SATELLITE
 3			nSatellite
@@ -595,7 +601,7 @@ IH			NameTarget
 
 #STOP
 -1			MaxIter
-3 h			TimeMax
+2 h			TimeMax
 
 End session: 2
 #RUN ##########################################################################
@@ -603,8 +609,50 @@ Begin session: 3
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
+#AMRCRITERIARESOLUTION		cme_grid^
+5			nRefineCrit
+dphi			StringRefine
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
+dphi cmecone -Innershell		StringRefine
+0.75			RefineTo
+0.375			CoarsenFrom
+dphi earthcone -Innershell		StringRefine
+0.375			RefineTo
+0.1875			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.5			MaxResolution
+
+#DOAMR
+T			DoAmr
+-1			DnAmr
+20 min			DtAmr
+T  			IsStrictAmr
+
+#END_COMP SC -----------------------------------------------------------------
+
+#STOP
+-1			MaxIter
+4 h			TimeMax
+
+END
+
+End session: 3
+#RUN ##########################################################################
+Begin session: 4
+
+#BEGIN_COMP SC ---------------------------------------------------------------
+
+#DOAMR
+F                       DoAmr
+
 #SAVEPLOT
-6			nPlotFile
+5			nPlotFile
 x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.0			DtSavePlot
@@ -623,19 +671,19 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
 {default}		NamePars
-los ins idl_ascii		StringPlot
--1			DnSavePlot
-120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
 los ins tec		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
+soho:c2 soho:c3							StringsInstrument
 3d VAR tcp              StringPlot
 -1                      DnSavePlot
 3600.                    DtSavePlot
 {MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
 {default}               NamePars
+los ins idl_ascii		StringPlot
+-1			DnSavePlot
+120.0			DtSavePlot
+soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
 
 #END_COMP SC -----------------------------------------------------------------
 
@@ -643,9 +691,9 @@ soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
 -1			MaxIter
 6 h			TimeMax
 
-End session: 3
+End session: 4
 #RUN #########################################################################
-Begin session: 4
+Begin session: 5
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
@@ -711,9 +759,9 @@ z=0 VAR idl		StringPlot
 -1			MaxIter
 12 h			TimeMax
 
-End Session: 4
+End Session: 5
 #RUN #################################################################################
-Begin Session: 5
+Begin Session: 6
 
 #COUPLE1
 SC			NameSource
@@ -773,5 +821,5 @@ hgi                     TypeCoordPlot
 -1			MaxIter
 4 d			TimeMax
 
-End session: 5
+End session: 6
 #END ##########################################################################
