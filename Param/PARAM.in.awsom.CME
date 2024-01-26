@@ -167,13 +167,13 @@ shell0			StringShape
 
 #AMRREGION
 earthcone		NameRegion
-conex0			StringShape
+conex0 GSE		StringShape
 -24.			Height
 5.			Radius
 
 #AMRREGION
 cmecone			NameRegion
-conex0			StringShape
+conex0 GSE		StringShape
 -24.			Height
 9.			Radius
 
@@ -209,14 +209,14 @@ dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
 dphi cmecone		StringRefine
-0.75			RefineTo
-0.375			CoarsenFrom
+1.5/2			RefineTo
+0.75/2			CoarsenFrom
 dphi earthcone		StringRefine
-0.375			RefineTo
-0.1875			CoarsenFrom
+1.5/4			RefineTo
+0.75/4			CoarsenFrom
 dphi cmebox		StringRefine
-0.375			RefineTo
-0.1875			CoarsenFrom
+1.5/4			RefineTo
+0.75/4			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -455,13 +455,13 @@ shell0			StringShape
 
 #AMRREGION
 cmecone			NameRegion
-conex0                  StringShape
+conex0 GSE              StringShape
 -215.                   Height
 20                      Radius
 
 #AMRREGION
 earthcone		NameRegion
-conex0                  StringShape
+conex0 GSE              StringShape
 -215.                   Height
 80                      Radius
 
@@ -631,11 +631,11 @@ dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
 dphi cmecone -Innershell		StringRefine
-0.75			RefineTo
-0.375			CoarsenFrom
+1.5/2			RefineTo
+0.75/2			CoarsenFrom
 dphi earthcone -Innershell		StringRefine
-0.375			RefineTo
-0.1875			CoarsenFrom
+1.5/4			RefineTo
+0.75/4			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
