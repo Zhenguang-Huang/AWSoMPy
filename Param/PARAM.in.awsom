@@ -211,15 +211,15 @@ dphi			StringRefine
 dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
-dphi earthcone		StringRefine
-0.35			RefineTo
-0.175			CoarsenFrom
 dphi cmecone		StringRefine
-0.7			RefineTo
-0.35			CoarsenFrom
+0.75			RefineTo
+0.375			CoarsenFrom
+dphi earthcone		StringRefine
+0.375			RefineTo
+0.1875			CoarsenFrom
 dphi cmebox		StringRefine
-0.7			RefineTo
-0.35			CoarsenFrom
+0.375			RefineTo
+0.1875			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -231,7 +231,7 @@ initial			StringShape
 
 #DOAMR
 T			DoAmr
-30001			DnAmr
+25001			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
