@@ -275,7 +275,7 @@ TIMESTEPLIMIT		^
 T			UseDtLimit
 0.1			DtLimitDim
 
-#PARTLOCALTIMESTEP	^
+#PARTLOCALTIMESTEP
 1.05			rLocalTimeStep
 
 add the perturb switch for CME
@@ -633,6 +633,9 @@ T			DoAmr
 -1			DnAmr
 20 min			DtAmr
 T  			IsStrictAmr
+
+#PARTLOCALTIMESTEP
+1.1			rLocalTimeStep
 
 #END_COMP SC -----------------------------------------------------------------
 
