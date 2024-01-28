@@ -338,19 +338,15 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq		NameVars
 {default}		NamePars
-los ins tec		StringPlot
+los ins idl_ascii		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
-soho:c2 soho:c3 sdo:aia							StringsInstrument
+soho:c2 soho:c3 sdo:aia		StringsInstrument
 3d VAR tcp		StringPlot
 -1			DnSavePlot
 600.			DtSavePlot
 {MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
 {default}		NamePars
-los ins idl_ascii		StringPlot
--1			DnSavePlot
-120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2 sdo:aia sta:euvi stb:euvi		StringsInstrument
 
 #SATELLITE
 3			nSatellite
@@ -687,19 +683,15 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi qrad qheat qebyq qparbyq qperpbyq	NameVars
 {default}		NamePars
-los ins tec		StringPlot
+los ins idl_ascii		StringPlot
 -1			DnSavePlot
 120.0			DtSavePlot
-soho:c2 soho:c3							StringsInstrument
+soho:c2 soho:c3		StringsInstrument
 3d VAR tcp              StringPlot
 -1                      DnSavePlot
 3600.                    DtSavePlot
 {MHD} b1x b1y b1z te ti qrad qheat qebyq qparbyq qperpbyq divu	NameVars
 {default}               NamePars
-los ins idl_ascii		StringPlot
--1			DnSavePlot
-120.0			DtSavePlot
-soho:c2 soho:c3 sta:cor1 sta:cor2 stb:cor1 stb:cor2		StringsInstrument
 
 #END_COMP SC -----------------------------------------------------------------
 
