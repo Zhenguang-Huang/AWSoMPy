@@ -11,37 +11,10 @@
 # 19.25           BStrength
 # T           UseCme
 # EEGGL File: ./output/restartRunDesignFiles/CR2161/EEGGLParams_CR2161_updated_2022_10_31.txt
+# Backgrounds: Runs 4, 12, 12, 4, 4, 12, 4, 4, 4, 12 with realizations: 4, 10, 4, 9, 10, 5, 12, 5, 7, 7 from SWMFSOLAR/ParamListScripts/output/param_list_CR2161_AWSoM2T_backgrounds.txt
 
-selected run IDs = 1-30
+selected run IDs = 4,12
 #START
 ID        params
-1	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.5987 	 PoyntingFluxPerBSi=5.476869e+05	 LperpTimesSqrtBSi=2.590775e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-2	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.6876 	 PoyntingFluxPerBSi=5.142482e+05	 LperpTimesSqrtBSi=1.702405e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-3	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.7334 	 PoyntingFluxPerBSi=4.371697e+05	 LperpTimesSqrtBSi=2.424774e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-4	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.8010 	 PoyntingFluxPerBSi=3.788337e+05	 LperpTimesSqrtBSi=1.478565e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-5	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.9431 	 PoyntingFluxPerBSi=4.910825e+05	 LperpTimesSqrtBSi=2.051508e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-6	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.0077 	 PoyntingFluxPerBSi=3.497357e+05	 LperpTimesSqrtBSi=2.300849e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-7	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.0404 	 PoyntingFluxPerBSi=6.687720e+05	 LperpTimesSqrtBSi=2.781630e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-8	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.0921 	 PoyntingFluxPerBSi=4.636506e+05	 LperpTimesSqrtBSi=2.997300e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-9	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.2009 	 PoyntingFluxPerBSi=3.372154e+05	 LperpTimesSqrtBSi=1.136827e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-10	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.2292 	 PoyntingFluxPerBSi=5.837763e+05	 LperpTimesSqrtBSi=1.609122e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-11	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.2732 	 PoyntingFluxPerBSi=6.864116e+05	 LperpTimesSqrtBSi=2.188020e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-12	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.3016 	 PoyntingFluxPerBSi=3.045144e+05	 LperpTimesSqrtBSi=2.830423e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-13	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.3775 	 PoyntingFluxPerBSi=4.521527e+05	 LperpTimesSqrtBSi=1.830306e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-14	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.4126 	 PoyntingFluxPerBSi=5.584638e+05	 LperpTimesSqrtBSi=1.025922e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-15	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.4688 	 PoyntingFluxPerBSi=3.967346e+05	 LperpTimesSqrtBSi=2.697467e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-16	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.4971 	 PoyntingFluxPerBSi=6.439067e+05	 LperpTimesSqrtBSi=1.935914e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-17	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.5933 	 PoyntingFluxPerBSi=5.996813e+05	 LperpTimesSqrtBSi=2.449056e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-18	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.6432 	 PoyntingFluxPerBSi=5.293554e+05	 LperpTimesSqrtBSi=1.441298e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-19	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.7708 	 PoyntingFluxPerBSi=4.073733e+05	 LperpTimesSqrtBSi=1.257499e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-20	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.8440 	 PoyntingFluxPerBSi=3.008000e+05	 LperpTimesSqrtBSi=1.570530e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-21	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.9713 	 PoyntingFluxPerBSi=3.246133e+05	 LperpTimesSqrtBSi=2.527731e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-22	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.0772 	 PoyntingFluxPerBSi=5.690884e+05	 LperpTimesSqrtBSi=2.850666e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-23	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.1050 	 PoyntingFluxPerBSi=4.283478e+05	 LperpTimesSqrtBSi=2.114324e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-24	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.2160 	 PoyntingFluxPerBSi=3.895754e+05	 LperpTimesSqrtBSi=1.670364e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-25	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.3297 	 PoyntingFluxPerBSi=4.469664e+05	 LperpTimesSqrtBSi=2.763226e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-26	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.3942 	 PoyntingFluxPerBSi=3.181091e+05	 LperpTimesSqrtBSi=1.005331e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-27	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.4414 	 PoyntingFluxPerBSi=3.437568e+05	 LperpTimesSqrtBSi=2.950657e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-28	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.4626 	 PoyntingFluxPerBSi=4.757240e+05	 LperpTimesSqrtBSi=1.535563e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-29	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.5409 	 PoyntingFluxPerBSi=3.749873e+05	 LperpTimesSqrtBSi=2.394629e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4]
-30	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=2.6751 	 PoyntingFluxPerBSi=3.316973e+05	 LperpTimesSqrtBSi=1.783741e+05     LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5		realization=[4]
+4	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=0.8010 	 PoyntingFluxPerBSi=3.788337e+05	 LperpTimesSqrtBSi=1.478565e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4,5,7,9,10,12]
+12	 map=ADAPT_GONG_CR2161.fits 	 model=AWSoM2T 	 FactorB0=1.3016 	 PoyntingFluxPerBSi=3.045144e+05	 LperpTimesSqrtBSi=2.830423e+05 	LonCME_min=175.5         LonCME_max=215.5         LatCME_min=-39.5         LatCME_max=0.5  	realization=[4,5,7,10]
