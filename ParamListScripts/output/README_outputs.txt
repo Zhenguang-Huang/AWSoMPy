@@ -1,0 +1,4 @@
+Filename                                                        Type                     Description
+param_list_CR*_backgrounds_validation_study_2024_02_05.txt | Background for CME | Redoing backgrounds for the validation runs of three events (CR2154, CR2161 and CR2192) which will be redone with the latest version of the code - timestep fixes etc. |
+
+param_list_CR*_validation_study_1au_2023_09_20.txt         | CME Runs           | 24 Validation CME Runs each for the DA manuscript of three events - CR2154, CR2161, CR2192. Will be obsolete when fresh runs are performed.                            |
