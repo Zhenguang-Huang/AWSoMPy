@@ -182,7 +182,7 @@ conex0 GSE		StringShape
 
 #AMRREGION
 cmebox			NameRegion
-box_gen	HGR		StringShape
+box_gen HGR		StringShape
 1.0			xMin
 160.0			yMin LonCME_min^
 -20.0			zMin LatCME_min^
