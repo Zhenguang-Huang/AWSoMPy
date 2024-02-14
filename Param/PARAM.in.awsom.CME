@@ -87,7 +87,7 @@ SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
 #HARMONICSFILE		^
-SC/harmonics_adapt.dat		NameHarmonicsFile
+SC/harmonics_adapt.dat	NameHarmonicsFile
 
 #HARMONICSGRID		^
 1.0			rMagnetogram
@@ -183,14 +183,14 @@ conex0 GSE		StringShape
 9.			Radius
 
 #AMRREGION
-cmebox                  NameRegion
-box_gen HGR             StringShape
-1.0                     xMin
-72.5                    yMin LonCME_min^
--0.5                    zMin LatCME_min^
-1.5                     xMax
-102.5                   yMax LonCME_max^
-29.5                    zMax LatCME_max^
+cmebox			NameRegion
+box_gen HGR		StringShape
+1.0			xMin
+160.0			yMin LonCME_min^
+-20.0			zMin LatCME_min^
+1.5			xMax
+200.0			yMax LonCME_max^
+20.0			zMax LatCME_max^
 
 AMRCRITERIARESOLUTION		regular_grid^
 3			nRefineCrit
@@ -456,38 +456,38 @@ shell0			StringShape
 
 #AMRREGION
 earthcone		NameRegion
-conex0 GSE              StringShape
--215.                   Height
-20                      Radius
+conex0 GSE		StringShape
+-215.  			Height
+20.			Radius
 
 #AMRREGION
 cmecone			NameRegion
-conex0 GSE              StringShape
--215.                   Height
-80                      Radius
+conex0 GSE		StringShape
+-215.  			Height
+80.			Radius
 
 #AMRCRITERIARESOLUTION
-5                       nRefineCrit
-dx                      StringRefine
-8.                      RefineTo
-4.                      CoarsenFrom
-dx +Outershell          StringRefine
-0.5                     RefineTo
-0.25                    CoarsenFrom
+5			nRefineCrit
+dx			StringRefine
+8.			RefineTo
+4.			CoarsenFrom
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
 dx +earthcone		StringRefine
 0.35			RefineTo
-0.175                  	CoarsenFrom
+0.175			CoarsenFrom
 dx +cmecone		StringRefine
-0.7                     RefineTo
-0.35                   	CoarsenFrom
-currentsheet            StringRefine
-0.5                     CoarsenLimit
-0.5                     RefineLimit
+0.7			RefineTo
+0.35			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
 1.0			MaxResolution
 
 GRIDRESOLUTION
-0.5                    Resolution
-initial                 StringShape
+2.0			Resolution
+initial			StringShape
 
 #SAVEINITIAL
 F			DoSaveInitial
@@ -497,12 +497,12 @@ buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
-240			nPhiBuff
-120			nThetaBuff
+240			nLonBuff
+120			nLatBuff
 18.0			rBuffMin
 20.0			rBuffMax
-0.0			PhiBuffMin
-360.			PhiBuffMax
+0.0			LonBuffMin
+360.			LonBuffMax
 -90.0			LatBuffMin
 90.0			LatBuffMax
 
