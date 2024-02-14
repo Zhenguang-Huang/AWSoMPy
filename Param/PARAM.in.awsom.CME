@@ -28,12 +28,12 @@ SC 0 -1 1		CompMap
 IH 0 -1 1		CompMap
 
 #CPUTIMEMAX
-47.8 hours		CpuTimeMax
+47 hours		CpuTimeMax
 
 #CHECKSTOP
 T			DoCheckStop
 -1			DnCheckStop
-30.0			DtCheckStop
+10 mins			DtCheckStop
 
 #TIMEACCURATE
 T			IsTimeAccurate
