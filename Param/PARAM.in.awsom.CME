@@ -450,13 +450,13 @@ shell0			StringShape
 21.0			Radius
 
 #AMRREGION
-cmecone			NameRegion
+earthcone		NameRegion
 conex0 GSE              StringShape
 -215.                   Height
 20                      Radius
 
 #AMRREGION
-earthcone		NameRegion
+cmecone			NameRegion
 conex0 GSE              StringShape
 -215.                   Height
 80                      Radius
@@ -469,10 +469,10 @@ dx                      StringRefine
 dx +Outershell          StringRefine
 0.5                     RefineTo
 0.25                    CoarsenFrom
-dx +cmecone		StringRefine
+dx +earthcone		StringRefine
 0.35			RefineTo
 0.175                  	CoarsenFrom
-dx +earthcone		StringRefine
+dx +cmecone		StringRefine
 0.7                     RefineTo
 0.35                   	CoarsenFrom
 currentsheet            StringRefine
