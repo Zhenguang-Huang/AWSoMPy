@@ -18,7 +18,7 @@ selected run IDs = 31-54
 
 #START
 ID   params
-23	 map=ADAPT_GONG_CR2192.fits 	 model=AWSoM2T 	 FactorB0=1.8588 	 PoyntingFluxPerBSi=5.263714e+05	 LperpTimesSqrtBSi=7.335230e+04 	  LonCME_min=91.5	LonCME_max=131.5	LatCME_min=-26.5	LatCME_max=13.5		realization=[5]
+23	 map=ADAPT_GONG_CR2192.fits 	 model=AWSoM2T 	 FactorB0=1.8588 	 PoyntingFluxPerBSi=5.263714e+05	 LperpTimesSqrtBSi=7.335230e+04 	  LonCME_min=91.5	LonCME_max=131.5	LatCME_min=-26.5	LatCME_max=13.5		realization=[5]                time=2017-7-14T1:25:00
 26	 map=ADAPT_GONG_CR2192.fits 	 model=AWSoM2T 	 FactorB0=2.0570 	 PoyntingFluxPerBSi=3.288168e+05	 LperpTimesSqrtBSi=5.785179e+04 	  LonCME_min=91.5	LonCME_max=131.5	LatCME_min=-26.5	LatCME_max=13.5		realization=[4,5,9]
 27	 map=ADAPT_GONG_CR2192.fits 	 model=AWSoM2T 	 FactorB0=2.1114 	 PoyntingFluxPerBSi=5.909306e+05	 LperpTimesSqrtBSi=1.134839e+05 	  LonCME_min=91.5	LonCME_max=131.5	LatCME_min=-26.5	LatCME_max=13.5		realization=[5]
 30	 map=ADAPT_GONG_CR2192.fits 	 model=AWSoM2T 	 FactorB0=2.3541 	 PoyntingFluxPerBSi=3.008000e+05	 LperpTimesSqrtBSi=9.817332e+04		  LonCME_min=91.5	LonCME_max=131.5	LatCME_min=-26.5	LatCME_max=13.5		realization=[1,4,5,9,11]
