@@ -338,7 +338,6 @@ HGR			TypeCoord
 rho ux uy uz te pe bx by bz		NameVars
 {default}    	      	NamePars
 
-
 #SATELLITE
 3			nSatellite
 MHD			StringSatellite

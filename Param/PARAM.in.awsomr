@@ -177,15 +177,25 @@ shell0			StringShape
 
 #AMRREGION
 earthcone		NameRegion
-conex0			StringShape
+conex0 GSE		StringShape
 -24.			Height
 5.			Radius
 
 #AMRREGION
 cmecone			NameRegion
-conex0			StringShape
+conex0 GSE		StringShape
 -24.			Height
 9.			Radius
+
+#AMRREGION
+cmebox			NameRegion
+box_gen HGR		StringShape
+1.0			xMin
+160.0			yMin LonCME_min^
+-20.0			zMin LatCME_min^
+1.5			xMax
+200.0			yMax LonCME_max^
+20.0			zMax LatCME_max^
 
 AMRCRITERIARESOLUTION
 3			nRefineCrit
@@ -201,19 +211,22 @@ currentsheet		StringRefine
 1.5			MaxResolution
 
 #AMRCRITERIARESOLUTION
-5			nRefineCrit
+6			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
 1.5			CoarsenFrom
 dphi Innershell		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
-dphi earthcone		StringRefine
-0.35			RefineTo
-0.175			CoarsenFrom
 dphi cmecone		StringRefine
-0.7			RefineTo
-0.35			CoarsenFrom
+1.5/2			RefineTo
+0.75/2			CoarsenFrom
+dphi earthcone		StringRefine
+1.5/4			RefineTo
+0.75/4			CoarsenFrom
+dphi cmebox		StringRefine
+1.5/4			RefineTo
+0.75/4			CoarsenFrom
 currentsheet		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -464,13 +477,13 @@ shell0			StringShape
 
 #AMRREGION
 earthcone		NameRegion
-conex0			StringShape
+conex0 GSE		StringShape
 -215.			Height
 20.			Radius
 
 #AMRREGION
 cmecone			NameRegion
-conex0			StringShape
+conex0 GSE		StringShape
 -215.			Height
 80.			Radius
 
