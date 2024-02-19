@@ -253,8 +253,9 @@ check_postproc:
 						${FullResDir}/$${RunDir: -6:5}/; 		\
 				fi;								\
 				if [[ -f SC/harmonics_adapt.dat ]]; then			\
-					mv SC/harmonics_adapt.dat SC/HARMONICS.in harmonics_bxyz.out 	\
+					cp SC/harmonics_adapt.dat SC/HARMONICS.in 	 	\
 						${FullResDir}/$${RunDir: -6:5}/ ;		\
+					mv harmonics_bxyz.out ${FullResDir}/$${RunDir: -6:5}/ ; \
 				fi;								\
 			else									\
 				echo "$${RunDir} crashed" >> ${MYDIR}/error_postproc.log;	\
