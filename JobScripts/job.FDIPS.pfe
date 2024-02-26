@@ -39,7 +39,7 @@ mpiexec ./FDIPS.exe > FDIPS.log
 cd $PBS_O_WORKDIR
 
 # running ./PostProc.pl in the background
-./PostProc.pl -r=180 -n=10 >& PostProc.log &
+./PostProc.pl -r=180 -n=50 >& PostProc.log &
 
 # Run SWMF
 mpiexec ./SWMF.exe > runlog_`date +%y%m%d%H%M`

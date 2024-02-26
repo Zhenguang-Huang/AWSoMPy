@@ -27,7 +27,7 @@ cd ../
 # Use ibrun instead of mpirun or mpiexec
 
 # The first node running ./PostProc.pl
-ibrun -n 1 ./PostProc.pl -r=180 -n=10 >& PostProc.log &
+ibrun -n 1 ./PostProc.pl -r=180 -n=56 >& PostProc.log &
 
 # the remianing nodes running SWMF, remember to change the number of processors if -N is changed
 ibrun -o 56 -n $(( (SLURM_NNODES - 1 ) *56 )) ./SWMF.exe  > runlog_`date +%y%m%d%H%M` 
