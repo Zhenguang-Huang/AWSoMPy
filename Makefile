@@ -45,6 +45,9 @@ help:
 	@echo "Check the python version with python --version. Should be 3.7 or above."
 	@echo ""
 	@echo "On Pleiades, add 'module load python3/3.7.0' in the .cashrc or .bashrc file."
+	@echo "On Derecho, python packages are avail. via conda env, intel compiler is reloaded"
+	@echo "This is temp. fix to load the correct compiler while using Python, UCAR may fix it"
+	@echo "module load conda; conda activate npl, module load intel"
 	@echo "On Frontera, the default python is python2 and it is a link in /bin. "
 	@echo "Make a bin folder in your home folder and create a link to python3.7:"
 	@echo "  mkdir ~/bin; cd ~/bin/; ln -s `which python3.7` ~/bin/python"
@@ -228,8 +231,12 @@ run:
 			sbatch job.long;							\
 		fi;										\
 		if [[ "${MACHINE}" == "pfe" ]];                         			\
-			then ./qsub.pfe.pbspl.pl job.long ${JOBNAME}$${iRealization};      		\
+			then ./qsub.pfe.pbspl.pl job.long ${JOBNAME}$${iRealization};      	\
 		fi; 										\
+		if [[ "${MACHINE}" == "derecho" ]];						\
+			then perl -i -p -e "s/amap01/${JOBNAME}$${iRealization}/g" job.long;  	\
+			qsub job.long;								\
+		fi;										\
 	done
 
 #########################################################################################
