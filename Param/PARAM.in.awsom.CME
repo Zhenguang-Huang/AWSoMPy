@@ -564,6 +564,9 @@ VAR			StringLog
 120.			DtSaveLogfile
 rho mx my mz p pmin urmin urmax dt	NameLogVars
 
+#SAVETECPLOT
+T			DoSaveOneTecFile
+
 #SAVEPLOT
 4			nPlotFile
 x=0 VAR idl		StringPlot
