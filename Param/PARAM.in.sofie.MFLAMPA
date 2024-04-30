@@ -522,12 +522,12 @@ GRID
 45                      LatMax
 
 #INJECTION
-1.0						Efficiency
 5.0						SpectralIndex
+1.0						Efficiency
 
 #USEFIXEDMFPUPSTREAM
 T                                   UseFixedMFPUpstream
-0.1                                 MeanFreePath0 [AU]
+0.3                                 MeanFreePath0 [AU]
 
 #SAVEPLOT
 5
