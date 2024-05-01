@@ -319,7 +319,7 @@ GL			TypeCme
 0.95			ApexHeight^
 
 -------------------------------------------------------------------------------
-#SAVETECPLOT
+SAVETECPLOT
 T			DoSaveOneTecFile
 
 save frequently for first few hours
@@ -564,7 +564,7 @@ VAR			StringLog
 120.			DtSaveLogfile
 rho mx my mz p pmin urmin urmax dt	NameLogVars
 
-#SAVETECPLOT
+SAVETECPLOT
 T			DoSaveOneTecFile
 
 #SAVEPLOT
