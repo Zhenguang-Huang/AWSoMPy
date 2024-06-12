@@ -504,7 +504,7 @@ T			UseDateTime
 T			DoRun
 
 #TRACESHOCK
-F			DoTraceShock
+T			DoTraceShock
 
 #DIFFUSION
 T			UseDiffusion
@@ -535,18 +535,18 @@ T			UseFixedMFPUpstream
 0.3			MeanFreePath0 [AU]
 
 #SAVEPLOT
-6			nFileOut
-mh2d flux spread ascii	StringPlot
-25.0			Radius
-mh2d flux spread ascii	StringPlot
-50.0			Radius
-mh2d flux spread ascii	StringPlot
-100.0			Radius
-mh2d flux spread ascii	StringPlot
-215.0			Radius
-mhtime flux ascii	StringPlot
-215.0			Radius
-mh1d flux tec		StringPlot
+6				nFileOut
+mh2d flux spread ascii		StringPlot
+25.0				Radius
+mh2d flux spread ascii		StringPlot
+50.0				Radius
+mh2d flux spread ascii		StringPlot
+100.0				Radius
+mh2d flux spread ascii		StringPlot
+215.0				Radius
+mhtime flux ascii		StringPlot
+215.0				Radius
+mh1d flux tec			StringPlot
 
 #END_COMP SP   ----------------------------------------------------------------
 
