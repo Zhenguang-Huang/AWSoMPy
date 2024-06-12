@@ -497,51 +497,56 @@ F                       UseBUAlignment
 INCLUDE
 SP/restartIN/restart.H
 
-#DORUN
-T
+#USEDATETIME
+T			UseDateTime
 
-#TEST
-T                       DoTraceShock
-T                       UseDiffusion
+#DORUN
+T			DoRun
+
+#TRACESHOCK
+F			DoTraceShock
+
+#DIFFUSION
+T			UseDiffusion
 
 #GRIDNODE
-18                      nLat
-36                      nLon
+18			nLat
+36			nLon
 
 GRID
-1.15                    RMin
-19.7                    RBufferMin
-21                      RBufferMax
-220                     RMax
+1.15			RMin
+19.7			RBufferMin
+21			RBufferMax
+220			RMax
 
 #ORIGIN
-2.5                     ROrigin
-0                       LonMin
--45                     LatMin
-360                     LonMax
-45                      LatMax
+2.5			ROrigin
+0			LonMin
+-45			LatMin
+360			LonMax
+45			LatMax
 
 #INJECTION
-5.0						SpectralIndex
-1.0						Efficiency
+5.0			SpectralIndex
+1.0			Efficiency
 
 #USEFIXEDMFPUPSTREAM
-T                                   UseFixedMFPUpstream
-0.3                                 MeanFreePath0 [AU]
+T			UseFixedMFPUpstream
+0.3			MeanFreePath0 [AU]
 
 #SAVEPLOT
-5
-mh2d flux spread ascii
-25.0
-mh2d flux spread ascii
-50.0
-mh2d flux spread ascii
-100.0
-mh2d flux spread ascii
-215.0
-mhtime flux ascii
-215.0
-mh1d flux tec
+6			nFileOut
+mh2d flux spread ascii	StringPlot
+25.0			Radius
+mh2d flux spread ascii	StringPlot
+50.0			Radius
+mh2d flux spread ascii	StringPlot
+100.0			Radius
+mh2d flux spread ascii	StringPlot
+215.0			Radius
+mhtime flux ascii	StringPlot
+215.0			Radius
+mh1d flux tec		StringPlot
 
 #END_COMP SP   ----------------------------------------------------------------
 
