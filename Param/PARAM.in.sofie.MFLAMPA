@@ -531,8 +531,8 @@ GRID
 1.0			Efficiency
 
 #USEFIXEDMFPUPSTREAM
-T			UseFixedMFPUpstream
-0.3			MeanFreePath0 [AU]
+T			UseFixedMeanFreePathUpstream
+0.3			MeanFreePath0InAu [AU]
 
 #SAVEPLOT
 6				nFileOut
