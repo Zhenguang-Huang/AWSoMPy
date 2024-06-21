@@ -4,7 +4,7 @@
 #SBATCH -o amap01.o%j         # Name of stdout output file
 #SBATCH -e amap01.e%j         # Name of stderr error file
 #SBATCH -p normal             # Queue (partition) name: normal or development
-#SBATCH -N 20                 # Total # of nodes
+#SBATCH -N 30                 # Total # of nodes
 #SBATCH --tasks-per-node 56   # Number of MPI tasks per node. 
 #SBATCH -t 8:00:00            # Run time (hh:mm:ss)
 #SBATCH --mail-type=all       # Send email at begin and end of job
