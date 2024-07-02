@@ -4,7 +4,8 @@
 # Top background selected from above list for restart: run084_AWSoM2T
 
 selected run IDs = 1-20
-# START
+
+#START
 ID        params
 1	 restartdir=run084_AWSoM2T     param=PARAM.in.awsom.CME       LongitudeCme=31.5     LatitudeCme=12.5      BStrength=15.12    ApexHeight=0.64    Radius=0.44    iHelicity=-1     realization=[10]    OrientationCme=181.36	 LonCME_min=11.5	LonCME_max=51.5		LatCME_min=-7.5		LatCME_max=32.5
 2	 restartdir=run084_AWSoM2T     param=PARAM.in.awsom.CME       LongitudeCme=31.5     LatitudeCme=12.5      BStrength=17.12    ApexHeight=0.64    Radius=0.44    iHelicity=-1     realization=[10]    OrientationCme=181.36	 LonCME_min=11.5	LonCME_max=51.5		LatCME_min=-7.5		LatCME_max=32.5
