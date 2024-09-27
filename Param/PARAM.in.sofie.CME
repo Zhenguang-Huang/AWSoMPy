@@ -30,12 +30,12 @@ IH 0 -1 1		CompMap
 T			IsTimeAccurate
 
 STARTTIME		^
-2013			iYear
-4			iMonth
-11			iDay
-7			iHour
-24			iMinute
-06			iSecond
+2011			iYear
+03			iMonth
+07			iDay
+08			iHour
+00			iMinute
+00			iSecond
 0.0			FracSecond
 
 #SAVERESTART
@@ -49,13 +49,16 @@ init_axes		StringTest
 #BEGIN_COMP SC ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-120000			MaxBlock
+200000			MaxBlock
 
 #INCLUDE
 SC/restartIN/restart.H
 
 #RESTARTOUTFILE
 one			StringRestartOutFile
+
+#COORDSYSTEM
+HGR			TypeCoordSystem
 
 #PLASMA
 1.0			FluidMass [amu]
@@ -78,10 +81,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#HARMONICSFILE		
+#HARMONICSFILE		^
 SC/harmonics_adapt.dat	NameHarmonicsFile
 
-#HARMONICSGRID		
+#HARMONICSGRID		^
 1.0			rMagnetogram
 2.5			rSourceSurface^
 F			IsLogRadius^
@@ -108,7 +111,7 @@ FACTORB0		^
 1.0			FactorB0^
 
 #POYNTINGFLUX
-0.35e6 			PoyntingFluxPerBSi^ [J/m^2/s/T]
+1.0e6			PoyntingFluxPerBSi^ [J/m^2/s/T]
 
 #CORONALHEATING
 turbulentcascade		TypeCoronalHeating
@@ -146,10 +149,45 @@ shell0			StringShape
 1.1			RadiusInner rMin_AWSoMR^
 1.7			Radius
 
+#AMRREGION
+earthcone		NameRegion
+conex0 earth			StringShape
+-24.			Height
+5.			Radius
+
+#AMRREGION
+cgl			NameRegion
+box			StringShape
+-5.0			xMinBox
+-5.0			yMinBox
+-5.0			zMinBox
+5.0			xMaxBox
+5.0			yMaxBox
+5.0			zMaxBox
+
+#AMRCRITERIARESOLUTION
+5			nRefineCrit
+dphi			StringRefine
+3.0			RefineTo
+1.5			CoarsenFrom
+dphi Innershell		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
+dphi earthcone		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
+dphi cgl		StringRefine
+1.5  			RefineTo
+0.75			CoarsenFrom
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.5			MaxResolution
+
 #DOAMR
-F			DoAmr
+T			DoAmr
 -1			DnAmr
-30 s			DtAmr
+8 h			DtAmr
 T			IsStrictAmr
 
 #TIMESTEPPING
@@ -349,7 +387,7 @@ Begin session: 3
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
-#USERSWITCH
+USERSWITCH
 +init +ic	StringSwitch
 
 Saving every hour
@@ -404,10 +442,51 @@ HGI			TypeCoordSystem
 1.0			IonCharge [e]
 1.0			ElectronTemperatureRatio
 
+#AMRREGION
+OuterShell		NameRegion
+shell0			StringShape
+18.0			RadiusInner
+21.0			Radius
+
+#AMRREGION
+IHShell			NameRegion
+shell0			StringShape
+21.0			RadiusInner
+250.0			Radius
+
+#AMRREGION
+earthcone		NameRegion
+conex0 earth			StringShape
+-250.			Height
+50.			Radius
+
+#AMRCRITERIARESOLUTION
+6                       nRefineCrit
+dx			StringRefine
+32.			RefineTo
+16.			CoarsenFrom
+dx +IHshell		StringRefine
+8  			RefineTo
+4			CoarsenFrom
+dx +Outershell		StringRefine
+0.5			RefineTo
+0.25			CoarsenFrom
+dx +earthcone		StringRefine
+1.5			RefineTo
+0.75			CoarsenFrom
+currentsheet +IHshell		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+1.0			MaxResolution
+currentsheet		StringRefine
+0.5			CoarsenLimit
+0.5			RefineLimit
+2.0			MaxResolution
+
 #DOAMR
-F			DoAmr
-1001			DnAmr
--1.0			DtAmr
+T			DoAmr
+-1			DnAmr
+8 h			DtAmr
 T			IsStrictAmr
 
 #SAVEINITIAL
@@ -418,12 +497,12 @@ buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
-240			nPhiBuff
-120			nThetaBuff
-18.0			rBuffMin
-20.0			rBuffMax
-0.0			PhiBuffMin
-360.			PhiBuffMax
+240			nLonBuff
+120			nLatBuff
+18.0			RBuffMin
+20.0			RBuffMax
+0.0			LonBuffMin
+360.			LonBuffMax
 -90.0			LatBuffMin
 90.0			LatBuffMax
 
@@ -479,6 +558,11 @@ F			UseDivbDiffusion
 F			UseProjection
 F			UseConstrainB
 
+#ALIGNBANDU
+F			UseChGL
+0.0			RSourceChGL
+0.0			RMinChGL
+
 #SAVELOGFILE
 T			DoSaveLogfile
 RAW			StringLog
@@ -516,23 +600,21 @@ z=0 VAR idl		StringPlot
 
 #SATELLITE
 3			nSatellite
-MHD 			StringSatellite
+VAR HGC			StringSatellite
 -1			DnOutput
-3600.			DtOutput
-SC/TRAJECTORY/earth.dat		NameTrajectoryFile
-MHD 			StringSatellite
+1 h			DtOutput
+IH/TRAJECTORY/earth.dat		NameTrajectoryFile
+rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
+VAR HGC	     	      	StringSatellite
 -1			DnOutput
-3600.			DtOutput
-SC/TRAJECTORY/sta.dat		NameTrajectoryFile
-MHD 			StringSatellite
+1 h			DtOutput
+IH/TRAJECTORY/sta.dat		NameTrajectoryFile
+rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
+VAR HGC		      	StringSatellite
 -1			DnOutput
-3600.			DtOutput
-SC/TRAJECTORY/stb.dat		NameTrajectoryFile
-
-#ALIGNBANDU
-F			UseChGL
-0.0			RSourceChGL
-0.0			RMinChGL
+1 h			DtOutput
+IH/TRAJECTORY/stb.dat		NameTrajectoryFile
+rho ux uy uz bx by bz p pe ehot I01 I02		NameSatelliteVars
 
 #END_COMP IH -----------------------------------------------------------------
 
