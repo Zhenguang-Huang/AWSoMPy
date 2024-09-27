@@ -181,7 +181,7 @@ shell0			StringShape
 
 #AMRREGION
 earthcone		NameRegion
-conex0			StringShape
+conex0 earth			StringShape
 -24.			Height
 5.			Radius
 
@@ -465,9 +465,9 @@ shell0			StringShape
 
 #AMRREGION
 earthcone		NameRegion
-conex0			StringShape
+conex0 earth			StringShape
 -250.			Height
-20.			Radius
+50.			Radius
 
 #AMRCRITERIARESOLUTION
 6                       nRefineCrit
