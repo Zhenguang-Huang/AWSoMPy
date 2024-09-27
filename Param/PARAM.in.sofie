@@ -45,10 +45,10 @@ T			DoSaveRestart
 20000			DnSaveRestart
 -1.0			DtSaveRestart
 
-#ROTATEHGR		^
+ROTATEHGR		^
 -1.			dLongitudeHgr^
 
-#ROTATEHGI		^
+ROTATEHGI		^
 -1.			dLongitudeHgi^
 
 #TEST
