@@ -103,9 +103,9 @@ T			UseB0Source
 T			UseDivFullBSource
 
 ALIGNBANDU
-T			UseChGL
-1.1			RSourceChGL
-3.5			RMinChGL
+T			UseSaMhd
+1.1			RsourceSaMhd
+3.5			RminSaMhd
 
 FACTORB0		^
 1.0			FactorB0^
@@ -559,9 +559,9 @@ F			UseProjection
 F			UseConstrainB
 
 #ALIGNBANDU
-F			UseChGL
-0.0			RSourceChGL
-0.0			RMinChGL
+F			UseSaMhd
+0.0			RsourceSaMhd
+0.0			RminSaMhd
 
 #SAVELOGFILE
 T			DoSaveLogfile
