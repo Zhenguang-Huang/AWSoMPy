@@ -1,0 +1,24 @@
+selected run IDs = 1-20
+
+#START
+ID   params
+1   time=             map=      		model=AWSoM2T		FactorB0=0.6615		PoyntingFluxPerBSi=8.850000e+05		LperpTimesSqrtBSi=2.375625e+05		StochasticExponent=0.2455		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+2   time=             map=      		model=AWSoM2T		FactorB0=0.5805		PoyntingFluxPerBSi=9.150000e+05		LperpTimesSqrtBSi=1.936875e+05		StochasticExponent=0.1015		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+3   time=             map=      		model=AWSoM2T		FactorB0=0.6075		PoyntingFluxPerBSi=6.350000e+05		LperpTimesSqrtBSi=1.599375e+05		StochasticExponent=0.2155		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+4   time=             map=      		model=AWSoM2T		FactorB0=0.6345		PoyntingFluxPerBSi=7.750000e+05		LperpTimesSqrtBSi=2.746875e+05		StochasticExponent=0.1495		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+5   time=             map=      		model=AWSoM2T		FactorB0=0.5535		PoyntingFluxPerBSi=7.050000e+05		LperpTimesSqrtBSi=6.206250e+04		StochasticExponent=0.2575		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+6   time=             map=      		model=AWSoM2T		FactorB0=0.6885		PoyntingFluxPerBSi=3.550000e+05		LperpTimesSqrtBSi=9.581250e+04		StochasticExponent=0.2275		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+7   time=             map=      		model=AWSoM2T		FactorB0=0.7155		PoyntingFluxPerBSi=4.150000e+05		LperpTimesSqrtBSi=2.476875e+05		StochasticExponent=0.3235		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+8   time=             map=      		model=AWSoM2T		FactorB0=0.7425		PoyntingFluxPerBSi=9.350000e+05		LperpTimesSqrtBSi=3.506250e+04		StochasticExponent=0.1825		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+9   time=             map=      		model=AWSoM2T		FactorB0=0.7695		PoyntingFluxPerBSi=5.650000e+05		LperpTimesSqrtBSi=1.093125e+05		StochasticExponent=0.3085		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+10  time=             map=      		model=AWSoM2T		FactorB0=0.8235		PoyntingFluxPerBSi=8.350000e+05		LperpTimesSqrtBSi=1.565625e+05		StochasticExponent=0.3385		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+11  time=             map=      		model=AWSoM2T		FactorB0=0.7965		PoyntingFluxPerBSi=3.050000e+05		LperpTimesSqrtBSi=2.240625e+05		StochasticExponent=0.1195		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+12  time=             map=      		model=AWSoM2T		FactorB0=0.8775		PoyntingFluxPerBSi=7.950000e+05		LperpTimesSqrtBSi=1.869375e+05		StochasticExponent=0.1885		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+13  time=             map=      		model=AWSoM2T		FactorB0=0.9045		PoyntingFluxPerBSi=1.055000e+06		LperpTimesSqrtBSi=7.893750e+04		StochasticExponent=0.3265		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+14  time=             map=      		model=AWSoM2T		FactorB0=0.9315		PoyntingFluxPerBSi=5.350000e+05		LperpTimesSqrtBSi=1.768125e+05		StochasticExponent=0.2725		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+15  time=             map=      		model=AWSoM2T		FactorB0=0.9585		PoyntingFluxPerBSi=6.650000e+05		LperpTimesSqrtBSi=9.243750e+04		StochasticExponent=0.1555		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+16  time=             map=      		model=AWSoM2T		FactorB0=0.9855		PoyntingFluxPerBSi=1.015000e+06		LperpTimesSqrtBSi=1.363125e+05		StochasticExponent=0.2305		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+17  time=             map=      		model=AWSoM2T		FactorB0=1.0125		PoyntingFluxPerBSi=8.750000e+05		LperpTimesSqrtBSi=5.868750e+04		StochasticExponent=0.1105		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+18  time=             map=      		model=AWSoM2T		FactorB0=1.0395		PoyntingFluxPerBSi=3.950000e+05		LperpTimesSqrtBSi=2.004375e+05		StochasticExponent=0.2095		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+19  time=             map=      		model=AWSoM2T		FactorB0=1.0665		PoyntingFluxPerBSi=7.250000e+05		LperpTimesSqrtBSi=1.700625e+05		StochasticExponent=0.1285		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=	
+20  time=             map=      		model=AWSoM2T		FactorB0=1.0935		PoyntingFluxPerBSi=4.250000e+05		LperpTimesSqrtBSi=5.193750e+04		StochasticExponent=0.2875		realization=[4]		LatCME_min= 	LatCME_max= 	LonCME_min= 	LonCME_max=
