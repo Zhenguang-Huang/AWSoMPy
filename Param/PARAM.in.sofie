@@ -1,16 +1,15 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
-./Config.pl -v=SC/BATSRUS,IH/BATSRUS,OH/BATSRUS,SP/MFLAMPA;
+./Config.pl -v=SC/BATSRUS,IH/BATSRUS,SP/MFLAMPA;
 ./Config.pl -o=SC:u=Awsom,e=AwsomSA,nG=2,g=6,8,8;
 ./Config.pl -o=IH:u=Awsom,e=AwsomSA,nG=2,g=8,8,8;
-./Config.pl -o=OH:u=Awsom,e=AwsomSA,nG=2,g=4,4,4;
 ./Config.pl -o=SP:g=20000
 
 Default inner boundary is 1.1 Rs
 Default rMinWaveReflection is 0.0
 Default UseReynoldsDecomposition is F
 
-ChGL SC setup: 1.1Rs, 3.5Rs
+ChGL SC setup: 1.1Rs, 5.5Rs
 
 For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file
@@ -113,7 +112,7 @@ T			UseDivFullBSource
 #ALIGNBANDU
 T			UseSaMhd
 1.1			RsourceSaMhd
-3.5			RminSaMhd
+5.5			RminSaMhd
 
 FACTORB0		^
 1.0			FactorB0^
@@ -179,34 +178,12 @@ shell0			StringShape
 1.1			RadiusInner rMin_AWSoMR^
 1.7			Radius
 
-#AMRREGION
-earthcone		NameRegion
-conex0 earth			StringShape
--24.			Height
-5.			Radius
-
-#AMRREGION
-cgl			NameRegion
-box			StringShape
--5.0			xMinBox
--5.0			yMinBox
--5.0			zMinBox
-5.0			xMaxBox
-5.0			yMaxBox
-5.0			zMaxBox
-
 #AMRCRITERIARESOLUTION
-5			nRefineCrit
+3			nRefineCrit
 dphi			StringRefine
 3.0			RefineTo
 1.5			CoarsenFrom
 dphi Innershell		StringRefine
-1.5  			RefineTo
-0.75			CoarsenFrom
-dphi earthcone		StringRefine
-1.5  			RefineTo
-0.75			CoarsenFrom
-dphi cgl		StringRefine
 1.5  			RefineTo
 0.75			CoarsenFrom
 currentsheet		StringRefine
@@ -285,7 +262,7 @@ T			DoTRCorrection
 F			UsePlanarTriangles
 
 #SAVEPLOT
-5			nPlotFile
+3			nPlotFile
 x=0 VAR idl_ascii		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
@@ -308,16 +285,6 @@ los ins idl_ascii		StringPlot
 80000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
-cut ray idl_ascii       StringPlot ! 3D cut plot with raytrace info
-80000                   DnSavePlot
--1.                     DtSavePlot
-1.01                    Coord1MinCut
-1.6                     Coord1MaxCut
-0.                      Coord2MinCut
-360.                    Coord2MaxCut
--90.                    Coord3MinCut
-90.                     Coord3MaxCut
-0			DxSavePlot
 
 #SATELLITE
 3			nSatellite
@@ -463,14 +430,8 @@ shell0			StringShape
 21.0			RadiusInner
 250.0			Radius
 
-#AMRREGION
-earthcone		NameRegion
-conex0 earth			StringShape
--250.			Height
-50.			Radius
-
 #AMRCRITERIARESOLUTION
-6                       nRefineCrit
+5                       nRefineCrit
 dx			StringRefine
 32.			RefineTo
 16.			CoarsenFrom
@@ -480,9 +441,6 @@ dx +IHshell		StringRefine
 dx +Outershell		StringRefine
 0.5			RefineTo
 0.25			CoarsenFrom
-dx +earthcone		StringRefine
-1.5			RefineTo
-0.75			CoarsenFrom
 currentsheet +IHshell		StringRefine
 0.5			CoarsenLimit
 0.5			RefineLimit
@@ -693,213 +651,3 @@ mc3			TypeLimiter
 End session: 6
 
 #END			END_2nd_scheme^
-
-#RUN ##########################################################################
-Begin session: 7
-
-#COMPONENT
-OH                      NameComp
-T                       UseComp
-
-#BEGIN_COMP OH ---------------------------------------------------------------
-#COORDSYSTEM
-HGC                     TypeCoordSystem
-
-#BODY
-T                       UseBody
-1.0                     rBody
-3.0E+8			BodyNDim
-3.5E+6			BodyTDim
-
-#PLASMA
-1.0                     FluidMass [amu]
-1.0                     IonCharge [e]
-1.0                     ElectronTemperatureRatio
-
-#GRID
-1                       nRootBlock1
-1                       nRootBlock2
-1                       nRootBlock3
--5.0                   xMin
- 5.0                   xMax
--5.0                   yMin
- 5.0                   yMax
--5.0                   zMin
- 5.0                   zMax
-
-#GRIDBLOCKALL
-1200000                    MaxBlock
-
-#AMRREGION
-OuterShell              NameRegion
-shell0                  StringShape
-1.0                     RadiusInner
-1.1                     Radius
-
-#AMRREGION
-earthcone               NameRegion
-conex0 rotated          StringShape
--24.                     Height
-5.                      Radius
-0.0                     xRotate
-10.0                    yRotate
-0.0                     zRotate
-
-#AMRCRITERIALEVEL
-4                       nRefineCrit
-Level                   StringRefine
-5                       RefineTo
-5                       CoarsenFrom
-Level +OuterShell               StringRefine
-6                       RefineTo
-6                       CoarsenFrom
-currentsheet            StringRefine
-0.1                     CoarsenLimit
-0.1                     RefineLimit
-7                       MaxLevel
-Level +earthcone        StringRefine
-6                       RefineTo
-6                       CoarsenFrom
-
-#GRIDLEVEL
-5                       nLevel
-initial                 StringShape
-
-#INNERBOUNDARY
-buffergrid              TypeBcBody
-
-#HELIOBUFFERGRID
-2                       nRBuff
-64                      nLonBuff
-32                      nLatBuff
-0.95                    RBuffMin
-1.10                    RBuffMax
-
-#OUTERBOUNDARY
-float                   TypeBc1
-float                   TypeBc2
-float                   TypeBc3
-float                   TypeBc4
-float                   TypeBc5
-float                   TypeBc6
-
-#RESCHANGE
-T                       UseAccurateReschange
-
-#USERSWITCH
-+init                   StringSwitch
-
-#CORONALHEATING
-turbulentcascade                TypeCoronalHeating
-1.5e5                   LperpTimesSqrtBSi^
-0.0                     rMinWaveReflection
-F                       UseReynoldsDecomposition
-
-#SCHEME
-2                       nOrder
-Sokolov                 TypeFlux
-mc3                     TypeLimiter
-1.2                     LimiterBeta
-
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#TIMESTEPPING
-2                       nStage
-0.8                     CflExpl
-
-#DIVB
-T                       UseDivbSource
-T                       UseDivbDiffusion
-F                       UseProjection
-F                       UseConstrainB
-
-#SAVELOGFILE
-T                       DoSaveLogfile
-RAW                     StringLog
-100                       DnSaveLogfile
--1.                     DtSaveLogfile
-
-#SAVEPLOT
-3                       nPlotFile
-x=0 VAR idl             StringPlot
-1000                      DnSavePlot
--1.                     DtSavePlot
--1.0                    DxSavePlot
-rho ux uy uz ti te bx by bz I01 I02 dx           NameVars
-g rbody                 NamePars
-y=0 VAR idl             StringPlot
-1000                      DnSavePlot
--1.                     DtSavePlot
--1.0                    DxSavePlot
-rho ux uy uz ti te bx by bz I01 I02 dx          NameVars
-g rbody                 NamePars
-z=0 VAR idl             StringPlot
-1000                      DnSavePlot
--1.                     DtSavePlot
--1.0                    DxSavePlot
-rho ux uy uz ti te bx by bz I01 I02 dx          NameVars
-g rbody                 NamePars
-
-#ALIGNBANDU
-T                       UseSaMhd
-0.0                     RsourceSaMhd
-0.0                     RminSaMhd
-
-#END_COMP OH -----------------------------------------------------------------
-
-#COUPLE1
-IH                      NameSource
-OH                      NameTarget
-1			DnCouple
--1			DtCouple
-
-#STOP
-85001			MaxIter
--1			TimeMax
-
-End session: 7
-#RUN ##########################################################################
-Begin session: 8
-
-#COUPLE1
-IH                      NameSource
-OH                      NameTarget
--1                      DnCouple
--1.0                    DtCouple
-
-#COMPONENT
-IH                      NameComp
-F                       UseComp
-
-#BEGIN_COMP OH ---------------------------------------------------------------
-
-#DOAMR
-T                       DoAmr
-501                     DnAmr
--1.0                    DtAmr
-T                       IsStrictAmr
-
-#END_COMP OH -----------------------------------------------------------------
-
-#STOP
-88000			MaxIter
--1.0			TimeMax
-
-End session: 8
-#RUN ##########################################################################
-Begin session: 9
-
-#BEGIN_COMP OH ---------------------------------------------------------------
-
-#AMR
--1                      DoAmr
-
-#END_COMP OH -----------------------------------------------------------------
-
-#STOP
-90000                   MaxIter
--1.0                    TimeMax
-
-End session: 9
-#END
