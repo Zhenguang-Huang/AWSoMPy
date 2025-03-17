@@ -1,5 +1,6 @@
 # CR2095 param list CME runs
 # Original background file: param_list_bg_CR2095.txt
+# Background dir: /data/Simulations/zghuang/SWQU/solar/code_stable/CME/CME_validation_AWSoM2T/version_2024_02_06/Results_2010_2023/CR2095
 # Selected Backgrounds: 8, 17
 #CME
 # T            UseCme
