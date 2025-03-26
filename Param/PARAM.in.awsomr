@@ -97,11 +97,6 @@ T			IsLogRadius^
 180			nLon
 90			nLat
 
-CURLB0
-T			UseCurlB0
-2.5			rCurrentFreeB0
-T			UseB0MomentumFlux
-
 B0SOURCE
 T			UseB0Source
 T			UseDivFullBSource
@@ -294,13 +289,6 @@ periodic		TypeBc6   LatMax
 
 #USERSWITCH
 +init +ic		StringSwitch
-
-#PLOTTHREADS
-T			DoPlotThreads
-10			nGUniform
-T			UseTriangulation
-T			DoTRCorrection
-F			UsePlanarTriangles
 
 #SAVEPLOT
 5			nPlotFile

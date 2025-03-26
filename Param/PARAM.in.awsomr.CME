@@ -216,13 +216,6 @@ GL			TypeCme
 0.60			Stretch
 1.0			ApexHeight
 
-#PLOTTHREADS
-T			DoPlotThreads
-10			nGUniform
-T			UseTriangulation
-T			DoTRCorrection
-F			UsePlanarTriangles
-
 #SAVETECPLOT
 T			DoSaveOneTecFile
 

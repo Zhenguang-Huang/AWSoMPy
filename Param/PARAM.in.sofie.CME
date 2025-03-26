@@ -93,11 +93,6 @@ F			IsLogRadius^
 180			nLon
 90			nLat
 
-#CURLB0
-T			UseCurlB0
-2.5			rCurrentFreeB0
-T			UseB0MomentumFlux
-
 #B0SOURCE
 T			UseB0Source
 T			UseDivFullBSource
@@ -262,13 +257,6 @@ SPHEROMAK		TypeCme
 
 #HELIOUPDATEB0
 600                     DtUodateB0   ! Time intervals to update the magnetic field in the threaded gap
-
-#PLOTTHREADS
-T			DoPlotThreads
-10			nGUniform
-T			UseTriangulation
-T			DoTRCorrection
-F			UsePlanarTriangles
 
 #SAVETECPLOT
 T			DoSaveOneTecFile
