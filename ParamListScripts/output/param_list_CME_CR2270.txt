@@ -1,0 +1,69 @@
+# CR2270 param list CME runs
+# Original background file: param_list_bg_CR2270.txt
+# Background dir: /data/Simulations/zghuang/SWQU/solar/code_stable/CME/CME_validation_AWSoM2T/version_2024_02_06/Results_2010_2023/CR2270_21_60
+# Selected Backgrounds: 21, 28
+#CME
+# T                   UseCme
+# T                   DoAddFluxRope
+# -1.0                tDecayCme
+# 356.50              LongitudeCme
+# -21.50              LatitudeCme
+# 193.78              OrientationCme
+# GL                  TypeCme
+# 4.87                BStrength
+# +1                  iHelicity
+# 0.80                Radius
+# 0.60                aStretch
+# 1.00                ApexHeight
+
+# using GLSETUP.py ADAPT_GONG_CR2270.fts -CMESpeed 1284 -index 4
+# EEGGL File: ./ParamListScripts/restartRunDesignFiles/CR2270/EEGGL_Params.txt
+# CME Parameters written from file: ParamListScripts/output/restartRunDesignFiles/CR2270/X_Restart_2025_03_17.csv
+# RelativeStrength varies from 0.5 to 2.0. BStrength values are calculated as 
+# RelativeStrength * BStrength_EEGGL (here, 4.86) while iHelicity is randomly 
+# chosen from [-1, 1]. OrientationCme = 193.78 (EEGGL Default), ApexHeight = 1.00 (Default), Radius = 0.80 (Default)
+
+selected run IDs = 1-40
+
+#START  
+ID   params     
+1   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=2.6176     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+2   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=2.9829     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+3   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=3.3481     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+4   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=3.7134     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+5   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=4.0786     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+6   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=4.4439     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+7   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=4.8091     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+8   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=5.1744     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+9   restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=5.5396     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+10  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=5.9048     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+11  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=6.2701     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+12  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=6.6354     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+13  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=7.0006     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+14  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=7.3659     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+15  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=7.7311     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+16  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=8.0964     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+17  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=8.4616     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+18  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=8.8269     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+19  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=9.1921     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
+20  restartdir=run021_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=9.5574     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5 
+21	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=2.6176     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5   
+22	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=2.9829     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5   
+23	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=3.3481     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5   
+24	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=3.7134     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5   
+25	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=4.0786     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+26	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=4.4439     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+27	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=4.8091     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+28	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=5.1744     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+29	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=5.5396     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+30	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=5.9048     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+31	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=6.2701     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+32	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=6.6354     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+33	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=7.0006     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+34	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=7.3659     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+35	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=7.7311     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+36	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=8.0964     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+37	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=8.4616     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+38	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=8.8269     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+39	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=9.1921     OrientationCme=193.78     ApexHeight=1.00   iHelicity=-1       realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5  
+40	restartdir=run028_AWSoM2T       param=PARAM.in.awsom.CME      Radius=0.80      BStrength=9.5574     OrientationCme=193.78     ApexHeight=1.00   iHelicity=1        realization=[4]   LatitudeCme=-21.50      LongitudeCme=356.5      LatCME_min=-41.5	    LatCME_max=-1.5		LonCME_min=336.5	LonCME_max=376.5
