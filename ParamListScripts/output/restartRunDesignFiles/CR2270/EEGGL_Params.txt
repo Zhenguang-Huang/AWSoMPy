@@ -1,0 +1,17 @@
+#CME
+ Reading CME Parameters
+T                   UseCme
+T                   DoAddFluxRope
+-1.0                tDecayCme
+356.50              LongitudeCme
+-21.50              LatitudeCme
+193.78              OrientationCme
+GL                  TypeCme
+4.87                BStrength
++1                  iHelicity
+0.80                Radius
+0.60                aStretch
+1.00                ApexHeight
+
+using :
+GLSETUP.py ADAPT_GONG_CR2270.fts -CMESpeed 1284 -index 4
