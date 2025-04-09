@@ -251,19 +251,19 @@ periodic		TypeBc6   LatMax
 
 #SAVEPLOT
 3			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
@@ -523,19 +523,19 @@ rho mx my mz p pmin urmin urmax		NameLogVars
 
 #SAVEPLOT
 3			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot

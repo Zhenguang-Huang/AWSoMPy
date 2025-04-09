@@ -292,19 +292,19 @@ periodic		TypeBc6   LatMax
 
 #SAVEPLOT
 5			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
@@ -314,7 +314,7 @@ los ins idl_ascii		StringPlot
 80000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
-cut ray idl_ascii       StringPlot ! 3D cut plot with raytrace info
+cut ray idl		StringPlot ! 3D cut plot with raytrace info
 80000                   DnSavePlot
 -1.                     DtSavePlot
 1.01                    Coord1MinCut
@@ -591,19 +591,19 @@ rho mx my mz p pmin urmin urmax		NameLogVars
 
 #SAVEPLOT
 3			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
@@ -767,19 +767,19 @@ F			UseRhoRatioLimiter
 
 #SAVEPLOT
 4			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
