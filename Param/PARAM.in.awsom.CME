@@ -819,7 +819,7 @@ z=0 VAR idl             StringPlot
 shl VAR idl             StringPlot
 -1                      DnSavePlot
 600.0                   DtSavePlot
-hgi                     TypeCoordPlot
+SYS                     TypeCoordPlot
 212.0                   rMin
 212.0                   rMax
 0.                      LonMin

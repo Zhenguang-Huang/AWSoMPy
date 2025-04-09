@@ -70,9 +70,6 @@ SC/restartIN/restart.H
 #RESTARTOUTFILE
 one			StringRestartOutFile
 
-#COORDSYSTEM
-HGR			TypeCoordSystem
-
 #PLASMA
 1.0			FluidMass [amu]
 1.0			IonCharge [e]
@@ -290,19 +287,19 @@ periodic		TypeBc6   LatMax
 
 #SAVEPLOT
 6			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dphi		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
@@ -312,7 +309,7 @@ los ins idl_ascii		StringPlot
 80000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
-cut ray idl_ascii       StringPlot ! 3D cut plot with raytrace info
+cut ray idl		StringPlot ! 3D cut plot with raytrace info
 80000                   DnSavePlot
 -1.                     DtSavePlot
 1.01                    Coord1MinCut
@@ -322,10 +319,10 @@ cut ray idl_ascii       StringPlot ! 3D cut plot with raytrace info
 -90.                    Coord3MinCut
 90.                     Coord3MaxCut
 0			DxSavePlot
-slg VAR idl_real4	StringPlot
+slg VAR idl		StringPlot
 80000			DnSavePlot
 -1.0			DtSavePlot
-HGR			TypeCoord
+SYS			TypeCoord
 1.01			rMin
 20.0			rMax
 0.01			dR
@@ -599,19 +596,19 @@ rho mx my mz p pmin urmin urmax		NameLogVars
 
 #SAVEPLOT
 4			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx		NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 1000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
@@ -620,7 +617,7 @@ z=0 VAR idl_ascii		StringPlot
 shl VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
-HGC			TypeCoordPlot
+SYS			TypeCoordPlot
 212.0			rMin
 217.0			rMax
 1.			dR    ! only read if rMin /= rMax
@@ -779,25 +776,25 @@ F			UseRhoRatioLimiter
 
 #SAVEPLOT
 4			nPlotFile
-x=0 VAR idl_ascii		StringPlot
+x=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.0			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti	NameVars
 {default}		NamePars
-y=0 VAR idl_ascii		StringPlot
+y=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti	NameVars
 {default}		NamePars
-z=0 VAR idl_ascii		StringPlot
+z=0 VAR idl		StringPlot
 5000			DnSavePlot
 -1.			DtSavePlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti	NameVars
 {default}		NamePars
-los ins idl_ascii		StringPlot
+los ins idl		StringPlot
 105000			DnSavePlot
 -1.0			DtSavePlot
 sta:euvi stb:euvi sdo:aia		StringsInstrument
