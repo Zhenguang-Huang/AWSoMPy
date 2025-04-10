@@ -1,8 +1,11 @@
 For a three-temperature solar wind simulation, configure SWMF with
 
+Install code with 
+./Config.pl -install -compiler=nvfortran,nvc
+
 ./Config.pl -v=Empty,SC/BATSRUS,IH/BATSRUS
-./Config.pl -o=SC:u=Awsom,e=AwsomAnisoPi,g=6,8,8,nG=2
-./Config.pl -o=IH:u=Awsom,e=AwsomAnisoPi,g=8,8,8,nG=2
+./Config.pl -o=SC:u=Awsom,e=Awsom,g=6,8,8,nG=2
+./Config.pl -o=IH:u=Awsom,e=Awsom,g=8,8,8,nG=2
 ./Config.pl -acc
 
 Default rMinWaveReflection is 0.0
