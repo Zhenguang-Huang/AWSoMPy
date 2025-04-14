@@ -65,6 +65,10 @@ init_axes		StringTest
 
 #BEGIN_COMP SC ---------------------------------------------------------------
 
+! To compare with run on CPU
+#UPDATE
+slow			TypeUpdate
+
 #SEMIPRECONDITIONER
 T			DoPrecond
 BILU1			TypePrecond
@@ -439,6 +443,10 @@ T			UseComp
 
 #BEGIN_COMP IH ---------------------------------------------------------------
 
+! To compare with run on CPU
+#UPDATE
+slow			TypeUpdate
+
 #GRIDBLOCKALL
 200000			MaxBlock
 
@@ -717,4 +725,4 @@ mc3			TypeLimiter
 85000			MaxIter
 -1.0			TimeMax
 
-#END ##########################################################################
+
