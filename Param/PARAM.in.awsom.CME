@@ -597,15 +597,15 @@ z=0 VAR idl		StringPlot
 3			nSatellite
 MHD GSE			StringSatellite
 -1  			DnOutput
-1800.			DtOutput
+300.			DtOutput
 IH/TRAJECTORY/earth.dat	NameTrajectoryFile
 MHD GSE			StringSatellite
 -1  			DnOutput
-1800.			DtOutput
+300.			DtOutput
 IH/TRAJECTORY/sta.dat	NameTrajectoryFile
 MHD GSE			StringSatellite
 -1  			DnOutput
-1800.			DtOutput
+300.			DtOutput
 IH/TRAJECTORY/stb.dat	NameTrajectoryFile
 
 #END_COMP IH -----------------------------------------------------------------
