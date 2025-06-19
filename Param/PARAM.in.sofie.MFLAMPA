@@ -29,14 +29,14 @@ IH 0 -1 1		CompMap
 SP 1 300 2		CompMap
 
 #FIELDLINE
-SP                      NameTarget
-2                       nSource
-SC                      NameSource
-1.105                    RScMin
-21                      RScMax
-IH                      NameSource
-19                      RIhMin
-500                     RIhMax
+SP			NameTarget
+2			nSource
+SC			NameSource
+1.105			RScMin
+21			RScMax
+IH			NameSource
+19			RIhMin
+500			RIhMax
 
 #TIMEACCURATE
 T			IsTimeAccurate
@@ -90,10 +90,10 @@ load			NameCommand
 SC/fdips_bxyz.out		NameFile
 real4			TypeFile
 
-#HARMONICSFILE		
-SC/harmonics_adapt.dat	NameHarmonicsFile
+#HARMONICSFILE
+SC/harmonics_adapt.dat		NameHarmonicsFile
 
-#HARMONICSGRID		
+#HARMONICSGRID
 1.0			rMagnetogram
 2.5			rSourceSurface^
 F			IsLogRadius^
@@ -155,9 +155,6 @@ shell0			StringShape
 
 #DOAMR
 F			DoAmr
--1			DnAmr
-30 s			DtAmr
-T			IsStrictAmr
 
 #TIMESTEPPING
 2			nStage
@@ -211,7 +208,7 @@ periodic		TypeBc6   LatMax
 
 add the perturb switch for CME
 #USERSWITCH
-+init +ic +perturb	StringSwitch
++init +ic +perturb		StringSwitch
 
 flux-rope parameters
 #CME
@@ -230,7 +227,7 @@ SPHEROMAK		TypeCme
 710			uCme^
 
 #HELIOUPDATEB0
-600                     DtUodateB0   ! Time intervals to update the magnetic field in the threaded gap
+600			DtUpdateB0   ! Time intervals to update the magnetic field in the threaded gap
 
 #SAVETECPLOT
 T			DoSaveOneTecFile
@@ -256,11 +253,6 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
-3d VAR tcp      StringPlot
--1              DnSavePlot
-600.            DtSavePlot
-{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn         NameVars
-{default}               NamePars
 
 #SATELLITE
 3			nSatellite
@@ -305,16 +297,15 @@ ascii			TypeFile
 F			DoSaveInitial
 
 #PARTICLELINE
-T                       UseParticles
+T			UseParticles
 1000			nFieldLineMax
-1000                    nParticlePerLine
--1                      SpaceStepMin
--1                      SpaceStepMax
-import                  InitMode
-T                       UseBRAlignment
-0.7                     CosBRAngleMax
-F                       UseBUAlignment
-0.99                    ConBUAngleMax
+1000			nParticlePerLine
+-1			SpaceStepMin
+-1			SpaceStepMax
+import			InitMode
+T			UseBRAlignment
+0.7			CosBRAngleMax
+F			UseBUAlignment
 
 #END_COMP SC -----------------------------------------------------------------
 
@@ -339,9 +330,6 @@ HGI			TypeCoordSystem
 
 #DOAMR
 F			DoAmr
-1001			DnAmr
--1.0			DtAmr
-T			IsStrictAmr
 
 #SAVEINITIAL
 F			DoSaveInitial
@@ -351,12 +339,12 @@ buffergrid		TypeBcBody
 
 #BUFFERGRID
 5			nRBuff
-240			nPhiBuff
-120			nThetaBuff
-18.0			rBuffMin
-20.0			rBuffMax
-0.0			PhiBuffMin
-360.			PhiBuffMax
+240			nLonBuff
+120			nLatBuff
+18.0			RBuffMin
+20.0			RBuffMax
+0.0			LonBuffMin
+360.			LonBuffMax
 -90.0			LatBuffMin
 90.0			LatBuffMax
 
@@ -441,11 +429,6 @@ z=0 VAR idl		StringPlot
 -1.0			DxSavePlot
 {MHD} b1x b1y b1z te ti dx divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
-3d VAR tcp		StringPlot
--1 			DnSavePlot
-3600.			DtSavePlot
-{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
-{default}		NamePars
 
 #SATELLITE
 3			nSatellite
@@ -464,23 +447,20 @@ SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #ALIGNBANDU
 F			UseSaMhd
-0.0			RsourceSaMhd
-0.0			RminSaMhd
 
 #PARTICLELINE
-T                       UseParticles
-1000                      nFieldLineMax
-1000                    nParticlePerLine
--1                      SpaceStepMin
--1                      SpaceStepMax
-import                  InitMode
-F                       UseBRAlignment
-F                       UseBUAlignment
-0.85                    CosBUAngleMax
+T			UseParticles
+1000			nFieldLineMax
+1000			nParticlePerLine
+-1			SpaceStepMin
+-1			SpaceStepMax
+import			InitMode
+F			UseBRAlignment
+F			UseBUAlignment
 
 #END_COMP IH -----------------------------------------------------------------
 
-#BEGIN_COMP SP ----------------------------------------------------------------
+#BEGIN_COMP SP ---------------------------------------------------------------
 
 INCLUDE
 SP/restartIN/restart.H
@@ -514,51 +494,62 @@ GRID
 360			LonMax
 45			LatMax
 
-#INJECTION
+#ADVECTION
+F			UsePoissonBracket
+
+#LOWERENDBC
+F			UseLowerEndBc
+
+#UPPERENDBC
+F			UseUpperEndBc
+
+#MOMENTUMBC
+inject			TypeMomentumMinBc
 5.0			SpectralIndex
-1.0			Efficiency
+1.0			EfficiencyInj
+none			TypeMomentumMaxBc
 
 #USEFIXEDMFPUPSTREAM
-T			UseFixedMeanFreePathUpstream
+T			UseFixedUps
 0.3			MeanFreePath0InAu [AU]
 
 #SAVEPLOT
-6				nFileOut
+6			nFileOut
 mh2d flux spread ascii		StringPlot
-25.0				Radius
+25.0			Radius
 mh2d flux spread ascii		StringPlot
-50.0				Radius
+50.0			Radius
 mh2d flux spread ascii		StringPlot
-100.0				Radius
+100.0			Radius
 mh2d flux spread ascii		StringPlot
-215.0				Radius
+215.0			Radius
 mhtime flux ascii		StringPlot
-215.0				Radius
-mh1d flux tec			StringPlot
+215.0			Radius
+mh1d flux tec		StringPlot
 
-#END_COMP SP   ----------------------------------------------------------------
-
-#COUPLE1
-SC                      NameSource
-IH                      NameTarget
--1                      DnCouple
-10 h                    DtCouple
+#END_COMP SP -----------------------------------------------------------------
 
 #COUPLE1
-SC                      NameSource
-SP                      NameTarget
--1                      DnCouple
-120.0                   DtCouple
+SC			NameSource
+IH			NameTarget
+-1			DnCouple
+10 h			DtCouple
 
 #COUPLE1
-IH                      NameSource
-SP                      NameTarget
--1                      DnCouple
-120.0                   DtCouple
+SC			NameSource
+SP			NameTarget
+-1			DnCouple
+120.0			DtCouple
+
+#COUPLE1
+IH			NameSource
+SP			NameTarget
+-1			DnCouple
+120.0			DtCouple
 
 #STOP
--1                      MaxIter
-1 h                     TimeMax
+-1			MaxIter
+1 h			TimeMax
 
 End session: 1
 #RUN ##########################################################################
@@ -570,7 +561,7 @@ Begin session: 2
 F			UseCme
 
 #HELIOUPDATEB0
--1
+-1			DtUpdateB0
 
 Turn off CME after 1 hour.
 #END_COMP SC -----------------------------------------------------------------
@@ -587,7 +578,7 @@ Begin session: 3
 #BEGIN_COMP SC ---------------------------------------------------------------
 
 #USERSWITCH
-+init +ic -perturb	StringSwitch
++init +ic -perturb		StringSwitch
 
 Saving every hour
 #SAVEPLOT
@@ -596,24 +587,19 @@ x=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.0			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn         NameVars
+{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
 y=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn         NameVars
+{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
 z=0 VAR idl		StringPlot
 -1			DnSavePlot
 3600.			DtSavePlot
 -1.0			DxSavePlot
-{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn         NameVars
-{default}		NamePars
-3d VAR tcp		StringPlot
--1			DnSavePlot
-7200.			DtSavePlot
-{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn         NameVars
+{MHD} b1x b1y b1z te ti divu divudx gradlogp normx normy normz comprho thetaup thetadn		NameVars
 {default}		NamePars
 
 #END_COMP SC -----------------------------------------------------------------
@@ -627,26 +613,26 @@ IH			NameTarget
 
 Next 13 hrs in SC and IH. CME must pass SC completely.
 #STOP
--1			    MaxIter
+-1			MaxIter
 13 h			TimeMax
 
 End session: 3
 #RUN ##########################################################################
 Begin session: 4
 
-#BEGIN_COMP SC -------------------------------------------------------------
+#BEGIN_COMP SC ---------------------------------------------------------------
 
 #TIMESTEPLIMIT
-T                       UseDtLimit
-120                     DtLimitDim
+T			UseDtLimit
+120			DtLimitDim
 
-#END_COMP SC ---------------------------------------------------------------
+#END_COMP SC -----------------------------------------------------------------
 
 #COUPLE1
 SC			NameSource
 IH			NameTarget
 -1			DnCouple
-10 h		DtCouple
+10 h			DtCouple
 
 #STOP
 -1			MaxIter
