@@ -595,7 +595,7 @@ F			UseNonConservative^
 #SAVELOGFILE
 T			DoSaveLogfile
 VAR			StringLog
-1			DnSaveLogfile
+100			DnSaveLogfile
 -1.			DtSaveLogfile
 rho mx my mz p pmin urmin urmax		NameLogVars
 
