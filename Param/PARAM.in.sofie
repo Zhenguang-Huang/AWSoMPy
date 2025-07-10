@@ -9,7 +9,7 @@ Default inner boundary is 1.1 Rs
 Default rMinWaveReflection is 0.0
 Default UseReynoldsDecomposition is F
 
-ChGL SC setup: 1.1Rs, 5.5Rs
+SaMhd SC setup: 1.1Rs, 5.5Rs
 
 For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file

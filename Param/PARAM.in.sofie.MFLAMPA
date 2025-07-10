@@ -9,7 +9,7 @@ Default inner boundary is 1.1 Rs
 Default rMinWaveReflection is 0.0
 Default UseReynoldsDecomposition is F
 
-ChGL SC setup: 1.1Rs, 5.5Rs
+SaMhd SC setup: 1.1Rs, 5.5Rs
 
 For changing the distance of the source surface, rMax in FDIPS.in
 needs to change if using FDIPS and rSourceSurface in this file
@@ -112,9 +112,9 @@ T			UseB0Source
 T			UseDivFullBSource
 
 ALIGNBANDU
-T			UseChGL
-1.1			RSourceChGL
-5.5			RMinChGL
+T			UseSaMhd
+1.1			RSourceSaMhd
+5.5			RMinSaMhd
 
 FACTORB0		^
 1.0			FactorB0^
@@ -474,7 +474,7 @@ MHD 			StringSatellite
 SC/TRAJECTORY/stb.dat		NameTrajectoryFile
 
 #ALIGNBANDU
-F			UseChGL
+F			UseSaMhd
 
 #PARTICLELINE
 T			UseParticles
